@@ -6,7 +6,7 @@ import javafx.fxml.FXML;
 public class ChatScreen {
 
     @FXML
-    protected void onHelloButtonClick() {
+    public void onHelloButtonClick() {
         System.out.println("Welcome to JavaFX Application!");
     }
 }
