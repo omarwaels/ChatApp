@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.controllers.ChatScreen">
+    <left>
+        <HBox prefHeight="600.0" prefWidth="235.0" BorderPane.alignment="CENTER">
+            <children>
+                <VBox alignment="CENTER" prefHeight="600.0" prefWidth="66.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
+                    <children>
+                        <Pane layoutX="10.0" layoutY="185.0" prefHeight="422.0" prefWidth="92.0" />
+                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/chat-box.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/multiple-users-silhouette.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/user-profile.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="20.0" />
+                            </VBox.margin>
+                        </ImageView>
+                        <Pane prefHeight="343.0" prefWidth="92.0" VBox.vgrow="ALWAYS" />
+                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/icons8-sign-out-50.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets bottom="30.0" top="20.0" />
+                            </VBox.margin>
+                        </ImageView>
+                    </children>
+                </VBox>
+                <VBox prefHeight="600.0" prefWidth="169.0" styleClass="gray-background" stylesheets="@../style/style.css">
+                    <children>
+                        <HBox alignment="CENTER" prefHeight="42.0" prefWidth="200.0">
+                            <children>
+                                <ImageView fitHeight="26.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../img/magnifying-glass.png" />
+                                    </image>
+                                </ImageView>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </left>
+   <center>
+      <Button mnemonicParsing="false" onAction="#onHelloButtonClick" text="Button" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
