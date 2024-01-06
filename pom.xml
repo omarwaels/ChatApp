@@ -30,6 +30,15 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.6</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
+        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
+        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
+        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm -->
+
+
+
+
+
     </dependencies>
     <build>
         <plugins>
