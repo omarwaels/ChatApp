@@ -20,9 +20,6 @@
     </properties>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -33,8 +30,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.6</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-base -->
-        <!-- https://mvnrepository.com/artifact/com.jetbrains.intellij.javaFX/java-fx -->
     </dependencies>
     <build>
         <plugins>
@@ -42,14 +37,13 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
-
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
-                    <mainClass>org.Server.Main</mainClass>
+                    <mainClass>com.example.client.HelloApplication</mainClass>
                 </configuration>
             </plugin>
             <plugin>
