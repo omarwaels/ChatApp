@@ -14,6 +14,7 @@ public class HelloApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
         stage.setTitle("Client!");
         stage.setScene(scene);
+        System.out.println("Hello World from Hunter");
         stage.show();
     }
 
