@@ -39,95 +39,94 @@ public class ChatScreen implements Initializable {
 
     private List<User> getConnections() {
         List<User> ls = new ArrayList<>();
-        User user = new User();
-
-        user.setName("Omar Elsherif");
-        user.setImgSrc("/com/example/client/img/OSherif.jpg");
-        user.setStatus(User.Status.Online);
+        User user = new User.UserBuilder().setDisplayName("Omar Elsherif")
+                .setImgSrc("/com/example/client/img/OSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Ahmed Elsherif");
-        user.setImgSrc("/com/example/client/img/ASherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Ahmed Elsherif")
+                .setImgSrc("/com/example/client/img/ASherif.jpg")
+                .setStatus(User.Status.Offline)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Sherif Elsherif");
-        user.setImgSrc("/com/example/client/img/SSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Sherif Elsherif")
+                .setImgSrc("/com/example/client/img/SSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Youssef Elsherif");
-        user.setImgSrc("/com/example/client/img/YSherif.jpg");
-        user.setStatus(User.Status.Online);
+        user = new User.UserBuilder().setDisplayName("Youssef Elsherif")
+                .setImgSrc("/com/example/client/img/YSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
-        user = new User();
-        user.setName("Nour Elsherif");
-        user.setImgSrc("/com/example/client/img/NSherif.jpg");
-        user.setStatus(User.Status.Offline);
+        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+                .setImgSrc("/com/example/client/img/NSherif.jpg")
+                .setStatus(User.Status.Online)
+                .createUser();
         ls.add(user);
 
         return ls;

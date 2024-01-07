@@ -25,7 +25,7 @@ public class ConnectionItem implements Initializable {
         Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
 
         connectionPic.setImage(image);
-        connectionName.setText(user.getName());
+        connectionName.setText(user.getDisplayName());
         connectionStatus.setFill(user.getStatus() == User.Status.Online ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
     }
     @Override
