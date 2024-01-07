@@ -15,11 +15,11 @@ public class HelloApplication extends Application {
         stage.setScene(new Scene(root));
         stage.show();
 
-        /*FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("views/hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Client!");
-        stage.setScene(scene);
-        stage.show();*/
+//        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("views/chat-screen.fxml"));
+//        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
+//        stage.setTitle("Client!");
+//        stage.setScene(scene);
+//        stage.show();
     }
     public static void main(String[] args) {
         launch();
