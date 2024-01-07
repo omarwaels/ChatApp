@@ -6,7 +6,7 @@ public class User {
     private String phoneNumber;
     private String displayName;
     private String email;
-    private byte[] picture;
+    private String imgSrc;
     private String password;
     private String confirmationPassword;
     private String gender;
@@ -14,11 +14,15 @@ public class User {
     private Date dateOfBirth;
     private String bio;
 
-    public User(String phoneNumber, String displayName, String email, byte[] picture, String password, String confirmationPassword, String gender, String country, Date dateOfBirth, String bio) {
+    private Status status;
+
+    public enum Status {Online, Offline}
+
+    public User(String phoneNumber, String displayName, String email, String picture, String password, String confirmationPassword, String gender, String country, Date dateOfBirth, String bio) {
         this.phoneNumber = phoneNumber;
         this.displayName = displayName;
         this.email = email;
-        this.picture = picture;
+        this.imgSrc = picture;
         this.password = password;
         this.confirmationPassword = confirmationPassword;
         this.gender = gender;
@@ -32,7 +36,7 @@ public class User {
         private String phoneNumber;
         private String displayName;
         private String email;
-        private byte[] picture;
+        private String imgSrc;
         private String password;
         private String confirmationPassword;
         private String gender;
@@ -40,8 +44,16 @@ public class User {
         private Date dateOfBirth;
         private String bio;
 
+        private User.Status status;
+
+
         public UserBuilder setPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public UserBuilder setStatus(Status status) { // Setter for Status
+            this.status = status;
             return this;
         }
 
@@ -55,8 +67,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder setPicture(byte[] picture) {
-            this.picture = picture;
+        public UserBuilder setImgSrc(String picture) {
+            this.imgSrc = picture;
             return this;
         }
 
@@ -91,7 +103,7 @@ public class User {
         }
 
         public User createUser() {
-            return new User(phoneNumber, displayName, email, picture, password, confirmationPassword, gender, country, dateOfBirth, bio);
+            return new User(phoneNumber, displayName, email, imgSrc, password, confirmationPassword, gender, country, dateOfBirth, bio);
         }
     }
     public String getPhoneNumber() {
@@ -106,8 +118,8 @@ public class User {
         return email;
     }
 
-    public byte[] getPicture() {
-        return picture;
+    public String getImgSrc() {
+        return imgSrc;
     }
 
     public String getPassword() {
@@ -133,9 +145,8 @@ public class User {
     public String getBio() {
         return bio;
     }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public Status getStatus() { // Getter for Status
+        return status;
     }
 
     public void setDisplayName(String displayName) {
@@ -146,8 +157,8 @@ public class User {
         this.email = email;
     }
 
-    public void setPicture(byte[] picture) {
-        this.picture = picture;
+    public void setImgSrc(String picture) {
+        this.imgSrc = picture;
     }
 
     public void setPassword(String password) {
@@ -168,6 +179,10 @@ public class User {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setStatus(Status status) { // Setter for Status
+        this.status = status;
     }
 
     public void setBio(String bio) {
