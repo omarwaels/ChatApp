@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox minWidth="785.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffff;" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.controllers.LoginController">
+<HBox minWidth="785.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffff;" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.controllers.SignInController">
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" style="-fx-background-color: #fffffff;" HBox.hgrow="ALWAYS">
          <children>
@@ -52,84 +52,82 @@
                      <font>
                         <Font name="Comic Sans MS" size="51.0" />
                      </font>
+                     <padding>
+                        <Insets right="40.0" />
+                     </padding>
                   </Label>
                </children>
             </HBox>
             <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="375.0">
                <children>
-                  <Label prefHeight="27.0" prefWidth="162.0" text="Enter user name">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <VBox.margin>
-                        <Insets top="20.0" />
-                     </VBox.margin>
-                  </Label>
                   <HBox prefHeight="47.0" prefWidth="399.0">
                      <children>
-                        <TextField fx:id="userNameTextField" onKeyTyped="#onUserNameInput" prefHeight="32.0" prefWidth="390.0" promptText="Enter your username" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="userNameTextField" onKeyTyped="#onUserNameInput" prefHeight="32.0" prefWidth="390.0" promptText="Enter your phone number" HBox.hgrow="ALWAYS">
                            <HBox.margin>
-                              <Insets right="20.0" />
-                           </HBox.margin></TextField>
+                              <Insets left="60.0" right="60.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </TextField>
                      </children>
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <Label fx:id="userNameErrorLabel" textFill="#bf0000">
+                  <Label fx:id="userNameErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
                      <font>
                         <Font size="13.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
                   </Label>
                </children>
             </VBox>
             <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
                <children>
-                  <Label prefWidth="167.0" text="Enter  Password">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <PasswordField fx:id="passwordTextField" onKeyTyped="#onPasswordInput" prefHeight="30.0" prefWidth="368.0" HBox.hgrow="ALWAYS">
+                        <PasswordField fx:id="passwordTextField" onKeyTyped="#onPasswordInput" prefHeight="30.0" prefWidth="368.0" promptText="Enter your password" HBox.hgrow="ALWAYS">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="17.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="NONE" />
                            </cursor>
                            <HBox.margin>
-                              <Insets right="20.0" top="5.0" />
+                              <Insets left="60.0" right="60.0" top="5.0" />
                            </HBox.margin>
                         </PasswordField>
                      </children>
+
                   </HBox>
-                  <Label fx:id="PasswordErrorLabel" textFill="#bf0000">
+                  <Label fx:id="PasswordErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
                      <VBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets bottom="30.0" left="10.0" />
                      </VBox.margin>
                      <font>
                         <Font size="13.0" />
                      </font>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="50.0" />
                      </padding>
                   </Label>
                </children>
             </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="92.0" prefWidth="399.0">
                <children>
-                  <Button mnemonicParsing="false" onAction="#onLoginSubmit" prefHeight="50.0" prefWidth="167.0" styleClass="btn-login" text="Login" textFill="#48b5c6">
+                  <Button mnemonicParsing="false" onAction="#onLoginSubmit" prefHeight="50.0" prefWidth="178.0" styleClass="btn-login" text="Login" textFill="#48b5c6">
                      <font>
-                        <Font name="Calibri Bold Italic" size="36.0" />
+                        <Font name="Calibri Bold Italic" size="38.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets top="-15.0" />
+                     </VBox.margin>
                   </Button>
                   <Label fx:id="LogInErrorLabel" textFill="RED">
                      <font>
@@ -141,16 +139,17 @@
                   </Label>
                   <Label text="Don't have an account yet? ">
                      <VBox.margin>
-                        <Insets top="6.0" />
+                        <Insets bottom="2.0" left="8.0" top="-10.0" />
                      </VBox.margin>
                      <font>
-                        <Font size="11.0" />
+                        <Font size="14.0" />
                      </font>
                   </Label>
-                  <Label style="-fx-underline: true;" text="Sign Up">
+                  <Label fx:id="signUpLabel" onMouseClicked="#onSignUpLabelClicked" style="-fx-underline: true;" text="Sign Up">
                      <VBox.margin>
                         <Insets />
-                     </VBox.margin></Label>
+                     </VBox.margin>
+                  </Label>
                </children>
             </VBox>
          </children>

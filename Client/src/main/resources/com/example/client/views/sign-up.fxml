@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<HBox minWidth="785.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffff;" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.controllers.SignUpController">
+    <children>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" style="-fx-background-color: #fffffff;" HBox.hgrow="ALWAYS">
+            <children>
+                <ImageView fitHeight="321.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../img/loginlogo.gif" />
+                    </image>
+                </ImageView>
+                <Label text="Welcome to ChatUp">
+                    <font>
+                        <Font name="Roboto" size="25.0" />
+                    </font>
+                </Label>
+                <Label text="Create an account to join the community." textFill="#0000008c">
+                    <font>
+                        <Font name="Roboto" size="15.0" />
+                    </font>
+                    <VBox.margin>
+                        <Insets top="10.0" />
+                    </VBox.margin>
+                </Label>
+            </children>
+            <opaqueInsets>
+                <Insets top="-30.0" />
+            </opaqueInsets>
+        </VBox>
+        <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #808080;" HBox.hgrow="ALWAYS">
+            <children>
+                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                    <children>
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../img/Preloader.png" />
+                            </image>
+                        </ImageView>
+                        <Label text="Sign Up" textFill="#749aae">
+                            <font>
+                                <Font name="Comic Sans MS" size="51.0" />
+                            </font>
+                     <HBox.margin>
+                        <Insets right="55.0" />
+                     </HBox.margin>
+                        </Label>
+                    </children>
+                </HBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="375.0">
+                    <children>
+                        <HBox prefHeight="47.0" prefWidth="399.0">
+                            <children>
+                                <TextField fx:id="fullNameTextField" onKeyTyped="#onFullNameInput" prefHeight="30.0" prefWidth="448.0" promptText="Enter your user name" HBox.hgrow="ALWAYS">
+                                    <HBox.margin>
+                                        <Insets bottom="15.0" left="60.0" right="80.0" top="15.0" />
+                                    </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                                </TextField>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="5.0" />
+                            </VBox.margin>
+                        </HBox>
+                        <Label fx:id="fullNameErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets bottom="15.0" left="10.0" top="-15.0" />
+                            </VBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="emailTextField" onKeyTyped="#onEmailInput" prefHeight="30.0" prefWidth="448.0" promptText="Enter your email" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="60.0" right="80.0" />
+                                    </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                                </TextField>
+                            </children>
+                        </HBox>
+                        <Label fx:id="emailErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <VBox.margin>
+                                <Insets bottom="15.0" left="10.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="phoneNumberTextField" onKeyTyped="#onPhoneNumberInput" prefHeight="30.0" prefWidth="448.0" promptText="Enter your phone number" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="60.0" right="80.0" />
+                                    </HBox.margin>
+                                </TextField>
+                            </children>
+                        </HBox>
+                        <Label fx:id="phoneNumberErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <VBox.margin>
+                                <Insets bottom="15.0" left="10.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <PasswordField fx:id="passwordTextField" onKeyTyped="#onPasswordInput" prefHeight="30.0" prefWidth="448.0" promptText="Enter your password" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="60.0" right="80.0" />
+                                    </HBox.margin>
+                                </PasswordField>
+                            </children>
+                        </HBox>
+                        <Label fx:id="passwordErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <VBox.margin>
+                                <Insets bottom="15.0" left="10.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <!-- Confirmation Password -->
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <PasswordField fx:id="confirmPasswordTextField" onKeyTyped="#onConfirmPasswordInput" prefHeight="30.0" prefWidth="448.0" promptText="Confirm your password" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="60.0" right="80.0" />
+                                    </HBox.margin>
+                                </PasswordField>
+                            </children>
+                        </HBox>
+                        <Label fx:id="confirmPasswordErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <VBox.margin>
+                                <Insets bottom="15.0" left="10.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <DatePicker fx:id="dobDatePicker" onAction="#onChooseDate" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="800.0" promptText="Select your date of birth">
+                           <HBox.margin>
+                              <Insets left="60.0" right="80.0" />
+                           </HBox.margin>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <cursor>
+                              <Cursor fx:constant="NONE" />
+                           </cursor></DatePicker>
+                            </children>
+                        </HBox>
+                        <Label fx:id="dobErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <VBox.margin>
+                                <Insets bottom="15.0" left="10.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <ComboBox fx:id="genderComboBox" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onGenderChoose" prefHeight="30.0" prefWidth="800.0" promptText="Select your gender">
+                                    <items>
+                                        <FXCollections fx:factory="observableArrayList">
+                                            <String fx:value="Male" />
+                                            <String fx:value="Female" />
+                                        </FXCollections>
+                                    </items>
+                           <HBox.margin>
+                              <Insets left="60.0" right="80.0" />
+                           </HBox.margin>
+                                </ComboBox>
+                            </children>
+                        </HBox>
+                        <Label fx:id="genderErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <VBox.margin>
+                                <Insets bottom="15.0" left="10.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <padding>
+                                <Insets left="50.0" />
+                            </padding>
+                        </Label>
+                    </children>
+                </VBox>
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                      <HBox prefHeight="100.0" prefWidth="200.0">
+                          <children>
+                              <ComboBox fx:id="countryComboBox" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onCountryChoose" prefHeight="30.0" prefWidth="800.0" promptText="Select your country">
+                                  <items>
+                                      <FXCollections fx:factory="observableArrayList">
+                                          <String fx:value="Egypt" />
+                                          <String fx:value="Palestine" />
+                                          <String fx:value="Saudi Arabia" />
+                                      </FXCollections>
+                                  </items>
+                        <HBox.margin>
+                           <Insets left="60.0" right="80.0" />
+                        </HBox.margin>
+                              </ComboBox>
+                          </children>
+                      </HBox>
+                      <Label fx:id="countryErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                          <font>
+                              <Font size="13.0" />
+                          </font>
+                          <padding>
+                              <Insets left="50.0" />
+                          </padding>
+                  <VBox.margin>
+                     <Insets bottom="15.0" left="10.0" />
+                  </VBox.margin>
+                      </Label>
+
+                </VBox>
+
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <TextField fx:id="bioTextField" onKeyTyped="#onBioInput" prefHeight="30.0" prefWidth="448.0" promptText="Enter your bio" HBox.hgrow="ALWAYS">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="60.0" right="80.0" />
+                                    </HBox.margin>
+                                </TextField>
+                            </children>
+                        </HBox>
+                    </children>
+                </VBox>
+
+                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                    <children>
+                        <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="800.0">
+                            <children>
+                                <Label fx:id="photoLabel" text="Upload Your Photo:" textFill="#000000">
+                                    <font>
+                                        <Font size="14.0" />
+                                    </font>
+                                    <HBox.margin>
+                                        <Insets left="60.0" right="80.0" top="15.0" />
+                                    </HBox.margin>
+                                </Label>
+                                <Button onAction="#onUploadPhoto" prefHeight="25.0" prefWidth="128.0" text="Browse">
+                           <HBox.margin>
+                              <Insets top="15.0" />
+                           </HBox.margin></Button>
+                            </children>
+                     <VBox.margin>
+                        <Insets top="15.0" />
+                     </VBox.margin>
+                        </HBox>
+                    </children>
+                </VBox>
+                <VBox alignment="TOP_CENTER" prefHeight="92.0" prefWidth="399.0">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#onSignUpSubmit" prefHeight="50.0" prefWidth="167.0" styleClass="btn-login" text="Sign Up" textFill="#48b5c6">
+                            <font>
+                                <Font name="Calibri Bold Italic" size="36.0" />
+                            </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                        </Button>
+                        <Label prefHeight="26.0" prefWidth="127.0" text="Already have an account? ">
+                            <VBox.margin>
+                                <Insets top="6.0" />
+                            </VBox.margin>
+                            <font>
+                                <Font size="11.0" />
+                            </font>
+                        </Label>
+                        <Label fx:id="logInLabel" onMouseClicked="#onLogInLabelClicked" style="-fx-underline: true;" text="Log In">
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </Label>
+                        <Label fx:id="signUpErrorLabel" textFill="RED">
+                            <font>
+                                <Font size="13.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="5.0" />
+                            </VBox.margin>
+                        </Label>
+                    </children>
+                </VBox>
+
+            </children>
+            <padding>
+                <Insets left="30.0" />
+            </padding>
+        </VBox>
+
+
+    </children>
+</HBox>
