@@ -20,22 +20,19 @@ public class ChatScreen implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("Initializing");
         List<User> connections = getConnections();
 
         for (User connection : connections) {
-            System.out.println("Beginnig of loop");
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/com/example/client/views/connection-item.fxml"));
 
             try {
                 HBox hbox = fxmlLoader.load();
-                ConnectionItem cic = new ConnectionItem();
+                ConnectionItem cic = fxmlLoader.getController();
                 cic.setData(connection);
                 connectionLayout.getChildren().add(hbox);
             } catch (IOException e) {
-                System.out.println("Error");
-                //throw new RuntimeException(e);
+                throw new RuntimeException(e);
             }
         }
     }
@@ -45,33 +42,93 @@ public class ChatScreen implements Initializable {
         User user = new User();
 
         user.setName("Omar Elsherif");
-        user.setImgSrc("E:\\ITI - EWD\\Courses\\Projects\\Chat-Rmi\\Client\\target\\classes\\com\\example\\client\\img\\user.png");
+        user.setImgSrc("/com/example/client/img/OSherif.jpg");
         user.setStatus(User.Status.Online);
         ls.add(user);
 
         user = new User();
         user.setName("Ahmed Elsherif");
-        user.setImgSrc("E:\\ITI - EWD\\Courses\\Projects\\Chat-Rmi\\Client\\target\\classes\\com\\example\\client\\img\\user.png");
+        user.setImgSrc("/com/example/client/img/ASherif.jpg");
         user.setStatus(User.Status.Offline);
         ls.add(user);
 
-        /*user = new User();
+        user = new User();
         user.setName("Sherif Elsherif");
-        user.setImgSrc("../../../../../resources/com/example/client/img/user.png");
+        user.setImgSrc("/com/example/client/img/SSherif.jpg");
         user.setStatus(User.Status.Offline);
         ls.add(user);
 
         user = new User();
         user.setName("Youssef Elsherif");
-        user.setImgSrc("../../../../../resources/com/example/client/img/user.png");
+        user.setImgSrc("/com/example/client/img/YSherif.jpg");
         user.setStatus(User.Status.Online);
         ls.add(user);
 
         user = new User();
         user.setName("Nour Elsherif");
-        user.setImgSrc("../../../../../resources/com/example/client/img/user.png");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
         user.setStatus(User.Status.Offline);
-        ls.add(user);*/
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
+
+        user = new User();
+        user.setName("Nour Elsherif");
+        user.setImgSrc("/com/example/client/img/NSherif.jpg");
+        user.setStatus(User.Status.Offline);
+        ls.add(user);
 
         return ls;
     }

@@ -13,18 +13,18 @@ import java.util.ResourceBundle;
 
 public class ConnectionItem implements Initializable {
     @FXML
-    public Label connectionName = new Label();
+    public Label connectionName;
 
     @FXML
-    public ImageView connectionPic = new ImageView();
+    public ImageView connectionPic;
 
     @FXML
-    public Circle connectionStatus = new Circle();
+    public Circle connectionStatus;
 
     public void setData(User user) {
-        //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
+        Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
 
-        //connectionPic.setImage(image);
+        connectionPic.setImage(image);
         connectionName.setText(user.getName());
         connectionStatus.setFill(user.getStatus() == User.Status.Online ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
     }

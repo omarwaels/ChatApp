@@ -86,7 +86,7 @@
                      </styleClass>
                         </HBox>
                   <Pane prefHeight="3.0" prefWidth="248.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
-                  <ScrollPane prefHeight="521.0" prefWidth="248.0" stylesheets="@../style/style.css">
+                  <ScrollPane prefHeight="525.0" prefWidth="248.0" stylesheets="@../style/style.css">
                      <content>
                         <VBox fx:id="connectionLayout" prefWidth="231.0" styleClass="transparent" stylesheets="@../style/style.css">
                            <children>
