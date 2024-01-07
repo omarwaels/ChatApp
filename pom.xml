@@ -35,9 +35,11 @@
         <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
         <!-- https://mvnrepository.com/artifact/com.gluonhq/charm -->
 
-
-
-
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.32</version>
+        </dependency>
 
     </dependencies>
     <build>
@@ -58,7 +60,7 @@
             <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.12.0</version> <!-- or the latest version -->
+                    <version>3.12.0</version>
                     <configuration>
                         <release>17</release>
                         <outputDirectory>${project.build.directory}/classes</outputDirectory>

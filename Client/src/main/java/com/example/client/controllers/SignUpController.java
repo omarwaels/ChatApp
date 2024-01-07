@@ -3,6 +3,7 @@ package com.example.client.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
@@ -11,17 +12,17 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class SignUpController {
+public class SignUpController implements Initializable {
 
     @FXML
     public Label countryErrorLabel;
-
-    @FXML
-    public TextField countryTextField;
 
     @FXML
     public DatePicker dobDatePicker;
@@ -44,6 +45,8 @@ public class SignUpController {
     @FXML
     public ComboBox<?> genderComboBox;
 
+    public ComboBox<?> countryComboBox;
+
     @FXML
     public Label genderErrorLabel;
 
@@ -64,33 +67,83 @@ public class SignUpController {
     @FXML
     public Label logInLabel;
 
-    @FXML
-    public void onCountryInput(KeyEvent event) {
+    public TextField bioTextField;
 
+    public Label confirmPasswordErrorLabel;
+
+    public TextField confirmPasswordTextField;
+
+    public byte[] picture;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
     }
 
     @FXML
-    public void onEmailInput(KeyEvent event) {
-
+    public void onEmailInput() {
+        emailErrorLabel.setText("");
     }
 
     @FXML
-    public void onFullNameInput(KeyEvent event) {
-
+    public void onFullNameInput() {
+        fullNameErrorLabel.setText("");
     }
 
     @FXML
-    public void onPasswordInput(KeyEvent event) {
-
+    public void onPasswordInput() {
+        passwordErrorLabel.setText("");
     }
 
     @FXML
-    public void onPhoneNumberInput(KeyEvent event) {
+    public void onPhoneNumberInput() {
+        phoneNumberErrorLabel.setText("");
+    }
 
+    public void onUploadPhoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Photo");
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp");
+        fileChooser.getExtensionFilters().add(imageFilter);
+        java.io.File selectedFile = fileChooser.showOpenDialog(phoneNumberTextField.getScene().getWindow());
+
+        if (selectedFile != null) {
+            //Convert to byte array
+        } else {
+            //Does not store this image
+        }
+    }
+
+    public void onConfirmPasswordInput() {
+        confirmPasswordErrorLabel.setText("");
+    }
+
+    public void onCountryChoose() {
+        countryErrorLabel.setText("");
+    }
+
+    public void onGenderChoose() {
+        genderErrorLabel.setText("");
     }
 
     @FXML
-    public void onSignUpSubmit(ActionEvent event) {
+    public void onSignUpSubmit() {
+        if (fullNameTextField.getText().isEmpty())
+            fullNameErrorLabel.setText("You must enter your user name");
+        if (phoneNumberTextField.getText().isEmpty())
+            phoneNumberErrorLabel.setText("You must enter your phone number");
+        if (emailTextField.getText().isEmpty())
+            emailErrorLabel.setText("You must enter your email");
+        if (passwordTextField.getText().isEmpty())
+            passwordErrorLabel.setText("You must enter your password");
+        if (confirmPasswordTextField.getText().isEmpty())
+            confirmPasswordErrorLabel.setText("You must confirm your password");
+        if (dobDatePicker.getEditor().getText().isEmpty())
+            dobErrorLabel.setText("You must enter a valid date");
+        if (genderComboBox.getSelectionModel().isEmpty())
+            genderErrorLabel.setText("You must choose a gender");
+        if (countryComboBox.getSelectionModel().isEmpty())
+            countryErrorLabel.setText("You must choose a country");
 
     }
 
@@ -98,6 +151,11 @@ public class SignUpController {
     public void onLogInLabelClicked() {
         redirectToSignInPage();
     }
+
+    public void onBioInput() {
+
+    }
+
     private void redirectToSignInPage() {
         try {
             Stage currentStage = (Stage) logInLabel.getScene().getWindow();
@@ -109,4 +167,7 @@ public class SignUpController {
         }
     }
 
+    public void onChooseDate() {
+        dobErrorLabel.setText("");
+    }
 }

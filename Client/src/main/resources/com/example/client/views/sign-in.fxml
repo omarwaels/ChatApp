@@ -75,13 +75,16 @@
                         <Insets top="5.0" />
                      </VBox.margin>
                   </HBox>
-                  <Label fx:id="userNameErrorLabel" textFill="#bf0000">
+                  <Label fx:id="userNameErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
                      <font>
                         <Font size="13.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="10.0" />
                      </VBox.margin>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
                   </Label>
                </children>
             </VBox>
@@ -103,15 +106,15 @@
                      </children>
 
                   </HBox>
-                  <Label fx:id="PasswordErrorLabel" textFill="#bf0000">
+                  <Label fx:id="PasswordErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
                      <VBox.margin>
-                        <Insets bottom="20.0" />
+                        <Insets bottom="30.0" left="10.0" />
                      </VBox.margin>
                      <font>
                         <Font size="13.0" />
                      </font>
                      <padding>
-                        <Insets left="10.0" />
+                        <Insets left="50.0" />
                      </padding>
                   </Label>
                </children>

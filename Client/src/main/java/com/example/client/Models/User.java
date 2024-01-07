@@ -1,6 +1,6 @@
 package com.example.client.Models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class User {
     private String phoneNumber;

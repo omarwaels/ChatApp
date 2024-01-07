@@ -40,14 +40,12 @@ public class SignInController implements Initializable {
     @FXML
     public void onLoginSubmit() {
         if (isEmptyField(userNameTextField)) {
-            userNameErrorLabel.setText("You must enter your user name");
+            userNameErrorLabel.setText("You must enter your phone number");
             return;
         }
 
         if (isEmptyField(passwordTextField)) {
-
             PasswordErrorLabel.setText("You must enter your password");
-            return;
         }
     }
 
@@ -60,8 +58,6 @@ public class SignInController implements Initializable {
     @FXML
     public void onPasswordInput() {
         PasswordErrorLabel.setText("");
-        if (passwordTextField.getText().isEmpty())
-            passwordTextField.setPromptText("Enter the password");
     }
 
     public static boolean isEmptyField(TextField textField) {

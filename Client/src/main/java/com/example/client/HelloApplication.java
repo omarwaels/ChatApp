@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 
 public class HelloApplication extends Application {
@@ -16,8 +17,8 @@ public class HelloApplication extends Application {
         stage.setScene(new Scene(root));
         stage.show();
     }
+
     public static void main(String[] args) {
-        User user = new User.UserBuilder().setPassword("123").setCountry("eypy").createUser();
         launch();
     }
 }
