@@ -14,18 +14,19 @@ public class User {
     private Date dateOfBirth;
     private String bio;
 
-    private User(UserBuilder builder) {
-        this.phoneNumber = builder.phoneNumber;
-        this.displayName = builder.displayName;
-        this.email = builder.email;
-        this.picture = builder.picture;
-        this.password = builder.password;
-        this.confirmationPassword = builder.confirmationPassword;
-        this.gender = builder.gender;
-        this.country = builder.country;
-        this.dateOfBirth = builder.dateOfBirth;
-        this.bio = builder.bio;
+    public User(String phoneNumber, String displayName, String email, byte[] picture, String password, String confirmationPassword, String gender, String country, Date dateOfBirth, String bio) {
+        this.phoneNumber = phoneNumber;
+        this.displayName = displayName;
+        this.email = email;
+        this.picture = picture;
+        this.password = password;
+        this.confirmationPassword = confirmationPassword;
+        this.gender = gender;
+        this.country = country;
+        this.dateOfBirth = dateOfBirth;
+        this.bio = bio;
     }
+
 
     public static class UserBuilder {
         private String phoneNumber;
@@ -39,54 +40,60 @@ public class User {
         private Date dateOfBirth;
         private String bio;
 
-        public UserBuilder(String phoneNumber, String displayName, String email) {
+        public UserBuilder setPhoneNumber(String phoneNumber) {
             this.phoneNumber = phoneNumber;
-            this.displayName = displayName;
-            this.email = email;
+            return this;
         }
 
-        public UserBuilder picture(byte[] picture) {
+        public UserBuilder setDisplayName(String displayName) {
+            this.displayName = displayName;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder setPicture(byte[] picture) {
             this.picture = picture;
             return this;
         }
 
-        public UserBuilder password(String password) {
+        public UserBuilder setPassword(String password) {
             this.password = password;
             return this;
         }
 
-        public UserBuilder confirmationPassword(String confirmationPassword) {
+        public UserBuilder setConfirmationPassword(String confirmationPassword) {
             this.confirmationPassword = confirmationPassword;
             return this;
         }
 
-        public UserBuilder gender(String gender) {
+        public UserBuilder setGender(String gender) {
             this.gender = gender;
             return this;
         }
 
-        public UserBuilder country(String country) {
+        public UserBuilder setCountry(String country) {
             this.country = country;
             return this;
         }
 
-        public UserBuilder dateOfBirth(Date dateOfBirth) {
+        public UserBuilder setDateOfBirth(Date dateOfBirth) {
             this.dateOfBirth = dateOfBirth;
             return this;
         }
 
-        public UserBuilder bio(String bio) {
+        public UserBuilder setBio(String bio) {
             this.bio = bio;
             return this;
         }
 
-        public User build() {
-            return new User(this);
+        public User createUser() {
+            return new User(phoneNumber, displayName, email, picture, password, confirmationPassword, gender, country, dateOfBirth, bio);
         }
     }
-
-    // Getters for each field
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -125,5 +132,45 @@ public class User {
 
     public String getBio() {
         return bio;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setConfirmationPassword(String confirmationPassword) {
+        this.confirmationPassword = confirmationPassword;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }
