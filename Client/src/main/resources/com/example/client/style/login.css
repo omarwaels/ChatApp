@@ -1,6 +1,10 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Oxygen&family=Playfair+Display:ital@1&display=swap');
+
+
 .btn-login{
     -fx-background-color: #2196f3;
-    -fx-font-family: Tahoma;
+    -fx-font-family: 'Oxygen', sans-serif;
     -fx-font-size: 22px;
     -fx-text-fill: #FFF;
     -fx-background-radius: 20px

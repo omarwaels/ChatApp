@@ -48,7 +48,7 @@
                         <Image url="@../img/Preloader.png" />
                      </image>
                   </ImageView>
-                  <Label text="Sing In" textFill="#749aae">
+                  <Label text="Sign In" textFill="#749aae">
                      <font>
                         <Font name="Comic Sans MS" size="51.0" />
                      </font>
@@ -70,7 +70,7 @@
                   </Label>
                   <HBox prefHeight="47.0" prefWidth="399.0">
                      <children>
-                        <TextField fx:id="userNameTextField" onKeyTyped="#onUserNameInput" prefHeight="32.0" prefWidth="390.0" promptText="Enter your username" HBox.hgrow="ALWAYS">
+                        <TextField fx:id="userNameTextField" onKeyTyped="#onUserNameInput" prefHeight="32.0" prefWidth="390.0" promptText="Enter your phone" style="-fx-max-width: 200;" HBox.hgrow="ALWAYS">
                            <HBox.margin>
                               <Insets right="20.0" />
                            </HBox.margin></TextField>
