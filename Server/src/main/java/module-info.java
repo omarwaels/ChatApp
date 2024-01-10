@@ -1,12 +1,10 @@
-module com.example.server {
+module iti.jets.app.server {
     requires javafx.controls;
     requires javafx.fxml;
 
     requires org.controlsfx.controls;
-    requires com.dlsc.formsfx;
-    requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
 
-    opens com.example.server to javafx.fxml;
-    exports com.example.server;
+    opens iti.jets.app.server to javafx.fxml;
+    exports iti.jets.app.server;
 }
