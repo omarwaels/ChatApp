@@ -22,7 +22,6 @@
         </main.class>
     </properties>
 
-<<<<<<< Updated upstream
     <dependencies>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -34,7 +33,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.6</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -42,8 +40,7 @@
         </dependency>
 
     </dependencies>
-=======
->>>>>>> Stashed changes
+
     <build>
         <plugins>
             <plugin>
@@ -54,18 +51,15 @@
                     <mainClass>${main.class}</mainClass>
                 </configuration>
             </plugin>
-<<<<<<< Updated upstream
             <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.12.0</version>
-                    <configuration>
-                        <release>17</release>
-                        <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                    </configuration>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.0</version>
+                <configuration>
+                    <release>17</release>
+                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                </configuration>
             </plugin>
-=======
->>>>>>> Stashed changes
         </plugins>
     </build>
 

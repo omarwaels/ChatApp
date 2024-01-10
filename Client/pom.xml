@@ -22,8 +22,6 @@
     </main.class>
 <junit.version>5.10.0</junit.version>  </properties>
 
-<<<<<<< Updated upstream
-=======
   <dependencies>
     <dependency>
       <groupId>org.openjfx</groupId>
@@ -57,7 +55,6 @@
       <scope>test</scope>
     </dependency>  </dependencies>
 
->>>>>>> Stashed changes
   <build>
     <plugins>
       <plugin>
