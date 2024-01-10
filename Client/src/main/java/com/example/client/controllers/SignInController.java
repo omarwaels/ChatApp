@@ -14,16 +14,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author bel sa
- */
 public class SignInController implements Initializable {
-
-    /**
-     * Initializes the controller class.
-     */
     public Label userNameErrorLabel;
     public Label PasswordErrorLabel;
     public Label LogInErrorLabel;

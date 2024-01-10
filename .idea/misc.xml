@@ -8,14 +8,6 @@
         <option value="$PROJECT_DIR$/Shared/pom.xml" />
       </list>
     </option>
-<<<<<<< Updated upstream
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/Shared/pom.xml" />
-      </set>
-    </option>
-=======
->>>>>>> Stashed changes
     <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">

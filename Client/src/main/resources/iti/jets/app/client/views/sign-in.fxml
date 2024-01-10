@@ -12,11 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<<<<<<< Updated upstream:Client/src/main/resources/com/example/client/views/sign-in.fxml
-<HBox minWidth="785.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffff;" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.client.controllers.SignInController">
-=======
 <HBox minWidth="785.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffff;" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.SignInController">
->>>>>>> Stashed changes:Client/src/main/resources/iti/jets/app/client/views/sign-in.fxml
    <children>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" style="-fx-background-color: #fffffff;" HBox.hgrow="ALWAYS">
          <children>
