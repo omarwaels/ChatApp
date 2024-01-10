@@ -11,8 +11,6 @@
     <modules>
         <module>Client</module>
         <module>Server</module>
-        <module>Shared</module>
-        <module>Shared</module>
     </modules>
 
     <properties>
@@ -32,10 +30,6 @@
             <artifactId>javafx-fxml</artifactId>
             <version>17.0.6</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
-        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
-        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm-glisten -->
-        <!-- https://mvnrepository.com/artifact/com.gluonhq/charm -->
 
         <dependency>
             <groupId>mysql</groupId>
