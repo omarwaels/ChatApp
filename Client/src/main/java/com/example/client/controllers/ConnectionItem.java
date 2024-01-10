@@ -1,6 +1,7 @@
 package com.example.client.controllers;
 
-import com.example.client.Models.User;
+import com.example.client.Models.entities.User;
+import com.example.client.Models.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -26,7 +27,7 @@ public class ConnectionItem implements Initializable {
 
         connectionPic.setImage(image);
         connectionName.setText(user.getDisplayName());
-        connectionStatus.setFill(user.getStatus() == User.Status.Online ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
+        connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

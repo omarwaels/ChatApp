@@ -1,6 +1,5 @@
 package com.example.client;
 
-import com.example.client.Models.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

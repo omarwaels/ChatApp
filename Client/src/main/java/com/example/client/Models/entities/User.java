@@ -1,50 +1,48 @@
-package com.example.client.Models;
+package com.example.client.Models.entities;
+
+import com.example.client.Models.enums.StatusEnum;
 
 import java.sql.Date;
 
 public class User {
-    private String phoneNumber;
+    private final String phoneNumber;
     private String displayName;
     private String email;
     private String imgSrc;
     private String password;
-    private String confirmationPassword;
     private String gender;
     private String country;
     private Date dateOfBirth;
     private String bio;
 
-    private Status status;
+    private StatusEnum statusEnum;
 
-    public enum Status {Online, Offline}
-
-    public User(String phoneNumber, String displayName, String email, String picture, String password, String confirmationPassword, String gender, String country, Date dateOfBirth, String bio) {
+    public User(String phoneNumber, String displayName, String email, String picture, String password, String gender, String country, Date dateOfBirth, String bio) {
         this.phoneNumber = phoneNumber;
         this.displayName = displayName;
         this.email = email;
         this.imgSrc = picture;
         this.password = password;
-        this.confirmationPassword = confirmationPassword;
         this.gender = gender;
         this.country = country;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
     }
 
-
     public static class UserBuilder {
+        private int id;
         private String phoneNumber;
         private String displayName;
         private String email;
         private String imgSrc;
         private String password;
-        private String confirmationPassword;
         private String gender;
         private String country;
         private Date dateOfBirth;
         private String bio;
 
-        private User.Status status;
+        //TODO: modify the status
+        private StatusEnum status;
 
 
         public UserBuilder setPhoneNumber(String phoneNumber) {
@@ -52,8 +50,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder setStatus(Status status) { // Setter for Status
-            this.status = status;
+        public UserBuilder setStatus(StatusEnum statusEnum) {
+            this.status = statusEnum;
             return this;
         }
 
@@ -77,11 +75,6 @@ public class User {
             return this;
         }
 
-        public UserBuilder setConfirmationPassword(String confirmationPassword) {
-            this.confirmationPassword = confirmationPassword;
-            return this;
-        }
-
         public UserBuilder setGender(String gender) {
             this.gender = gender;
             return this;
@@ -102,8 +95,8 @@ public class User {
             return this;
         }
 
-        public User createUser() {
-            return new User(phoneNumber, displayName, email, imgSrc, password, confirmationPassword, gender, country, dateOfBirth, bio);
+        public User build() {
+            return new User(phoneNumber, displayName, email, imgSrc, password, gender, country, dateOfBirth, bio);
         }
     }
     public String getPhoneNumber() {
@@ -126,10 +119,6 @@ public class User {
         return password;
     }
 
-    public String getConfirmationPassword() {
-        return confirmationPassword;
-    }
-
     public String getGender() {
         return gender;
     }
@@ -145,8 +134,8 @@ public class User {
     public String getBio() {
         return bio;
     }
-    public Status getStatus() { // Getter for Status
-        return status;
+    public StatusEnum getStatus() { // Getter for Status
+        return statusEnum;
     }
 
     public void setDisplayName(String displayName) {
@@ -165,10 +154,6 @@ public class User {
         this.password = password;
     }
 
-    public void setConfirmationPassword(String confirmationPassword) {
-        this.confirmationPassword = confirmationPassword;
-    }
-
     public void setGender(String gender) {
         this.gender = gender;
     }
@@ -179,10 +164,6 @@ public class User {
 
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-    }
-
-    public void setStatus(Status status) { // Setter for Status
-        this.status = status;
     }
 
     public void setBio(String bio) {

@@ -1,7 +1,8 @@
 package com.example.client.controllers;
 
 
-import com.example.client.Models.User;
+import com.example.client.Models.entities.User;
+import com.example.client.Models.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,92 +42,92 @@ public class ChatScreen implements Initializable {
         List<User> ls = new ArrayList<>();
         User user = new User.UserBuilder().setDisplayName("Omar Elsherif")
                 .setImgSrc("/com/example/client/img/OSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Ahmed Elsherif")
                 .setImgSrc("/com/example/client/img/ASherif.jpg")
-                .setStatus(User.Status.Offline)
-                .createUser();
+                .setStatus(StatusEnum.OFFLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Sherif Elsherif")
                 .setImgSrc("/com/example/client/img/SSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Youssef Elsherif")
                 .setImgSrc("/com/example/client/img/YSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
                 .setImgSrc("/com/example/client/img/NSherif.jpg")
-                .setStatus(User.Status.Online)
-                .createUser();
+                .setStatus(StatusEnum.ONLINE)
+                .build();
         ls.add(user);
 
         return ls;
