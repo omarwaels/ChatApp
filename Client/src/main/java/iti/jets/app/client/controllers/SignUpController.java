@@ -1,4 +1,6 @@
 package iti.jets.app.client.controllers;
+import iti.jets.app.Interfaces.RegisterService;
+import iti.jets.app.server.Implementation.RegisterServiceImpl;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ResourceBundle;
 
 public class SignUpController implements Initializable {
@@ -107,9 +110,11 @@ public class SignUpController implements Initializable {
         java.io.File selectedFile = fileChooser.showOpenDialog(phoneNumberTextField.getScene().getWindow());
 
         if (selectedFile != null) {
-            //Convert to byte array
-        } else {
-            //Does not store this image
+            try {
+                picture = Files.readAllBytes(selectedFile.toPath());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -143,7 +148,15 @@ public class SignUpController implements Initializable {
             genderErrorLabel.setText("You must choose a gender");
         if (countryComboBox.getSelectionModel().isEmpty())
             countryErrorLabel.setText("You must choose a country");
+        else{
+            addUser();
+            redirectToSignInPage();
+        }
 
+    }
+
+    private void addUser(){
+        RegisterService registerService = new RegisterServiceImpl();
     }
 
     @FXML
@@ -169,4 +182,5 @@ public class SignUpController implements Initializable {
     public void onChooseDate() {
         dobErrorLabel.setText("");
     }
+
 }

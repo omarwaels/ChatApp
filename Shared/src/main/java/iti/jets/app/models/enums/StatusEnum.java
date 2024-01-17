@@ -1,4 +1,4 @@
-package com.example.client.Models.enums;
+package iti.jets.app.models.enums;
 
 public enum StatusEnum {
     ONLINE("Online"),
@@ -8,5 +8,9 @@ public enum StatusEnum {
 
     StatusEnum(String status) {
         this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

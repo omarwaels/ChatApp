@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import iti.jets.app.DTOs.UserLoginDto;
+import iti.jets.app.Interfaces.LoginService;
+import iti.jets.app.server.Implementation.LoginServiceImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -38,6 +41,14 @@ public class SignInController implements Initializable {
         if (isEmptyField(passwordTextField)) {
             PasswordErrorLabel.setText("You must enter your password");
         }
+        login();
+    }
+
+    private void login() {
+        LoginService loginService = new LoginServiceImpl();
+        UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
+//        if (loginService.login(userLoginDto) != null)
+//            redirectToSignUpPage();
     }
 
     @FXML

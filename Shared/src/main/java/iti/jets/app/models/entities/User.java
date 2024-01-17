@@ -1,27 +1,29 @@
-package iti.jets.app.client.models.entities;
+package iti.jets.app.models.entities;
 
-import iti.jets.app.client.models.enums.StatusEnum;
-
+import iti.jets.app.models.enums.ModeEnum;
+import iti.jets.app.models.enums.StatusEnum;
 import java.sql.Date;
 
 public class User {
+    private final int id;
     private final String phoneNumber;
     private String displayName;
     private String email;
-    private String imgSrc;
+    private byte[] picture;
     private String password;
     private String gender;
     private String country;
     private Date dateOfBirth;
     private String bio;
-
+    private ModeEnum userEnum;
     private StatusEnum statusEnum;
 
-    public User(String phoneNumber, String displayName, String email, String picture, String password, String gender, String country, Date dateOfBirth, String bio) {
+    public User(int id, String phoneNumber, String displayName, String email, byte[] picture, String password, String gender, String country, Date dateOfBirth, String bio) {
+        this.id = id;
         this.phoneNumber = phoneNumber;
         this.displayName = displayName;
         this.email = email;
-        this.imgSrc = picture;
+        this.picture = picture;
         this.password = password;
         this.gender = gender;
         this.country = country;
@@ -34,15 +36,14 @@ public class User {
         private String phoneNumber;
         private String displayName;
         private String email;
-        private String imgSrc;
+        private byte[] picture;
         private String password;
         private String gender;
         private String country;
         private Date dateOfBirth;
         private String bio;
-
-        //TODO: modify the status
-        private StatusEnum status;
+        private ModeEnum userEnum;
+        private StatusEnum statusEnum;
 
 
         public UserBuilder setPhoneNumber(String phoneNumber) {
@@ -50,8 +51,13 @@ public class User {
             return this;
         }
 
+        public UserBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
         public UserBuilder setStatus(StatusEnum statusEnum) {
-            this.status = statusEnum;
+            this.statusEnum = statusEnum;
             return this;
         }
 
@@ -65,8 +71,8 @@ public class User {
             return this;
         }
 
-        public UserBuilder setImgSrc(String picture) {
-            this.imgSrc = picture;
+        public UserBuilder setPicture(byte[] picture) {
+            this.picture = picture;
             return this;
         }
 
@@ -95,10 +101,16 @@ public class User {
             return this;
         }
 
+        public UserBuilder setMode(ModeEnum userEnum) { // Setter for Mode
+            this.userEnum = userEnum;
+            return this;
+        }
+
         public User build() {
-            return new User(phoneNumber, displayName, email, imgSrc, password, gender, country, dateOfBirth, bio);
+            return new User(id, phoneNumber, displayName, email, picture, password, gender, country, dateOfBirth, bio);
         }
     }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
@@ -111,8 +123,12 @@ public class User {
         return email;
     }
 
-    public String getImgSrc() {
-        return imgSrc;
+    public byte[] getPicture() {
+        return picture;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getPassword() {
@@ -134,6 +150,7 @@ public class User {
     public String getBio() {
         return bio;
     }
+
     public StatusEnum getStatus() { // Getter for Status
         return statusEnum;
     }
@@ -146,8 +163,8 @@ public class User {
         this.email = email;
     }
 
-    public void setImgSrc(String picture) {
-        this.imgSrc = picture;
+    public void setPicture(byte[] picture) {
+        this.picture = picture;
     }
 
     public void setPassword(String password) {
@@ -168,5 +185,13 @@ public class User {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public ModeEnum getMode() { // Getter for Mode
+        return userEnum;
+    }
+
+    public void setMode(ModeEnum userEnum) { // Setter for Mode
+        this.userEnum = userEnum;
     }
 }

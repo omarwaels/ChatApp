@@ -1,8 +1,8 @@
 package iti.jets.app.client.controllers;
 
 
-import iti.jets.app.client.models.entities.User;
-import iti.jets.app.client.models.enums.StatusEnum;
+import iti.jets.app.models.entities.User;
+import iti.jets.app.models.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -41,91 +41,26 @@ public class ChatScreenController implements Initializable {
     private List<User> getConnections() {
         List<User> ls = new ArrayList<>();
         User user = new User.UserBuilder().setDisplayName("Omar Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/OSherif.jpg")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Ahmed Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/ASherif.jpg")
                 .setStatus(StatusEnum.OFFLINE)
                 .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Sherif Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/SSherif.jpg")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Youssef Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/YSherif.jpg")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);
 
         user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
-
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
-                .setImgSrc("/iti/jets/app/client/img/NSherif.jpg")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);

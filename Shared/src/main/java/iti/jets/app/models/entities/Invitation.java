@@ -1,4 +1,4 @@
-package com.example.client.Models.entities;
+package iti.jets.app.models.entities;
 
 public class Invitation {
     private int senderID;
