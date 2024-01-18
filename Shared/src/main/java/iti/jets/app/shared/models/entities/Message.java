@@ -1,8 +1,9 @@
 package iti.jets.app.shared.models.entities;
 
-import java.sql.Timestamp;
 
+import java.sql.Timestamp;
 public class Message {
+
     private int messageId;
     private int senderId;
     private int chatId;
