@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import iti.jets.app.DTOs.UserLoginDto;
-import iti.jets.app.Interfaces.LoginService;
+import iti.jets.app.shared.DTOs.UserLoginDto;
+import iti.jets.app.shared.Interfaces.LoginService;
 import iti.jets.app.server.Implementation.LoginServiceImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

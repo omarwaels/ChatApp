@@ -6,8 +6,7 @@ module server {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires shared;
-    requires mysql.connector.java;
-
+    requires mysql.connector.j;
     opens iti.jets.app.server to javafx.fxml;
     exports iti.jets.app.server.Implementation;
     exports iti.jets.app.server;

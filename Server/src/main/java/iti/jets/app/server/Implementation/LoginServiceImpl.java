@@ -1,9 +1,9 @@
 package iti.jets.app.server.Implementation;
 
-import iti.jets.app.DTOs.UserLoginDto;
-import iti.jets.app.Interfaces.LoginService;
-import iti.jets.app.models.entities.User;
-import iti.jets.app.models.enums.UserEnum;
+import iti.jets.app.shared.DTOs.UserLoginDto;
+import iti.jets.app.shared.Interfaces.LoginService;
+import iti.jets.app.shared.models.entities.User;
+import iti.jets.app.shared.models.enums.UserEnum;
 import iti.jets.app.server.db.UserDao;
 
 import java.sql.ResultSet;

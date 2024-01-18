@@ -1,7 +1,8 @@
-package iti.jets.app.models.entities;
+package iti.jets.app.shared.models.entities;
 
-import iti.jets.app.models.enums.ModeEnum;
-import iti.jets.app.models.enums.StatusEnum;
+import iti.jets.app.shared.models.enums.ModeEnum;
+import iti.jets.app.shared.models.enums.StatusEnum;
+
 import java.sql.Date;
 
 public class User {

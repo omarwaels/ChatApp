@@ -1,4 +1,4 @@
-package iti.jets.app.DTOs;
+package iti.jets.app.shared.DTOs;
 
 public class UserLoginDto {
     private String phoneNumber;

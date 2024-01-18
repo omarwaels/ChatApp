@@ -1,4 +1,4 @@
-package iti.jets.app.DTOs;
+package iti.jets.app.shared.DTOs;
 
 import java.sql.Date;
 

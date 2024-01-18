@@ -9,6 +9,4 @@ module client {
     opens iti.jets.app.client to javafx.fxml;
     exports iti.jets.app.client;
     exports iti.jets.app.client.controllers;
-    exports iti.jets.app.models.entities;
-    exports iti.jets.app.models.enums;
 }

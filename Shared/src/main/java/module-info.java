@@ -1,7 +1,7 @@
 module shared {
     requires java.sql;
-    exports iti.jets.app.Interfaces;
-    exports iti.jets.app.DTOs;
-    exports iti.jets.app.models.entities;
-    exports iti.jets.app.models.enums;
+    exports iti.jets.app.shared.Interfaces;
+    exports iti.jets.app.shared.DTOs;
+    exports iti.jets.app.shared.models.entities;
+    exports iti.jets.app.shared.models.enums;
 }

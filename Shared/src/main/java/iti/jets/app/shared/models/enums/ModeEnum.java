@@ -1,4 +1,4 @@
-package iti.jets.app.models.enums;
+package iti.jets.app.shared.models.enums;
 
 public enum ModeEnum {
     AVAILABLE("Available"),

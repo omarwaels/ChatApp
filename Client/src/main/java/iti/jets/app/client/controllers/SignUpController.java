@@ -1,7 +1,6 @@
 package iti.jets.app.client.controllers;
-import iti.jets.app.Interfaces.RegisterService;
+import iti.jets.app.shared.Interfaces.RegisterService;
 import iti.jets.app.server.Implementation.RegisterServiceImpl;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,7 +11,6 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 

@@ -1,12 +1,21 @@
-package iti.jets.app.models.entities;
+package iti.jets.app.shared.models.entities;
 
 public class Invitation {
+    private int invitationID;
     private int senderID;
     private int receiverID;
 
     public Invitation(int senderID, int receiverID) {
         this.senderID = senderID;
         this.receiverID = receiverID;
+    }
+
+    public int getInvitationID() {
+        return invitationID;
+    }
+
+    public void setInvitationID(int invitationID) {
+        this.invitationID = invitationID;
     }
 
     public void setSenderID(int senderID) {

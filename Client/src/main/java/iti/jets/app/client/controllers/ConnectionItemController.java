@@ -1,7 +1,7 @@
 package iti.jets.app.client.controllers;
 
-import iti.jets.app.models.entities.User;
-import iti.jets.app.models.enums.StatusEnum;
+import iti.jets.app.shared.models.entities.User;
+import iti.jets.app.shared.models.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;

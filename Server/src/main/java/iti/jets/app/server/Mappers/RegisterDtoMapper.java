@@ -1,7 +1,7 @@
 package iti.jets.app.server.Mappers;
 
-import iti.jets.app.DTOs.UserRegisterDto;
-import iti.jets.app.models.entities.User;
+import iti.jets.app.shared.DTOs.UserRegisterDto;
+import iti.jets.app.shared.models.entities.User;
 
 public class RegisterDtoMapper {
 
