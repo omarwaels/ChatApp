@@ -1,12 +1,16 @@
 package iti.jets.app.server.db;
 
 import iti.jets.app.shared.models.entities.User;
+
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 public class UserDao implements Dao<User, String> {
+    //SRP => Class must have only one reason to change
     private DataSource dataSource;
 
     public UserDao() {
@@ -186,5 +190,4 @@ public class UserDao implements Dao<User, String> {
             return resultSet;
         }
     }
-
 }
