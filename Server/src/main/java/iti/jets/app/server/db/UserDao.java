@@ -173,22 +173,4 @@ public class UserDao implements Dao<User, String> {
             return result;
         }
     }
-
-    public ResultSet getAllUsers() {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM user");
-            resultSet = preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            return resultSet;
-        }
-    }
 }

@@ -9,9 +9,9 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 public class DataSourceFactory {
 
-    private static DataSource dataSource = null;
+    private static DataSource dataSource;
 
-    private DataSourceFactory() {
+    public DataSourceFactory() {
     }
 
     private static void init() {
@@ -38,9 +38,11 @@ public class DataSourceFactory {
     }
 
     public static DataSource getMySQLDataSource() {
-        if (dataSource != null)
+        if (dataSource != null) {
             return dataSource;
-        //init();
+
+        }
+
         Properties p = new Properties();
         //InputStream fin = null;
         MysqlDataSource mySqlDataSource = null;
@@ -55,6 +57,7 @@ public class DataSourceFactory {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return dataSource = mySqlDataSource;
+        dataSource = mySqlDataSource;
+        return dataSource;
     }
 }
