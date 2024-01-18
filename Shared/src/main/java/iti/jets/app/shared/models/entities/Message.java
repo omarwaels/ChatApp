@@ -3,15 +3,14 @@ package iti.jets.app.shared.models.entities;
 import java.sql.Timestamp;
 
 public class Message {
-    private int messageId;
+    private final int messageId ;
     private int senderId;
     private int chatId;
     private boolean containsFile;
     private String messageContent;
     private Timestamp sentAt;
 
-    public Message() {
-    }
+
 
     public Message(int messageId, int senderId, int chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
         this.messageId = messageId;
@@ -26,9 +25,7 @@ public class Message {
         return messageId;
     }
 
-    public void setMessageId(int messageId) {
-        this.messageId = messageId;
-    }
+
 
     public int getSenderId() {
         return senderId;
@@ -68,5 +65,17 @@ public class Message {
 
     public void setSentAt(Timestamp sentAt) {
         this.sentAt = sentAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "messageId=" + messageId +
+                ", senderId=" + senderId +
+                ", chatId=" + chatId +
+                ", containsFile=" + containsFile +
+                ", messageContent='" + messageContent + '\'' +
+                ", sentAt=" + sentAt +
+                '}';
     }
 }

@@ -19,10 +19,10 @@ public class DataSourceFactory {
         OutputStream output = null;
         try {
             output = new FileOutputStream("/db.properties");
-            prop.setProperty("MYSQL_DB_URL", "jdbc:mysql://localhost:3306/chat_app");
+            prop.setProperty("MYSQL_DB_URL", "jdbc:mysql://localhost:3308/chat_app");
             System.out.println("here");
             prop.setProperty("MYSQL_DB_USERNAME", "root");
-            prop.setProperty("MYSQL_DB_PASSWORD", "Dola123@");
+            prop.setProperty("MYSQL_DB_PASSWORD", "@");
             prop.store(output, null);
         } catch (IOException e) {
             e.printStackTrace();
@@ -40,27 +40,20 @@ public class DataSourceFactory {
     public static DataSource getMySQLDataSource() {
         if (dataSource != null)
             return dataSource;
-        init();
+        //init();
         Properties p = new Properties();
-        InputStream fin = null;
+        //InputStream fin = null;
         MysqlDataSource mySqlDataSource = null;
         try {
-            fin = new FileInputStream("/db.properties");
-            p.load(fin);
+
+            //fin = new FileInputStream("/db.properties");
+            //p.load(fin);
             mySqlDataSource = new MysqlDataSource();
-            mySqlDataSource.setURL(p.getProperty("MYSQL_DB_URL"));
-            mySqlDataSource.setUser(p.getProperty("MYSQL_DB_USERNAME"));
-            mySqlDataSource.setPassword(p.getProperty("MYSQL_DB_PASSWORD"));
-        } catch (IOException e) {
+            mySqlDataSource.setURL("jdbc:mysql://127.0.0.1:3308/chat_app");
+            mySqlDataSource.setUser("root");
+            mySqlDataSource.setPassword(p.getProperty(""));
+        } catch (Exception e) {
             throw new RuntimeException(e);
-        } finally {
-            if (fin != null) {
-                try {
-                    fin.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         return dataSource = mySqlDataSource;
     }

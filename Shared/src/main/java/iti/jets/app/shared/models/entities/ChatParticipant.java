@@ -39,4 +39,13 @@ public class ChatParticipant {
     public void setMemberSince(Timestamp memberSince) {
         this.memberSince = memberSince;
     }
+
+    @Override
+    public String toString() {
+        return "ChatParticipant{" +
+                "chatId=" + chatId +
+                ", participantId=" + participantId +
+                ", memberSince=" + memberSince +
+                '}';
+    }
 }
