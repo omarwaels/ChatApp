@@ -7,49 +7,21 @@ import javax.sql.DataSource;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-public class DataSourceFactory {
+public enum DataSourceFactory {
+    INSTANCE;  // The single instance
 
     private static DataSource dataSource;
 
-    public DataSourceFactory() {
+
+     DataSourceFactory() {
+        initializeDataSource();
     }
 
-    private static void init() {
-        Properties prop = new Properties();
-        OutputStream output = null;
-        try {
-            output = new FileOutputStream("/db.properties");
-            prop.setProperty("MYSQL_DB_URL", "jdbc:mysql://localhost:3308/chat_app");
-            System.out.println("here");
-            prop.setProperty("MYSQL_DB_USERNAME", "root");
-            prop.setProperty("MYSQL_DB_PASSWORD", "@");
-            prop.store(output, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static DataSource getMySQLDataSource() {
-        if (dataSource != null) {
-            return dataSource;
-
-        }
-
+    private void initializeDataSource() {
         Properties p = new Properties();
-        //InputStream fin = null;
         MysqlDataSource mySqlDataSource = null;
-        try {
 
-            //fin = new FileInputStream("/db.properties");
-            //p.load(fin);
+        try {
             mySqlDataSource = new MysqlDataSource();
             mySqlDataSource.setURL("jdbc:mysql://127.0.0.1:3308/chat_app");
             mySqlDataSource.setUser("root");
@@ -57,7 +29,12 @@ public class DataSourceFactory {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
         dataSource = mySqlDataSource;
-        return dataSource;
+    }
+
+
+    public static DataSource getMySQLDataSource() {
+        return INSTANCE.dataSource;
     }
 }

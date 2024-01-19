@@ -1,6 +1,7 @@
 package iti.jets.app.server;
 
 
+import iti.jets.app.server.db.DataSourceFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -8,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
+import javax.sql.DataSource;
 import java.io.IOException;
 
 import java.sql.SQLException;
