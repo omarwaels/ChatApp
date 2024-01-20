@@ -1,6 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+.jfx-snackbar {
+    -fx-font-size: 25;
+    -fx-background-color: linear-gradient(to top, #c9b5b5, #d3c4c4);
+    -fx-background-radius: 10 10 0 0;
+    -fx-text-fill: white !important; /* Use !important to enforce the style */
+    -fx-fill-height: 10;
+    -fx-min-width: 90;
+}
+
+/* Additional styles for jfx-snackbar-content and jfx-snackbar-toast here */
+
+ jfx-snackbar-content {
+    -fx-text-fill: WHITE;
+} jfx-snackbar-toast {
+    -fx-text-fill: WHITE;
+}
+
+.jfx-snackbar-label {
+    -fx-text-fill: white; /* Text color */
+    -fx-font-size: 62px; /* Font size */
+}
 .leftSideMenu {
-    -fx-background-color: linear-gradient(to top, #3367D6, #189AEC);
+    -fx-background-color: linear-gradient(to top, #333333, #666666); /* Black to dark gray gradient */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0.5, 0.0, 0.0);
 }
 
@@ -21,7 +43,6 @@
     -fx-min-width: -size;
     -fx-max-height: 17;
     -fx-max-width: -size;
-    /*-fx-shape: "M9,11a1,1,0,0,1,1-1h4a1,1,0,0,1,0,2H10A1,1,0,0,1,9,11Zm15,7v1a5.006,5.006,0,0,1-5,5H5a5.006,5.006,0,0,1-5-5V18a5.009,5.009,0,0,1,4-4.9V12A8,8,0,0,1,8.015,5.073C8.013,5.048,8,5.026,8,5V4a4,4,0,0,1,8,0V5c0,.026-.013.048-.015.073A8,8,0,0,1,20,12v1.1A5.009,5.009,0,0,1,24,18ZM10,4.263a7.736,7.736,0,0,1,4,0V4a2,2,0,0,0-4,0ZM6,16.535a8.368,8.368,0,0,1,12,0V12A6,6,0,0,0,6,12ZM5,22h.026A4.948,4.948,0,0,1,4,19V15.184A3,3,0,0,0,2,18v1A3,3,0,0,0,5,22Zm10,0a3,3,0,0,0,2.874-2.188,6.432,6.432,0,0,0-11.748,0A3,3,0,0,0,9,22Zm7-4a3,3,0,0,0-2-2.816V19a4.948,4.948,0,0,1-1.026,3H19a3,3,0,0,0,3-3Z";*/
     -fx-shape: "M6.95 8.653A7.338 7.338 0 0 0 5.147 13H7v1H5.149a7.324 7.324 0 0 0 1.81 4.346l1.29-1.29.707.708C7.22 19.5 7.633 19.079 6.963 19.777a8.373 8.373 0 1 1 11.398-12.26l-.71.71A7.353 7.353 0 0 0 13 6.147V8h-1V6.146a7.338 7.338 0 0 0-4.342 1.8L8.973 9.26l-.707.707zm13.16 1.358l-.76.76a7.303 7.303 0 0 1-1.301 7.565L16.75 17.04l-.707.707 1.993 2.031a8.339 8.339 0 0 0 2.073-9.766zM3 13.5a9.492 9.492 0 0 1 16.15-6.772l.711-.71a10.493 10.493 0 1 0-14.364 15.29l.694-.725A9.469 9.469 0 0 1 3 13.5zm17.947-4.326a9.442 9.442 0 0 1-2.138 11.41l.694.724a10.473 10.473 0 0 0 2.19-12.88zm1.578-4.406l.707.707-8.648 8.649a2.507 2.507 0 1 1-.707-.707zM14 15.5a1.5 1.5 0 1 0-1.5 1.5 1.502 1.502 0 0 0 1.5-1.5z"
 
 }
@@ -55,7 +76,7 @@
 
 
 .leftSideMenuItem:hover .dashboardIcon {
-    -icon-paint: #3367D6;
+    -icon-paint: #000;
     -fx-background-color: -icon-paint;
     -size: 22;
     -fx-min-height: -size;
@@ -66,7 +87,7 @@
 }
 
 .leftSideMenuItem:hover .announcementsIcon {
-    -icon-paint: #3367D6;
+    -icon-paint: #000;
     -fx-background-color: -icon-paint;
     -size: 22;
     -fx-min-height: 18;
@@ -79,7 +100,7 @@
 
 
 .leftSideMenuItem:hover .statIcon {
-    -icon-paint: #3367D6;
+    -icon-paint: #000;
     -fx-background-color: -icon-paint;
     -size: 22;
     -fx-min-height: -size;
@@ -100,17 +121,17 @@
 }
 
 .leftSideMenuItem:hover .dashboardLabel {
-    -fx-text-fill: #3367D6;
+    -fx-text-fill: #000;
 }
 
 .leftSideMenuItem:hover .announcementsLabel {
-    -fx-text-fill: #3367D6;
+    -fx-text-fill: #000;
 }
 
 
 
 .leftSideMenuItem:hover .statLabel {
-    -fx-text-fill: #3367D6;
+    -fx-text-fill: #000;
 }
 
 
