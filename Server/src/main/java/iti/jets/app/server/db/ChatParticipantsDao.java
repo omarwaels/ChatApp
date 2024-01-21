@@ -14,7 +14,7 @@ public class ChatParticipantsDao implements Dao<ChatParticipant , Integer>{
         dataSource = DataSourceFactory.getMySQLDataSource();
     }
     @Override
-    public ResultSet select(Integer chat_id) {
+    public ResultSet getById(Integer chat_id) {
         throw new IllegalArgumentException("Error");
 
     }

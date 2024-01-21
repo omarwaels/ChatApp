@@ -16,7 +16,7 @@ public class ConnectionDao implements Dao<Connection, Integer> {
     }
 
     @Override
-    public ResultSet select(Integer integer) {
+    public Connection getById(Integer integer) {
         return null;
     }
 

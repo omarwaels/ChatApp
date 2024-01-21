@@ -20,7 +20,6 @@ public enum DataSourceFactory {
     private void initializeDataSource() {
         Properties p = new Properties();
         MysqlDataSource mySqlDataSource = null;
-
         try {
             mySqlDataSource = new MysqlDataSource();
             mySqlDataSource.setURL("jdbc:mysql://127.0.0.1:3308/chat_app");
@@ -29,10 +28,8 @@ public enum DataSourceFactory {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
         dataSource = mySqlDataSource;
     }
-
 
     public static DataSource getMySQLDataSource() {
         return INSTANCE.dataSource;

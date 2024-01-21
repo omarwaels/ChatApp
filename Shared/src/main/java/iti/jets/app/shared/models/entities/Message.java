@@ -2,10 +2,10 @@ package iti.jets.app.shared.models.entities;
 
 
 import java.sql.Timestamp;
+
 public class Message {
 
-    private final int messageId ;
-
+    private final int messageId;
 
 
     private int senderId;
@@ -15,6 +15,9 @@ public class Message {
     private Timestamp sentAt;
 
 
+    public Message(int messageId) {
+        this.messageId = messageId;
+    }
 
     public Message(int messageId, int senderId, int chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
         this.messageId = messageId;
@@ -28,8 +31,6 @@ public class Message {
     public int getMessageId() {
         return messageId;
     }
-
-
 
     public int getSenderId() {
         return senderId;

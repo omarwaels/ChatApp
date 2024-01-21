@@ -17,7 +17,7 @@ public class ChatsDao implements Dao<Chat, Integer> {
     }
 
     @Override
-    public ResultSet select(Integer chat_id ) {
+    public Chat getById(Integer chat_id ) {
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

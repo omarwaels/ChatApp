@@ -1,9 +1,7 @@
 package iti.jets.app.server.db;
 
-import java.sql.ResultSet;
-
 public interface Dao<T, U> {
-    ResultSet select(U u);
+    T getById(U u);
 
     int insert(T t);
 

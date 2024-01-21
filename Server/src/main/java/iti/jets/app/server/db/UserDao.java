@@ -1,6 +1,7 @@
 package iti.jets.app.server.db;
 
 import iti.jets.app.shared.models.entities.User;
+import iti.jets.app.shared.models.enums.UserEnum;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
@@ -10,32 +11,37 @@ import java.util.Arrays;
 import java.util.List;
 
 public class UserDao implements Dao<User, String> {
-    //SRP => Class must have only one reason to change
     private DataSource dataSource;
 
     public UserDao() {
         dataSource = DataSourceFactory.getMySQLDataSource();
     }
 
-    @Override
-    public ResultSet select(String phoneNumber) {
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
+    private User extractUser(ResultSet resultSet) {
         try {
-            preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM user WHERE phoneNumber = ?");
-            preparedStatement.setString(1, phoneNumber);
-            resultSet = preparedStatement.executeQuery();
+            return new User.UserBuilder().setPhoneNumber(resultSet.getString(UserEnum.PHONE_NUMBER.getField()))
+                    .setPassword(resultSet.getString(UserEnum.PASSWORD.getField())).setPicture(resultSet.getBytes(UserEnum.PICTURE.getField()))
+                    .setDisplayName(resultSet.getString(UserEnum.DISPLAY_NAME.getField())).setBio(resultSet.getString(UserEnum.BIO.getField()))
+                    .setId(resultSet.getInt(UserEnum.ID.getField())).setCountry(resultSet.getString(UserEnum.COUNTRY.getField()))
+                    .setEmail(resultSet.getString(UserEnum.EMAIL.getField())).setGender(resultSet.getString(UserEnum.GENDER.getField()))
+                    .setDateOfBirth(resultSet.getDate(UserEnum.DATE_OF_BIRTH.getField())).build();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            return resultSet;
         }
+    }
 
+    @Override
+    public User getById(String phoneNumber) {
+        ResultSet resultSet = null;
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE phone_number = ?")) {
+            preparedStatement.setString(1, phoneNumber);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return extractUser(resultSet);
+            } else return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -71,8 +77,6 @@ public class UserDao implements Dao<User, String> {
 
     @Override
     public int update(User user) {
-        PreparedStatement preparedStatement = null;
-        int result = 0;
         String query = "UPDATE users " +
                 "SET display_name = ?" +
                 ", email = ?" +
@@ -83,8 +87,7 @@ public class UserDao implements Dao<User, String> {
                 ", date_of_birth = ?" +
                 ", bio = ?" +
                 "WHERE phone_number = ?;";
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, user.getDisplayName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setBytes(3, user.getPicture());
@@ -94,83 +97,46 @@ public class UserDao implements Dao<User, String> {
             preparedStatement.setDate(7, user.getDateOfBirth());
             preparedStatement.setString(8, user.getBio());
             preparedStatement.setString(9, user.getPhoneNumber());
-            result = preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return result;
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public int delete(String phoneNumber) {
-        PreparedStatement preparedStatement = null;
-        int result = 0;
         String query = "DELETE FROM users WHERE phone_number = ?";
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, phoneNumber);
-            result = preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            return result;
         }
     }
 
     public int updateStatus(String phoneNumber, String status) {
-        PreparedStatement preparedStatement = null;
-        int result = 0;
         String query = "UPDATE users " +
                 "SET status = ?" +
                 "WHERE phone_number = ?;";
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, status);
             preparedStatement.setString(2, phoneNumber);
-            result = preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            return result;
+            throw new RuntimeException(e);
         }
     }
 
     public int updateMode(String phoneNumber, String mode) {
-        PreparedStatement preparedStatement = null;
-        int result = 0;
         String query = "UPDATE users " +
                 "SET mode = ?" +
                 "WHERE phone_number = ?;";
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement(query);
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, mode);
             preparedStatement.setString(2, phoneNumber);
-            result = preparedStatement.executeUpdate();
+            return preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                preparedStatement.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            return result;
+            throw new RuntimeException(e);
         }
     }
 }

@@ -5,6 +5,8 @@ public class Invitation {
     private int senderID;
     private int receiverID;
 
+    public Invitation() {
+    }
     public Invitation(int senderID, int receiverID) {
         this.senderID = senderID;
         this.receiverID = receiverID;

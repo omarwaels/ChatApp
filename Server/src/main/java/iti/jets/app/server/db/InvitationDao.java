@@ -5,6 +5,8 @@ import iti.jets.app.shared.models.entities.Invitation;
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class InvitationDao implements Dao<Invitation, Integer>{
 
@@ -13,23 +15,29 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     public InvitationDao() {
         this.dataSource = DataSourceFactory.getMySQLDataSource();
     }
+
+    private Invitation extractInvitation(ResultSet resultSet) throws SQLException {
+        Invitation invitation = new Invitation();
+        invitation.setSenderID(resultSet.getInt("senderID"));
+        invitation.setReceiverID(resultSet.getInt("receiverID"));
+        return invitation;
+    }
+
     @Override
-    public ResultSet select(Integer integer) {
+    public Invitation getById(Integer integer) {
         return null;
     }
 
     @Override
     public int insert(Invitation invitation) {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement("INSERT INTO invitation (senderID, receiverID) VALUES (?, ?)");
+        String query = "INSERT INTO invitation (senderID, receiverID) VALUES (?, ?)";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, invitation.getSenderID());
             preparedStatement.setInt(2, invitation.getReceiverID());
             return preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
     @Override
@@ -43,40 +51,44 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     }
 
     public int delete(Invitation invitation) {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement("DELETE FROM invitation WHERE senderID = ? AND receiverID = ?");
+        String query = "DELETE FROM invitation WHERE senderID = ? AND receiverID = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, invitation.getSenderID());
             preparedStatement.setInt(2, invitation.getReceiverID());
             return preparedStatement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return 0;
     }
 
-    public ResultSet getAllInvitations(int userID) {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM invitation WHERE receiverID = ?");
+    public ArrayList<Invitation> getAllInvitations(int userID) {
+        String query = "SELECT * FROM invitation WHERE receiverID = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, userID);
-            return preparedStatement.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
+            ArrayList<Invitation> invitations = new ArrayList<>();
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                invitations.add(extractInvitation(rs));
+            }
+            return invitations;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
-    public ResultSet getInvitation(Invitation invitation) {
-        PreparedStatement preparedStatement = null;
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM invitation WHERE senderID = ? AND receiverID = ?");
+    public Invitation getInvitation(Invitation invitation) {
+        String query = "SELECT * FROM invitation WHERE senderID = ? AND receiverID = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, invitation.getSenderID());
             preparedStatement.setInt(2, invitation.getReceiverID());
-            return preparedStatement.executeQuery();
-        } catch (Exception e) {
-            e.printStackTrace();
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return extractInvitation(rs);
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return null;
     }
 }
