@@ -27,7 +27,6 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     public Invitation getById(Integer integer) {
         return null;
     }
-
     @Override
     public int insert(Invitation invitation) {
         String query = "INSERT INTO invitation (senderID, receiverID) VALUES (?, ?)";
@@ -39,12 +38,10 @@ public class InvitationDao implements Dao<Invitation, Integer>{
             throw new RuntimeException(e);
         }
     }
-
     @Override
     public int update(Invitation invitation) {
         return 0;
     }
-
     @Override
     public int delete(Integer integer) {
         return 0;

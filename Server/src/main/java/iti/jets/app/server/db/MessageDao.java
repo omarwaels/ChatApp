@@ -23,29 +23,22 @@ public class MessageDao implements Dao<Message, Integer> {
         message.setSentAt(resultSet.getTimestamp("sent_at"));
         return message;
     }
-
     @Override
     public Message getById(Integer messageId) {
-
-        Message message = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-        try {
-            preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM messages WHERE message_id = ?");
+        String query = "SELECT * FROM messages WHERE message_id = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, messageId);
-            resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                message = new Message(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),resultSet.getBoolean(4),resultSet.getString(5),resultSet.getTimestamp(6));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return extractMessage(resultSet);
+                } else {
+                    return null;
+                }
             }
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        } finally {
-            return message;
         }
     }
-
     @Override
     public int insert(Message message) {
         String query = "INSERT INTO messages (  sender_id, chat_id, contains_file, message_content, sent_at) " +
