@@ -26,12 +26,23 @@ public class MessageDao implements Dao<Message, Integer> {
 
     @Override
     public Message getById(Integer messageId) {
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM messages WHERE message_id = ?")) {
+
+        Message message = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM messages WHERE message_id = ?");
             preparedStatement.setInt(1, messageId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            return extractMessage(resultSet);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                message = new Message(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),resultSet.getBoolean(4),resultSet.getString(5),resultSet.getTimestamp(6));
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            return message;
         }
     }
 
