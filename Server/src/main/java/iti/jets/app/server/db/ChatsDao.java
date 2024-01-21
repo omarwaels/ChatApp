@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import iti.jets.app.shared.models.entities.Chat;
+import iti.jets.app.shared.models.entities.Message;
 
 public class ChatsDao implements Dao<Chat, Integer> {
     private DataSource dataSource;
@@ -17,10 +18,12 @@ public class ChatsDao implements Dao<Chat, Integer> {
     }
 
     @Override
-    public ResultSet select(Integer chat_id ) {
+    public Chat getById(Integer chat_id ) {
 
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
+
+        Chat chat = null;
         try {
             preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM chats WHERE chat_id = ?");
 
@@ -28,11 +31,16 @@ public class ChatsDao implements Dao<Chat, Integer> {
 
             resultSet = preparedStatement.executeQuery();
 
+            while (resultSet.next()){
+                chat = new Chat(resultSet.getInt(1),resultSet.getBytes(2),resultSet.getString(3),resultSet.getTimestamp(4),resultSet.getInt(5));
+            }
+
+
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            return resultSet;
+            return chat;
 
         }
     }

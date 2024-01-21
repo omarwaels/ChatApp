@@ -18,7 +18,9 @@ public class MessageDao implements Dao<Message, Integer> {
         dataSource = DataSourceFactory.getMySQLDataSource();
     }
     @Override
-    public ResultSet select(Integer messageId) {
+    public Message getById(Integer messageId) {
+
+        Message message = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
@@ -26,10 +28,14 @@ public class MessageDao implements Dao<Message, Integer> {
             preparedStatement.setInt(1, messageId);
             resultSet = preparedStatement.executeQuery();
 
+            while (resultSet.next()){
+                message = new Message(resultSet.getInt(1),resultSet.getInt(2),resultSet.getInt(3),resultSet.getBoolean(4),resultSet.getString(5),resultSet.getTimestamp(6));
+            }
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
-            return resultSet;
+            return message;
 
         }
 
