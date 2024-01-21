@@ -11,7 +11,7 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("views/sign-in.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/chat-screen.fxml"));
         stage.setTitle("Chatting App");
         stage.setScene(new Scene(root));
         stage.show();

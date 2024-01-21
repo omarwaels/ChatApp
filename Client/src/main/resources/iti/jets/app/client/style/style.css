@@ -17,3 +17,11 @@
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
+.light-gray-background{
+    -fx-background-color: #DADADA;
+}
+.mesaage-sent{
+    -fx-color: rgb(239, 242, 255);
+    -fx-background-color: rgb(15, 125, 242);
+    -fx-background-radius: 20px;
+}
