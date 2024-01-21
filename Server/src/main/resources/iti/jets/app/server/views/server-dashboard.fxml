@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXToggleButton?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.server.fxcontrollers.DashboardController">
+    <left>
+        <Pane fx:id="leftSideMenu" prefHeight="651.0" prefWidth="200.0" styleClass="leftSideMenu" BorderPane.alignment="CENTER">
+            <children>
+                <AnchorPane prefHeight="104.0" prefWidth="200.0">
+                    <children>
+                        <Label layoutX="25.0" layoutY="23.0" styleClass="titleLogo" text="TalkApp">
+                            <font>
+                                <Font name="System Bold" size="31.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="25.0" layoutY="58.0" styleClass="subTitleLogo" text="Dashboard" textFill="#3367d6">
+                            <font>
+                                <Font name="System Italic" size="14.0" />
+                            </font>
+                        </Label>
+                    </children></AnchorPane>
+                <VBox layoutY="104.0" prefHeight="323.0" prefWidth="200.0">
+                    <children>
+                        <Pane id="dashboardMenuItem" onMouseClicked="#home" prefHeight="56.0" prefWidth="200.0" styleClass="leftSideMenuItem">
+                            <children>
+                                <Pane layoutX="21.0" layoutY="16.0" prefHeight="29.0" prefWidth="32.0" styleClass="dashboardIcon" />
+                                <Label layoutX="56.0" layoutY="17.0" styleClass="dashboardLabel" text="Dashboard">
+                                    <font>
+                                        <Font size="16.0" />
+                                    </font>
+                                </Label>
+                            </children>
+                        </Pane>
+                        <Pane onMouseClicked="#announcements" prefHeight="56.0" prefWidth="200.0" styleClass="leftSideMenuItem">
+                            <children>
+                                <Label layoutX="55.0" layoutY="16.0" text="Announcement">
+                                    <font>
+                                        <Font name="Oswald Regular" size="16.0" />
+                                    </font>
+                                    <styleClass>
+                                        <String fx:value="lefSideMenuItem" />
+                                        <String fx:value="announcementsLabel" />
+                                    </styleClass>
+                                </Label>
+                                <Pane layoutX="21.0" layoutY="19.0" prefHeight="29.0" prefWidth="32.0" styleClass="announcementsIcon" />
+                            </children>
+                        </Pane>
+                        <Pane onMouseClicked="#statistics" prefHeight="56.0" prefWidth="200.0" styleClass="leftSideMenuItem">
+                            <children>
+                                <Label layoutX="55.0" layoutY="18.0" text="Statistics">
+                                    <font>
+                                        <Font name="Oswald Regular" size="16.0" />
+                                    </font>
+                                    <styleClass>
+                                        <String fx:value="lefSideMenuItem" />
+                                        <String fx:value="statLabel" />
+                                    </styleClass>
+                                </Label>
+                                <Pane layoutX="21.0" layoutY="18.0" prefHeight="29.0" prefWidth="32.0" styleClass="statIcon" />
+                            </children>
+                        </Pane>
+                    </children>
+                </VBox>
+            </children>
+        </Pane>
+    </left>
+    <center>
+        <AnchorPane fx:id="ap" prefHeight="200.0" prefWidth="200.0" styleClass="contentArea" BorderPane.alignment="CENTER">
+            <children>
+            <JFXToggleButton fx:id="toggleButton" layoutX="286.0" layoutY="273.0" onAction="#handleToggleButton" size="18.0" text="Server Switch">
+               <font>
+                  <Font name="Calibri" size="18.0" />
+               </font>
+            </JFXToggleButton>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>
