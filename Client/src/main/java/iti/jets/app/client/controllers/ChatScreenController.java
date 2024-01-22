@@ -9,9 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 
 import java.io.IOException;
@@ -22,9 +28,56 @@ import java.util.ResourceBundle;
 
 public class ChatScreenController implements Initializable {
     @FXML
-    public VBox connectionLayout;
+    public ImageView attachementBtn;
+    @FXML
+    public BorderPane chatBorderPane;
+
+    @FXML
+    public VBox chatArea;
+
+    @FXML
+    public HBox chatHeader;
+
     @FXML
     public VBox chatLayout;
+
+    @FXML
+    public VBox connectionLayout;
+
+    @FXML
+    public Label connectionName;
+
+    @FXML
+    public ScrollPane connectionsScrollPane;
+
+    @FXML
+    public ImageView emojiBtn;
+
+    @FXML
+    public TextField messageTextField;
+
+    @FXML
+    public ImageView sendBtn;
+
+    @FXML
+    public Circle statusColor;
+
+    @FXML
+    public Label statusWord;
+
+    @FXML
+    public ImageView threeDotsBtn;
+
+    @FXML
+    public ImageView videoCallBtn;
+
+    @FXML
+    public ImageView voiceCallBtn;
+
+    @FXML
+    public ScrollPane chatScrollPane;
+    @FXML
+    public HBox chatFooter;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

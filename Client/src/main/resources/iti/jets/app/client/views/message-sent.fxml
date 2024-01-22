@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" nodeOrientation="LEFT_TO_RIGHT" opacity="0.88" prefHeight="40.0" prefWidth="490.0" styleClass="transparent-background" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.MessageSentController">
+<HBox alignment="CENTER_RIGHT" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" opacity="0.88" prefHeight="40.0" prefWidth="490.0" styleClass="transparent-background" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.MessageSentController">
    <children>
       <TextFlow fx:id="txtFlow" nodeOrientation="RIGHT_TO_LEFT" prefHeight="33.0" prefWidth="152.0" styleClass="mesaage-sent" stylesheets="@../style/style.css">
          <children>
