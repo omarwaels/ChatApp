@@ -25,6 +25,7 @@ public class UserDao implements Dao<User, String> {
                     .setId(resultSet.getInt(UserEnum.ID.getField())).setCountry(resultSet.getString(UserEnum.COUNTRY.getField()))
                     .setEmail(resultSet.getString(UserEnum.EMAIL.getField())).setGender(resultSet.getString(UserEnum.GENDER.getField()))
                     .setDateOfBirth(resultSet.getDate(UserEnum.DATE_OF_BIRTH.getField())).build();
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -33,16 +34,21 @@ public class UserDao implements Dao<User, String> {
     @Override
     public User getById(String phoneNumber) {
         ResultSet resultSet = null;
+
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE phone_number = ?")) {
             preparedStatement.setString(1, phoneNumber);
+
             resultSet = preparedStatement.executeQuery();
+
             if (resultSet.next()) {
+
                 return extractUser(resultSet);
             } else return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public int insert(User user) {

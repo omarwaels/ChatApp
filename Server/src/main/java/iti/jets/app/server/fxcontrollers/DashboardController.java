@@ -2,6 +2,7 @@ package iti.jets.app.server.fxcontrollers;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -9,6 +10,10 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton; // Add this import statement
 
+import iti.jets.app.server.Implementation.ServerImpl;
+import iti.jets.app.server.Network.Connection;
+import iti.jets.app.shared.DTOs.UserLoginDto;
+import iti.jets.app.shared.models.entities.User;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -23,6 +28,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 public class DashboardController implements Initializable {
+
+    private int toggler = 1 ;
     @FXML
     public BorderPane bp;
 
@@ -31,10 +38,15 @@ public class DashboardController implements Initializable {
 
     public JFXSnackbar snackbar;
 
+    private Connection openserver = new Connection();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        openserver.openConnection();
         toggleButton.setSelected(true);
         snackbar = new JFXSnackbar(bp);
+
+
 
     }
 
@@ -75,6 +87,13 @@ public class DashboardController implements Initializable {
     }
 
     private void showSnackbar(String message) {
+        toggler = (toggler +1)%2;
+        if(toggler == 1){
+            openserver.openConnection();
+        }else{
+            System.out.println("close");
+            openserver.closeConnection();
+        }
         Platform.runLater(() -> {
             JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(message);
             snackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbarLayout));

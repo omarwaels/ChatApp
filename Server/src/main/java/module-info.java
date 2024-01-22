@@ -2,6 +2,7 @@ module server {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.naming;
+    requires java.rmi;
     requires org.controlsfx.controls;
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;

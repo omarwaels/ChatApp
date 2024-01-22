@@ -6,7 +6,9 @@ module client {
     requires java.sql;
     requires shared;
     requires server;
+    requires java.rmi;
     opens iti.jets.app.client to javafx.fxml;
     exports iti.jets.app.client;
     exports iti.jets.app.client.controllers;
+
 }

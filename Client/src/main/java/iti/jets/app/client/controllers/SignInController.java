@@ -1,12 +1,16 @@
 package iti.jets.app.client.controllers;
 
+
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
 import iti.jets.app.shared.DTOs.UserLoginDto;
 import iti.jets.app.shared.Interfaces.LoginService;
 import iti.jets.app.server.Implementation.LoginServiceImpl;
+import iti.jets.app.shared.models.entities.User;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import iti.jets.app.client.services.LoginServices;
 
 public class SignInController implements Initializable {
     public Label userNameErrorLabel;
@@ -28,7 +33,7 @@ public class SignInController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+
     }
 
     @FXML
@@ -41,14 +46,24 @@ public class SignInController implements Initializable {
         if (isEmptyField(passwordTextField)) {
             PasswordErrorLabel.setText("You must enter your password");
         }
-        login();
+        this.login();
+
     }
 
-    private void login() {
-        LoginService loginService = new LoginServiceImpl();
+    private void login()  {
+
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
-//        if (loginService.login(userLoginDto) != null)
-//            redirectToSignUpPage();
+        System.out.println(userNameTextField.getText());
+        System.out.println(passwordTextField.getText());
+        User user = null;
+        try{
+             user = LoginServices.login(userLoginDto);
+        }catch (RemoteException e){
+            System.out.println("Server is not responding");
+        }
+        System.out.println("hello");
+        if(user == null) return;
+        System.out.println(user);
     }
 
     @FXML

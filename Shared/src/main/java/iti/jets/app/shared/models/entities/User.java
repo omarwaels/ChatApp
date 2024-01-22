@@ -3,9 +3,11 @@ package iti.jets.app.shared.models.entities;
 import iti.jets.app.shared.models.enums.ModeEnum;
 import iti.jets.app.shared.models.enums.StatusEnum;
 
+import java.io.Serializable;
 import java.sql.Date;
+import java.util.Arrays;
 
-public class User {
+public class User implements Serializable {
     private final int id;
     private final String phoneNumber;
     private String displayName;
@@ -194,5 +196,23 @@ public class User {
 
     public void setMode(ModeEnum userEnum) { // Setter for Mode
         this.userEnum = userEnum;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", email='" + email + '\'' +
+                ", picture=" + Arrays.toString(picture) +
+                ", password='" + password + '\'' +
+                ", gender='" + gender + '\'' +
+                ", country='" + country + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", bio='" + bio + '\'' +
+                ", userEnum=" + userEnum +
+                ", statusEnum=" + statusEnum +
+                '}';
     }
 }

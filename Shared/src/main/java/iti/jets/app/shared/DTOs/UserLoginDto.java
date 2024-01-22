@@ -1,6 +1,8 @@
 package iti.jets.app.shared.DTOs;
 
-public class UserLoginDto {
+import java.io.Serializable;
+
+public class UserLoginDto implements Serializable {
     private String phoneNumber;
     private String password;
 
