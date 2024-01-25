@@ -2,15 +2,13 @@ package iti.jets.app.client.controllers;
 
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
+import iti.jets.app.shared.DTOs.UserDto;
 import iti.jets.app.shared.DTOs.UserLoginDto;
-import iti.jets.app.shared.Interfaces.LoginService;
-import iti.jets.app.server.Implementation.LoginServiceImpl;
-import iti.jets.app.shared.models.entities.User;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,7 +53,7 @@ public class SignInController implements Initializable {
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
         System.out.println(userNameTextField.getText());
         System.out.println(passwordTextField.getText());
-        User user = null;
+        UserDto user = null;
         try{
              user = LoginServices.login(userLoginDto);
         }catch (RemoteException e){

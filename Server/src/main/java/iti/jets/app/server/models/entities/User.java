@@ -1,7 +1,7 @@
-package iti.jets.app.shared.models.entities;
+package iti.jets.app.server.models.entities;
 
-import iti.jets.app.shared.models.enums.ModeEnum;
-import iti.jets.app.shared.models.enums.StatusEnum;
+import iti.jets.app.shared.enums.ModeEnum;
+import iti.jets.app.shared.enums.StatusEnum;
 
 import java.io.Serializable;
 import java.sql.Date;

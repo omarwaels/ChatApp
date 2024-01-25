@@ -5,7 +5,7 @@ import java.sql.Blob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import iti.jets.app.shared.models.entities.Chat;
+import iti.jets.app.server.models.entities.Chat;
 
 public class ChatDao implements Dao<Chat, Integer> {
     private DataSource dataSource;

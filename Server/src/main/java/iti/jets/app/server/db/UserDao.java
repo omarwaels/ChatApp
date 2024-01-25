@@ -1,14 +1,12 @@
 package iti.jets.app.server.db;
 
-import iti.jets.app.shared.models.entities.User;
-import iti.jets.app.shared.models.enums.UserEnum;
+import iti.jets.app.server.models.entities.User;
+import iti.jets.app.shared.enums.UserEnum;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.List;
 
 public class UserDao implements Dao<User, String> {
     private DataSource dataSource;

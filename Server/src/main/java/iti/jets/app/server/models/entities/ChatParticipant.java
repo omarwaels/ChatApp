@@ -1,4 +1,4 @@
-package iti.jets.app.shared.models.entities;
+package iti.jets.app.server.models.entities;
 
 import java.sql.Timestamp;
 

@@ -1,4 +1,4 @@
-package iti.jets.app.shared.models.enums;
+package iti.jets.app.shared.enums;
 
 public enum StatusEnum {
     ONLINE("Online"),

@@ -1,7 +1,7 @@
 package iti.jets.app.server.Mappers;
 
 import iti.jets.app.shared.DTOs.UserLoginDto;
-import iti.jets.app.shared.models.entities.User;
+import iti.jets.app.server.models.entities.User;
 
 public class LoginDtoMapper {
     public static User loginDtoToUser(UserLoginDto userLoginDto) {

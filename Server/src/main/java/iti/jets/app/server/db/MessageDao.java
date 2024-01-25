@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import iti.jets.app.shared.models.entities.Message;
+import iti.jets.app.server.models.entities.Message;
 
 public class MessageDao implements Dao<Message, Integer> {
     private DataSource dataSource;

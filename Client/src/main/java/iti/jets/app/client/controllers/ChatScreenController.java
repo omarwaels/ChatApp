@@ -1,8 +1,9 @@
 package iti.jets.app.client.controllers;
 
 
-import iti.jets.app.shared.models.entities.User;
-import iti.jets.app.shared.models.enums.StatusEnum;
+
+import iti.jets.app.shared.DTOs.UserDto;
+import iti.jets.app.shared.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,9 +22,9 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<User> connections = getConnections();
+        List<UserDto> connections = getConnections();
 
-        for (User connection : connections) {
+        for (UserDto connection : connections) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-item.fxml"));
 
@@ -38,29 +39,29 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-    private List<User> getConnections() {
-        List<User> ls = new ArrayList<>();
-        User user = new User.UserBuilder().setDisplayName("Omar Elsherif")
+    private List<UserDto> getConnections() {
+        List<UserDto> ls = new ArrayList<>();
+        UserDto user = new UserDto.UserDtoBuilder().setDisplayName("Omar Elsherif")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);
 
-        user = new User.UserBuilder().setDisplayName("Ahmed Elsherif")
+        user = new UserDto.UserDtoBuilder().setDisplayName("Ahmed Elsherif")
                 .setStatus(StatusEnum.OFFLINE)
                 .build();
         ls.add(user);
 
-        user = new User.UserBuilder().setDisplayName("Sherif Elsherif")
+        user = new UserDto.UserDtoBuilder().setDisplayName("Sherif Elsherif")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);
 
-        user = new User.UserBuilder().setDisplayName("Youssef Elsherif")
+        user = new UserDto.UserDtoBuilder().setDisplayName("Youssef Elsherif")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);
 
-        user = new User.UserBuilder().setDisplayName("Nour Elsherif")
+        user = new UserDto.UserDtoBuilder().setDisplayName("Nour Elsherif")
                 .setStatus(StatusEnum.ONLINE)
                 .build();
         ls.add(user);

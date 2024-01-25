@@ -1,6 +1,6 @@
 package iti.jets.app.server.db;
 
-import iti.jets.app.shared.models.entities.Connection;
+import iti.jets.app.server.models.entities.Connection;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;

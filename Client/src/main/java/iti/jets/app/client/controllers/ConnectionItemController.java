@@ -1,7 +1,8 @@
 package iti.jets.app.client.controllers;
 
-import iti.jets.app.shared.models.entities.User;
-import iti.jets.app.shared.models.enums.StatusEnum;
+
+import iti.jets.app.shared.DTOs.UserDto;
+import iti.jets.app.shared.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -21,7 +22,7 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public Circle connectionStatus;
 
-    public void setData(User user) {
+    public void setData(UserDto user) {
         connectionName.setText(user.getDisplayName());
         connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
     }
