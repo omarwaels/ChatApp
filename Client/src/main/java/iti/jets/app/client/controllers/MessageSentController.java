@@ -1,8 +1,5 @@
 package iti.jets.app.client.controllers;
 
-import iti.jets.app.client.models.entities.Message;
-import iti.jets.app.client.models.entities.User;
-import iti.jets.app.client.models.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;

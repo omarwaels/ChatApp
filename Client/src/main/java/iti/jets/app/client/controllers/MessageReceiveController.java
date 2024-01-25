@@ -1,6 +1,5 @@
 package iti.jets.app.client.controllers;
 
-import iti.jets.app.client.models.entities.Message;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
