@@ -82,5 +82,6 @@ public class Message {
                 ", messageContent='" + messageContent + '\'' +
                 ", sentAt=" + sentAt +
                 '}';
+
     }
 }

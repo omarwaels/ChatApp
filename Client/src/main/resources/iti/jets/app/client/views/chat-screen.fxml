@@ -86,47 +86,9 @@
                      </styleClass>
                         </HBox>
                   <Pane prefHeight="3.0" prefWidth="248.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
-                  <ScrollPane prefHeight="525.0" prefWidth="248.0" stylesheets="@../style/style.css">
+                  <ScrollPane fx:id="connectionsScrollPane" prefHeight="525.0" prefWidth="248.0" stylesheets="@../style/style.css" VBox.vgrow="ALWAYS">
                      <content>
-                        <VBox fx:id="connectionLayout" prefWidth="231.0" styleClass="transparent" stylesheets="@../style/style.css">
-                           <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="248.0">
-                                 <children>
-                                    <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../img/user.png" />
-                                       </image>
-                                       <HBox.margin>
-                                          <Insets left="10.0" />
-                                       </HBox.margin>
-                                    </ImageView>
-                                    <VBox alignment="CENTER" prefHeight="66.0" prefWidth="147.0">
-                                       <children>
-                                          <Label prefHeight="18.0" prefWidth="138.0" text="Omar El-Sherif" textFill="WHITE">
-                                             <font>
-                                                <Font name="Ebrima Bold" size="18.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets left="10.0" />
-                                             </VBox.margin>
-                                          </Label>
-                                       </children>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </VBox>
-                                    <Pane prefHeight="66.0" prefWidth="24.0">
-                                       <children>
-                                          <Circle fill="#50c781af" layoutX="7.0" layoutY="33.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                                       </children>
-                                    </Pane>
-                                 </children>
-                                 <VBox.margin>
-                                    <Insets top="5.0" />
-                                 </VBox.margin>
-                              </HBox>
-                           </children>
-                        </VBox>
+                        <VBox fx:id="connectionLayout" prefWidth="231.0" styleClass="transparent" stylesheets="@../style/style.css" />
                      </content>
                   </ScrollPane>
                     </children>
@@ -137,4 +99,91 @@
             </children>
         </HBox>
     </left>
+   <center>
+      <VBox fx:id="chatArea" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox fx:id="chatHeader" alignment="CENTER_LEFT" prefHeight="82.0" prefWidth="200.0">
+               <children>
+                  <Label fx:id="connectionName" prefHeight="28.0" prefWidth="169.0" text="Omar El-Sherif" textFill="#9da7a7">
+                     <font>
+                        <Font name="Ebrima Bold" size="22.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Circle fx:id="statusColor" fill="#50c984" radius="4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Label fx:id="statusWord" alignment="CENTER" prefHeight="28.0" prefWidth="44.0" text="Online" textFill="#9da7a7">
+                     <font>
+                        <Font name="Ebrima" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <Pane prefHeight="82.0" prefWidth="105.0" HBox.hgrow="ALWAYS" />
+                  <ImageView fx:id="voiceCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/phone.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="videoCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/zoom.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fx:id="threeDotsBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/more.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="20.0" right="10.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+            <ScrollPane fx:id="chatScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="478.0" prefWidth="498.0" styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox fx:id="chatLayout" alignment="TOP_RIGHT" />
+               </content>
+            </ScrollPane>
+            <HBox fx:id="chatFooter" alignment="CENTER" prefHeight="67.0" prefWidth="498.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <ImageView fx:id="emojiBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/happy.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <ImageView fx:id="attachementBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/attach-paperclip-symbol.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets left="15.0" />
+                     </HBox.margin>
+                  </ImageView>
+                  <TextField fx:id="messageTextField" HBox.hgrow="ALWAYS" prefHeight="46.0" prefWidth="349.0" promptText="Type something to send..." styleClass="transparent-background" stylesheets="@../style/style.css">
+                     <HBox.margin>
+                        <Insets left="10.0" right="8.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <ImageView fx:id="sendBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/paper.png" />
+                     </image>
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </ImageView>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </center>
 </BorderPane>

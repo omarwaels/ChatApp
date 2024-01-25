@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" opacity="0.87" prefHeight="40.0" prefWidth="490.0" styleClass="transparent-background" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.MessageReceiveController">
+   <children>
+      <ImageView fx:id="img" fitHeight="39.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/user.png" />
+         </image>
+         <HBox.margin>
+            <Insets right="5.0" />
+         </HBox.margin>
+      </ImageView>
+      <TextFlow fx:id="txtFlow" nodeOrientation="LEFT_TO_RIGHT" prefHeight="33.0" prefWidth="152.0" styleClass="mesaage-sent" stylesheets="@../style/style.css">
+         <children>
+            <Text fx:id="txt" fill="#eff2ff" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="173.33673286437988">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Text>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </padding>
+      </TextFlow>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+   </padding>
+</HBox>
