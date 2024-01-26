@@ -1,7 +1,6 @@
 package iti.jets.app.server.Network;
-import iti.jets.app.server.Implementation.ServerImpl;
-import iti.jets.app.shared.DTOs.UserLoginDto;
-import iti.jets.app.shared.Interfaces.server.Server;
+import iti.jets.app.server.Implementation.ConnectionsImpl;
+import iti.jets.app.shared.Interfaces.server.Connection;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
@@ -13,7 +12,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 
 
-public class Connection   {
+public class Connect {
 
 
         Registry registry ;
@@ -21,7 +20,7 @@ public class Connection   {
 
             try {
                  registry = LocateRegistry.createRegistry(8090 );
-                ServerImpl stub = new ServerImpl();
+                Connection stub = new ConnectionsImpl();
                 Naming.rebind("rmi://localhost:8090/stub", stub);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
@@ -29,7 +28,7 @@ public class Connection   {
                 throw new RuntimeException(e);
             }
             System.out.println("Server is open now ....");
-            System.out.println("hello");
+
 
         }
     public void closeConnection() {

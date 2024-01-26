@@ -1,6 +1,5 @@
 package iti.jets.app.server;
 
-import iti.jets.app.server.Network.Connection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +11,8 @@ import java.rmi.Naming;
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
+
+
 
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("views/server-dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

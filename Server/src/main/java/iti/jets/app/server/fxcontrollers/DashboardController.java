@@ -9,7 +9,7 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton; // Add this import statement
 
-import iti.jets.app.server.Network.Connection;
+import iti.jets.app.server.Network.Connect;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -33,7 +33,7 @@ public class DashboardController implements Initializable {
 
     public JFXSnackbar snackbar;
 
-    private Connection openserver = new Connection();
+    private Connect openserver = new Connect();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

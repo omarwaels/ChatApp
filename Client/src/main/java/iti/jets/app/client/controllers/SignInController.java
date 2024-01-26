@@ -57,6 +57,7 @@ public class SignInController implements Initializable {
         try{
              user = LoginServices.login(userLoginDto);
         }catch (RemoteException e){
+            e.printStackTrace();
             System.out.println("Server is not responding");
         }
         System.out.println("hello");
