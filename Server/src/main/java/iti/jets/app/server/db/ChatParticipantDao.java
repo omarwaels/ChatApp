@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChatParticipantDao implements Dao<ChatParticipant , Integer>{
     private DataSource dataSource;
@@ -54,5 +56,25 @@ public class ChatParticipantDao implements Dao<ChatParticipant , Integer>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public HashMap<Integer, Integer> getUserFriendsAndChatIDs(int userId) {
+        String query = "SELECT * FROM `chatparticipants` WHERE chat_id In (SELECT chat_id From `chatparticipants` WHERE participant_id = ? ) AND participant_id<> ?";
+        HashMap<Integer, Integer> userContacts = new HashMap<>();
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, userId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()){
+                    int userFriendId = resultSet.getInt("participant_id" );
+                    int chatId = resultSet.getInt("chat_id" );
+                    userContacts.put(userFriendId , chatId);
+
+                }
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return  userContacts;
     }
 }

@@ -1,27 +1,24 @@
 package iti.jets.app.server.Network;
-import iti.jets.app.server.Implementation.ConnectionsImpl;
+import iti.jets.app.server.Services.ConnectionService;
+import iti.jets.app.server.Services.ServerService;
 import iti.jets.app.shared.Interfaces.server.Connection;
+import iti.jets.app.shared.Interfaces.server.Server;
 
 import java.net.MalformedURLException;
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
 
-
-
-
-
-
 public class Connect {
-
-
         Registry registry ;
         public  void openConnection(){
 
             try {
                  registry = LocateRegistry.createRegistry(8090 );
-                Connection stub = new ConnectionsImpl();
-                Naming.rebind("rmi://localhost:8090/stub", stub);
+                Connection connection = new ConnectionService();
+                Server server = new ServerService();
+                Naming.rebind("rmi://localhost:8090/connection", connection);
+                Naming.rebind("rmi://localhost:8090/server", server);
             } catch (RemoteException e) {
                 throw new RuntimeException(e);
             } catch (MalformedURLException e) {
@@ -36,9 +33,9 @@ public class Connect {
 
             UnicastRemoteObject.unexportObject(registry, true);
             UnicastRemoteObject.unexportObject(registry, false);
-            Naming.unbind("rmi://localhost:8090/stub");
+            Naming.unbind("rmi://localhost:8090/connection");
+            Naming.unbind("rmi://localhost:8090/server");
         } catch (Exception e) {
-            // Handle exceptions as needed
             e.printStackTrace();
         }
 

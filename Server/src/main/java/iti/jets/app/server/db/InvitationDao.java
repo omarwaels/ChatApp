@@ -18,8 +18,8 @@ public class InvitationDao implements Dao<Invitation, Integer>{
 
     private Invitation extractInvitation(ResultSet resultSet) throws SQLException {
         Invitation invitation = new Invitation();
-        invitation.setSenderID(resultSet.getInt("senderID"));
-        invitation.setReceiverID(resultSet.getInt("receiverID"));
+        invitation.setSenderID(resultSet.getInt("sender_id"));
+        invitation.setReceiverID(resultSet.getInt("receiver_id"));
         return invitation;
     }
 
@@ -29,7 +29,7 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     }
     @Override
     public int insert(Invitation invitation) {
-        String query = "INSERT INTO invitation (senderID, receiverID) VALUES (?, ?)";
+        String query = "INSERT INTO invitations (sender_id , receiver_id) VALUES (?, ?)";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, invitation.getSenderID());
             preparedStatement.setInt(2, invitation.getReceiverID());
@@ -48,7 +48,7 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     }
 
     public int delete(Invitation invitation) {
-        String query = "DELETE FROM invitation WHERE senderID = ? AND receiverID = ?";
+        String query = "DELETE FROM invitations WHERE sender_id = ? AND receiver_id  = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, invitation.getSenderID());
             preparedStatement.setInt(2, invitation.getReceiverID());
@@ -59,7 +59,7 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     }
 
     public ArrayList<Invitation> getAllInvitations(int userID) {
-        String query = "SELECT * FROM invitation WHERE receiverID = ?";
+        String query = "SELECT * FROM invitations WHERE receiver_id  = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, userID);
             ArrayList<Invitation> invitations = new ArrayList<>();
@@ -74,7 +74,7 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     }
 
     public Invitation getInvitation(Invitation invitation) {
-        String query = "SELECT * FROM invitation WHERE senderID = ? AND receiverID = ?";
+        String query = "SELECT * FROM invitations WHERE senderID = ? AND receiver_id = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, invitation.getSenderID());
             preparedStatement.setInt(2, invitation.getReceiverID());

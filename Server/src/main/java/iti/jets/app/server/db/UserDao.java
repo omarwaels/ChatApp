@@ -1,12 +1,16 @@
 package iti.jets.app.server.db;
 
 import iti.jets.app.server.models.entities.User;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
+import iti.jets.app.shared.enums.ModeEnum;
+import iti.jets.app.shared.enums.StatusEnum;
 import iti.jets.app.shared.enums.UserEnum;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class UserDao implements Dao<User, String> {
     private DataSource dataSource;
@@ -35,6 +39,22 @@ public class UserDao implements Dao<User, String> {
 
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE phone_number = ?")) {
             preparedStatement.setString(1, phoneNumber);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+
+                return extractUser(resultSet);
+            } else return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public User getByIntegerId(int Id) {
+        ResultSet resultSet = null;
+
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE user_id = ?")) {
+            preparedStatement.setInt(1, Id);
 
             resultSet = preparedStatement.executeQuery();
 
@@ -143,4 +163,48 @@ public class UserDao implements Dao<User, String> {
             throw new RuntimeException(e);
         }
     }
+    public ArrayList<User> getUserFriends(ArrayList<Integer> userFriendsIds) {
+
+        ArrayList<User> userFriends = new ArrayList<>();
+        ResultSet resultSet = null;
+        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM users WHERE user_id IN (");
+        for (int i = 0; i < userFriendsIds.size(); i++) {
+            sqlBuilder.append("?");
+            if (i < userFriendsIds.size() - 1) {
+                sqlBuilder.append(", ");
+            }
+        }
+        sqlBuilder.append(")");
+
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(sqlBuilder.toString())) {
+
+            int columnCounter = 1;
+            for(int i = 0 ; i < userFriendsIds.size() ; i++){
+                preparedStatement.setInt(i+1, userFriendsIds.get(i));
+            }
+            System.out.println(preparedStatement.toString());
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                User user = extractUser(resultSet);
+                userFriends.add(user);
+
+//                String userFriendName = resultSet.getString("display_name");
+//
+//                byte [] userFriendPhoto = resultSet.getBytes("picture");
+//                int userFriendID = resultSet.getInt("user_id");
+//                ModeEnum  userFriendMode = ModeEnum.AVAILABLE;
+//                StatusEnum  userFriendStatus =StatusEnum.valueOf(resultSet.getString("UserStatus").toUpperCase());
+//
+//                FriendInfoDto friend = new FriendInfoDto( userFriendName,  userFriendPhoto,  userFriendID,  userFriendMode,  userFriendStatus);
+//                userFriends.add(friend);
+
+            }
+            return  userFriends;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
