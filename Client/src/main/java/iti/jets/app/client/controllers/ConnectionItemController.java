@@ -24,13 +24,30 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public Circle connectionStatus;
 
-    public void setData(UserDto user) {
+    ChatScreenController chatScreenController;
+
+    private int UserID ;
+
+    private UserDto user;
+
+    public void setData(UserDto user,ChatScreenController chatScreenController) {
+        this.user = user;
+        this.chatScreenController = chatScreenController;
         connectionName.setText(user.getDisplayName());
         connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
+        UserID = user.getId();
         if(user.getPicture() != null){
             connectionPic.setImage(new Image(new ByteArrayInputStream(user.getPicture())));
         }
     }
+    public void friendClicked() {
+
+        chatScreenController.updateConnectionLayout(UserID);
+        chatScreenController.updateConnectionName(user.getDisplayName());
+
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 

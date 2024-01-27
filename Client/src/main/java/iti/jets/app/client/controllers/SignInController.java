@@ -111,6 +111,8 @@ public class SignInController implements Initializable {
 
             // Create a new scene with the loaded FXML file
             Scene scene = new Scene(root);
+
+
             // Get the stage (window) from the current button
             Stage stage = (Stage) signUpLabel.getScene().getWindow();
             // Set the new scene on the stage

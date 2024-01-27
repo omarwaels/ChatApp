@@ -9,10 +9,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -20,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.TextAlignment;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -63,6 +67,8 @@ public class ChatScreenController implements Initializable {
         this.chatScreenDto = chatScreenDto;
         customInit();
     }
+    Integer chatIdNumber = null ;
+    HashMap<Integer,Node[]> chatsArr = new HashMap<>();
 
     @FXML
     public ImageView attachementBtn;
@@ -118,6 +124,47 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+
+    }
+
+    public void sendMessageByKeyborad(KeyEvent event) throws IOException {
+        if ( ((KeyEvent) event).getCode() == KeyCode.ENTER){
+            String text = messageTextField.getText().trim();
+            if (!text.isEmpty()) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/message-sent.fxml"));
+                chatLayout.setAlignment(Pos.CENTER_RIGHT);
+                HBox hbox = fxmlLoader.load();
+                MessageSentController msc = fxmlLoader.getController();
+                msc.setData(new Message(1,text));
+                chatLayout.getChildren().add(hbox);
+
+            }
+        }
+    }
+
+    public void updateConnectionName(String name){
+        connectionName.setText(name);
+    }
+
+    public void updateConnectionLayout(int chatIdNumber) {
+        // Hide the current connectionLayout
+        if(this.chatIdNumber != null){
+            Node[] currentChildren = chatLayout.getChildren().toArray(new Node[0]);
+            chatsArr.put(this.chatIdNumber , currentChildren);
+            System.out.println(chatLayout.getChildren().size());
+        }
+        System.out.println("The number given" + chatIdNumber);
+        chatLayout.getChildren().clear();
+        if(chatsArr.containsKey(chatIdNumber) ){
+
+            chatLayout.getChildren().addAll(chatsArr.get(chatIdNumber));
+        }
+
+        this.chatIdNumber = chatIdNumber ;
+
+
     }
     public void customInit() {
         List<UserDto> connections = getConnections();
@@ -162,7 +209,7 @@ public class ChatScreenController implements Initializable {
             try {
                 HBox hbox = fxmlLoader.load();
                 ConnectionItemController cic = fxmlLoader.getController();
-                cic.setData(connection);
+                cic.setData(connection,this);
                 connectionLayout.getChildren().add(hbox);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -177,39 +224,14 @@ public class ChatScreenController implements Initializable {
             // Access each key (FriendInfoDto) here
 
 
+
             UserDto user = new UserDto.UserDtoBuilder().setDisplayName(friendInfoDto.getUserFriendName())
                 .setStatus(friendInfoDto.getUserFriendStatus())
                     .setPicture(friendInfoDto.getUserFriendPhoto())
+                    .setId(friendInfoDto.getUserFriendID())
                 .build();
             ls.add(user);
         }
-
-
-
-//        UserDto user = new UserDto.UserDtoBuilder().setDisplayName("Omar Elsherif")
-//                .setStatus(StatusEnum.ONLINE)
-//                .build();
-//        ls.add(user);
-//
-//        user = new UserDto.UserDtoBuilder().setDisplayName("Ahmed Elsherif")
-//                .setStatus(StatusEnum.OFFLINE)
-//                .build();
-//        ls.add(user);
-//
-//        user = new UserDto.UserDtoBuilder().setDisplayName("Sherif Elsherif")
-//                .setStatus(StatusEnum.ONLINE)
-//                .build();
-//        ls.add(user);
-//
-//        user = new UserDto.UserDtoBuilder().setDisplayName("Youssef Elsherif")
-//                .setStatus(StatusEnum.ONLINE)
-//                .build();
-//        ls.add(user);
-//
-//        user = new UserDto.UserDtoBuilder().setDisplayName("Nour Elsherif")
-//                .setStatus(StatusEnum.ONLINE)
-//                .build();
-//        ls.add(user);
 
         return ls;
     }
