@@ -1,4 +1,7 @@
 package iti.jets.app.client.controllers;
+import iti.jets.app.shared.DTOs.ChatDto;
+import iti.jets.app.shared.DTOs.ChatScreenDto;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.UserDto;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.fxml.FXML;
@@ -20,6 +23,7 @@ import javafx.scene.text.TextAlignment;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -51,6 +55,15 @@ class Message {
 }
 
 public class ChatScreenController implements Initializable {
+
+
+    private ChatScreenDto  chatScreenDto;
+
+    public void setChatScreenDto(ChatScreenDto chatScreenDto) {
+        this.chatScreenDto = chatScreenDto;
+        customInit();
+    }
+
     @FXML
     public ImageView attachementBtn;
     @FXML
@@ -105,6 +118,8 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+    public void customInit() {
         List<UserDto> connections = getConnections();
         List<Message> messages = getMessages();
         for(Message message : messages)
@@ -157,30 +172,44 @@ public class ChatScreenController implements Initializable {
 
     private List<UserDto> getConnections() {
         List<UserDto> ls = new ArrayList<>();
-        UserDto user = new UserDto.UserDtoBuilder().setDisplayName("Omar Elsherif")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
+        HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto = chatScreenDto.getUserFriendsAndChatDto();
+        for (FriendInfoDto friendInfoDto : userFriendsAndChatDto.keySet()) {
+            // Access each key (FriendInfoDto) here
 
-        user = new UserDto.UserDtoBuilder().setDisplayName("Ahmed Elsherif")
-                .setStatus(StatusEnum.OFFLINE)
-                .build();
-        ls.add(user);
 
-        user = new UserDto.UserDtoBuilder().setDisplayName("Sherif Elsherif")
-                .setStatus(StatusEnum.ONLINE)
+            UserDto user = new UserDto.UserDtoBuilder().setDisplayName(friendInfoDto.getUserFriendName())
+                .setStatus(friendInfoDto.getUserFriendStatus())
+                    .setPicture(friendInfoDto.getUserFriendPhoto())
                 .build();
-        ls.add(user);
+            ls.add(user);
+        }
 
-        user = new UserDto.UserDtoBuilder().setDisplayName("Youssef Elsherif")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
 
-        user = new UserDto.UserDtoBuilder().setDisplayName("Nour Elsherif")
-                .setStatus(StatusEnum.ONLINE)
-                .build();
-        ls.add(user);
+
+//        UserDto user = new UserDto.UserDtoBuilder().setDisplayName("Omar Elsherif")
+//                .setStatus(StatusEnum.ONLINE)
+//                .build();
+//        ls.add(user);
+//
+//        user = new UserDto.UserDtoBuilder().setDisplayName("Ahmed Elsherif")
+//                .setStatus(StatusEnum.OFFLINE)
+//                .build();
+//        ls.add(user);
+//
+//        user = new UserDto.UserDtoBuilder().setDisplayName("Sherif Elsherif")
+//                .setStatus(StatusEnum.ONLINE)
+//                .build();
+//        ls.add(user);
+//
+//        user = new UserDto.UserDtoBuilder().setDisplayName("Youssef Elsherif")
+//                .setStatus(StatusEnum.ONLINE)
+//                .build();
+//        ls.add(user);
+//
+//        user = new UserDto.UserDtoBuilder().setDisplayName("Nour Elsherif")
+//                .setStatus(StatusEnum.ONLINE)
+//                .build();
+//        ls.add(user);
 
         return ls;
     }

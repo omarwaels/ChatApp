@@ -64,7 +64,8 @@ public class SignInController implements Initializable {
         }
         System.out.println("hello");
         if(chatScreenDto == null) return;
-        System.out.println(chatScreenDto);
+
+        redirectToChatScreenPage(  chatScreenDto);
 
     }
 
@@ -99,4 +100,27 @@ public class SignInController implements Initializable {
         }
     }
 
-}
+
+    private void redirectToChatScreenPage(ChatScreenDto chatScreenDto) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));
+            Parent root = loader.load();
+            ChatScreenController anotherController = loader.getController();
+            anotherController.setChatScreenDto(chatScreenDto);
+
+            // Create a new scene with the loaded FXML file
+            Scene scene = new Scene(root);
+            // Get the stage (window) from the current button
+            Stage stage = (Stage) signUpLabel.getScene().getWindow();
+            // Set the new scene on the stage
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    }
+
+
+
