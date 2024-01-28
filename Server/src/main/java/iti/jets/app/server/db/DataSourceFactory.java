@@ -1,43 +1,34 @@
 package iti.jets.app.server.db;
 
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
-import javax.sql.DataSource;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 public enum DataSourceFactory {
-    INSTANCE;
+    INSTANCE;  // The single instance
 
     private static DataSource dataSource;
+
 
     DataSourceFactory() {
         initializeDataSource();
     }
 
     private void initializeDataSource() {
-        Properties properties = new Properties();
-
-        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
-            if (input == null) {
-                throw new RuntimeException("Unable to find database.properties");
-            }
-            properties.load(input);
-        } catch (IOException e) {
-            throw new RuntimeException("Error loading database properties", e);
+        Properties p = new Properties();
+        MysqlDataSource mySqlDataSource = null;
+        try {
+            mySqlDataSource = new MysqlDataSource();
+            mySqlDataSource.setURL("jdbc:mysql://127.0.0.1:3308/chat_app");
+            mySqlDataSource.setUser("root");
+            mySqlDataSource.setPassword(p.getProperty(""));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-
-        HikariConfig config = new HikariConfig();
-        config.setJdbcUrl(properties.getProperty("jdbc.url"));
-        config.setUsername(properties.getProperty("jdbc.username"));
-        config.setPassword(properties.getProperty("jdbc.password"));
-
-        //  config.setMaximumPoolSize(500);
-
-        dataSource = new HikariDataSource(config);
+        dataSource = mySqlDataSource;
     }
 
     public static DataSource getMySQLDataSource() {
