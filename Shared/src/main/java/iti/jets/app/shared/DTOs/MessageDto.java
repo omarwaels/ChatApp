@@ -6,26 +6,34 @@ import java.sql.Timestamp;
 
 public class MessageDto implements Serializable {
 
-    private String senderId;
-    private String recieverId;
 
+
+    private Integer recieverId;
+    private Integer chatId;
     private boolean containsFile;
     private String messageContent;
     private Timestamp sentAt;
-
-    public String getSenderId() {
-        return senderId;
+    public MessageDto(Integer recieverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
+        this.recieverId = recieverId;
+        this.chatId = chatId;
+        this.containsFile = containsFile;
+        this.messageContent = messageContent;
+        this.sentAt = sentAt;
     }
 
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
+    public Integer getSenderId() {
+        return chatId;
     }
 
-    public String getRecieverId() {
+    public void setSenderId(Integer senderId) {
+        this.chatId = chatId;
+    }
+
+    public Integer getRecieverId() {
         return recieverId;
     }
 
-    public void setRecieverId(String recieverId) {
+    public void setRecieverId(Integer recieverId) {
         this.recieverId = recieverId;
     }
 
@@ -56,7 +64,7 @@ public class MessageDto implements Serializable {
     @Override
     public String toString() {
         return "MessageDto{" +
-                "senderId='" + senderId + '\'' +
+                "chatId='" + chatId + '\'' +
                 ", recieverId='" + recieverId + '\'' +
                 ", containsFile=" + containsFile +
                 ", messageContent='" + messageContent + '\'' +

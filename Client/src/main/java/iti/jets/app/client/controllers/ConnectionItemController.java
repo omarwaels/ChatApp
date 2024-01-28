@@ -1,6 +1,8 @@
 package iti.jets.app.client.controllers;
 
 
+import iti.jets.app.shared.DTOs.ChatDto;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.UserDto;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.fxml.FXML;
@@ -28,22 +30,25 @@ public class ConnectionItemController implements Initializable {
 
     private int UserID ;
 
-    private UserDto user;
+    private FriendInfoDto user;
+    private ChatDto chatDto;
+    public void setData(FriendInfoDto user, ChatScreenController chatScreenController, ChatDto chatDto) {
 
-    public void setData(UserDto user,ChatScreenController chatScreenController) {
         this.user = user;
         this.chatScreenController = chatScreenController;
-        connectionName.setText(user.getDisplayName());
-        connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
-        UserID = user.getId();
-        if(user.getPicture() != null){
-            connectionPic.setImage(new Image(new ByteArrayInputStream(user.getPicture())));
+        this.chatDto = chatDto;
+        connectionName.setText(user.getUserFriendName());
+        connectionStatus.setFill(user.getUserFriendStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
+        UserID = user.getUserFriendID();
+        if(user.getUserFriendPhoto() != null){
+            connectionPic.setImage(new Image(new ByteArrayInputStream(user.getUserFriendPhoto())));
         }
     }
     public void friendClicked() {
 
-        chatScreenController.updateConnectionLayout(UserID);
-        chatScreenController.updateConnectionName(user.getDisplayName());
+        chatScreenController.updateChatLayout(UserID);
+        chatScreenController.updateConnectionName(user.getUserFriendName());
+        chatScreenController.updateCurrentScreenChatId(chatDto.getChatId());
 
     }
 

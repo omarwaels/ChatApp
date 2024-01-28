@@ -37,5 +37,3 @@ build/
 ### Mac OS ###
 .DS_Store
 
-.Server\src\main\resources\db.properties
-.Server\src\main\java\iti\jets\app\server\db\DataSourceFactory.java

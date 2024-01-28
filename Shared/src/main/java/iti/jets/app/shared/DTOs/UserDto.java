@@ -198,6 +198,7 @@ public class UserDto implements Serializable {
         this.userEnum = userEnum;
     }
 
+
     @Override
     public String toString() {
         return "User{" +
