@@ -4,10 +4,7 @@ import iti.jets.app.server.Mappers.ChatDtoMapper;
 import iti.jets.app.server.Mappers.FriendInfoDtoMapper;
 import iti.jets.app.server.Mappers.InvitationDtoMapper;
 import iti.jets.app.server.Mappers.UserDtoMapper;
-import iti.jets.app.server.db.ChatDao;
-import iti.jets.app.server.db.ChatParticipantDao;
-import iti.jets.app.server.db.InvitationDao;
-import iti.jets.app.server.db.UserDao;
+import iti.jets.app.server.db.*;
 import iti.jets.app.server.models.entities.Chat;
 import iti.jets.app.server.models.entities.Invitation;
 import iti.jets.app.server.models.entities.User;
@@ -23,7 +20,7 @@ import java.util.Map;
 
 public class ConnectionService extends UnicastRemoteObject implements Connection {
 
-    public HashMap<String, Client>  activeConnections = new HashMap<>();
+    public HashMap<Integer, Client>  activeConnections = new HashMap<>();
     public ConnectionService() throws RemoteException {
     }
 
@@ -32,6 +29,7 @@ public class ConnectionService extends UnicastRemoteObject implements Connection
         UserDao userDao = new UserDao();
         InvitationDao invitationDao = new InvitationDao();
         ChatDao chatDao = new ChatDao();
+        ConnectionDao connectionDao = new ConnectionDao() ;
 
         User userResult = userDao.getById(connectionDto.getUserLoginDto().getPhoneNumber());
 
@@ -44,11 +42,12 @@ public class ConnectionService extends UnicastRemoteObject implements Connection
         if(userResult == null){
             return null;
         }
-        activeConnections.put(connectionDto.getUserLoginDto().getPhoneNumber(),connectionDto.getClient() );
+        activeConnections.put(userResult.getId(),connectionDto.getClient() );
 
         UserDto userDtoResult = UserDtoMapper.UserToUserDto(userResult);
 
-        HashMap <Integer, Integer> userFriendsAndChatIDs = chatParticipantDao.getUserFriendsAndChatIDs(userResult.getId());
+        ArrayList<Integer> friends = connectionDao.getAllConnections(userResult.getId());
+        HashMap <Integer, Integer> userFriendsAndChatIDs = chatParticipantDao.getUserFriendsAndChatIDs(userResult.getId() , friends);
         HashMap <User, Chat> userFriendsAndChatEntities = new HashMap<>();
         HashMap <FriendInfoDto, ChatDto> userFriendsAndChatDto = new HashMap<>();
 

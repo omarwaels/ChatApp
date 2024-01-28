@@ -57,8 +57,8 @@ public class ChatParticipantDao implements Dao<ChatParticipant , Integer>{
             throw new RuntimeException(e);
         }
     }
-    public HashMap<Integer, Integer> getUserFriendsAndChatIDs(int userId) {
-        String query = "SELECT * FROM `chatparticipants` WHERE chat_id In (SELECT chat_id From `chatparticipants` WHERE participant_id = ? ) AND participant_id<> ?";
+    public HashMap<Integer, Integer> getUserFriendsAndChatIDs(int userId  , ArrayList<Integer> Friends) {
+        String query = "SELECT * FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.chat_id In (SELECT chats.chat_id FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.admin_id is NULL and participant_id = ?) and chatparticipants.participant_id <> ?;";
         HashMap<Integer, Integer> userContacts = new HashMap<>();
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, userId);
