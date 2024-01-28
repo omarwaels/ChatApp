@@ -1,8 +1,9 @@
 package iti.jets.app.shared.DTOs;
 
+import java.io.Serializable;
 import java.sql.Date;
 
-public class UserRegisterDto {
+public class UserRegisterDto implements Serializable {
 
     private final String phoneNumber;
     private String displayName;

@@ -210,7 +210,7 @@
                     <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                             <children>
-                                <DatePicker fx:id="dobDatePicker" onAction="#onChooseDate" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="800.0" promptText="Select your date of birth">
+                                <DatePicker fx:id="dobDatePicker" editable="false" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onChooseDate" prefHeight="30.0" prefWidth="800.0" promptText="Select your date of birth">
                            <HBox.margin>
                               <Insets left="60.0" right="80.0" />
                            </HBox.margin>
@@ -359,12 +359,12 @@
                                 <Insets />
                             </VBox.margin>
                         </Label>
-                        <Label fx:id="signUpErrorLabel" textFill="RED">
+                        <Label fx:id="signUpErrorLabel" prefHeight="19.0" prefWidth="240.0" textFill="RED">
                             <font>
                                 <Font size="13.0" />
                             </font>
                             <VBox.margin>
-                                <Insets top="5.0" />
+                                <Insets bottom="5.0" left="50.0" right="50.0" top="5.0" />
                             </VBox.margin>
                         </Label>
                     </children>

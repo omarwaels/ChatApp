@@ -1,5 +1,7 @@
 package iti.jets.app.server;
 
+import iti.jets.app.server.db.UserDao;
+import iti.jets.app.server.models.entities.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -11,7 +13,6 @@ import java.rmi.Naming;
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-
 
 
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("views/server-dashboard.fxml"));
@@ -26,14 +27,19 @@ public class Launcher extends Application {
         stage.setMaxWidth(1000);
 
 
-            System.out.println( Naming.list("rmi://localhost:8090/stub" ).length);
-
-
+        System.out.println(Naming.list("rmi://localhost:8090/stub").length);
 
         stage.show();
     }
 
     public static void main(String[] args) {
+        UserDao userDao = new UserDao();
+        User user = userDao.getById("01095944926");
+        if (user == null) {
+            System.out.println("null");
+        } else {
+            System.out.println("not null");
+        }
         launch();
     }
 }

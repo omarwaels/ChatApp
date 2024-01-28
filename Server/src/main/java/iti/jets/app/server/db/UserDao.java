@@ -39,7 +39,22 @@ public class UserDao implements Dao<User, String> {
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
+                return extractUser(resultSet);
+            } else return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
+    public User getByEmail(String email) {
+        ResultSet resultSet = null;
+
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE email = ?")) {
+            preparedStatement.setString(1, email);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
                 return extractUser(resultSet);
             } else return null;
         } catch (SQLException e) {

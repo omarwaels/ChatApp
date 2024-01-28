@@ -14,8 +14,9 @@ CREATE TABLE Users
     country       VARCHAR(50)         NOT NULL,
     date_of_birth DATE                NOT NULL,
     bio           TEXT,
-    UserStatus    ENUM('Online', 'Offline', 'Busy', 'Away') DEFAULT 'Offline',
-    last_log      timestamp
+    status        ENUM('Available', 'Busy', 'Away') DEFAULT 'Away',
+    mode          ENUM('Online', 'Offline') DEFAULT 'Offline',
+    last_log      timestamp default NULL
 );
 
 CREATE TABLE Connections

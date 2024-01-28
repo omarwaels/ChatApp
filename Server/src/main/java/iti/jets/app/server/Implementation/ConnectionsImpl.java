@@ -27,10 +27,8 @@ public class ConnectionsImpl extends UnicastRemoteObject implements Connection {
         System.out.println("im here");
         if(userResult != null){
 
-            activeConnections.put(connectionDto.getUserLoginDto().getPhoneNumber(),connectionDto.getClient() );
-            connectionDto.getClient().recieveMessage(new MessageDto(1,2,3,true,"null",null));
+            activeConnections.put(connectionDto.getUserLoginDto().getPhoneNumber(),connectionDto.getClient());
             userDtoResult = UserDtoMapper.UserToUserDto(userResult);
-
         }
 
         return userDtoResult;

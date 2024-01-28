@@ -1,4 +1,6 @@
 package iti.jets.app.client.controllers;
+
+import iti.jets.app.shared.DTOs.UserRegisterDto;
 import iti.jets.app.shared.Interfaces.RegisterService;
 import iti.jets.app.server.Implementation.RegisterServiceImpl;
 import javafx.fxml.FXML;
@@ -6,17 +8,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
 public class SignUpController implements Initializable {
@@ -75,9 +77,13 @@ public class SignUpController implements Initializable {
 
     public byte[] picture;
 
+    private RegisterService registerService;
+
+    @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        Registry registry = LocateRegistry.getRegistry(8090);
+        registerService = (RegisterService) registry.lookup("RegisterService");
     }
 
     @FXML
@@ -128,33 +134,68 @@ public class SignUpController implements Initializable {
         genderErrorLabel.setText("");
     }
 
-    @FXML
-    public void onSignUpSubmit() {
-        if (fullNameTextField.getText().isEmpty())
-            fullNameErrorLabel.setText("You must enter your user name");
-        if (phoneNumberTextField.getText().isEmpty())
-            phoneNumberErrorLabel.setText("You must enter your phone number");
-        if (emailTextField.getText().isEmpty())
-            emailErrorLabel.setText("You must enter your email");
-        if (passwordTextField.getText().isEmpty())
-            passwordErrorLabel.setText("You must enter your password");
-        if (confirmPasswordTextField.getText().isEmpty())
-            confirmPasswordErrorLabel.setText("You must confirm your password");
-        if (dobDatePicker.getEditor().getText().isEmpty())
-            dobErrorLabel.setText("You must enter a valid date");
-        if (genderComboBox.getSelectionModel().isEmpty())
-            genderErrorLabel.setText("You must choose a gender");
-        if (countryComboBox.getSelectionModel().isEmpty())
-            countryErrorLabel.setText("You must choose a country");
-        else{
-            addUser();
-            redirectToSignInPage();
-        }
-
+    public void onChooseDate() {
+        dobErrorLabel.setText("");
     }
 
-    private void addUser(){
-        RegisterService registerService = new RegisterServiceImpl();
+    @FXML
+    public void onSignUpSubmit() throws RemoteException {
+        boolean valid = true;
+        if (fullNameTextField.getText().isEmpty()) {
+            fullNameErrorLabel.setText("You must enter your user name");
+            valid = false;
+        }
+        if (phoneNumberTextField.getText().isEmpty()) {
+            phoneNumberErrorLabel.setText("You must enter your phone number");
+            valid = false;
+        }
+        if (emailTextField.getText().isEmpty()) {
+            emailErrorLabel.setText("You must enter your email");
+            valid = false;
+        }
+        if (passwordTextField.getText().isEmpty()) {
+            passwordErrorLabel.setText("You must enter your password");
+            valid = false;
+        }
+        if (confirmPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().equals(passwordTextField.getText())) {
+            confirmPasswordErrorLabel.setText("You must confirm your password");
+            valid = false;
+        }
+        if (dobDatePicker.getEditor().getText().isEmpty()) {
+            dobErrorLabel.setText("You must enter a valid date");
+            valid = false;
+        }
+        if (genderComboBox.getSelectionModel().isEmpty()) {
+            genderErrorLabel.setText("You must choose a gender");
+            valid = false;
+        }
+        if (countryComboBox.getSelectionModel().isEmpty()) {
+            countryErrorLabel.setText("You must choose a country");
+            valid = false;
+        }
+        if (valid)
+            addUser();
+    }
+
+    private void addUser() throws RemoteException {
+        UserRegisterDto userRegisterDto = new UserRegisterDto(phoneNumberTextField.getText(), passwordTextField.getText());
+        userRegisterDto.setDisplayName(fullNameTextField.getText());
+        userRegisterDto.setEmail(emailTextField.getText());
+        userRegisterDto.setGender(genderComboBox.getSelectionModel().getSelectedItem().toString());
+        userRegisterDto.setCountry(countryComboBox.getSelectionModel().getSelectedItem().toString());
+        userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
+        userRegisterDto.setBio(bioTextField.getText());
+        userRegisterDto.setPicture(picture);
+        int ret = registerService.register(userRegisterDto);
+        if (ret == 1) {
+            System.out.println("Done");
+            redirectToSignInPage();
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setContentText("Phone number or email already exists, please try again");
+            alert.showAndWait();
+        }
     }
 
     @FXML
@@ -175,10 +216,6 @@ public class SignUpController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void onChooseDate() {
-        dobErrorLabel.setText("");
     }
 
 }
