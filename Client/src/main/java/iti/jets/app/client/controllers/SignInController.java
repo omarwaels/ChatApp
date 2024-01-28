@@ -2,13 +2,16 @@ package iti.jets.app.client.controllers;
 
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
 
-import iti.jets.app.shared.DTOs.UserDto;
-import iti.jets.app.shared.DTOs.UserLoginDto;
+import iti.jets.app.client.services.ConnectServerService;
+import iti.jets.app.shared.DTOs.*;
 
+import iti.jets.app.shared.Interfaces.server.Server;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -53,16 +56,17 @@ public class SignInController implements Initializable {
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
         System.out.println(userNameTextField.getText());
         System.out.println(passwordTextField.getText());
-        UserDto user = null;
+        ChatScreenDto chatScreenDto = null;
         try{
-             user = LoginServices.login(userLoginDto);
+            chatScreenDto = LoginServices.login(userLoginDto);
         }catch (RemoteException e){
-            e.printStackTrace();
             System.out.println("Server is not responding");
         }
         System.out.println("hello");
-        if(user == null) return;
-        System.out.println(user);
+        if(chatScreenDto == null) return;
+
+        redirectToChatScreenPage(  chatScreenDto);
+
     }
 
     @FXML
@@ -96,4 +100,29 @@ public class SignInController implements Initializable {
         }
     }
 
-}
+
+    private void redirectToChatScreenPage(ChatScreenDto chatScreenDto) {
+        try {
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));
+            Parent root = loader.load();
+            ChatScreenController anotherController = loader.getController();
+            anotherController.setChatScreenDto(chatScreenDto);
+
+            // Create a new scene with the loaded FXML file
+            Scene scene = new Scene(root);
+
+
+            // Get the stage (window) from the current button
+            Stage stage = (Stage) signUpLabel.getScene().getWindow();
+            // Set the new scene on the stage
+            stage.setScene(scene);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    }
+
+
+

@@ -10,8 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<HBox alignment="CENTER_LEFT" prefHeight="66.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.ConnectionItemController">
+<HBox fx:id="connectionItem" alignment="CENTER_LEFT" onMouseClicked="#friendClicked" prefHeight="66.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.ConnectionItemController">
    <children>
       <ImageView fx:id="connectionPic" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
          <image>

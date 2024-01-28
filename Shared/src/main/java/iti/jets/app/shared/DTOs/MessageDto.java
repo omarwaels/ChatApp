@@ -6,47 +6,27 @@ import java.sql.Timestamp;
 
 public class MessageDto implements Serializable {
 
-    private final int messageId;
+    private String senderId;
+    private String recieverId;
 
-
-    private int senderId;
-    private int chatId;
     private boolean containsFile;
     private String messageContent;
     private Timestamp sentAt;
 
-
-    public MessageDto(int messageId) {
-        this.messageId = messageId;
-    }
-
-    public MessageDto(int messageId, int senderId, int chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
-        this.messageId = messageId;
-        this.senderId = senderId;
-        this.chatId = chatId;
-        this.containsFile = containsFile;
-        this.messageContent = messageContent;
-        this.sentAt = sentAt;
-    }
-
-    public int getMessageId() {
-        return messageId;
-    }
-
-    public int getSenderId() {
+    public String getSenderId() {
         return senderId;
     }
 
-    public void setSenderId(int senderId) {
+    public void setSenderId(String senderId) {
         this.senderId = senderId;
     }
 
-    public int getChatId() {
-        return chatId;
+    public String getRecieverId() {
+        return recieverId;
     }
 
-    public void setChatId(int chatId) {
-        this.chatId = chatId;
+    public void setRecieverId(String recieverId) {
+        this.recieverId = recieverId;
     }
 
     public boolean isContainsFile() {
@@ -75,14 +55,12 @@ public class MessageDto implements Serializable {
 
     @Override
     public String toString() {
-        return "Message{" +
-                "messageId=" + messageId +
-                ", senderId=" + senderId +
-                ", chatId=" + chatId +
+        return "MessageDto{" +
+                "senderId='" + senderId + '\'' +
+                ", recieverId='" + recieverId + '\'' +
                 ", containsFile=" + containsFile +
                 ", messageContent='" + messageContent + '\'' +
                 ", sentAt=" + sentAt +
                 '}';
-
     }
 }

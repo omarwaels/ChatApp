@@ -6,6 +6,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ConnectionDao implements Dao<Connection, Integer> {
     DataSource dataSource = null;
@@ -50,7 +51,8 @@ public class ConnectionDao implements Dao<Connection, Integer> {
         }
     }
 
-    public ResultSet getAllConnections(int userId) {
+    public ArrayList<Integer> getAllConnections(int userId) {
+        ArrayList<Integer> userFriendsIDs = new ArrayList<>();
         String query = "SELECT second_user_id FROM connections WHERE first_user_id = ? \n" +
                 "UNION\n" +
                 "SELECT first_user_id FROM connections WHERE second_user_id = ?;";
@@ -58,7 +60,12 @@ public class ConnectionDao implements Dao<Connection, Integer> {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet;
+                while(resultSet.next()){
+                    int userFriendId = resultSet.getInt(1);
+
+                    userFriendsIDs.add(userFriendId);
+                }
+                return userFriendsIDs;
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

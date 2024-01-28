@@ -1,7 +1,7 @@
 package iti.jets.app.server.db;
 
 import javax.sql.DataSource;
-import java.sql.Blob;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -34,9 +34,7 @@ public class ChatDao implements Dao<Chat, Integer> {
         String query = "INSERT INTO chats (  chat_image, chat_name, created_at, admin_id ) " +
                 "VALUES ( ?, ?, ?, ?)";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-            Blob blob = dataSource.getConnection().createBlob();
-            blob.setBytes(1, chat.getChatImage());
-            preparedStatement.setBlob(1, blob);
+            preparedStatement.setBytes(1, chat.getChatImage());
             preparedStatement.setString(2, chat.getChatName());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
             preparedStatement.setInt(4,chat.getAdminId());
@@ -50,9 +48,8 @@ public class ChatDao implements Dao<Chat, Integer> {
         String query = "UPDATE messages SET `chat_image`=?,`chat_name`=?,`created_at`=?, " +
                 "`admin_id `=? WHERE chat_id  = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-            Blob blob = dataSource.getConnection().createBlob();
-            blob.setBytes(1, chat.getChatImage());
-            preparedStatement.setBlob(1, blob);
+
+            preparedStatement.setBytes(1, chat.getChatImage());
             preparedStatement.setString(2, chat.getChatName());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
             preparedStatement.setInt(4,chat.getAdminId());
