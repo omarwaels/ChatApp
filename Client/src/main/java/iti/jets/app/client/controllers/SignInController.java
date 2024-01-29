@@ -55,9 +55,11 @@ public class SignInController implements Initializable {
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
         LoginResultDto loginResultDto = null;
         try {
-            Registry registry = LocateRegistry.getRegistry(8090);
+            Registry registry = LocateRegistry.getRegistry("192.168.254.214", 8189);
             LoginService loginService = (LoginService) registry.lookup("LoginService");
             loginResultDto = loginService.login(userLoginDto);
+            if(loginResultDto == null)
+                System.out.println("loginResultDto is null");
         } catch (RemoteException e) {
             System.out.println("Server is not responding");
         }

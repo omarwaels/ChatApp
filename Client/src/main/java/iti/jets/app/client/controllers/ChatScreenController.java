@@ -99,15 +99,17 @@ public class ChatScreenController implements Initializable {
     public void setChatScreenDto(LoginResultDto loginResultDto) throws NotBoundException {
         this.loginResultDto = loginResultDto;
         customInit();
-        try {
-            Registry registry = LocateRegistry.getRegistry(8090);
-            client = new ClientImpl(this, loginResultDto.getUserDto().getId());
-            serverService = (ServerService) registry.lookup("ServerService");
-            serverService.register(client);
-            System.out.println("Client registered successfully");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            try {
+                Registry registry = LocateRegistry.getRegistry("192.168.254.214", 8189);
+                client = new ClientImpl(this, loginResultDto.getUserDto().getId());
+                serverService = (ServerService) registry.lookup("ServerService");
+                serverService.register(client);
+                System.out.println("Client registered successfully");
+            } catch (IOException | NotBoundException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     public void customInit() {
@@ -141,7 +143,13 @@ public class ChatScreenController implements Initializable {
             chatLayout.getChildren().add(hbox);
             messageTextField.setText("");
             System.out.println(currentScreenUserId);
-            serverService.sendMessage(new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis())));
+            new Thread(() -> {
+                try {
+                    serverService.sendMessage(new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis())));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
     }
 

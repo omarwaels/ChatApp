@@ -83,7 +83,7 @@ public class SignUpController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            Registry registry = LocateRegistry.getRegistry(8090);
+            Registry registry = LocateRegistry.getRegistry("192.168.254.214", 8189);
             registerService = (RegisterService) registry.lookup("RegisterService");
         } catch (Exception e) {
             System.out.println("Server is not responding");
