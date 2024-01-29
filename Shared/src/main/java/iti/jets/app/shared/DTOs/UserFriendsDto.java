@@ -10,10 +10,6 @@ public class UserFriendsDto implements Serializable {
         this.userAllFriends = userAllFriends;
     }
 
-    public ArrayList<FriendInfoDto> getUserAllFriends() {
-        return userAllFriends;
-    }
-
     public void setUserAllFriends(ArrayList<FriendInfoDto> userAllFriends) {
         this.userAllFriends = userAllFriends;
     }

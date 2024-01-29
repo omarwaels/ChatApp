@@ -1,7 +1,7 @@
 package iti.jets.app.client.controllers;
 
 import iti.jets.app.shared.DTOs.UserRegisterDto;
-import iti.jets.app.shared.Interfaces.RegisterService;
+import iti.jets.app.shared.Interfaces.server.RegisterService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -81,8 +82,12 @@ public class SignUpController implements Initializable {
     @SneakyThrows
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        Registry registry = LocateRegistry.getRegistry(8090);
-        registerService = (RegisterService) registry.lookup("RegisterService");
+        try {
+            Registry registry = LocateRegistry.getRegistry(8090);
+            registerService = (RegisterService) registry.lookup("RegisterService");
+        } catch (Exception e) {
+            System.out.println("Server is not responding");
+        }
     }
 
     @FXML
@@ -110,7 +115,7 @@ public class SignUpController implements Initializable {
         fileChooser.setTitle("Choose Photo");
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp");
         fileChooser.getExtensionFilters().add(imageFilter);
-        java.io.File selectedFile = fileChooser.showOpenDialog(phoneNumberTextField.getScene().getWindow());
+        File selectedFile = fileChooser.showOpenDialog(phoneNumberTextField.getScene().getWindow());
 
         if (selectedFile != null) {
             try {

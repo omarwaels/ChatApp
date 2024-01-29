@@ -19,7 +19,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.10.0</junit.version>
         <main.class>
-            iti.jets.app.server/iti.jets.app.server.Launcher
+            iti.jets.app.serverService/iti.jets.app.serverService.Launcher
         </main.class>
     </properties>
 
@@ -88,7 +88,7 @@
                     <execution>
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>iti.jets.app.server/iti.jets.app.server.Launcher</mainClass>
+                            <mainClass>iti.jets.app.serverService/iti.jets.app.serverService.Launcher</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

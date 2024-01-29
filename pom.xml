@@ -19,7 +19,7 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <main.class>
-            iti.jets.app.client/iti.jets.app.client.HelloApplication
+            iti.jets.app.client/iti.jets.app.client.ClientApp
         </main.class>
     </properties>
 

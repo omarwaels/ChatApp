@@ -1,28 +1,27 @@
 package iti.jets.app.server.Network;
 
 import iti.jets.app.server.Services.RegisterServiceImpl;
-import iti.jets.app.server.Services.ConnectionService;
-import iti.jets.app.server.Services.ServerService;
-import iti.jets.app.shared.Interfaces.server.Connection;
-import iti.jets.app.shared.Interfaces.server.Server;
+import iti.jets.app.server.Services.LoginServiceImpl;
+import iti.jets.app.server.Services.ServerServiceImpl;
+import iti.jets.app.shared.Interfaces.server.LoginService;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 
 import java.rmi.*;
 import java.rmi.registry.*;
 import java.rmi.server.UnicastRemoteObject;
 
 
-public class Connect {
-    Registry registry;
+public class ServerConnection {
+    private static Registry registry;
 
-    public void openConnection() {
-
+    public static void openConnection() {
         try {
             registry = LocateRegistry.createRegistry(8090);
-            Connection connection = new ConnectionService();
-            Server server = new ServerService();
+            LoginService loginService = new LoginServiceImpl();
+            ServerService serverService = new ServerServiceImpl();
             RegisterServiceImpl registerService = new RegisterServiceImpl();
-            registry.rebind("rmi://localhost:8090/connection", connection);
-            registry.rebind("rmi://localhost:8090/server", server);
+            registry.rebind("LoginService", loginService);
+            registry.rebind("ServerService", serverService);
             registry.rebind("RegisterService", registerService);
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -30,12 +29,13 @@ public class Connect {
         System.out.println("Server is open now ....");
     }
 
-    public void closeConnection() {
+    public static void closeConnection() {
         try {
             UnicastRemoteObject.unexportObject(registry, true);
             UnicastRemoteObject.unexportObject(registry, false);
-            registry.unbind("rmi://localhost:8090/connection");
-            registry.unbind("rmi://localhost:8090/server");
+            registry.unbind("ServerService");
+            registry.unbind("LoginService");
+            registry.unbind("RegisterService");
         } catch (Exception e) {
             e.printStackTrace();
         }

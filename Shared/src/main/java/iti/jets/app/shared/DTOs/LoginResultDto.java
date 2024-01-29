@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class ChatScreenDto implements Serializable {
+public class LoginResultDto implements Serializable {
     private UserDto userDto;
-    private ArrayList<InvitationDto> invitationDtos ;
+    private ArrayList<InvitationDto> invitationDtos;
     private HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto;
 
-    public ChatScreenDto(UserDto userDto, ArrayList<InvitationDto> invitationDtos, HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto) {
+    public LoginResultDto() {
+    }
+
+    public LoginResultDto(UserDto userDto, ArrayList<InvitationDto> invitationDtos, HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto) {
         this.userDto = userDto;
         this.invitationDtos = invitationDtos;
         this.userFriendsAndChatDto = userFriendsAndChatDto;

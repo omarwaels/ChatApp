@@ -2,7 +2,7 @@ package iti.jets.app.server.Services;
 
 import iti.jets.app.server.models.entities.User;
 import iti.jets.app.shared.DTOs.UserRegisterDto;
-import iti.jets.app.shared.Interfaces.RegisterService;
+import iti.jets.app.shared.Interfaces.server.RegisterService;
 import iti.jets.app.server.Mappers.RegisterDtoMapper;
 import iti.jets.app.server.db.UserDao;
 

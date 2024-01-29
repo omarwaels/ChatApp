@@ -22,7 +22,6 @@ public class MessageReceiveController implements Initializable {
 
     public void setData(MessageDto msg) {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
-
         txt.setText(msg.getMessageContent());
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         }

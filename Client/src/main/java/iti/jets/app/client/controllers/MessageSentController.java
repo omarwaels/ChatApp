@@ -16,16 +16,13 @@ import java.util.ResourceBundle;
 public class MessageSentController implements Initializable {
     @FXML
     public ImageView img;
-
     @FXML
     public Text txt;
-
     @FXML
     public TextFlow txtFlow;
 
     public void setData(MessageDto msg) {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
-
         txt.setText(msg.getMessageContent());
         txtFlow.setTextAlignment(TextAlignment.LEFT);
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);

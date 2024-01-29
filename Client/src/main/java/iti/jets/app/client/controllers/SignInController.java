@@ -2,16 +2,16 @@ package iti.jets.app.client.controllers;
 
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
-import iti.jets.app.client.services.ConnectServerService;
 import iti.jets.app.shared.DTOs.*;
 
-import iti.jets.app.shared.Interfaces.server.Server;
+import iti.jets.app.shared.Interfaces.server.LoginService;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -21,7 +21,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import iti.jets.app.client.services.LoginServices;
 
 public class SignInController implements Initializable {
     public Label userNameErrorLabel;
@@ -39,49 +38,44 @@ public class SignInController implements Initializable {
 
     @FXML
     public void onLoginSubmit() throws NotBoundException {
-        if (isEmptyField(userNameTextField)) {
+        boolean isInputValid = true;
+        if (userNameTextField.getText().isEmpty()) {
             userNameErrorLabel.setText("You must enter your phone number");
-            return;
+            isInputValid = false;
         }
-
-        if (isEmptyField(passwordTextField)) {
+        if (passwordTextField.getText().isEmpty()) {
             PasswordErrorLabel.setText("You must enter your password");
+            isInputValid = false;
         }
-        this.login();
-
+        if (isInputValid)
+            login();
     }
 
     private void login() throws NotBoundException {
-
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
-        System.out.println(userNameTextField.getText());
-        System.out.println(passwordTextField.getText());
-        ChatScreenDto chatScreenDto = null;
-        try{
-            chatScreenDto = LoginServices.login(userLoginDto);
-        }catch (RemoteException e){
+        LoginResultDto loginResultDto = null;
+        try {
+            Registry registry = LocateRegistry.getRegistry(8090);
+            LoginService loginService = (LoginService) registry.lookup("LoginService");
+            loginResultDto = loginService.login(userLoginDto);
+        } catch (RemoteException e) {
             System.out.println("Server is not responding");
         }
-        System.out.println("hello");
-        if(chatScreenDto == null) return;
-
-        redirectToChatScreenPage(chatScreenDto);
-
+        if (loginResultDto == null) {
+            LogInErrorLabel.setText("Invalid username or password");
+            return;
+        }
+        redirectToChatScreenPage(loginResultDto);
     }
 
     @FXML
     public void onUserNameInput() {
-
         userNameErrorLabel.setText("");
     }
 
     @FXML
     public void onPasswordInput() {
         PasswordErrorLabel.setText("");
-    }
-
-    public static boolean isEmptyField(TextField textField) {
-        return textField.getText().isEmpty();
     }
 
     @FXML
@@ -100,19 +94,14 @@ public class SignInController implements Initializable {
         }
     }
 
-
-    private void redirectToChatScreenPage(ChatScreenDto chatScreenDto) throws NotBoundException {
+    private void redirectToChatScreenPage(LoginResultDto loginResultDto) throws NotBoundException {
         try {
-
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));
             Parent root = loader.load();
             ChatScreenController anotherController = loader.getController();
-            anotherController.setChatScreenDto(chatScreenDto);
-
+            anotherController.setChatScreenDto(loginResultDto);
             // Create a new scene with the loaded FXML file
             Scene scene = new Scene(root);
-
-
             // Get the stage (window) from the current button
             Stage stage = (Stage) signUpLabel.getScene().getWindow();
             // Set the new scene on the stage
@@ -122,7 +111,7 @@ public class SignInController implements Initializable {
         }
     }
 
-    }
+}
 
 
 

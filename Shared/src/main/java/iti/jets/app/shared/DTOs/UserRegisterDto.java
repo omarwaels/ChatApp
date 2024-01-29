@@ -15,6 +15,11 @@ public class UserRegisterDto implements Serializable {
     private Date dateOfBirth;
     private String bio;
 
+    public UserRegisterDto() {
+        phoneNumber = null;
+        password = null;
+    }
+
     public UserRegisterDto(String phoneNumber, String password) {
         this.phoneNumber = phoneNumber;
         this.password = password;

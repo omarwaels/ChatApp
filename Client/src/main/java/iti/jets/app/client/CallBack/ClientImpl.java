@@ -19,7 +19,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void recieveMessage(MessageDto messageDto) {
+    public void receiveMessage(MessageDto messageDto) {
         chatScreenController.receiveMessage(messageDto);
     }
 

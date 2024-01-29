@@ -7,11 +7,14 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 public class FriendInfoDto implements Serializable {
-    private String userFriendName ;
-    private byte[] userFriendPhoto ;
-    private int userFriendID ;
+    private String userFriendName;
+    private byte[] userFriendPhoto;
+    private int userFriendID;
     private ModeEnum userFriendMode;
     private StatusEnum userFriendStatus;
+
+    public FriendInfoDto() {
+    }
 
     public FriendInfoDto(String userFriendName, byte[] userFriendPhoto, int userFriendID, ModeEnum userFriendMode, StatusEnum userFriendStatus) {
         this.userFriendName = userFriendName;
@@ -28,9 +31,6 @@ public class FriendInfoDto implements Serializable {
     public void setUserFriendID(int userFriendID) {
         this.userFriendID = userFriendID;
     }
-
-
-
 
 
     public String getUserFriendName() {

@@ -129,17 +129,17 @@
                         <Insets top="-15.0" />
                      </VBox.margin>
                   </Button>
-                  <Label fx:id="LogInErrorLabel" textFill="RED">
+                  <Label fx:id="LogInErrorLabel" prefHeight="19.0" prefWidth="214.0" textFill="RED">
                      <font>
                         <Font size="13.0" />
                      </font>
                      <VBox.margin>
-                        <Insets top="5.0" />
+                        <Insets left="45.0" top="5.0" />
                      </VBox.margin>
                   </Label>
                   <Label text="Don't have an account yet? ">
                      <VBox.margin>
-                        <Insets bottom="2.0" left="8.0" top="-10.0" />
+                        <Insets bottom="2.0" left="8.0" />
                      </VBox.margin>
                      <font>
                         <Font size="14.0" />

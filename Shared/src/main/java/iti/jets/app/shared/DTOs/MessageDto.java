@@ -11,6 +11,9 @@ public class MessageDto implements Serializable {
     private boolean containsFile;
     private String messageContent;
     private Timestamp sentAt;
+
+    public MessageDto() {
+    }
     public MessageDto(Integer recieverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
         this.receiverId = recieverId;
         this.chatId = chatId;

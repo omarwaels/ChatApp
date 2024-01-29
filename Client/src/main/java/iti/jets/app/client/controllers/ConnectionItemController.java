@@ -19,39 +19,32 @@ import java.util.ResourceBundle;
 public class ConnectionItemController implements Initializable {
     @FXML
     public Label connectionName;
-
     @FXML
     public ImageView connectionPic;
-
     @FXML
     public Circle connectionStatus;
-
     ChatScreenController chatScreenController;
-
-    private int UserID ;
-
+    private int UserID;
     private FriendInfoDto user;
     private ChatDto chatDto;
-    public void setData(FriendInfoDto user, ChatScreenController chatScreenController, ChatDto chatDto) {
 
+    public void setData(FriendInfoDto user, ChatScreenController chatScreenController, ChatDto chatDto) {
         this.user = user;
         this.chatScreenController = chatScreenController;
         this.chatDto = chatDto;
         connectionName.setText(user.getUserFriendName());
         connectionStatus.setFill(user.getUserFriendStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         UserID = user.getUserFriendID();
-        if(user.getUserFriendPhoto() != null){
+        if (user.getUserFriendPhoto() != null) {
             connectionPic.setImage(new Image(new ByteArrayInputStream(user.getUserFriendPhoto())));
         }
     }
-    public void friendClicked() {
 
+    public void friendClicked() {
         chatScreenController.updateChatLayout(UserID);
         chatScreenController.updateConnectionName(user.getUserFriendName());
         chatScreenController.updateCurrentScreenChatId(chatDto.getChatId());
-
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

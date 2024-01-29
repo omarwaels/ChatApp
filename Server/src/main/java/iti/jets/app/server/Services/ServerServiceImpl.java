@@ -1,31 +1,24 @@
 package iti.jets.app.server.Services;
 
-import iti.jets.app.server.Mappers.UserArrayMapper;
-import iti.jets.app.server.db.ConnectionDao;
-import iti.jets.app.server.db.UserDao;
-import iti.jets.app.server.models.entities.User;
-import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
-import iti.jets.app.shared.DTOs.UserFriendsDto;
 import iti.jets.app.shared.Interfaces.client.Client;
-import iti.jets.app.shared.Interfaces.server.Server;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
-public class ServerService extends UnicastRemoteObject implements Server {
+public class ServerServiceImpl extends UnicastRemoteObject implements ServerService {
     private ArrayList<Client> clients = new ArrayList<>();
 
-    public ServerService() throws RemoteException {
+    public ServerServiceImpl() throws RemoteException {
     }
-
 
     @Override
     public void sendMessage(MessageDto messageDto) throws RemoteException {
         for (Client c : clients) {
             if (c.getID() == messageDto.getReceiverId()) {
-                c.recieveMessage(messageDto);
+                c.receiveMessage(messageDto);
                 return;
             }
         }

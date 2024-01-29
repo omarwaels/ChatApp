@@ -9,7 +9,7 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton; // Add this import statement
 
-import iti.jets.app.server.Network.Connect;
+import iti.jets.app.server.Network.ServerConnection;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -24,7 +24,7 @@ import javafx.util.Duration;
 
 public class DashboardController implements Initializable {
 
-    private int toggler = 1 ;
+    private int toggler = 1;
     @FXML
     public BorderPane bp;
 
@@ -33,28 +33,21 @@ public class DashboardController implements Initializable {
 
     public JFXSnackbar snackbar;
 
-    private Connect openserver = new Connect();
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        openserver.openConnection();
-        toggleButton.setSelected(true);
-        snackbar = new JFXSnackbar(bp);
-
-
-
-    }
-
-
     @FXML
     public JFXToggleButton toggleButton;
 
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ServerConnection.openConnection();
+        toggleButton.setSelected(true);
+        snackbar = new JFXSnackbar(bp);
+    }
 
     @FXML
     void home(MouseEvent event) {
         bp.setCenter(ap);
     }
-
 
     @FXML
     void announcements(MouseEvent event) {
@@ -82,12 +75,12 @@ public class DashboardController implements Initializable {
     }
 
     private void showSnackbar(String message) {
-        toggler = (toggler +1)%2;
-        if(toggler == 1){
-            openserver.openConnection();
-        }else{
+        toggler = (toggler + 1) % 2;
+        if (toggler == 1) {
+            ServerConnection.openConnection();
+        } else {
             System.out.println("close");
-            openserver.closeConnection();
+            ServerConnection.closeConnection();
         }
         Platform.runLater(() -> {
             JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(message);
@@ -104,17 +97,6 @@ public class DashboardController implements Initializable {
             timeline.play();
         });
         snackbar.setVisible(true);
-//            snackbarLayout.setStyle(
-//                    "-fx-background-color: #6165a3;" +    // Background color
-//                            "-fx-text-fill: white;" +              // Text color
-//                            "-fx-font-size: 14px;" +               // Font size
-//                            "-fx-border-radius: 10 10 0 0;" +      // Border radius (top-left, top-right, bottom-right, bottom-left)
-//                            "-fx-font-family: 'system-ui';" +
-//                            "-fx-background-radius: 10;" +         // Background radius
-//                            "-fx-max-height: 8;"                   // Adjusted minimum height
-//            );
-//            snackbarLayout.setStyle("-fx-text-fill: red;" );
-//            snackbarLayout.setStyle("-fx-background-color: red;" );
     }
 
     @FXML

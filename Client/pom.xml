@@ -18,7 +18,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <main.class>
-      iti.jets.app.client/iti.jets.app.client.HelloApplication
+        iti.jets.app.client/iti.jets.app.client.ClientApp
     </main.class>
 <junit.version>5.10.0</junit.version>  </properties>
 
@@ -87,7 +87,7 @@
           <execution>
             <id>default-cli</id>
             <configuration>
-              <mainClass>iti.jets.app.client/iti.jets.app.client.HelloApplication</mainClass>
+              <mainClass>iti.jets.app.client/iti.jets.app.client.ClientApp</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

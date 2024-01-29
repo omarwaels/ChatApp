@@ -1,4 +1,4 @@
-package iti.jets.app.shared.Interfaces;
+package iti.jets.app.shared.Interfaces.server;
 
 import iti.jets.app.shared.DTOs.UserRegisterDto;
 
