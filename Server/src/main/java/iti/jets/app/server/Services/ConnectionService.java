@@ -42,8 +42,8 @@ public class ConnectionService extends UnicastRemoteObject implements Connection
         if(userResult == null){
             return null;
         }
-        activeConnections.put(userResult.getId(),connectionDto.getClient() );
-
+//        activeConnections.put(userResult.getId(),connectionDto.getClient() );
+//
         UserDto userDtoResult = UserDtoMapper.UserToUserDto(userResult);
 
         ArrayList<Integer> friends = connectionDao.getAllConnections(userResult.getId());

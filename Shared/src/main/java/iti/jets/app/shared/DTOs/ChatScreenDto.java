@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ChatScreenDto implements Serializable {
-    private UserDto userDto ;
+    private UserDto userDto;
     private ArrayList<InvitationDto> invitationDtos ;
     private HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto;
 

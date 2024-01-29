@@ -15,12 +15,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
         ConnectionService connectionService = new ConnectionService();
-        ChatScreenDto chatScreenDto = connectionService.connect(new ConnectionDto(new UserLoginDto("01154615235", "omar"), new Client() {
-            @Override
-            public void recieveMessage(MessageDto messageDto) throws RemoteException {
-                System.out.println("asd");
-            }
-        }));
+        ChatScreenDto chatScreenDto = connectionService.connect(new ConnectionDto(new UserLoginDto("01154615235", "omar")));
         System.out.println(chatScreenDto);
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("views/server-dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());

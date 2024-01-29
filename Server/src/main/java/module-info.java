@@ -8,7 +8,6 @@ module server {
     requires java.sql;
     requires shared;
     requires mysql.connector.j;
-    exports iti.jets.app.server.Implementation;
     requires com.jfoenix;
     requires com.zaxxer.hikari;
     exports iti.jets.app.server;

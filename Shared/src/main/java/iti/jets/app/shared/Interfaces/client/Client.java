@@ -9,4 +9,6 @@ import java.rmi.RemoteException;
 
 public interface Client extends Remote  {
     void recieveMessage (MessageDto messageDto)throws RemoteException;
+
+    int getID() throws RemoteException;
 }

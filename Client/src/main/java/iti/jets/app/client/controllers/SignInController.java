@@ -38,7 +38,7 @@ public class SignInController implements Initializable {
     }
 
     @FXML
-    public void onLoginSubmit() {
+    public void onLoginSubmit() throws NotBoundException {
         if (isEmptyField(userNameTextField)) {
             userNameErrorLabel.setText("You must enter your phone number");
             return;
@@ -51,7 +51,7 @@ public class SignInController implements Initializable {
 
     }
 
-    private void login()  {
+    private void login() throws NotBoundException {
 
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
         System.out.println(userNameTextField.getText());
@@ -65,7 +65,7 @@ public class SignInController implements Initializable {
         System.out.println("hello");
         if(chatScreenDto == null) return;
 
-        redirectToChatScreenPage(  chatScreenDto);
+        redirectToChatScreenPage(chatScreenDto);
 
     }
 
@@ -101,7 +101,7 @@ public class SignInController implements Initializable {
     }
 
 
-    private void redirectToChatScreenPage(ChatScreenDto chatScreenDto) {
+    private void redirectToChatScreenPage(ChatScreenDto chatScreenDto) throws NotBoundException {
         try {
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));

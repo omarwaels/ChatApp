@@ -1,6 +1,10 @@
 package iti.jets.app.client.controllers;
+
+import iti.jets.app.client.CallBack.ClientImpl;
 import iti.jets.app.shared.DTOs.*;
+import iti.jets.app.shared.Interfaces.server.Server;
 import iti.jets.app.shared.enums.StatusEnum;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,12 +27,14 @@ import javafx.scene.text.TextAlignment;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
-
 
 
 public class ChatScreenController implements Initializable {
@@ -82,71 +88,99 @@ public class ChatScreenController implements Initializable {
     public ScrollPane chatScrollPane;
     @FXML
     public HBox chatFooter;
-    private ChatScreenDto  chatScreenDto;
-    Integer currentScreenUserId = null ;
-    Integer currentScreenChatId = null ;
-    HashMap<Integer,Node[]> chatsArr = new HashMap<>();
+    private ChatScreenDto chatScreenDto;
+    Integer currentScreenUserId = null;
+    Integer currentScreenChatId = null;
+    HashMap<Integer, Node[]> chatsArr = new HashMap<>();
 
+    ClientImpl client;
+
+    Server server;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
-    public void setChatScreenDto(ChatScreenDto chatScreenDto) {
+
+    public void setChatScreenDto(ChatScreenDto chatScreenDto) throws NotBoundException {
         this.chatScreenDto = chatScreenDto;
         customInit();
+        try {
+            Registry registry = LocateRegistry.getRegistry(8090);
+            client = new ClientImpl(this, chatScreenDto.getUserDto().getId());
+            server = (Server) registry.lookup("rmi://localhost:8090/server");
+            server.register(client);
+            System.out.println("Client registered successfully");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
     public void customInit() {
         List<FriendInfoDto> contactListArray = getContactListArray();
         this.showContactList(contactListArray);
     }
 
-    void updateCurrentScreenChatId(int newChatId ){
+    void updateCurrentScreenChatId(int newChatId) {
         this.currentScreenChatId = newChatId;
     }
 
-    public void updateConnectionName(String name){
+    public void updateConnectionName(String name) {
         connectionName.setText(name);
     }
 
     public void sendMessageByKeyborad(KeyEvent event) throws IOException {
-        if ( ((KeyEvent) event).getCode() == KeyCode.ENTER){
+        if (((KeyEvent) event).getCode() == KeyCode.ENTER) {
             sendMessage();
         }
     }
-    public void sendMessage() throws IOException {
-            String text = messageTextField.getText().trim();
-            if (!text.isEmpty()) {
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/message-sent.fxml"));
-                chatLayout.setAlignment(Pos.CENTER_RIGHT);
-                HBox hbox = fxmlLoader.load();
-                MessageSentController msc = fxmlLoader.getController();
-                msc.setData(new MessageDto(currentScreenUserId,currentScreenChatId,false,text,new Timestamp(System.currentTimeMillis()) ));
-                chatLayout.getChildren().add(hbox);
 
+    public void sendMessage() throws IOException {
+        String text = messageTextField.getText().trim();
+        if (!text.isEmpty()) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/message-sent.fxml"));
+            chatLayout.setAlignment(Pos.CENTER_LEFT);
+            HBox hbox = fxmlLoader.load();
+            MessageSentController msc = fxmlLoader.getController();
+            msc.setData(new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis())));
+            chatLayout.getChildren().add(hbox);
+            messageTextField.setText("");
+            System.out.println(currentScreenUserId);
+            server.sendMessage(new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis())));
+        }
+    }
+
+    public void receiveMessage(MessageDto message) {
+        Platform.runLater(() -> {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/message-receive.fxml"));
+            chatLayout.setAlignment(Pos.CENTER_RIGHT);
+            HBox hbox = null;
+            try {
+                hbox = fxmlLoader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            MessageReceiveController msc = fxmlLoader.getController();
+            msc.setData(message);
+            chatLayout.getChildren().add(hbox);
+        });
     }
 
     public void updateChatLayout(int newUserIdScreen) {
-
-        if(this.currentScreenUserId != null){
+        if (this.currentScreenUserId != null) {
             Node[] currentChildren = chatLayout.getChildren().toArray(new Node[0]);
-            chatsArr.put(this.currentScreenUserId , currentChildren);
-
+            chatsArr.put(this.currentScreenUserId, currentChildren);
         }
         chatLayout.getChildren().clear();
-        if(chatsArr.containsKey(newUserIdScreen) ){
+        if (chatsArr.containsKey(newUserIdScreen)) {
 
             chatLayout.getChildren().addAll(chatsArr.get(newUserIdScreen));
         }
-
-        this.currentScreenUserId = newUserIdScreen ;
-
-
+        this.currentScreenUserId = newUserIdScreen;
     }
 
-
-    private void showContactList (List<FriendInfoDto> connections){
+    private void showContactList(List<FriendInfoDto> connections) {
         for (FriendInfoDto connection : connections) {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-item.fxml"));
@@ -154,7 +188,7 @@ public class ChatScreenController implements Initializable {
                 HBox hbox = fxmlLoader.load();
                 ConnectionItemController cic = fxmlLoader.getController();
                 ChatDto associateChatDto = chatScreenDto.getUserFriendsAndChatDto().get(connection);
-                cic.setData(connection,this, associateChatDto);
+                cic.setData(connection, this, associateChatDto);
                 connectionLayout.getChildren().add(hbox);
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -170,6 +204,4 @@ public class ChatScreenController implements Initializable {
         }
         return ls;
     }
-
-
 }

@@ -2,7 +2,6 @@ package iti.jets.app.client.controllers;
 
 import iti.jets.app.shared.DTOs.UserRegisterDto;
 import iti.jets.app.shared.Interfaces.RegisterService;
-import iti.jets.app.server.Implementation.RegisterServiceImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;

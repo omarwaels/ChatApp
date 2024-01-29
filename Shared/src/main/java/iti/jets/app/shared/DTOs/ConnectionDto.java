@@ -7,7 +7,7 @@ import java.io.Serializable;
 public class ConnectionDto implements Serializable {
 
     private UserLoginDto userLoginDto;
-    private Client client;
+//    private Client client;
 
     public UserLoginDto getUserLoginDto() {
         return userLoginDto;
@@ -17,16 +17,16 @@ public class ConnectionDto implements Serializable {
         this.userLoginDto = userLoginDto;
     }
 
-    public Client getClient() {
-        return client;
-    }
+//    public Client getClient() {
+//        return client;
+//    }
+//
+//    public void setClient(Client client) {
+//        this.client = client;
+//    }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public ConnectionDto(UserLoginDto userLoginDto, Client client) {
+    public ConnectionDto(UserLoginDto userLoginDto) {
         this.userLoginDto = userLoginDto;
-        this.client = client;
+//        this.client = client;
     }
 }
