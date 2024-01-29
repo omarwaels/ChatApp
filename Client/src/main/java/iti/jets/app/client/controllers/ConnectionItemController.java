@@ -24,6 +24,7 @@ public class ConnectionItemController implements Initializable {
 
     public void setData(UserDto user) {
         connectionName.setText(user.getDisplayName());
+
         connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
     }
     @Override

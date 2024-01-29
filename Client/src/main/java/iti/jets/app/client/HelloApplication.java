@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
 
 
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("views/chat-screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/user-settings.fxml"));
         stage.setTitle("Chatting App");
         stage.setScene(new Scene(root));
         stage.show();
