@@ -3,6 +3,7 @@ package iti.jets.app.client.controllers;
 import iti.jets.app.client.CallBack.ClientImpl;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.server.ServerService;
+import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -101,9 +102,10 @@ public class ChatScreenController implements Initializable {
         customInit();
         new Thread(() -> {
             try {
-                Registry registry = LocateRegistry.getRegistry("192.168.254.214", 8189);
+                Registry registry = LocateRegistry.getRegistry(8189);
                 client = new ClientImpl(this, loginResultDto.getUserDto().getId());
-                serverService = (ServerService) registry.lookup("ServerService");
+                ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
+                serverService = serviceFactory.getServerService();
                 serverService.register(client);
                 System.out.println("Client registered successfully");
             } catch (IOException | NotBoundException e) {

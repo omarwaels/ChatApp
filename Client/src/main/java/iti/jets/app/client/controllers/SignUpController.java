@@ -2,6 +2,7 @@ package iti.jets.app.client.controllers;
 
 import iti.jets.app.shared.DTOs.UserRegisterDto;
 import iti.jets.app.shared.Interfaces.server.RegisterService;
+import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -76,18 +78,9 @@ public class SignUpController implements Initializable {
     public TextField confirmPasswordTextField;
 
     public byte[] picture;
-
-    private RegisterService registerService;
-
-    @SneakyThrows
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        try {
-            Registry registry = LocateRegistry.getRegistry("192.168.254.214", 8189);
-            registerService = (RegisterService) registry.lookup("RegisterService");
-        } catch (Exception e) {
-            System.out.println("Server is not responding");
-        }
     }
 
     @FXML
@@ -143,7 +136,7 @@ public class SignUpController implements Initializable {
     }
 
     @FXML
-    public void onSignUpSubmit() throws RemoteException {
+    public void onSignUpSubmit() throws RemoteException, NotBoundException {
         boolean valid = true;
         if (fullNameTextField.getText().isEmpty()) {
             fullNameErrorLabel.setText("You must enter your user name");
@@ -181,7 +174,7 @@ public class SignUpController implements Initializable {
             addUser();
     }
 
-    private void addUser() throws RemoteException {
+    private void addUser() throws RemoteException, NotBoundException {
         UserRegisterDto userRegisterDto = new UserRegisterDto(phoneNumberTextField.getText(), passwordTextField.getText());
         userRegisterDto.setDisplayName(fullNameTextField.getText());
         userRegisterDto.setEmail(emailTextField.getText());
@@ -190,7 +183,9 @@ public class SignUpController implements Initializable {
         userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
         userRegisterDto.setBio(bioTextField.getText());
         userRegisterDto.setPicture(picture);
-        int ret = registerService.register(userRegisterDto);
+        Registry registry = LocateRegistry.getRegistry(8189);
+        ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
+        int ret = serviceFactory.getRegisterService().register(userRegisterDto);
         if (ret == 1) {
             System.out.println("Done");
             redirectToSignInPage();

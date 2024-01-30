@@ -12,6 +12,7 @@ import java.util.ResourceBundle;
 import iti.jets.app.shared.DTOs.*;
 
 import iti.jets.app.shared.Interfaces.server.LoginService;
+import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -55,10 +56,10 @@ public class SignInController implements Initializable {
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
         LoginResultDto loginResultDto = null;
         try {
-            Registry registry = LocateRegistry.getRegistry("192.168.254.214", 8189);
-            LoginService loginService = (LoginService) registry.lookup("LoginService");
-            loginResultDto = loginService.login(userLoginDto);
-            if(loginResultDto == null)
+            Registry registry = LocateRegistry.getRegistry(8189);
+            ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
+            loginResultDto = serviceFactory.getLoginService().login(userLoginDto);
+            if (loginResultDto == null)
                 System.out.println("loginResultDto is null");
         } catch (RemoteException e) {
             System.out.println("Server is not responding");
