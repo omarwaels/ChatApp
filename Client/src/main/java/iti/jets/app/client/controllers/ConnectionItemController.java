@@ -27,7 +27,7 @@ public class ConnectionItemController implements Initializable {
     private int UserID;
     private FriendInfoDto user;
     private ChatDto chatDto;
-
+    
     public void setData(FriendInfoDto user, ChatScreenController chatScreenController, ChatDto chatDto) {
         this.user = user;
         this.chatScreenController = chatScreenController;

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="740.0" prefWidth="1220.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.UserSettingsController">
+   <left>
+      <VBox prefHeight="200.0" prefWidth="340.0" styleClass="primary-color" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" prefHeight="402.0" prefWidth="340.0" spacing="15.0">
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
+               <children>
+                  <ImageView fx:id="profilePic" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <clip>
+                        <Circle centerX="75.0" centerY="75.0" radius="75.0" />
+                     </clip>
+                     <image>
+                        <Image url="@../img/OSherif.jpg" />
+                     </image>
+                  </ImageView>
+                  <Label text="Omar Elsherif" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="editPhotoBtn" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Edit Photo" textFill="#fffbfb">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="removePhotoBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="131.0" text="Remove Photo" textFill="#fffbfb">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+            <Pane prefHeight="26.0" prefWidth="340.0" />
+            <TextArea fx:id="bio" opacity="0.8" prefHeight="200.0" prefWidth="263.0" promptText="This is your bio.. " stylesheets="@../style/style.css" wrapText="true">
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </TextArea>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="50.0" styleClass="secondary-color" stylesheets="@../style/style.css" BorderPane.alignment="CENTER">
+         <children>
+            <Label prefHeight="17.0" prefWidth="880.0" text="Profile Settings" textFill="#fffdfd">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <VBox prefHeight="215.0" prefWidth="829.0" spacing="30.0">
+               <children>
+                  <Label prefHeight="36.0" prefWidth="780.0" text="Profile Details" textFill="#fffdfd">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font>
+                  </Label>
+                  <HBox fx:id="nameBox" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="780.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="97.0" text="Name" textFill="#fffdfd">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="200.0" prefWidth="140.0" />
+                        <TextField fx:id="nameField" editable="false" prefHeight="25.0" prefWidth="286.0" text="Omar" />
+                        <Pane prefHeight="31.0" prefWidth="77.0" />
+                        <Button fx:id="editNameBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="80.0" text="Edit" textFill="#fffbfb">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="saveNameBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Save" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="cancelNameBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="49.0" text="Cancel" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="emailBox" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="780.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="97.0" text="email" textFill="#fffdfd">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="200.0" prefWidth="140.0" />
+                        <TextField fx:id="emailField" editable="false" prefHeight="25.0" prefWidth="286.0" text="Hunter@gmail.com" />
+                        <Pane prefHeight="31.0" prefWidth="77.0" />
+                        <Button fx:id="editEmailBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="80.0" text="Edit" textFill="#fffbfb">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="saveEmailBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Save" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="cancelEmailBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="49.0" text="Cancel" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="dobBox" alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="780.0">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="102.0" text="Date of Birth" textFill="#fffdfd">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="31.0" prefWidth="133.0" />
+                        <DatePicker fx:id="dobPicker" editable="false" opacity="0.8" prefHeight="26.0" prefWidth="283.0" promptText="Edit Your DOB" />
+                        <Pane prefHeight="31.0" prefWidth="85.0" />
+                        <Button fx:id="editDobBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="80.0" text="Edit" textFill="#fffbfb">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="saveDobBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Save" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="cancelDobBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="49.0" text="Cancel" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+            <VBox prefHeight="330.0" prefWidth="779.0" spacing="30.0">
+               <children>
+                  <HBox fx:id="changePassBox">
+                     <children>
+                        <Label prefHeight="36.0" prefWidth="593.0" text="Change Password" textFill="#fffdfd">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Label>
+                        <Button fx:id="editPassBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="80.0" text="Edit" textFill="#fffbfb">
+                           <font>
+                              <Font name="System Bold" size="15.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="savePassBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Save" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="2.0" right="2.0" />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="cancelPassBtn" mnemonicParsing="false" prefHeight="31.0" prefWidth="49.0" text="Cancel" textFill="#fffbfb" visible="false">
+                           <font>
+                              <Font name="System Bold" size="11.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="currentPassBox" alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="779.0">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="138.0" text="Current Password" textFill="#fffdfd">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="37.0" prefWidth="134.0" />
+                        <StackPane>
+                           <children>
+                              <PasswordField fx:id="passwordField" text="A7A L SHBSHB DA3" />
+                              <TextField fx:id="shownPasswordField" editable="false" prefHeight="26.0" prefWidth="320.0" visible="false">
+                                 <font>
+                                    <Font size="13.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </StackPane>
+                        <ToggleButton fx:id="showPassBtn" mnemonicParsing="false" onAction="#toggleButton" styleClass="button" stylesheets="@../style/style.css" text="Show" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ToggleButton>
+                     </children>
+                  </HBox>
+                  <HBox fx:id="newPassBox" alignment="CENTER_LEFT" prefHeight="61.0" prefWidth="779.0" visible="false">
+                     <children>
+                        <Label prefHeight="26.0" prefWidth="167.0" text="Enter a New Password" textFill="#fffdfd">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="82.0" prefWidth="106.0" />
+                        <PasswordField fx:id="newPassField" prefHeight="26.0" prefWidth="320.0" />
+                     </children>
+                  </HBox>
+                  <HBox fx:id="confirmPassBox" alignment="CENTER_LEFT" prefHeight="41.0" prefWidth="779.0" visible="false">
+                     <children>
+                        <Label prefHeight="27.0" prefWidth="175.0" text="Confirm New Password" textFill="#fffdfd">
+                           <font>
+                              <Font size="17.0" />
+                           </font>
+                        </Label>
+                        <Pane prefHeight="38.0" prefWidth="100.0" />
+                        <PasswordField fx:id="confirmPassField" prefHeight="26.0" prefWidth="319.0" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="passStatus" prefHeight="26.0" prefWidth="178.0" text="Label" visible="false" />
+               </children>
+            </VBox>
+         </children>
+         <padding>
+            <Insets bottom="30.0" left="50.0" right="50.0" top="30.0" />
+         </padding>
+      </VBox>
+   </center>
+</BorderPane>
