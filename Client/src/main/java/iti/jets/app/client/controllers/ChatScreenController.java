@@ -14,15 +14,15 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
@@ -85,9 +85,17 @@ public class ChatScreenController implements Initializable {
     public ScrollPane chatScrollPane;
     @FXML
     public HBox chatFooter;
+    @FXML
+    public VBox temporaryScreen;
+
+
     private LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
+    Image currentScreenImage = null;
+
+
+
     HashMap<Integer, Node[]> chatsArr = new HashMap<>();
 
     ClientImpl client;
@@ -96,6 +104,10 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+    }
+    public void setCurrentScreenImage(Image currentScreenImage) {
+        this.currentScreenImage = currentScreenImage;
     }
 
     public void setChatScreenDto(LoginResultDto loginResultDto) throws NotBoundException {
@@ -118,6 +130,7 @@ public class ChatScreenController implements Initializable {
     public void customInit() {
         List<FriendInfoDto> contactListArray = getContactListArray();
         this.showContactList(contactListArray);
+
     }
 
     void updateCurrentScreenChatId(int newChatId) {
@@ -158,10 +171,11 @@ public class ChatScreenController implements Initializable {
             chatLayout.setAlignment(Pos.CENTER_RIGHT);
             HBox hbox = fxmlLoader.load();
             MessageSentController msc = fxmlLoader.getController();
-            msc.setData(new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis())));
+            Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+            msc.setData(new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis())) ,userImg );
             chatLayout.getChildren().add(hbox);
             messageTextField.setText("");
-            System.out.println(currentScreenUserId);
+
             new Thread(() -> {
                 try {
                     serverService.sendMessage(new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis())));
@@ -184,7 +198,7 @@ public class ChatScreenController implements Initializable {
                 e.printStackTrace();
             }
             MessageReceiveController msc = fxmlLoader.getController();
-            msc.setData(message);
+            msc.setData(message , currentScreenImage);
             chatLayout.getChildren().add(hbox);
         });
     }

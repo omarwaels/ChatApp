@@ -10,6 +10,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
@@ -23,10 +24,13 @@ public class ConnectionItemController implements Initializable {
     public ImageView connectionPic;
     @FXML
     public Circle connectionStatus;
+    @FXML
+    public HBox connectionItem;
     ChatScreenController chatScreenController;
     private int UserID;
     private FriendInfoDto user;
     private ChatDto chatDto;
+    private Image userImage;
     
     public void setData(FriendInfoDto user, ChatScreenController chatScreenController, ChatDto chatDto) {
         this.user = user;
@@ -36,16 +40,28 @@ public class ConnectionItemController implements Initializable {
         connectionStatus.setFill(user.getUserFriendStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         UserID = user.getUserFriendID();
         if (user.getUserFriendPhoto() != null) {
-            connectionPic.setImage(new Image(new ByteArrayInputStream(user.getUserFriendPhoto())));
+            Image userImg = new Image(new ByteArrayInputStream(user.getUserFriendPhoto()));
+            connectionPic.setImage(userImg);
+            this.userImage = userImg;
         }
     }
 
     public void friendClicked() {
+        chatScreenController.temporaryScreen.setVisible(false);
         chatScreenController.updateChatLayout(UserID);
         chatScreenController.updateConnectionName(user.getUserFriendName());
         chatScreenController.updateCurrentScreenChatId(chatDto.getChatId());
         chatScreenController.updateCurrentScreenStatusWord(user.getUserFriendStatus());
+        chatScreenController.chatArea.setVisible(true);
+        chatScreenController.setCurrentScreenImage(userImage);
     }
+    public void hoverEnterEffect() {
+        connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.7);");
+    }
+    public void hoverExitEffect() {
+        connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.0);");
+    }
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

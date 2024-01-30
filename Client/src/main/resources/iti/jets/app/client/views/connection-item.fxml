@@ -12,7 +12,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="connectionItem" alignment="CENTER_LEFT" onMouseClicked="#friendClicked" prefHeight="66.0" prefWidth="248.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.ConnectionItemController">
+<HBox fx:id="connectionItem" alignment="CENTER_LEFT" onMouseClicked="#friendClicked" onMouseEntered="#hoverEnterEffect" onMouseExited="#hoverExitEffect" prefHeight="66.0" prefWidth="257.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.ConnectionItemController">
    <children>
       <ImageView fx:id="connectionPic" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -66,6 +66,9 @@
          <children>
             <Circle fx:id="connectionStatus" fill="#50c781b0" layoutX="12.0" layoutY="33.0" radius="7.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
          </children>
+         <HBox.margin>
+            <Insets right="2.0" />
+         </HBox.margin>
       </Pane>
    </children>
    <cursor>

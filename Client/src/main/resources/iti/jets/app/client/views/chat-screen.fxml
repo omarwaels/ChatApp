@@ -10,13 +10,14 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.ChatScreenController">
     <left>
-        <HBox prefHeight="598.0" prefWidth="301.0" BorderPane.alignment="CENTER">
+        <HBox prefHeight="598.0" prefWidth="277.0" BorderPane.alignment="CENTER">
             <children>
                 <VBox alignment="CENTER" prefHeight="598.0" prefWidth="53.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
                     <children>
@@ -86,7 +87,7 @@
                      </styleClass>
                         </HBox>
                   <Pane prefHeight="3.0" prefWidth="248.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
-                  <ScrollPane fx:id="connectionsScrollPane" prefHeight="525.0" prefWidth="248.0" stylesheets="@../style/style.css" VBox.vgrow="ALWAYS">
+                  <ScrollPane fx:id="connectionsScrollPane" prefHeight="524.0" prefWidth="236.0" stylesheets="@../style/style.css" VBox.vgrow="ALWAYS">
                      <content>
                         <VBox fx:id="connectionLayout" prefWidth="231.0" styleClass="transparent" stylesheets="@../style/style.css" />
                      </content>
@@ -100,90 +101,108 @@
         </HBox>
     </left>
    <center>
-      <VBox fx:id="chatArea" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+      <StackPane BorderPane.alignment="CENTER">
          <children>
-            <HBox fx:id="chatHeader" alignment="CENTER_LEFT" prefHeight="82.0" prefWidth="200.0">
+            <VBox fx:id="chatArea" prefHeight="200.0" prefWidth="100.0" visible="false">
                <children>
-                  <Label fx:id="connectionName" prefHeight="28.0" prefWidth="169.0" text="Omar El-Sherif" textFill="#9da7a7">
-                     <font>
-                        <Font name="Ebrima Bold" size="22.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="20.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Circle fx:id="currentScreenStatusColor" fill="#50c984" radius="4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Label fx:id="currentScreenStatusWord" alignment="CENTER" prefHeight="28.0" prefWidth="44.0" text="Online" textFill="#9da7a7">
-                     <font>
-                        <Font name="Ebrima" size="13.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Pane prefHeight="82.0" prefWidth="105.0" HBox.hgrow="ALWAYS" />
-                  <ImageView fx:id="voiceCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/phone.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="videoCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/zoom.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="15.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <ImageView fx:id="threeDotsBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/more.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="20.0" right="10.0" />
-                     </HBox.margin>
-                  </ImageView>
+                  <HBox fx:id="chatHeader" alignment="CENTER_LEFT" prefHeight="82.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="connectionName" prefHeight="28.0" prefWidth="169.0" text="Omar El-Sherif" textFill="#9da7a7">
+                           <font>
+                              <Font name="Ebrima Bold" size="22.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Circle fx:id="currentScreenStatusColor" fill="RED" radius="4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                        <Label fx:id="currentScreenStatusWord" alignment="CENTER" prefHeight="28.0" prefWidth="44.0" text="Online" textFill="#9da7a7">
+                           <font>
+                              <Font name="Ebrima" size="13.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <Pane prefHeight="82.0" prefWidth="105.0" HBox.hgrow="ALWAYS" />
+                        <ImageView fx:id="voiceCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/phone.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fx:id="videoCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/zoom.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="threeDotsBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/more.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="20.0" right="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
+                  <ScrollPane fx:id="chatScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="478.0" prefWidth="498.0" styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox fx:id="chatLayout" alignment="TOP_RIGHT" />
+                     </content>
+                  </ScrollPane>
+                  <HBox fx:id="chatFooter" alignment="CENTER" prefHeight="67.0" prefWidth="498.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <ImageView fx:id="emojiBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/happy.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <ImageView fx:id="attachementBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/attach-paperclip-symbol.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets left="15.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <TextField fx:id="messageTextField" onKeyPressed="#sendMessageByKeyborad" prefHeight="46.0" prefWidth="349.0" promptText="Type something to send..." styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
+                           <HBox.margin>
+                              <Insets left="10.0" right="8.0" />
+                           </HBox.margin>
+                        </TextField>
+                        <ImageView fx:id="sendBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/paper.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
+                        </ImageView>
+                     </children>
+                  </HBox>
                </children>
-            </HBox>
-            <ScrollPane fx:id="chatScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="478.0" prefWidth="498.0" styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">
-               <content>
-                  <VBox fx:id="chatLayout" alignment="TOP_RIGHT" />
-               </content>
-            </ScrollPane>
-            <HBox fx:id="chatFooter" alignment="CENTER" prefHeight="67.0" prefWidth="498.0" HBox.hgrow="ALWAYS">
+            </VBox>
+            <VBox fx:id="temporaryScreen" alignment="CENTER" StackPane.alignment="CENTER">
                <children>
-                  <ImageView fx:id="emojiBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/happy.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <ImageView fx:id="attachementBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/attach-paperclip-symbol.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="15.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <TextField fx:id="messageTextField" onKeyPressed="#sendMessageByKeyborad" prefHeight="46.0" prefWidth="349.0" promptText="Type something to send..." styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
-                     <HBox.margin>
-                        <Insets left="10.0" right="8.0" />
-                     </HBox.margin>
-                  </TextField>
-                  <ImageView fx:id="sendBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/paper.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="5.0" />
-                     </HBox.margin>
-                  </ImageView>
+                  <Label alignment="CENTER" prefHeight="70.0" prefWidth="316.0" text="Select a chat to start Messaging ">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" prefHeight="46.0" prefWidth="266.0" text="(づ｡ ◕‿‿◕｡ )づ">
+                     <font>
+                        <Font size="31.0" />
+                     </font>
+                  </Label>
                </children>
-            </HBox>
+            </VBox>
          </children>
-      </VBox>
+      </StackPane>
    </center>
 </BorderPane>

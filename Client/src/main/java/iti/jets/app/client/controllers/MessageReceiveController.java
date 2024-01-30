@@ -3,6 +3,7 @@ package iti.jets.app.client.controllers;
 import iti.jets.app.shared.DTOs.MessageDto;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -21,9 +22,10 @@ public class MessageReceiveController implements Initializable {
     @FXML
     public TextFlow txtFlow;
 
-    public void setData(MessageDto msg) {
+    public void setData(MessageDto msg , Image userImage) {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
         txt.setText(msg.getMessageContent());
+        img.setImage(userImage);
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         }
     @Override
