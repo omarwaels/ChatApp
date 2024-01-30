@@ -21,7 +21,7 @@ public class User implements Serializable {
     private ModeEnum userEnum;
     private StatusEnum statusEnum;
 
-    public User(int id, String phoneNumber, String displayName, String email, byte[] picture, String password, String gender, String country, Date dateOfBirth, String bio) {
+    public User(int id, String phoneNumber, String displayName, String email, byte[] picture, String password, String gender, String country, Date dateOfBirth, String bio,StatusEnum statusEnum) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.displayName = displayName;
@@ -32,6 +32,7 @@ public class User implements Serializable {
         this.country = country;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
+        this.statusEnum = statusEnum;
     }
 
     public static class UserBuilder {
@@ -110,7 +111,7 @@ public class User implements Serializable {
         }
 
         public User build() {
-            return new User(id, phoneNumber, displayName, email, picture, password, gender, country, dateOfBirth, bio);
+            return new User(id, phoneNumber, displayName, email, picture, password, gender, country, dateOfBirth, bio,statusEnum);
         }
     }
 

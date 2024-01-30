@@ -44,6 +44,7 @@ public class ConnectionItemController implements Initializable {
         chatScreenController.updateChatLayout(UserID);
         chatScreenController.updateConnectionName(user.getUserFriendName());
         chatScreenController.updateCurrentScreenChatId(chatDto.getChatId());
+        chatScreenController.updateCurrentScreenStatusWord(user.getUserFriendStatus());
     }
 
     @Override

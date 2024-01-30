@@ -56,7 +56,7 @@ public class SignInController implements Initializable {
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
         LoginResultDto loginResultDto = null;
         try {
-            Registry registry = LocateRegistry.getRegistry(8189);
+            Registry registry = LocateRegistry.getRegistry(8090);
             ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
             loginResultDto = serviceFactory.getLoginService().login(userLoginDto);
             if (loginResultDto == null)
@@ -68,6 +68,7 @@ public class SignInController implements Initializable {
             LogInErrorLabel.setText("Invalid username or password");
             return;
         }
+        System.out.println(loginResultDto);
         redirectToChatScreenPage(loginResultDto);
     }
 

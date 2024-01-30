@@ -183,7 +183,7 @@ public class SignUpController implements Initializable {
         userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
         userRegisterDto.setBio(bioTextField.getText());
         userRegisterDto.setPicture(picture);
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(8090);
         ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
         int ret = serviceFactory.getRegisterService().register(userRegisterDto);
         if (ret == 1) {

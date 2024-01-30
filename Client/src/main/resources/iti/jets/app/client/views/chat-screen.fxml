@@ -112,8 +112,8 @@
                         <Insets left="20.0" />
                      </HBox.margin>
                   </Label>
-                  <Circle fx:id="statusColor" fill="#50c984" radius="4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-                  <Label fx:id="statusWord" alignment="CENTER" prefHeight="28.0" prefWidth="44.0" text="Online" textFill="#9da7a7">
+                  <Circle fx:id="currentScreenStatusColor" fill="#50c984" radius="4.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                  <Label fx:id="currentScreenStatusWord" alignment="CENTER" prefHeight="28.0" prefWidth="44.0" text="Online" textFill="#9da7a7">
                      <font>
                         <Font name="Ebrima" size="13.0" />
                      </font>

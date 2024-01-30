@@ -4,6 +4,7 @@ import iti.jets.app.client.CallBack.ClientImpl;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import iti.jets.app.shared.enums.StatusEnum;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +20,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 import java.io.IOException;
@@ -27,10 +29,7 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class ChatScreenController implements Initializable {
@@ -66,10 +65,12 @@ public class ChatScreenController implements Initializable {
     public ImageView sendBtn;
 
     @FXML
-    public Circle statusColor;
+    public Circle currentScreenStatusColor;
+
 
     @FXML
-    public Label statusWord;
+    public Label currentScreenStatusWord;
+
 
     @FXML
     public ImageView threeDotsBtn;
@@ -102,7 +103,7 @@ public class ChatScreenController implements Initializable {
         customInit();
         new Thread(() -> {
             try {
-                Registry registry = LocateRegistry.getRegistry(8189);
+                Registry registry = LocateRegistry.getRegistry(8090);
                 client = new ClientImpl(this, loginResultDto.getUserDto().getId());
                 ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
                 serverService = serviceFactory.getServerService();
@@ -121,6 +122,22 @@ public class ChatScreenController implements Initializable {
 
     void updateCurrentScreenChatId(int newChatId) {
         this.currentScreenChatId = newChatId;
+    }
+
+    void updateCurrentScreenStatusWord(StatusEnum statusWord) {
+        currentScreenStatusWord.setText(statusWord.getStatus());
+        String statusColor = getOnlineAndOfflineColor(statusWord);
+        currentScreenStatusColor.setFill(Color.web(statusColor));
+    }
+
+    private String getOnlineAndOfflineColor (StatusEnum statusWord){
+        switch (statusWord){
+            case ONLINE:
+                return"#50c984";
+            default:
+                return"#ff0000";
+
+        }
     }
 
     public void updateConnectionName(String name) {
@@ -192,6 +209,7 @@ public class ChatScreenController implements Initializable {
             try {
                 HBox hbox = fxmlLoader.load();
                 ConnectionItemController cic = fxmlLoader.getController();
+
                 ChatDto associateChatDto = loginResultDto.getUserFriendsAndChatDto().get(connection);
                 cic.setData(connection, this, associateChatDto);
                 connectionLayout.getChildren().add(hbox);
@@ -207,6 +225,7 @@ public class ChatScreenController implements Initializable {
         for (FriendInfoDto friendInfoDto : userFriendsAndChatDto.keySet()) {
             ls.add(friendInfoDto);
         }
+        Collections.sort(ls, Comparator.comparing(FriendInfoDto::getUserFriendStatus));
         return ls;
     }
 }

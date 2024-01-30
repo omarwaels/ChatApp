@@ -17,6 +17,7 @@ public class MessageReceiveController implements Initializable {
     @FXML
     public Text txt;
 
+
     @FXML
     public TextFlow txtFlow;
 
