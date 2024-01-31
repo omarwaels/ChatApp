@@ -27,6 +27,5 @@ public class MessageReceiveController implements Initializable {
         }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 }

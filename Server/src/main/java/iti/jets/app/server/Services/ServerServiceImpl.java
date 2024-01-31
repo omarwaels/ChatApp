@@ -9,7 +9,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 
 public class ServerServiceImpl extends UnicastRemoteObject implements ServerService {
-    private ArrayList<Client> clients = new ArrayList<>();
+    private static ArrayList<Client> clients = new ArrayList<>();
 
     public ServerServiceImpl() throws RemoteException {
     }
@@ -17,6 +17,7 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     @Override
     public void sendMessage(MessageDto messageDto) throws RemoteException {
         for (Client c : clients) {
+            System.out.println(c.getID() + " " + messageDto.getReceiverId());
             if (c.getID() == messageDto.getReceiverId()) {
                 c.receiveMessage(messageDto);
                 return;

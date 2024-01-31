@@ -10,8 +10,6 @@ import java.io.IOException;
 
 public class ClientApp extends Application {
     @Override
-
-
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("views/sign-in.fxml"));
         stage.setTitle("Chatting App");

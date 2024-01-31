@@ -168,7 +168,7 @@
                         <Insets left="15.0" />
                      </HBox.margin>
                   </ImageView>
-                  <TextField fx:id="messageTextField" onKeyPressed="#sendMessageByKeyborad" prefHeight="46.0" prefWidth="349.0" promptText="Type something to send..." styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
+                  <TextField fx:id="messageTextField" onKeyPressed="#sendMessageByKeyboard" prefHeight="46.0" prefWidth="349.0" promptText="Type something to send..." styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets left="10.0" right="8.0" />
                      </HBox.margin>

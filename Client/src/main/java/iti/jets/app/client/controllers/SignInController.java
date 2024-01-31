@@ -9,6 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
+import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 
 import iti.jets.app.shared.Interfaces.server.LoginService;
@@ -18,57 +19,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class SignInController implements Initializable {
+    @FXML
     public Label userNameErrorLabel;
+    @FXML
     public Label PasswordErrorLabel;
+
+    @FXML
     public Label LogInErrorLabel;
+
+    @FXML
     public TextField userNameTextField;
+
+    @FXML
     public PasswordField passwordTextField;
     @FXML
     public Label signUpLabel;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
-    }
-
-    @FXML
-    public void onLoginSubmit() throws NotBoundException {
-        boolean isInputValid = true;
-        if (userNameTextField.getText().isEmpty()) {
-            userNameErrorLabel.setText("You must enter your phone number");
-            isInputValid = false;
-        }
-        if (passwordTextField.getText().isEmpty()) {
-            PasswordErrorLabel.setText("You must enter your password");
-            isInputValid = false;
-        }
-        if (isInputValid)
-            login();
-    }
-
-    private void login() throws NotBoundException {
-        UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
-        LoginResultDto loginResultDto = null;
-        try {
-            Registry registry = LocateRegistry.getRegistry(8189);
-            ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
-            loginResultDto = serviceFactory.getLoginService().login(userLoginDto);
-            if (loginResultDto == null)
-                System.out.println("loginResultDto is null");
-        } catch (RemoteException e) {
-            System.out.println("Server is not responding");
-        }
-        if (loginResultDto == null) {
-            LogInErrorLabel.setText("Invalid username or password");
-            return;
-        }
-        redirectToChatScreenPage(loginResultDto);
     }
 
     @FXML
@@ -82,38 +57,64 @@ public class SignInController implements Initializable {
     }
 
     @FXML
-    public void onSignUpLabelClicked() {
+    public void onLoginSubmit() throws NotBoundException, IOException {
+        if (nonEmptyPhoneAndPassword())
+            login();
+    }
+
+    @FXML
+    public void onSignUpLabelClicked() throws IOException {
         redirectToSignUpPage();
     }
 
-    private void redirectToSignUpPage() {
-        try {
-            Stage currentStage = (Stage) signUpLabel.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/iti/jets/app/client/views/sign-up.fxml"));
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+    private boolean nonEmptyPhoneAndPassword() {
+        boolean isInputValid = true;
+        if (userNameTextField.getText().isEmpty()) {
+            userNameErrorLabel.setText("You must enter your phone number");
+            isInputValid = false;
         }
+        if (passwordTextField.getText().isEmpty()) {
+            PasswordErrorLabel.setText("You must enter your password");
+            isInputValid = false;
+        }
+        return isInputValid;
     }
 
-    private void redirectToChatScreenPage(LoginResultDto loginResultDto) throws NotBoundException {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));
-            Parent root = loader.load();
-            ChatScreenController anotherController = loader.getController();
-            anotherController.setChatScreenDto(loginResultDto);
-            // Create a new scene with the loaded FXML file
-            Scene scene = new Scene(root);
-            // Get the stage (window) from the current button
-            Stage stage = (Stage) signUpLabel.getScene().getWindow();
-            // Set the new scene on the stage
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void login() throws NotBoundException, IOException {
+        UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordTextField.getText());
+        LoginResultDto loginResultDto = getLoginService().login(userLoginDto);
+        if (loginResultDto == null)
+            errorInLogin();
+        else
+            redirectToChatScreenPage(loginResultDto);
     }
 
+    LoginService getLoginService() throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(8189);
+        return ((ServiceFactory) registry.lookup("ServiceFactory")).getLoginService();
+    }
+
+    private void errorInLogin() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText("Phone number or password is incorrect, please try again");
+        alert.showAndWait();
+    }
+
+    private void redirectToSignUpPage() throws IOException {
+        Stage currentStage = (Stage) signUpLabel.getScene().getWindow();
+        Parent root = ViewsFactory.getViewsFactory().getSignUpLoader().load();
+        currentStage.setScene(new Scene(root));
+        currentStage.show();
+    }
+
+    private void redirectToChatScreenPage(LoginResultDto loginResultDto) throws IOException, NotBoundException {
+        FXMLLoader loader = ViewsFactory.getViewsFactory().getChatLoader();
+        Parent root = loader.load();
+        ChatScreenController chatScreenController = loader.getController();
+        chatScreenController.setChatScreenDto(loginResultDto);
+        ((Stage) signUpLabel.getScene().getWindow()).setScene(new Scene(root));
+    }
 }
 
 

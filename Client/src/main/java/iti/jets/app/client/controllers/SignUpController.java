@@ -1,17 +1,16 @@
 package iti.jets.app.client.controllers;
 
+import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.UserRegisterDto;
 import iti.jets.app.shared.Interfaces.server.RegisterService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import lombok.SneakyThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +48,7 @@ public class SignUpController implements Initializable {
     @FXML
     public ComboBox<?> genderComboBox;
 
+    @FXML
     public ComboBox<?> countryComboBox;
 
     @FXML
@@ -71,14 +71,17 @@ public class SignUpController implements Initializable {
     @FXML
     public Label logInLabel;
 
+    @FXML
     public TextField bioTextField;
 
+    @FXML
     public Label confirmPasswordErrorLabel;
 
+    @FXML
     public TextField confirmPasswordTextField;
 
     public byte[] picture;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -103,40 +106,93 @@ public class SignUpController implements Initializable {
         phoneNumberErrorLabel.setText("");
     }
 
-    public void onUploadPhoto() {
+    @FXML
+    public void onUploadPhoto() throws IOException {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose Photo");
         FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp");
         fileChooser.getExtensionFilters().add(imageFilter);
         File selectedFile = fileChooser.showOpenDialog(phoneNumberTextField.getScene().getWindow());
-
-        if (selectedFile != null) {
-            try {
-                picture = Files.readAllBytes(selectedFile.toPath());
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
+        if (selectedFile != null)
+            picture = Files.readAllBytes(selectedFile.toPath());
     }
 
+    @FXML
+    public void onSignUpSubmit() throws IOException, NotBoundException {
+        if (nonEmptyRequiredFields())
+            addUser();
+    }
+
+    @FXML
     public void onConfirmPasswordInput() {
         confirmPasswordErrorLabel.setText("");
     }
 
+    @FXML
     public void onCountryChoose() {
         countryErrorLabel.setText("");
     }
 
+    @FXML
     public void onGenderChoose() {
         genderErrorLabel.setText("");
     }
 
+    @FXML
     public void onChooseDate() {
         dobErrorLabel.setText("");
     }
 
     @FXML
-    public void onSignUpSubmit() throws RemoteException, NotBoundException {
+    public void onBioInput() {
+    }
+
+    @FXML
+    public void onLogInLabelClicked() throws IOException {
+        redirectToSignInPage();
+    }
+
+    private void addUser() throws IOException, NotBoundException {
+        UserRegisterDto userRegisterDto = createUserRegisterDto();
+        int ret = getRegisterService().register(userRegisterDto);
+        if (ret == 1)
+            redirectToSignInPage();
+        else
+            errorInSignUp();
+    }
+
+    private RegisterService getRegisterService() throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(8189);
+        return ((ServiceFactory) registry.lookup("ServiceFactory")).getRegisterService();
+    }
+
+    private void errorInSignUp() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText("Phone number or email already exists, please try again");
+        alert.showAndWait();
+    }
+
+    private void redirectToSignInPage() throws IOException {
+        Stage currentStage = (Stage) logInLabel.getScene().getWindow();
+        Parent root = ViewsFactory.getViewsFactory().getLoginLoader().load();
+        currentStage.setScene(new Scene(root));
+        currentStage.show();
+    }
+
+    private UserRegisterDto createUserRegisterDto() {
+        UserRegisterDto userRegisterDto = new UserRegisterDto(phoneNumberTextField.getText(), passwordTextField.getText());
+        userRegisterDto.setDisplayName(fullNameTextField.getText());
+        userRegisterDto.setEmail(emailTextField.getText());
+        userRegisterDto.setGender(genderComboBox.getSelectionModel().getSelectedItem().toString());
+        userRegisterDto.setCountry(countryComboBox.getSelectionModel().getSelectedItem().toString());
+        userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
+        userRegisterDto.setBio(bioTextField.getText());
+        userRegisterDto.setPicture(picture);
+        return userRegisterDto;
+    }
+
+    private boolean nonEmptyRequiredFields() {
         boolean valid = true;
         if (fullNameTextField.getText().isEmpty()) {
             fullNameErrorLabel.setText("You must enter your user name");
@@ -170,51 +226,7 @@ public class SignUpController implements Initializable {
             countryErrorLabel.setText("You must choose a country");
             valid = false;
         }
-        if (valid)
-            addUser();
+        return valid;
     }
-
-    private void addUser() throws RemoteException, NotBoundException {
-        UserRegisterDto userRegisterDto = new UserRegisterDto(phoneNumberTextField.getText(), passwordTextField.getText());
-        userRegisterDto.setDisplayName(fullNameTextField.getText());
-        userRegisterDto.setEmail(emailTextField.getText());
-        userRegisterDto.setGender(genderComboBox.getSelectionModel().getSelectedItem().toString());
-        userRegisterDto.setCountry(countryComboBox.getSelectionModel().getSelectedItem().toString());
-        userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
-        userRegisterDto.setBio(bioTextField.getText());
-        userRegisterDto.setPicture(picture);
-        Registry registry = LocateRegistry.getRegistry(8189);
-        ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
-        int ret = serviceFactory.getRegisterService().register(userRegisterDto);
-        if (ret == 1) {
-            System.out.println("Done");
-            redirectToSignInPage();
-        } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setContentText("Phone number or email already exists, please try again");
-            alert.showAndWait();
-        }
-    }
-
-    @FXML
-    public void onLogInLabelClicked() {
-        redirectToSignInPage();
-    }
-
-    public void onBioInput() {
-
-    }
-
-    private void redirectToSignInPage() {
-        try {
-            Stage currentStage = (Stage) logInLabel.getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/iti/jets/app/client/views/sign-in.fxml"));
-            currentStage.setScene(new Scene(root));
-            currentStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
+

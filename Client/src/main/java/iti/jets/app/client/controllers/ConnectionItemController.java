@@ -1,9 +1,7 @@
 package iti.jets.app.client.controllers;
 
-
 import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
-import iti.jets.app.shared.DTOs.UserDto;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -23,11 +21,11 @@ public class ConnectionItemController implements Initializable {
     public ImageView connectionPic;
     @FXML
     public Circle connectionStatus;
-    ChatScreenController chatScreenController;
     private int UserID;
     private FriendInfoDto user;
     private ChatDto chatDto;
-    
+    private ChatScreenController chatScreenController;
+
     public void setData(FriendInfoDto user, ChatScreenController chatScreenController, ChatDto chatDto) {
         this.user = user;
         this.chatScreenController = chatScreenController;
@@ -40,6 +38,7 @@ public class ConnectionItemController implements Initializable {
         }
     }
 
+    @FXML
     public void friendClicked() {
         chatScreenController.updateChatLayout(UserID);
         chatScreenController.updateConnectionName(user.getUserFriendName());
@@ -48,6 +47,5 @@ public class ConnectionItemController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
     }
 }
