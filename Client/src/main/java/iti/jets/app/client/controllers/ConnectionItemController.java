@@ -25,7 +25,8 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public HBox connectionItem;
     private int UserID;
-    private FriendInfoDto user;
+
+    public FriendInfoDto user;
     private ChatDto chatDto;
     private ChatScreenController chatScreenController;
     private Image userImage;
@@ -42,21 +43,23 @@ public class ConnectionItemController implements Initializable {
             connectionPic.setImage(userImg);
             this.userImage = userImg;
         }
+        chatScreenController.currentConnection = this;
     }
 
     @FXML
     public void friendClicked() {
         chatScreenController.temporaryScreen.setVisible(false);
-
-        chatScreenController.updateChatLayout(UserID , chatDto.getChatId());
+        chatScreenController.updateChatLayout(UserID, chatDto.getChatId());
         chatScreenController.updateConnectionName(user.getUserFriendName());
         chatScreenController.updateCurrentScreenStatusWord(user.getUserFriendStatus());
         chatScreenController.chatArea.setVisible(true);
         chatScreenController.setCurrentScreenImage(userImage);
     }
+
     public void hoverEnterEffect() {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.7);");
     }
+
     public void hoverExitEffect() {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.0);");
     }

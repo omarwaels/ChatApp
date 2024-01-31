@@ -34,4 +34,13 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     public void unregister(Client c) throws RemoteException {
         clients.remove(c);
     }
+
+    @Override
+    public void updateStatus(ArrayList<Integer> friendsIds, int userId, boolean online) throws RemoteException {
+        for (Client c : clients) {
+            if (friendsIds.contains(c.getID())) {
+                c.updateFriendStatus(userId, online);
+            }
+        }
+    }
 }
