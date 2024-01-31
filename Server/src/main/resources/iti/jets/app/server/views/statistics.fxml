@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.chart.PieChart?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="548.0" prefWidth="542.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.server.fxcontrollers.StatisticsController">
     <children>
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Statistics" />
+        <MenuButton layoutX="7.0" layoutY="7.0" stylesheets="@../style/statistics.css" text="Select Chart" fx:id="chartMenuButton" >
+            <items>
+                <MenuItem onAction="#showGenderChart" text="Gender Statistics" />
+                <MenuItem onAction="#showCountryChart" text="Country Statistics" />
+                <MenuItem onAction="#showUserStatusChart" text="User Status Statistics" />
+            </items>
+        </MenuButton>
+
+        <PieChart fx:id="pieChart" layoutX="3.0" layoutY="41.0" legendSide="LEFT" prefHeight="354.0" prefWidth="442.0" title="PIE CHART" />
+        <Label fx:id="status" layoutX="31.0" layoutY="319.0" prefHeight="53.0" prefWidth="169.0">
+            <font>
+                <Font name="Calibri" size="24.0" />
+            </font>
+        </Label>
+      <JFXButton buttonType="RAISED" layoutX="376.0" layoutY="431.0" onAction="#updateStats" prefHeight="38.0" prefWidth="152.0" styleClass="updateButton" stylesheets="@../style/statistics.css" text="UPDATE STATISTICS">
+         <font>
+            <Font name="Poppins Regular" size="12.5" />
+         </font>
+      </JFXButton>
     </children>
-</HBox>
+</AnchorPane>
