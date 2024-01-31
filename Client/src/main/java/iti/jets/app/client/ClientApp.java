@@ -5,13 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
 public class ClientApp extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("views/sign-in.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/sign-up.fxml"));
         stage.setTitle("Chatting App");
         stage.setScene(new Scene(root));
         stage.show();

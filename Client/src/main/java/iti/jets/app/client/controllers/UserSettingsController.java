@@ -8,10 +8,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -63,7 +67,7 @@ public class UserSettingsController implements Initializable {
     public Button editPassBtn;
 
     @FXML
-    public Button editPhotoBtn;
+    public Button pickImageButton;
 
     @FXML
     public HBox emailBox;
@@ -90,8 +94,7 @@ public class UserSettingsController implements Initializable {
     public ImageView profilePic;
 
     @FXML
-    public Button removePhotoBtn;
-
+    public Button updatePhotoBtn;
     @FXML
     public Button saveDobBtn;
 
@@ -114,17 +117,13 @@ public class UserSettingsController implements Initializable {
     public TextField shownPasswordField;
 
     @FXML
-    public void toggleButton(ActionEvent event)
-    {
-        if(showPassBtn.isSelected())
-        {
+    public void toggleButton(ActionEvent event) {
+        if (showPassBtn.isSelected()) {
             showPassBtn.setText("Hide");
             shownPasswordField.setText(passwordField.getText());
             shownPasswordField.setVisible(true);
             passwordField.setVisible(false);
-        }
-        else
-        {
+        } else {
             showPassBtn.setText("Show");
             passwordField.setVisible(true);
             shownPasswordField.setVisible(false);
@@ -132,12 +131,9 @@ public class UserSettingsController implements Initializable {
     }
 
 
-    public void switchButtonsVisibility(HBox fieldBox)
-    {
-        for (Node node : fieldBox.getChildren())
-        {
-            if (node instanceof Button)
-            {
+    public void switchButtonsVisibility(HBox fieldBox) {
+        for (Node node : fieldBox.getChildren()) {
+            if (node instanceof Button) {
                 node.setVisible(!node.isVisible());
             }
         }
@@ -145,7 +141,7 @@ public class UserSettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(passStatus == null)
+        if (passStatus == null)
             passStatus = new Label();
         confirmPassField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -230,9 +226,33 @@ public class UserSettingsController implements Initializable {
             passStatus.setVisible(false);
         });
     }
-    public void clearPassFields()
-    {
+
+    public void clearPassFields() {
         newPassField.clear();
         confirmPassField.clear();
+    }
+
+    @FXML
+    public void imagePicker(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Profile Picture");
+
+
+         FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPEG files (*.jpg)", "*.jpg");
+         FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+         fileChooser.getExtensionFilters().addAll(jpgFilter, pngFilter);
+
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+
+        if (selectedFile != null) {
+            String imagePath = selectedFile.toURI().toString();
+            profilePic.setImage(new Image(imagePath));
+            updatePhotoBtn.setVisible(true);
+        }
+    }
+
+    @FXML
+    void updateProfilePic () {
+
     }
 }

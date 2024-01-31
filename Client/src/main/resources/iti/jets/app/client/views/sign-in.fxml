@@ -14,7 +14,7 @@
 
 <HBox minWidth="785.0" prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: #ffff;" stylesheets="@../style/login.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.SignInController">
    <children>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" style="-fx-background-color: #fffffff;" HBox.hgrow="ALWAYS">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" style="-fx-background-color: #ffff;" HBox.hgrow="ALWAYS">
          <children>
             <ImageView fitHeight="321.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true">
                <image>

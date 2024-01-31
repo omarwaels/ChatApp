@@ -11,5 +11,5 @@ module client {
     opens iti.jets.app.client to javafx.fxml;
     exports iti.jets.app.client;
     exports iti.jets.app.client.controllers;
-
+    opens iti.jets.app.client.controllers to javafx.fxml;
 }

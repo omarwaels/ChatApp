@@ -19,12 +19,12 @@
     <left>
         <HBox prefHeight="598.0" prefWidth="277.0" BorderPane.alignment="CENTER">
             <children>
-                <VBox alignment="CENTER" prefHeight="598.0" prefWidth="53.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
+                <VBox alignment="CENTER" prefHeight="598.0" prefWidth="55.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
                     <children>
                         <Pane layoutX="10.0" layoutY="185.0" prefHeight="422.0" prefWidth="92.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
-                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="48.0" fitWidth="38.0" opacity="0.79" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/chat-box.png" />
+                                <Image url="@../img/chat.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
@@ -32,7 +32,7 @@
                         </ImageView>
                         <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/multiple-users-silhouette.png" />
+                                <Image url="@../img/group.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
@@ -40,16 +40,16 @@
                         </ImageView>
                         <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/user-profile.png" />
+                                <Image url="@../img/profilesettings.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
                             </VBox.margin>
                         </ImageView>
-                        <Pane prefHeight="343.0" prefWidth="92.0" VBox.vgrow="ALWAYS" />
+                        <Pane prefHeight="343.0" prefWidth="46.0" VBox.vgrow="ALWAYS" />
                         <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/icons8-sign-out-50.png" />
+                                <Image url="@../img/logout.png" />
                             </image>
                             <VBox.margin>
                                 <Insets bottom="30.0" top="20.0" />
@@ -63,7 +63,7 @@
                             <children>
                                 <ImageView fitHeight="19.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../img/magnifying-glass.png" />
+                                        <Image url="@../img/search.png" />
                                     </image>
                            <HBox.margin>
                               <Insets right="3.0" />
