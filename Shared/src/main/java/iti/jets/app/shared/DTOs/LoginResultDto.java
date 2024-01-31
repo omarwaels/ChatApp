@@ -6,16 +6,19 @@ import java.util.HashMap;
 
 public class LoginResultDto implements Serializable {
     private UserDto userDto;
-    private ArrayList<InvitationDto> invitationDtos;
+    private ArrayList<InvitationDto> invitationDto;
     private HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto;
+    private HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants;
+
 
     public LoginResultDto() {
     }
 
-    public LoginResultDto(UserDto userDto, ArrayList<InvitationDto> invitationDtos, HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto) {
+    public LoginResultDto(UserDto userDto, ArrayList<InvitationDto> invitationDtos, HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto, HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants) {
         this.userDto = userDto;
-        this.invitationDtos = invitationDtos;
+        this.invitationDto = invitationDtos;
         this.userFriendsAndChatDto = userFriendsAndChatDto;
+        this.groupParticipants = groupParticipants;
     }
 
     public UserDto getUserDto() {
@@ -26,12 +29,12 @@ public class LoginResultDto implements Serializable {
         this.userDto = userDto;
     }
 
-    public ArrayList<InvitationDto> getInvitationDtos() {
-        return invitationDtos;
+    public ArrayList<InvitationDto> getInvitationDto() {
+        return invitationDto;
     }
 
-    public void setInvitationDtos(ArrayList<InvitationDto> invitationDtos) {
-        this.invitationDtos = invitationDtos;
+    public void setInvitationDto(ArrayList<InvitationDto> invitationDtos) {
+        this.invitationDto = invitationDtos;
     }
 
     public HashMap<FriendInfoDto, ChatDto> getUserFriendsAndChatDto() {
@@ -42,11 +45,19 @@ public class LoginResultDto implements Serializable {
         this.userFriendsAndChatDto = userFriendsAndChatDto;
     }
 
+    public HashMap<ChatDto, ArrayList<FriendInfoDto>> getGroupParticipants() {
+        return groupParticipants;
+    }
+
+    public void setGroupParticipants(HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants) {
+        this.groupParticipants = groupParticipants;
+    }
+
     @Override
     public String toString() {
         return "ChatScreenDto{" +
                 "userDto=" + userDto +
-                ", invitationDtos=" + invitationDtos +
+                ", invitationDtos=" + invitationDto +
                 ", userFriendsAndChatDto=" + userFriendsAndChatDto +
                 '}';
     }

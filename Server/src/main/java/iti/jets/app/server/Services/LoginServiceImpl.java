@@ -40,8 +40,9 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         ArrayList<Integer> friends = getFriendsIds(userResult.getId());
         // Get friends and chats of the user
         HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto = getFriendsAndChats(userDao, userResult, friends);
-
-        return new LoginResultDto(userDtoResult, invitationsDto, userFriendsAndChatDto);
+        // Get group participants
+        HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants = getGroupParticipants();
+        return new LoginResultDto(userDtoResult, invitationsDto, userFriendsAndChatDto, groupParticipants);
     }
 
     private HashMap<FriendInfoDto, ChatDto> getFriendsAndChats(UserDao userDao, User userResult, ArrayList<Integer> friends) {
@@ -68,5 +69,21 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         InvitationDao invitationDao = new InvitationDao();
         ArrayList<Invitation> invitations = invitationDao.getAllInvitations(userResult.getId());
         return InvitationDtoMapper.invitationArrToInvitationDtoArr(invitations);
+    }
+
+    private HashMap<ChatDto, ArrayList<FriendInfoDto>> getGroupParticipants() {
+        ChatParticipantDao chatParticipantDao = new ChatParticipantDao();
+        HashMap<Chat, ArrayList<User>> userGroups = chatParticipantDao.getUserGroups(1);
+        HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants = new HashMap<>();
+        for (Map.Entry<Chat, ArrayList<User>> entry : userGroups.entrySet()) {
+            Chat chat = entry.getKey();
+            ArrayList<User> participants = entry.getValue();
+            ArrayList<FriendInfoDto> participantsDto = new ArrayList<>();
+            for (User participant : participants) {
+                participantsDto.add(FriendInfoDtoMapper.userToFriend(participant));
+            }
+            groupParticipants.put(ChatDtoMapper.chatToChatDto(chat), participantsDto);
+        }
+        return groupParticipants;
     }
 }
