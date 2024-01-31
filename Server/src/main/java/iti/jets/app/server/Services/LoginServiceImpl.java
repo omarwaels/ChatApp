@@ -11,6 +11,8 @@ import iti.jets.app.server.models.entities.User;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.LoginService;
+import iti.jets.app.shared.enums.StatusEnum;
+import iti.jets.app.shared.enums.UserEnum;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -29,6 +31,7 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         if (userResult == null || !userResult.getPassword().equals(userLoginDto.getPassword()))
             return null;
 
+        userResult.setStatus(StatusEnum.ONLINE);
         // Get user
         UserDto userDtoResult = UserDtoMapper.UserToUserDto(userResult);
         // Get invitations

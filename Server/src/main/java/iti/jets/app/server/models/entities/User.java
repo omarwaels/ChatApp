@@ -199,6 +199,13 @@ public class User implements Serializable {
         this.userEnum = userEnum;
     }
 
+    public void setStatus(StatusEnum statusEnum) {
+        this.statusEnum = statusEnum;
+    }
+    public StatusEnum getStatusEnum() {
+        return statusEnum;
+    }
+
     @Override
     public String toString() {
         return "User{" +

@@ -25,7 +25,10 @@ public class MessageSentController implements Initializable {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
         txt.setText(msg.getMessageContent());
         txtFlow.setTextAlignment(TextAlignment.LEFT);
-        img.setImage(userImg);
+        if(userImg != null){
+            img.setImage(userImg);
+        }
+
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         }
     @Override

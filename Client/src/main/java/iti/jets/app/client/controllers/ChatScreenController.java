@@ -199,7 +199,8 @@ public class ChatScreenController implements Initializable {
                 throw new RuntimeException(e);
             }
             MessageReceiveController msc = fxmlLoader.getController();
-            msc.setData(message, currentScreenImage);
+
+
             chatLayout.setAlignment(Pos.CENTER_LEFT);
             msc.setData(message, currentScreenImage);
             chatLayout.getChildren().add(hbox);

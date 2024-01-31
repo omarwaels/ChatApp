@@ -11,7 +11,9 @@ public enum UserEnum {
     COUNTRY(8),
     DATE_OF_BIRTH(9),
     BIO(10),
-    STATUS(11);
+
+    MODE(11),
+    STATUS(12);
     private int field;
 
     UserEnum(int field) {

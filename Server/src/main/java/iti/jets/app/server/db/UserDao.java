@@ -19,33 +19,23 @@ public class UserDao implements Dao<User, String> {
         dataSource = DataSourceFactory.getMySQLDataSource();
     }
 
-    private User extractUser(ResultSet resultSet) {
-        try {
-
-
-            return new User.UserBuilder().setPhoneNumber(resultSet.getString(UserEnum.PHONE_NUMBER.getField()))
-                    .setPassword(resultSet.getString(UserEnum.PASSWORD.getField())).setPicture(resultSet.getBytes(UserEnum.PICTURE.getField()))
-                    .setDisplayName(resultSet.getString(UserEnum.DISPLAY_NAME.getField())).setBio(resultSet.getString(UserEnum.BIO.getField()))
-                    .setId(resultSet.getInt(UserEnum.ID.getField())).setCountry(resultSet.getString(UserEnum.COUNTRY.getField()))
-                    .setEmail(resultSet.getString(UserEnum.EMAIL.getField())).setGender(resultSet.getString(UserEnum.GENDER.getField()))
-                    .setDateOfBirth(resultSet.getDate(UserEnum.DATE_OF_BIRTH.getField()))
-                    .setStatus(StatusEnum.valueOf(resultSet.getString(UserEnum.STATUS.getField()).toUpperCase()))
-                    .build();
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+    private User extractUser(ResultSet resultSet) throws SQLException {
+        return new User.UserBuilder().setPhoneNumber(resultSet.getString(UserEnum.PHONE_NUMBER.getField()))
+                .setPassword(resultSet.getString(UserEnum.PASSWORD.getField())).setPicture(resultSet.getBytes(UserEnum.PICTURE.getField()))
+                .setDisplayName(resultSet.getString(UserEnum.DISPLAY_NAME.getField())).setBio(resultSet.getString(UserEnum.BIO.getField()))
+                .setId(resultSet.getInt(UserEnum.ID.getField())).setCountry(resultSet.getString(UserEnum.COUNTRY.getField()))
+                .setEmail(resultSet.getString(UserEnum.EMAIL.getField())).setGender(resultSet.getString(UserEnum.GENDER.getField()))
+                .setDateOfBirth(resultSet.getDate(UserEnum.DATE_OF_BIRTH.getField()))
+                .setStatus(StatusEnum.valueOf(resultSet.getString(UserEnum.STATUS.getField()).toUpperCase()))
+                .build();
     }
 
     @Override
     public User getById(String phoneNumber) {
         ResultSet resultSet = null;
-
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE phone_number = ?")) {
             preparedStatement.setString(1, phoneNumber);
-
             resultSet = preparedStatement.executeQuery();
-
             if (resultSet.next()) {
                 return extractUser(resultSet);
             } else return null;
@@ -69,6 +59,7 @@ public class UserDao implements Dao<User, String> {
             throw new RuntimeException(e);
         }
     }
+
     public User getByIntegerId(int Id) {
         ResultSet resultSet = null;
 
@@ -182,6 +173,7 @@ public class UserDao implements Dao<User, String> {
             throw new RuntimeException(e);
         }
     }
+
     public ArrayList<User> getUserFriends(ArrayList<Integer> userFriendsIds) {
 
         ArrayList<User> userFriends = new ArrayList<>();
@@ -198,12 +190,12 @@ public class UserDao implements Dao<User, String> {
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(sqlBuilder.toString())) {
 
             int columnCounter = 1;
-            for(int i = 0 ; i < userFriendsIds.size() ; i++){
-                preparedStatement.setInt(i+1, userFriendsIds.get(i));
+            for (int i = 0; i < userFriendsIds.size(); i++) {
+                preparedStatement.setInt(i + 1, userFriendsIds.get(i));
             }
 
             resultSet = preparedStatement.executeQuery();
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 User user = extractUser(resultSet);
                 userFriends.add(user);
 
@@ -218,7 +210,7 @@ public class UserDao implements Dao<User, String> {
 //                userFriends.add(friend);
 
             }
-            return  userFriends;
+            return userFriends;
 
 
         } catch (SQLException e) {

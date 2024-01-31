@@ -1,6 +1,5 @@
 package iti.jets.app.server;
 
-import iti.jets.app.server.db.UserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

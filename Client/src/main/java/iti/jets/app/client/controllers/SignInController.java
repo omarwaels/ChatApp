@@ -42,6 +42,8 @@ public class SignInController implements Initializable {
     @FXML
     public Label signUpLabel;
 
+    public Parent signUpParent;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -103,8 +105,9 @@ public class SignInController implements Initializable {
 
     private void redirectToSignUpPage() throws IOException {
         Stage currentStage = (Stage) signUpLabel.getScene().getWindow();
-        Parent root = ViewsFactory.getViewsFactory().getSignUpLoader().load();
-        currentStage.setScene(new Scene(root));
+        if (signUpParent == null)
+            signUpParent = ViewsFactory.getViewsFactory().getSignUpLoader().load();
+        currentStage.setScene(new Scene(signUpParent));
         currentStage.show();
     }
 

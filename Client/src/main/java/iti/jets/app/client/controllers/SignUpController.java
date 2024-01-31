@@ -82,6 +82,8 @@ public class SignUpController implements Initializable {
 
     public byte[] picture;
 
+    public Parent signInParent;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     }
@@ -175,12 +177,13 @@ public class SignUpController implements Initializable {
 
     private void redirectToSignInPage() throws IOException {
         Stage currentStage = (Stage) logInLabel.getScene().getWindow();
-        Parent root = ViewsFactory.getViewsFactory().getLoginLoader().load();
-        currentStage.setScene(new Scene(root));
+        if (signInParent == null)
+            signInParent = ViewsFactory.getViewsFactory().getLoginLoader().load();
+        currentStage.setScene(new Scene(signInParent));
         currentStage.show();
     }
 
-    private UserRegisterDto createUserRegisterDto() {
+    private UserRegisterDto createUserRegisterDto() throws IOException {
         UserRegisterDto userRegisterDto = new UserRegisterDto(phoneNumberTextField.getText(), passwordTextField.getText());
         userRegisterDto.setDisplayName(fullNameTextField.getText());
         userRegisterDto.setEmail(emailTextField.getText());
@@ -188,6 +191,10 @@ public class SignUpController implements Initializable {
         userRegisterDto.setCountry(countryComboBox.getSelectionModel().getSelectedItem().toString());
         userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
         userRegisterDto.setBio(bioTextField.getText());
+        if (picture == null) {
+            File img = new File("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png");
+            picture = Files.readAllBytes(img.toPath());
+        }
         userRegisterDto.setPicture(picture);
         return userRegisterDto;
     }

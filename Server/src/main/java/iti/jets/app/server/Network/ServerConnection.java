@@ -18,7 +18,7 @@ public class ServerConnection {
 
     public static void openConnection() throws Exception {
         try {
-            registry = LocateRegistry.createRegistry(8090);
+            registry = LocateRegistry.createRegistry(8189);
             ServiceFactory serviceFactory = new ServiceFactoryImpl();
             registry.rebind("ServiceFactory", serviceFactory);
         } catch (RemoteException e) {
