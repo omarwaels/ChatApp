@@ -21,10 +21,11 @@ public class MessageSentController implements Initializable {
     @FXML
     public TextFlow txtFlow;
 
-    public void setData(MessageDto msg) {
+    public void setData(MessageDto msg ,Image userImg) {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
         txt.setText(msg.getMessageContent());
         txtFlow.setTextAlignment(TextAlignment.LEFT);
+        img.setImage(userImg);
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
         }
     @Override

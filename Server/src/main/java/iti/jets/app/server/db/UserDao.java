@@ -21,12 +21,16 @@ public class UserDao implements Dao<User, String> {
 
     private User extractUser(ResultSet resultSet) {
         try {
+
+
             return new User.UserBuilder().setPhoneNumber(resultSet.getString(UserEnum.PHONE_NUMBER.getField()))
                     .setPassword(resultSet.getString(UserEnum.PASSWORD.getField())).setPicture(resultSet.getBytes(UserEnum.PICTURE.getField()))
                     .setDisplayName(resultSet.getString(UserEnum.DISPLAY_NAME.getField())).setBio(resultSet.getString(UserEnum.BIO.getField()))
                     .setId(resultSet.getInt(UserEnum.ID.getField())).setCountry(resultSet.getString(UserEnum.COUNTRY.getField()))
                     .setEmail(resultSet.getString(UserEnum.EMAIL.getField())).setGender(resultSet.getString(UserEnum.GENDER.getField()))
-                    .setDateOfBirth(resultSet.getDate(UserEnum.DATE_OF_BIRTH.getField())).build();
+                    .setDateOfBirth(resultSet.getDate(UserEnum.DATE_OF_BIRTH.getField()))
+                    .setStatus(StatusEnum.valueOf(resultSet.getString(UserEnum.STATUS.getField()).toUpperCase()))
+                    .build();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -101,7 +105,7 @@ public class UserDao implements Dao<User, String> {
             preparedStatement.setDate(8, user.getDateOfBirth());
             preparedStatement.setString(9, user.getBio());
             result = preparedStatement.executeUpdate();
-            System.out.println("hna");
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -197,7 +201,7 @@ public class UserDao implements Dao<User, String> {
             for(int i = 0 ; i < userFriendsIds.size() ; i++){
                 preparedStatement.setInt(i+1, userFriendsIds.get(i));
             }
-            System.out.println(preparedStatement.toString());
+
             resultSet = preparedStatement.executeQuery();
             while(resultSet.next()){
                 User user = extractUser(resultSet);
