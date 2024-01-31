@@ -35,7 +35,7 @@ public enum DataSourceFactory {
         config.setUsername(properties.getProperty("jdbc.username"));
         config.setPassword(properties.getProperty("jdbc.password"));
 
-        //  config.setMaximumPoolSize(500);
+
         config.setMaximumPoolSize(500);
 
         dataSource = new HikariDataSource(config);

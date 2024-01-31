@@ -1,15 +1,8 @@
 package iti.jets.app.server.fxcontrollers;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Objects;
-import java.util.ResourceBundle;
-
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
-import com.jfoenix.controls.JFXToggleButton; // Add this import statement
-
-import iti.jets.app.server.Network.ServerConnection;
+import com.jfoenix.controls.JFXToggleButton;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -22,9 +15,12 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
-public class DashboardController implements Initializable {
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
 
-    private int toggler = 1;
+public class DashboardController implements Initializable {
     @FXML
     public BorderPane bp;
 
@@ -33,25 +29,23 @@ public class DashboardController implements Initializable {
 
     public JFXSnackbar snackbar;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        toggleButton.setSelected(true);
+        snackbar = new JFXSnackbar(bp);
+
+    }
+
+
     @FXML
     public JFXToggleButton toggleButton;
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            ServerConnection.openConnection();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        toggleButton.setSelected(true);
-        snackbar = new JFXSnackbar(bp);
-    }
 
     @FXML
     void home(MouseEvent event) {
         bp.setCenter(ap);
     }
+
 
     @FXML
     void announcements(MouseEvent event) {
@@ -78,14 +72,7 @@ public class DashboardController implements Initializable {
         bp.setCenter(root);
     }
 
-    private void showSnackbar(String message) throws Exception {
-        toggler = (toggler + 1) % 2;
-        if (toggler == 1) {
-            ServerConnection.openConnection();
-        } else {
-            System.out.println("close");
-            ServerConnection.closeConnection();
-        }
+    private void showSnackbar(String message) {
         Platform.runLater(() -> {
             JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(message);
             snackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbarLayout));
@@ -104,12 +91,16 @@ public class DashboardController implements Initializable {
     }
 
     @FXML
-    private void handleToggleButton() throws Exception {
+    private void handleToggleButton() {
         if (toggleButton.isSelected()) {
             showSnackbar("Server is on");
         } else {
             showSnackbar("Server is off");
         }
     }
+
+
+
+
 
 }

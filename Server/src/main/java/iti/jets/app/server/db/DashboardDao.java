@@ -103,11 +103,11 @@ public class DashboardDao {
         Map<String, Integer> countMap = new HashMap<>();
 
         try (Connection connection = dataSource.getConnection()) {
-            String query = "SELECT UserStatus, COUNT(*) as count FROM users GROUP BY UserStatus";
+            String query = "SELECT status, COUNT(*) as count FROM users GROUP BY status";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        String status = resultSet.getString("UserStatus");
+                        String status = resultSet.getString("status");
                         int statusCount = resultSet.getInt("count");
 
                         countMap.put(status, statusCount);

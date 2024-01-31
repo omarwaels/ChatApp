@@ -3,14 +3,17 @@ package iti.jets.app.server.db;
 import iti.jets.app.server.models.entities.User;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.enums.ModeEnum;
+import iti.jets.app.shared.utils.*;
 import iti.jets.app.shared.enums.StatusEnum;
 import iti.jets.app.shared.enums.UserEnum;
 
 import javax.sql.DataSource;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class UserDao implements Dao<User, String> {
     private DataSource dataSource;
@@ -217,5 +220,79 @@ public class UserDao implements Dao<User, String> {
             throw new RuntimeException(e);
         }
     }
+
+
+    public int updateName(String phoneNumber, String name) {
+        String query = "UPDATE users " +
+                "SET display_name = ?" +
+                "WHERE phone_number = ?;";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, phoneNumber);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public int updateUserDob(String phoneNumber, Date date) {
+        String query = "UPDATE users " +
+                "SET date_of_birth = ?" +
+                "WHERE phone_number = ?;";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setDate(1, Utils.getSqlDate(date));
+            preparedStatement.setString(2, phoneNumber);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int updateUserEmail(String phoneNumber, String email) {
+        String query = "UPDATE users " +
+                "SET email = ?" +
+                "WHERE phone_number = ?;";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, phoneNumber);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int updateImage(String phoneNumber, byte[] newImage) {
+        String query = "UPDATE users SET picture = ? WHERE phone_number = ?";
+
+        try (
+                PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+
+            preparedStatement.setBytes(1, newImage);
+            preparedStatement.setString(2, phoneNumber);
+
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public int updateBio(String phoneNumber, String newBio) {
+        String query = "UPDATE users SET bio = ? WHERE phone_number = ?";
+        try (Connection connection = dataSource.getConnection()) {
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, newBio);
+                preparedStatement.setString(2, phoneNumber);
+
+                return preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
 
 }

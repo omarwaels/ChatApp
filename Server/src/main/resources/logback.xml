@@ -1,0 +1,7 @@
+<configuration>
+    <!-- Other configurations -->
+
+    <logger name="com.zaxxer.hikari" level="DEBUG"/>
+
+    <!-- Other configurations -->
+</configuration>
