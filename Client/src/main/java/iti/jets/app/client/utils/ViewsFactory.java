@@ -50,4 +50,10 @@ public class ViewsFactory {
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/message-receive.fxml"));
         return fxmlLoader;
     }
+
+    public FXMLLoader getConnectionLoader() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-item.fxml"));
+        return fxmlLoader;
+    }
 }
