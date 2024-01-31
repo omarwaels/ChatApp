@@ -98,6 +98,8 @@ public class ChatScreenController implements Initializable {
 
 
     HashMap<Integer, Node[]> chatsArr = new HashMap<>();
+    HashMap<Integer, Image> allUserFriendsImg = new HashMap<>();
+
     ClientImpl client;
     ServerService serverService;
 
@@ -131,8 +133,20 @@ public class ChatScreenController implements Initializable {
 
     public void customInit() throws IOException {
         List<FriendInfoDto> contactListArray = getContactListArray();
+        saveUserFriendsImgs(contactListArray);
         this.showContactList(contactListArray);
 
+    }
+
+    private void saveUserFriendsImgs (List<FriendInfoDto> contactListArray){
+        for(FriendInfoDto friend : contactListArray){
+            int friendId = friend.getUserFriendID();
+            Image image = null ;
+            if(friend.getUserFriendPhoto() != null){
+                image =new Image(new ByteArrayInputStream(friend.getUserFriendPhoto()));
+            }
+            allUserFriendsImg.put(friendId, image);
+        }
     }
 
     void updateCurrentScreenChatId(int newChatId) {
@@ -186,10 +200,11 @@ public class ChatScreenController implements Initializable {
     }
 
     private MessageDto createMessageDto(String text) {
-        return new MessageDto(currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()));
+        return new MessageDto(loginResultDto.getUserDto().getId() , currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()));
     }
 
     public void receiveMessage(MessageDto message) {
+
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
             HBox hbox = null;
@@ -199,23 +214,50 @@ public class ChatScreenController implements Initializable {
                 throw new RuntimeException(e);
             }
             MessageReceiveController msc = fxmlLoader.getController();
+            msc.setData(message, allUserFriendsImg.get(message.getSenderId()));
+            //update Current Screen
 
+            if( currentScreenChatId != null && currentScreenChatId.equals(message.getChatId()) ){
 
-            chatLayout.setAlignment(Pos.CENTER_LEFT);
-            msc.setData(message, currentScreenImage);
-            chatLayout.getChildren().add(hbox);
+                chatLayout.setAlignment(Pos.CENTER_LEFT);
+                chatLayout.getChildren().add(hbox);
+            }else{
+                //Add message between nodes
+
+                //If chat screen array includes the chat
+                if (chatsArr.containsKey(message.getChatId())){
+                    System.out.println(chatsArr.get(message.getChatId()).length);
+                    Node[] nodes = chatsArr.get(message.getChatId());
+                    ArrayList<Node> nodeList = new ArrayList<>(Arrays.asList(nodes));
+                    nodeList.add(hbox);
+                    Node[] updatedNodesArray = nodeList.toArray(new Node[0]);
+                    chatsArr.put(message.getChatId(), updatedNodesArray);
+                }else{
+                    //If the chat didn't start
+                    ArrayList<Node> nodeList = new ArrayList<>();
+                    nodeList.add(hbox);
+                    Node[] nodesArray = nodeList.toArray(new Node[0]);
+                    chatsArr.put(message.getChatId(),nodesArray);
+                }
+            }
         });
     }
 
-    public void updateChatLayout(int newUserIdScreen) {
-        if (this.currentScreenUserId != null) {
+    public void updateChatLayout(int newUserIdScreen , int newChatIdScreen) {
+        if (this.currentScreenChatId != null) {
             Node[] currentChildren = chatLayout.getChildren().toArray(new Node[0]);
-            chatsArr.put(this.currentScreenUserId, currentChildren);
+            chatsArr.put(this.currentScreenChatId, currentChildren);
         }
         chatLayout.getChildren().clear();
-        if (chatsArr.containsKey(newUserIdScreen))
-            chatLayout.getChildren().addAll(chatsArr.get(newUserIdScreen));
+        if (chatsArr.containsKey(newChatIdScreen)) {
+            System.out.println(chatsArr.get(newChatIdScreen).length);
+            System.out.println("reached here");
+            chatLayout.getChildren().addAll(chatsArr.get(newChatIdScreen));
+
+        }
+        //Just update the current Screen user Id & current Screen chat Id
         this.currentScreenUserId = newUserIdScreen;
+        this.currentScreenChatId = newChatIdScreen;
     }
 
     private void showContactList(List<FriendInfoDto> connections) throws IOException {

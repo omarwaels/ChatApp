@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 
 public class MessageDto implements Serializable {
 
+    private Integer senderId;
     private Integer receiverId;
     private Integer chatId;
     private boolean containsFile;
@@ -14,20 +15,13 @@ public class MessageDto implements Serializable {
 
     public MessageDto() {
     }
-    public MessageDto(Integer recieverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
-        this.receiverId = recieverId;
-        this.chatId = chatId;
-        this.containsFile = containsFile;
-        this.messageContent = messageContent;
-        this.sentAt = sentAt;
-    }
 
     public Integer getSenderId() {
-        return chatId;
+        return senderId;
     }
 
     public void setSenderId(Integer senderId) {
-        this.chatId = chatId;
+        this.senderId = senderId;
     }
 
     public Integer getReceiverId() {
@@ -36,6 +30,14 @@ public class MessageDto implements Serializable {
 
     public void setReceiverId(Integer receiverId) {
         this.receiverId = receiverId;
+    }
+
+    public Integer getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Integer chatId) {
+        this.chatId = chatId;
     }
 
     public boolean isContainsFile() {
@@ -62,14 +64,12 @@ public class MessageDto implements Serializable {
         this.sentAt = sentAt;
     }
 
-    @Override
-    public String toString() {
-        return "MessageDto{" +
-                "chatId='" + chatId + '\'' +
-                ", recieverId='" + receiverId + '\'' +
-                ", containsFile=" + containsFile +
-                ", messageContent='" + messageContent + '\'' +
-                ", sentAt=" + sentAt +
-                '}';
+    public MessageDto(Integer senderId, Integer receiverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.chatId = chatId;
+        this.containsFile = containsFile;
+        this.messageContent = messageContent;
+        this.sentAt = sentAt;
     }
 }

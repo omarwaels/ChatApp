@@ -47,9 +47,9 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public void friendClicked() {
         chatScreenController.temporaryScreen.setVisible(false);
-        chatScreenController.updateChatLayout(UserID);
+
+        chatScreenController.updateChatLayout(UserID , chatDto.getChatId());
         chatScreenController.updateConnectionName(user.getUserFriendName());
-        chatScreenController.updateCurrentScreenChatId(chatDto.getChatId());
         chatScreenController.updateCurrentScreenStatusWord(user.getUserFriendStatus());
         chatScreenController.chatArea.setVisible(true);
         chatScreenController.setCurrentScreenImage(userImage);
