@@ -6,6 +6,7 @@ import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import iti.jets.app.shared.enums.StatusEnum;
+import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,6 +23,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
+import org.w3c.dom.events.Event;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -37,6 +40,16 @@ import java.util.*;
 public class ChatScreenController implements Initializable {
     @FXML
     public ImageView attachementBtn;
+
+    @FXML
+    public ImageView exitImg;
+    @FXML
+    public ImageView singleChat;
+    @FXML
+    public ImageView groupChat;
+    @FXML
+    public ImageView chatSettingImg;
+
     @FXML
     public BorderPane chatBorderPane;
     @FXML
@@ -50,12 +63,16 @@ public class ChatScreenController implements Initializable {
 
     @FXML
     public VBox connectionLayout;
+    @FXML
+    public VBox connectionGroupsLayout;
 
     @FXML
     public Label connectionName;
 
     @FXML
-    public ScrollPane connectionsScrollPane;
+    public ScrollPane singleChatContainer;
+    @FXML
+    public ScrollPane groubChatContainer;
 
     @FXML
     public ImageView emojiBtn;
@@ -105,7 +122,7 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        groubChatContainer.setVisible(false);
     }
 
     public void setCurrentScreenImage(Image currentScreenImage) {
@@ -133,8 +150,16 @@ public class ChatScreenController implements Initializable {
 
     public void customInit() throws IOException {
         List<FriendInfoDto> contactListArray = getContactListArray();
+        List<ChatDto> groubsListArray = getGroupListArray();
+        showGroupList(groubsListArray);
         saveUserFriendsImgs(contactListArray);
         this.showContactList(contactListArray);
+        Collection<Node> nodesToScaleTransition = new ArrayList<>();
+        nodesToScaleTransition.add(singleChat);
+        nodesToScaleTransition.add(groupChat);
+        nodesToScaleTransition.add(chatSettingImg);
+        nodesToScaleTransition.add(exitImg);
+        scaleTransitionIn(nodesToScaleTransition);
 
     }
 
@@ -149,14 +174,17 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-    void updateCurrentScreenChatId(int newChatId) {
-        this.currentScreenChatId = newChatId;
-    }
+
 
     void updateCurrentScreenStatusWord(StatusEnum statusWord) {
         currentScreenStatusWord.setText(statusWord.getStatus());
         String statusColor = getOnlineAndOfflineColor(statusWord);
         currentScreenStatusColor.setFill(Color.web(statusColor));
+    }
+
+    void updateCurrentScreenStatusWordForGroups(String statusWord) {
+        currentScreenStatusWord.setText(statusWord);
+        currentScreenStatusColor.setFill(Color.rgb(0, 0, 0, 0.0));
     }
 
     private String getOnlineAndOfflineColor(StatusEnum statusWord) {
@@ -166,6 +194,14 @@ public class ChatScreenController implements Initializable {
             default:
                 return "#ff0000";
         }
+    }
+    public void showGroupChat() {
+        singleChatContainer.setVisible(false);
+        groubChatContainer.setVisible(true);
+    }
+    public void showSingleChat() {
+        groubChatContainer.setVisible(false);
+        singleChatContainer.setVisible(true);
     }
 
     public void updateConnectionName(String name) {
@@ -243,7 +279,7 @@ public class ChatScreenController implements Initializable {
         });
     }
 
-    public void updateChatLayout(int newUserIdScreen , int newChatIdScreen) {
+    public void updateChatLayout(Integer newUserIdScreen , Integer newChatIdScreen) {
         if (this.currentScreenChatId != null) {
             Node[] currentChildren = chatLayout.getChildren().toArray(new Node[0]);
             chatsArr.put(this.currentScreenChatId, currentChildren);
@@ -270,6 +306,16 @@ public class ChatScreenController implements Initializable {
             connectionLayout.getChildren().add(hbox);
         }
     }
+    private void showGroupList(List<ChatDto> connections) throws IOException {
+        for (ChatDto connection : connections) {
+            FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
+            HBox hbox = fxmlLoaders.load();
+            ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
+            connectionGroupItemController.setData(connection, this );
+            connectionGroupsLayout.getChildren().add(hbox);
+        }
+    }
+
 
     private List<FriendInfoDto> getContactListArray() {
         HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto = loginResultDto.getUserFriendsAndChatDto();
@@ -277,4 +323,39 @@ public class ChatScreenController implements Initializable {
         ls.sort(Comparator.comparing(FriendInfoDto::getUserFriendStatus));
         return ls;
     }
+    private List<ChatDto> getGroupListArray() {
+        HashMap<ChatDto, ArrayList<FriendInfoDto>> userFriendsAndChatDto = loginResultDto.getGroupParticipants();
+        List<ChatDto> ls = new ArrayList<>(userFriendsAndChatDto.keySet());
+        return ls;
+    }
+
+    public void scaleTransitionIn(Collection<Node> nodes) {
+        for (Node node : nodes) {
+            ScaleTransition scaleTransition = new ScaleTransition(Duration.millis(300), node);
+
+            // Set the initial and final scales
+            double initialScaleX = node.getScaleX();
+            double initialScaleY = node.getScaleY();
+            double finalScaleX = 1.2; // You can adjust the scale factor as needed
+            double finalScaleY = 1.2;
+
+            // Set the scales for the transition
+            scaleTransition.setFromX(initialScaleX);
+            scaleTransition.setFromY(initialScaleY);
+            scaleTransition.setToX(finalScaleX);
+            scaleTransition.setToY(finalScaleY);
+
+            // Play the transition on mouse enter
+            node.setOnMouseEntered(event -> {
+                scaleTransition.play();
+            });
+
+            // Reverse the transition on mouse exit
+            node.setOnMouseExited(event -> {
+                scaleTransition.setRate(-1);
+                scaleTransition.play();
+            });
+        }
+    }
+
 }

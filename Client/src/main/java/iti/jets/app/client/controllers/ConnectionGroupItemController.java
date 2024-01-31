@@ -15,9 +15,10 @@ import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ConnectionItemController implements Initializable {
+public class ConnectionGroupItemController implements Initializable {
     @FXML
     public Label connectionName;
+
     @FXML
     public ImageView connectionPic;
     @FXML
@@ -25,22 +26,20 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public HBox connectionItem;
     private int UserID;
-    private FriendInfoDto user;
+
     private ChatDto chatDto;
     private ChatScreenController chatScreenController;
-    private Image userImage;
 
-    public void setData(FriendInfoDto user, ChatScreenController chatScreenController, ChatDto chatDto) {
-        this.user = user;
+
+    public void setData( ChatDto chatDto, ChatScreenController chatScreenController) {
+
         this.chatScreenController = chatScreenController;
         this.chatDto = chatDto;
-        connectionName.setText(user.getUserFriendName());
-        connectionStatus.setFill(user.getUserFriendStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
-        UserID = user.getUserFriendID();
-        if (user.getUserFriendPhoto() != null) {
-            Image userImg = new Image(new ByteArrayInputStream(user.getUserFriendPhoto()));
-            connectionPic.setImage(userImg);
-            this.userImage = userImg;
+        connectionName.setText(chatDto.getChatName());
+        if (chatDto.getChatImage() != null) {
+            Image chatImg = new Image(new ByteArrayInputStream(chatDto.getChatImage()));
+            connectionPic.setImage(chatImg);
+
         }
     }
 
@@ -48,12 +47,10 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public void friendClicked() {
         chatScreenController.temporaryScreen.setVisible(false);
-
-        chatScreenController.updateChatLayout(UserID , chatDto.getChatId());
-        chatScreenController.updateConnectionName(user.getUserFriendName());
-        chatScreenController.updateCurrentScreenStatusWord(user.getUserFriendStatus());
+        chatScreenController.updateChatLayout(null , chatDto.getChatId());
+        chatScreenController.updateConnectionName(chatDto.getChatName());
+        chatScreenController.updateCurrentScreenStatusWordForGroups("");
         chatScreenController.chatArea.setVisible(true);
-        chatScreenController.setCurrentScreenImage(userImage);
     }
     public void hoverEnterEffect() {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.7);");

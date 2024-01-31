@@ -1,6 +1,7 @@
 package iti.jets.app.server.models.entities;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class Chat {
     private int chatId;
@@ -58,5 +59,16 @@ public class Chat {
 
     public void setAdminId(int adminId) {
         this.adminId = adminId;
+    }
+
+    @Override
+    public String toString() {
+        return "Chat{" +
+                "chatId=" + chatId +
+                ", chatImage=" + Arrays.toString(chatImage) +
+                ", chatName='" + chatName + '\'' +
+                ", createdAt=" + createdAt +
+                ", adminId=" + adminId +
+                '}';
     }
 }

@@ -1,6 +1,7 @@
 package iti.jets.app.server;
 
 import iti.jets.app.server.Services.LoginServiceImpl;
+import iti.jets.app.server.db.ChatParticipantDao;
 import iti.jets.app.server.db.UserDao;
 import iti.jets.app.shared.DTOs.UserLoginDto;
 import javafx.application.Application;
@@ -12,7 +13,6 @@ import java.io.IOException;
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-        LoginServiceImpl loginService = new LoginServiceImpl();
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("views/server-dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/iti/jets/app/server/style/style.css").toExternalForm());

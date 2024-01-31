@@ -11,6 +11,7 @@ public class LoginResultDto implements Serializable {
     private HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants;
 
 
+
     public LoginResultDto() {
     }
 
@@ -55,10 +56,11 @@ public class LoginResultDto implements Serializable {
 
     @Override
     public String toString() {
-        return "ChatScreenDto{" +
+        return "LoginResultDto{" +
                 "userDto=" + userDto +
-                ", invitationDtos=" + invitationDto +
+                ", invitationDto=" + invitationDto +
                 ", userFriendsAndChatDto=" + userFriendsAndChatDto +
+                ", groupParticipants=" + groupParticipants +
                 '}';
     }
 }

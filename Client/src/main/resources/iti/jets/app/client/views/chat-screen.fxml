@@ -2,6 +2,7 @@
 
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -22,38 +23,50 @@
                 <VBox alignment="CENTER" prefHeight="598.0" prefWidth="53.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
                     <children>
                         <Pane layoutX="10.0" layoutY="185.0" prefHeight="422.0" prefWidth="92.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
-                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="singleChat" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#showSingleChat" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/chat-box.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
                             </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
                         </ImageView>
-                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="groupChat" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#showGroupChat" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/multiple-users-silhouette.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
                             </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
                         </ImageView>
-                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/user-profile.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
                             </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
                         </ImageView>
                         <Pane prefHeight="343.0" prefWidth="92.0" VBox.vgrow="ALWAYS" />
-                        <ImageView fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="exitImg" fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/icons8-sign-out-50.png" />
                             </image>
                             <VBox.margin>
                                 <Insets bottom="30.0" top="20.0" />
                             </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
                         </ImageView>
                     </children>
                 </VBox>
@@ -87,11 +100,20 @@
                      </styleClass>
                         </HBox>
                   <Pane prefHeight="3.0" prefWidth="248.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
-                  <ScrollPane fx:id="connectionsScrollPane" prefHeight="524.0" prefWidth="236.0" stylesheets="@../style/style.css" VBox.vgrow="ALWAYS">
-                     <content>
-                        <VBox fx:id="connectionLayout" prefWidth="231.0" styleClass="transparent" stylesheets="@../style/style.css" />
-                     </content>
-                  </ScrollPane>
+                  <StackPane VBox.vgrow="ALWAYS">
+                     <children>
+                        <ScrollPane fx:id="singleChatContainer" prefHeight="524.0" prefWidth="236.0" stylesheets="@../style/style.css">
+                           <content>
+                              <VBox fx:id="connectionLayout" prefWidth="231.0" styleClass="transparent" stylesheets="@../style/style.css" />
+                           </content>
+                        </ScrollPane>
+                        <ScrollPane fx:id="groubChatContainer" layoutX="10.0" layoutY="10.0" prefHeight="524.0" prefWidth="236.0" stylesheets="@../style/style.css">
+                           <content>
+                              <VBox fx:id="connectionGroupsLayout" prefWidth="231.0" styleClass="transparent" stylesheets="@../style/style.css" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </StackPane>
                     </children>
                <HBox.margin>
                   <Insets />

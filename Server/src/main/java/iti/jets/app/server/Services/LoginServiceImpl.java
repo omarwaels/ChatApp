@@ -41,7 +41,7 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         // Get friends and chats of the user
         HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto = getFriendsAndChats(userDao, userResult, friends);
         // Get group participants
-        HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants = getGroupParticipants();
+        HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants = getGroupParticipants(userResult);
         return new LoginResultDto(userDtoResult, invitationsDto, userFriendsAndChatDto, groupParticipants);
     }
 
@@ -71,9 +71,9 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         return InvitationDtoMapper.invitationArrToInvitationDtoArr(invitations);
     }
 
-    private HashMap<ChatDto, ArrayList<FriendInfoDto>> getGroupParticipants() {
+    private HashMap<ChatDto, ArrayList<FriendInfoDto>> getGroupParticipants(User userResult) {
         ChatParticipantDao chatParticipantDao = new ChatParticipantDao();
-        HashMap<Chat, ArrayList<User>> userGroups = chatParticipantDao.getUserGroups(1);
+        HashMap<Chat, ArrayList<User>> userGroups = chatParticipantDao.getUserGroups(userResult.getId());
         HashMap<ChatDto, ArrayList<FriendInfoDto>> groupParticipants = new HashMap<>();
         for (Map.Entry<Chat, ArrayList<User>> entry : userGroups.entrySet()) {
             Chat chat = entry.getKey();

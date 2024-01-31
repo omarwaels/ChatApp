@@ -7,6 +7,7 @@ public class ViewsFactory {
     private FXMLLoader signUpLoader;
     private FXMLLoader userSettingsLoader;
     private FXMLLoader chatLoader;
+    private FXMLLoader ConnectionGroupItemController;
 
     private static ViewsFactory viewsFactory;
 
@@ -15,6 +16,7 @@ public class ViewsFactory {
         signUpLoader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/sign-up.fxml"));
         userSettingsLoader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/user-settings.fxml"));
         chatLoader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));
+        ConnectionGroupItemController = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/connection-Group-item.fxml"));
     }
 
     public static ViewsFactory getViewsFactory() {
@@ -54,6 +56,11 @@ public class ViewsFactory {
     public FXMLLoader getConnectionLoader() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-item.fxml"));
+        return fxmlLoader;
+    }
+    public FXMLLoader getConnectionGroupItemController() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-Group-item.fxml"));
         return fxmlLoader;
     }
 }
