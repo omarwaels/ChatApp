@@ -22,6 +22,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -234,5 +236,15 @@ public class ChatScreenController implements Initializable {
         List<FriendInfoDto> ls = new ArrayList<>(userFriendsAndChatDto.keySet());
         ls.sort(Comparator.comparing(FriendInfoDto::getUserFriendStatus));
         return ls;
+    }
+
+    @FXML
+    public static void pushNotifications() {
+        Notifications notifications = Notifications.create()
+                .text("hello test")
+                .graphic(null)
+                .hideAfter(Duration.seconds(3))
+                .position(Pos.BOTTOM_RIGHT);
+        notifications.showConfirm();
     }
 }
