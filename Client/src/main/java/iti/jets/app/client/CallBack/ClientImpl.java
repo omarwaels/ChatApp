@@ -27,4 +27,9 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     public int getID() throws RemoteException {
         return id;
     }
+
+    @Override
+    public void updateFriendStatus(int friendId, boolean online) throws RemoteException {
+        chatScreenController.updateFriendStatus(friendId, online);
+    }
 }

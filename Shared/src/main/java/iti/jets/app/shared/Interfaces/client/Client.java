@@ -10,4 +10,6 @@ public interface Client extends Remote  {
     void receiveMessage(MessageDto messageDto)throws RemoteException;
 
     int getID() throws RemoteException;
+
+    void updateFriendStatus(int friendId, boolean online) throws RemoteException;
 }

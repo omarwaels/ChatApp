@@ -38,6 +38,8 @@ import java.util.*;
 
 
 public class ChatScreenController implements Initializable {
+
+    private static ChatScreenController chatScreenController;
     @FXML
     public ImageView attachementBtn;
 
@@ -107,12 +109,12 @@ public class ChatScreenController implements Initializable {
     @FXML
     public VBox temporaryScreen;
 
+    public ConnectionItemController currentConnection;
 
     private LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
     Image currentScreenImage = null;
-
 
     HashMap<Integer, Node[]> chatsArr = new HashMap<>();
     HashMap<Integer, Image> allUserFriendsImg = new HashMap<>();
@@ -120,16 +122,21 @@ public class ChatScreenController implements Initializable {
     ClientImpl client;
     ServerService serverService;
 
+    private HashMap<Integer, ConnectionItemController> onlineUsers = new HashMap<>();
+
+    private HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         groubChatContainer.setVisible(false);
+
     }
 
     public void setCurrentScreenImage(Image currentScreenImage) {
         this.currentScreenImage = currentScreenImage;
     }
 
-    public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException {
+    public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
         customInit();
         new Thread(() -> {
@@ -137,6 +144,7 @@ public class ChatScreenController implements Initializable {
                 client = new ClientImpl(this, loginResultDto.getUserDto().getId());
                 serverService = getServerService();
                 serverService.register(client);
+                informFriends(true);
             } catch (IOException | NotBoundException e) {
                 e.printStackTrace();
             }
@@ -154,6 +162,7 @@ public class ChatScreenController implements Initializable {
         showGroupList(groubsListArray);
         saveUserFriendsImgs(contactListArray);
         this.showContactList(contactListArray);
+
         Collection<Node> nodesToScaleTransition = new ArrayList<>();
         nodesToScaleTransition.add(singleChat);
         nodesToScaleTransition.add(groupChat);
@@ -163,12 +172,12 @@ public class ChatScreenController implements Initializable {
 
     }
 
-    private void saveUserFriendsImgs (List<FriendInfoDto> contactListArray){
-        for(FriendInfoDto friend : contactListArray){
+    private void saveUserFriendsImgs(List<FriendInfoDto> contactListArray) {
+        for (FriendInfoDto friend : contactListArray) {
             int friendId = friend.getUserFriendID();
-            Image image = null ;
-            if(friend.getUserFriendPhoto() != null){
-                image =new Image(new ByteArrayInputStream(friend.getUserFriendPhoto()));
+            Image image = null;
+            if (friend.getUserFriendPhoto() != null) {
+                image = new Image(new ByteArrayInputStream(friend.getUserFriendPhoto()));
             }
             allUserFriendsImg.put(friendId, image);
         }
@@ -236,11 +245,10 @@ public class ChatScreenController implements Initializable {
     }
 
     private MessageDto createMessageDto(String text) {
-        return new MessageDto(loginResultDto.getUserDto().getId() , currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()));
+        return new MessageDto(loginResultDto.getUserDto().getId(), currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()));
     }
 
     public void receiveMessage(MessageDto message) {
-
         Platform.runLater(() -> {
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
             HBox hbox = null;
@@ -253,33 +261,33 @@ public class ChatScreenController implements Initializable {
             msc.setData(message, allUserFriendsImg.get(message.getSenderId()));
             //update Current Screen
 
-            if( currentScreenChatId != null && currentScreenChatId.equals(message.getChatId()) ){
-
+            if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
                 chatLayout.setAlignment(Pos.CENTER_LEFT);
                 chatLayout.getChildren().add(hbox);
-            }else{
+            } else {
                 //Add message between nodes
-
                 //If chat screen array includes the chat
-                if (chatsArr.containsKey(message.getChatId())){
+                if (chatsArr.containsKey(message.getChatId())) {
                     System.out.println(chatsArr.get(message.getChatId()).length);
                     Node[] nodes = chatsArr.get(message.getChatId());
                     ArrayList<Node> nodeList = new ArrayList<>(Arrays.asList(nodes));
                     nodeList.add(hbox);
                     Node[] updatedNodesArray = nodeList.toArray(new Node[0]);
                     chatsArr.put(message.getChatId(), updatedNodesArray);
-                }else{
+                } else {
                     //If the chat didn't start
                     ArrayList<Node> nodeList = new ArrayList<>();
                     nodeList.add(hbox);
                     Node[] nodesArray = nodeList.toArray(new Node[0]);
-                    chatsArr.put(message.getChatId(),nodesArray);
+                    chatsArr.put(message.getChatId(), nodesArray);
                 }
             }
         });
     }
 
+
     public void updateChatLayout(Integer newUserIdScreen , Integer newChatIdScreen) {
+
         if (this.currentScreenChatId != null) {
             Node[] currentChildren = chatLayout.getChildren().toArray(new Node[0]);
             chatsArr.put(this.currentScreenChatId, currentChildren);
@@ -303,6 +311,11 @@ public class ChatScreenController implements Initializable {
             ConnectionItemController connectionItemController = fxmlLoader.getController();
             ChatDto associateChatDto = loginResultDto.getUserFriendsAndChatDto().get(connection);
             connectionItemController.setData(connection, this, associateChatDto);
+            if (connection.getUserFriendStatus() == StatusEnum.ONLINE) {
+                onlineUsers.put(connection.getUserFriendID(), connectionItemController);
+            } else {
+                offlineUsers.put(connection.getUserFriendID(), connectionItemController);
+            }
             connectionLayout.getChildren().add(hbox);
         }
     }
@@ -323,6 +336,7 @@ public class ChatScreenController implements Initializable {
         ls.sort(Comparator.comparing(FriendInfoDto::getUserFriendStatus));
         return ls;
     }
+
     private List<ChatDto> getGroupListArray() {
         HashMap<ChatDto, ArrayList<FriendInfoDto>> userFriendsAndChatDto = loginResultDto.getGroupParticipants();
         List<ChatDto> ls = new ArrayList<>(userFriendsAndChatDto.keySet());
@@ -356,6 +370,51 @@ public class ChatScreenController implements Initializable {
                 scaleTransition.play();
             });
         }
+    }
+
+
+
+    public void updateFriendStatus(int friendId, boolean online) {
+        Platform.runLater(() -> {
+            ConnectionItemController connectionItemController = null;
+            if (online) {
+                connectionItemController = offlineUsers.get(friendId);
+                if (connectionItemController != null) {
+                    offlineUsers.remove(friendId);
+                    connectionItemController.user.setUserFriendStatus(StatusEnum.ONLINE);
+                    onlineUsers.put(friendId, connectionItemController);
+                    connectionItemController.connectionStatus.setFill(javafx.scene.paint.Color.GREEN);
+                }
+            } else {
+                connectionItemController = onlineUsers.get(friendId);
+                if (connectionItemController != null) {
+                    onlineUsers.remove(friendId);
+                    connectionItemController.user.setUserFriendStatus(StatusEnum.OFFLINE);
+                    offlineUsers.put(friendId, connectionItemController);
+                    connectionItemController.connectionStatus.setFill(Color.RED);
+                }
+            }
+            if (connectionItemController == currentConnection)
+                currentConnection.friendClicked();
+        });
+    }
+
+
+    public void informFriends(boolean online) {
+        if (onlineUsers.keySet().isEmpty())
+            return;
+        new Thread(() -> {
+            try {
+                serverService.updateStatus(new ArrayList<>(onlineUsers.keySet()), loginResultDto.getUserDto().getId(), online);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    public void performActionsBeforeClosing() throws RemoteException {
+        informFriends(false);
+        serverService.unregister(client);
     }
 
 }

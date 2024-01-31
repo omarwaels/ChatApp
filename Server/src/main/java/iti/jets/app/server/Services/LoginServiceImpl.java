@@ -31,7 +31,7 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         if (userResult == null || !userResult.getPassword().equals(userLoginDto.getPassword()))
             return null;
 
-        userResult.setStatus(StatusEnum.ONLINE);
+        userDao.updateStatus(userResult.getPhoneNumber(), StatusEnum.ONLINE.getStatus());
         // Get user
         UserDto userDtoResult = UserDtoMapper.UserToUserDto(userResult);
         // Get invitations
