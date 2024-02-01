@@ -30,4 +30,9 @@ public class ServiceFactoryImpl extends UnicastRemoteObject implements ServiceFa
     public UpdateInfoService getUpdateInfoService() throws RemoteException {
         return new UpdateInfoServiceImpl();
     }
+
+    @Override
+    public CreateGroupService getCreateGroupService() throws RemoteException {
+        return new CreateGroupServiceImpl();
+    }
 }

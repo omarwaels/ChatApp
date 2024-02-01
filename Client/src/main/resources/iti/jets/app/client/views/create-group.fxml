@@ -25,7 +25,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <ListView fx:id="listOfConnections" layoutX="28.0" layoutY="138.0" prefHeight="216.0" prefWidth="276.0" stylesheets="@../../../../../../../../../../../old%20project/voidChat/VoidChatClient/src/resouces/styles.css">
+      <ListView fx:id="listOfConnections" layoutX="28.0" layoutY="138.0" prefHeight="216.0" prefWidth="276.0">
          <styleClass>
             <String fx:value="list-cell" />
             <String fx:value="list-view" />

@@ -22,7 +22,14 @@
             <children>
                 <VBox alignment="CENTER" prefHeight="598.0" prefWidth="53.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
                     <children>
-                        <Pane layoutX="10.0" layoutY="185.0" prefHeight="422.0" prefWidth="92.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
+                        <Pane layoutX="10.0" layoutY="185.0" prefHeight="422.0" prefWidth="92.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
+                     <children>
+                        <ImageView fx:id="createGroupBtn" fitHeight="45.0" fitWidth="40.0" layoutX="1.0" layoutY="173.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/people.png" />
+                           </image>
+                        </ImageView>
+                     </children></Pane>
                         <ImageView fx:id="singleChat" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#showSingleChat" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/chat-box.png" />
@@ -45,7 +52,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                         </ImageView>
-                        <ImageView fx:id="chatSettingImg" onMouseClicked="#onSettingClicked" fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#onSettingClicked" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/user-profile.png" />
                             </image>
