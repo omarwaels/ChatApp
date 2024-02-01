@@ -1,0 +1,15 @@
+.text-field {
+    -fx-background-color: white;
+    -fx-border-color: linear-gradient(to left bottom, #524b4b, #524B4BFF);
+    -fx-background-radius: 10;
+    -fx-text-fill: black;
+    -fx-border-radius: 10;
+}
+
+
+.sendButton{
+    -fx-text-fill: white;
+    -fx-background-color: linear-gradient(to left bottom, #524b4b, #524B4BFF);
+    -fx-font-family: Roboto;
+    -fx-font-size: 15;
+}

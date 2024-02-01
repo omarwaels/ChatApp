@@ -5,6 +5,7 @@ module shared {
     exports iti.jets.app.shared.Interfaces.server;
     exports iti.jets.app.shared.DTOs;
     exports iti.jets.app.shared.enums;
+    exports iti.jets.app.shared.utils;
 
 
 }
