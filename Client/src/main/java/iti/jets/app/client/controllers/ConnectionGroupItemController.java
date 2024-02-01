@@ -14,12 +14,14 @@ import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class ConnectionGroupItemController implements Initializable {
     @FXML
     public Label connectionName;
-
+    @FXML
+    public Label lastMessageTimestamp;
     @FXML
     public ImageView connectionPic;
     @FXML
@@ -35,6 +37,7 @@ public class ConnectionGroupItemController implements Initializable {
     private ChatDto chatDto;
     private ChatScreenController chatScreenController;
     private Integer counterNumber = 0 ;
+    private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
     public void updateCounter(){
 
         counterContainer.setVisible(false);
@@ -73,7 +76,10 @@ public class ConnectionGroupItemController implements Initializable {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.0);");
     }
 
-
+    public void setLastTimeStamp( Timestamp timeStamp){
+        this.lastMessageTime = timeStamp;
+        lastMessageTimestamp.setText(timeStamp.toString());
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }

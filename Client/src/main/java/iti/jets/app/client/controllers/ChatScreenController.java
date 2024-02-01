@@ -15,8 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -29,7 +27,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.w3c.dom.events.Event;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -162,7 +159,7 @@ public class ChatScreenController implements Initializable {
 
     }
 
-    private static int getOrderOfNode(Node node){
+    private static int getOrderOfNodeByStatus(Node node){
         if (node instanceof HBox) {
             Node node2 = ((HBox) node).getChildren().get(2);
             if (node2 instanceof Pane) {
@@ -176,21 +173,54 @@ public class ChatScreenController implements Initializable {
         }
         return 1;
     }
+    private static Timestamp getOrderOfNodeByTimeStamp(Node node){
+        if (node instanceof HBox) {
+            Node node2 = ((HBox) node).getChildren().get(1);
+            if (node2 instanceof VBox) {
+                Node node3 = ((VBox) node2).getChildren().get(0);
+                if (node3 instanceof Label) {
+                    String timeOfNode = ((Label) node3).getText();
+                    System.out.println(timeOfNode);
+                    return Timestamp.valueOf(timeOfNode);
+
+                }
+            }
+        }
+        return null;
+    }
     private void sortSingleChatContactListOnstatus(){
         connectionLayout.setVisible(false);
-
         // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
-        System.out.println("unsorted");
         System.out.println(sortedChildren);
-        sortedChildren.sort(Comparator.comparingInt(ChatScreenController::getOrderOfNode));
-
+        sortedChildren.sort(Comparator.comparingInt(ChatScreenController::getOrderOfNodeByStatus));
         // Replace the unsorted children with the sorted ones
         connectionLayout.getChildren().setAll(sortedChildren);
-        System.out.println("sorted");
         System.out.println(connectionLayout.getChildren());
         // Set the visibility to true after sorting
         connectionLayout.setVisible(true);
+    }
+    private void sortSingleContactListOnTimeStamp(){
+        connectionLayout.setVisible(false);
+        // Create a new sorted list of children
+        ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
+        // Sorting based on Timestamp in descending order
+        sortedChildren.sort(Comparator.comparing(ChatScreenController::getOrderOfNodeByTimeStamp, Comparator.nullsLast(Comparator.reverseOrder())));
+        // Replace the unsorted children with the sorted ones
+        connectionLayout.getChildren().setAll(sortedChildren);
+        // Set the visibility to true after sorting
+        connectionLayout.setVisible(true);
+    }
+    private void sortGroupContactListOnTimeStamp(){
+        connectionGroupsLayout.setVisible(false);
+        // Create a new sorted list of children
+        ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionGroupsLayout.getChildren());
+        // Sorting based on Timestamp in descending order
+        sortedChildren.sort(Comparator.comparing(ChatScreenController::getOrderOfNodeByTimeStamp, Comparator.nullsLast(Comparator.reverseOrder())));
+        // Replace the unsorted children with the sorted ones
+        connectionGroupsLayout.getChildren().setAll(sortedChildren);
+        // Set the visibility to true after sorting
+        connectionGroupsLayout.setVisible(true);
     }
     ServerService getServerService() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(8189);
@@ -309,6 +339,13 @@ public class ChatScreenController implements Initializable {
 
         Platform.runLater(() -> {
             updateCounters(message);
+            updateTimeStamps(message);
+            if(message.isSingleChat()){
+                sortSingleContactListOnTimeStamp();
+            }else{
+                sortGroupContactListOnTimeStamp();
+            }
+
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
             HBox hbox = null;
             try {
@@ -360,6 +397,20 @@ public class ChatScreenController implements Initializable {
 
         }
     }
+    private void updateTimeStamps(MessageDto message){
+
+            if(message.isSingleChat()){
+                ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
+                connectionItemController.setLastTimeStamp(message.getSentAt());
+            }else{
+                ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
+                connectionGroupItemController.setLastTimeStamp(message.getSentAt());
+
+            }
+
+
+    }
+
 
 
 
