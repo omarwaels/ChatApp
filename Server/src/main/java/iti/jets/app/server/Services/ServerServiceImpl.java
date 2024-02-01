@@ -16,11 +16,14 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
 
     @Override
     public void sendMessage(MessageDto messageDto) throws RemoteException {
+        System.out.println("Server");
+        System.out.println(messageDto.getReceiverId());
         for (Client c : clients) {
             System.out.println(c.getID() + " " + messageDto.getReceiverId());
-            if (c.getID() == messageDto.getReceiverId()) {
-                c.receiveMessage(messageDto);
-                return;
+            for(Integer userID : messageDto.getReceiverId()){
+                if (c.getID() == userID) {
+                    c.receiveMessage(messageDto);
+                }
             }
         }
     }

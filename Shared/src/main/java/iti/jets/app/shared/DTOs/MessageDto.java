@@ -3,15 +3,17 @@ package iti.jets.app.shared.DTOs;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class MessageDto implements Serializable {
 
     private Integer senderId;
-    private Integer receiverId;
+    private ArrayList<Integer> receiverId;
     private Integer chatId;
     private boolean containsFile;
     private String messageContent;
     private Timestamp sentAt;
+    private byte[] senderImage ;
 
     public MessageDto() {
     }
@@ -24,13 +26,14 @@ public class MessageDto implements Serializable {
         this.senderId = senderId;
     }
 
-    public Integer getReceiverId() {
+    public ArrayList<Integer> getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(Integer receiverId) {
+    public void setReceiverId(ArrayList<Integer> receiverId) {
         this.receiverId = receiverId;
     }
+
 
     public Integer getChatId() {
         return chatId;
@@ -64,12 +67,21 @@ public class MessageDto implements Serializable {
         this.sentAt = sentAt;
     }
 
-    public MessageDto(Integer senderId, Integer receiverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt) {
+    public byte[] getSenderImage() {
+        return senderImage;
+    }
+
+    public void setSenderImage(byte[] senderImage) {
+        this.senderImage = senderImage;
+    }
+
+    public MessageDto(Integer senderId, ArrayList<Integer> receiverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt, byte[] senderImage) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.chatId = chatId;
         this.containsFile = containsFile;
         this.messageContent = messageContent;
         this.sentAt = sentAt;
+        this.senderImage = senderImage;
     }
 }
