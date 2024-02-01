@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
     private DataSource dataSource;
@@ -118,6 +119,21 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
             throw new RuntimeException(e);
         }
         return participants;
+    }
+
+    public int addGroupParticipants(int groupId, List<Integer> usersIds) {
+        String query = "INSERT INTO chatparticipants (chat_id, participant_id, member_since) VALUES (?, ?, ?)";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            for (int userId : usersIds) {
+                preparedStatement.setInt(1, groupId);
+                preparedStatement.setInt(2, userId);
+                preparedStatement.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis()));
+                preparedStatement.addBatch();
+            }
+            return preparedStatement.executeBatch().length;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private User extractUser(ResultSet resultSet) throws SQLException {

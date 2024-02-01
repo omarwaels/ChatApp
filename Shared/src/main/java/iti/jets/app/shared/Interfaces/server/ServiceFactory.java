@@ -12,4 +12,6 @@ public interface ServiceFactory extends Remote {
 
     public UpdateInfoService getUpdateInfoService() throws Exception;
 
+    public CreateGroupService getCreateGroupService() throws RemoteException;
+
 }

@@ -25,7 +25,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import org.w3c.dom.events.Event;
 
@@ -112,6 +114,8 @@ public class ChatScreenController implements Initializable {
     @FXML
     public VBox temporaryScreen;
 
+    @FXML
+    public ImageView createGroupBtn;
     public ConnectionItemController currentConnection;
 
     private LoginResultDto loginResultDto;
@@ -141,7 +145,6 @@ public class ChatScreenController implements Initializable {
 
     public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
-        System.out.println(loginResultDto.getGroupParticipants());
         customInit();
         new Thread(() -> {
             try {
@@ -174,7 +177,6 @@ public class ChatScreenController implements Initializable {
         scaleTransitionIn(nodesToScaleTransition);
 
     }
-
 
 
     void updateCurrentScreenStatusWord(StatusEnum statusWord) {
@@ -241,23 +243,23 @@ public class ChatScreenController implements Initializable {
     private MessageDto createMessageDto(String text) {
         ArrayList<Integer> IdsOfRecivers = new ArrayList<>();
 
-        if(currentScreenUserId == null){
+        if (currentScreenUserId == null) {
 
             IdsOfRecivers = getUserFriendsIdsInSameGroup(loginResultDto, currentScreenChatId);
-        }else{
+        } else {
             IdsOfRecivers.add(currentScreenUserId);
         }
 
-        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()) ,loginResultDto.getUserDto().getPicture() );
+        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()), loginResultDto.getUserDto().getPicture());
     }
 
-    private ArrayList<Integer> getUserFriendsIdsInSameGroup(LoginResultDto loginResultDto , Integer currentChatId){
-        ArrayList <Integer> userFriendsIdsInSameGroup = new ArrayList<>();
-        HashMap<ChatDto,ArrayList<FriendInfoDto>> groubsAndMembers = loginResultDto.getGroupParticipants();
-        for ( ChatDto chatDto : groubsAndMembers.keySet()) {
-            if( currentChatId.equals(chatDto.getChatId())){
-                ArrayList <FriendInfoDto > membersOfGroup = groubsAndMembers.get(chatDto);
-                for(FriendInfoDto memberGroup : membersOfGroup) {
+    private ArrayList<Integer> getUserFriendsIdsInSameGroup(LoginResultDto loginResultDto, Integer currentChatId) {
+        ArrayList<Integer> userFriendsIdsInSameGroup = new ArrayList<>();
+        HashMap<ChatDto, ArrayList<FriendInfoDto>> groubsAndMembers = loginResultDto.getGroupParticipants();
+        for (ChatDto chatDto : groubsAndMembers.keySet()) {
+            if (currentChatId.equals(chatDto.getChatId())) {
+                ArrayList<FriendInfoDto> membersOfGroup = groubsAndMembers.get(chatDto);
+                for (FriendInfoDto memberGroup : membersOfGroup) {
                     userFriendsIdsInSameGroup.add(memberGroup.getUserFriendID());
                 }
                 return userFriendsIdsInSameGroup;
@@ -278,7 +280,7 @@ public class ChatScreenController implements Initializable {
             }
             MessageReceiveController msc = fxmlLoader.getController();
             Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
-            msc.setData( message, messageImage );
+            msc.setData(message, messageImage);
             //update Current Screen
 
             if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
@@ -444,5 +446,26 @@ public class ChatScreenController implements Initializable {
         userSettingsController.setChatScreenController(this);
         userSettingsController.setUser(loginResultDto.getUserDto());
         currentStage.setScene(ViewsFactory.getViewsFactory().getUserSettingsScene());
+    }
+
+
+    @FXML
+    public void onCreateGroup() {
+        try {
+            FXMLLoader loader = ViewsFactory.getViewsFactory().getCreateGroupLoader();
+            Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
+            Parent root = loader.load();
+            CreateGroupController createGroupController = loader.getController();
+            createGroupController.setData(getContactListArray(), loginResultDto.getUserDto().getId());
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initStyle(StageStyle.DECORATED);
+            dialogStage.setResizable(false);
+            dialogStage.setTitle("Create Group");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

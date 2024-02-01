@@ -69,7 +69,6 @@ public class FriendInfoDto implements Serializable {
     public String toString() {
         return "FriendInfoDto{" +
                 "userFriendName='" + userFriendName + '\'' +
-                ", userFriendPhoto=" + Arrays.toString(userFriendPhoto) +
                 ", userFriendID=" + userFriendID +
                 ", userFriendMode=" + userFriendMode +
                 ", userFriendStatus=" + userFriendStatus +
