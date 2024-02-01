@@ -8,6 +8,7 @@ module client {
     requires server;
     requires java.rmi;
     requires static lombok;
+    requires MaterialFX;
     opens iti.jets.app.client to javafx.fxml;
     exports iti.jets.app.client;
     exports iti.jets.app.client.controllers;
