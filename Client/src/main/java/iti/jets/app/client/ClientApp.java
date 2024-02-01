@@ -14,13 +14,12 @@ public class ClientApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("views/sign-up.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/chat-screen.fxml"));
         stage.setTitle("Chatting App");
         stage.setScene(new Scene(root));
         stage.show();
     }
     public static void main(String[] args) {
-        //ChatScreenController.pushNotifications();
         launch();
     }
 }

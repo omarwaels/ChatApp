@@ -245,6 +245,11 @@ public class ChatScreenController implements Initializable {
                 .graphic(null)
                 .hideAfter(Duration.seconds(3))
                 .position(Pos.BOTTOM_RIGHT);
-        notifications.showConfirm();
+        notifications.showWarning();
+    }
+
+    @FXML
+    public void viewRequests () {
+        System.out.println("hello");
     }
 }
