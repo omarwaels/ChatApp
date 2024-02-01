@@ -13,6 +13,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -23,6 +25,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.w3c.dom.events.Event;
 
@@ -183,8 +186,6 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-
-
     void updateCurrentScreenStatusWord(StatusEnum statusWord) {
         currentScreenStatusWord.setText(statusWord.getStatus());
         String statusColor = getOnlineAndOfflineColor(statusWord);
@@ -204,10 +205,12 @@ public class ChatScreenController implements Initializable {
                 return "#ff0000";
         }
     }
+
     public void showGroupChat() {
         singleChatContainer.setVisible(false);
         groubChatContainer.setVisible(true);
     }
+
     public void showSingleChat() {
         groubChatContainer.setVisible(false);
         singleChatContainer.setVisible(true);
@@ -286,7 +289,7 @@ public class ChatScreenController implements Initializable {
     }
 
 
-    public void updateChatLayout(Integer newUserIdScreen , Integer newChatIdScreen) {
+    public void updateChatLayout(Integer newUserIdScreen, Integer newChatIdScreen) {
 
         if (this.currentScreenChatId != null) {
             Node[] currentChildren = chatLayout.getChildren().toArray(new Node[0]);
@@ -319,16 +322,16 @@ public class ChatScreenController implements Initializable {
             connectionLayout.getChildren().add(hbox);
         }
     }
+
     private void showGroupList(List<ChatDto> connections) throws IOException {
         for (ChatDto connection : connections) {
             FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
             HBox hbox = fxmlLoaders.load();
             ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
-            connectionGroupItemController.setData(connection, this );
+            connectionGroupItemController.setData(connection, this);
             connectionGroupsLayout.getChildren().add(hbox);
         }
     }
-
 
     private List<FriendInfoDto> getContactListArray() {
         HashMap<FriendInfoDto, ChatDto> userFriendsAndChatDto = loginResultDto.getUserFriendsAndChatDto();
@@ -372,8 +375,6 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-
-
     public void updateFriendStatus(int friendId, boolean online) {
         Platform.runLater(() -> {
             ConnectionItemController connectionItemController = null;
@@ -399,7 +400,6 @@ public class ChatScreenController implements Initializable {
         });
     }
 
-
     public void informFriends(boolean online) {
         if (onlineUsers.keySet().isEmpty())
             return;
@@ -417,4 +417,17 @@ public class ChatScreenController implements Initializable {
         serverService.unregister(client);
     }
 
+    public void onSettingClicked() throws IOException {
+        redirectToUserSettings();
+    }
+
+    public void redirectToUserSettings() throws IOException {
+        FXMLLoader loader = ViewsFactory.getViewsFactory().getUserSettingsLoader();
+        Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
+        ViewsFactory.getViewsFactory().getUserSettingsRoot();
+        UserSettingsController userSettingsController = loader.getController();
+        userSettingsController.setChatScreenController(this);
+        userSettingsController.setUser(loginResultDto.getUserDto());
+        currentStage.setScene(ViewsFactory.getViewsFactory().getUserSettingsScene());
+    }
 }

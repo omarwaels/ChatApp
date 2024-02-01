@@ -1,18 +1,38 @@
 package iti.jets.app.client.controllers;
 
 
+import iti.jets.app.client.utils.ViewsFactory;
+import iti.jets.app.shared.DTOs.UpdateInfoDto;
+import iti.jets.app.shared.DTOs.UserDto;
+import iti.jets.app.shared.DTOs.UserRegisterDto;
+import iti.jets.app.shared.Interfaces.server.ServerService;
+import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import iti.jets.app.shared.Interfaces.server.UpdateInfoService;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
 public class UserSettingsController implements Initializable {
@@ -114,17 +134,27 @@ public class UserSettingsController implements Initializable {
     public TextField shownPasswordField;
 
     @FXML
-    public void toggleButton(ActionEvent event)
-    {
-        if(showPassBtn.isSelected())
-        {
+    public ImageView backBtn;
+
+    @FXML
+    public Button saveBioBtn;
+
+    @FXML
+    public Label nameLabel;
+    ChatScreenController chatScreenController;
+
+    private UpdateInfoService updateInfoService;
+
+    private UserDto user;
+
+    @FXML
+    public void toggleButton(ActionEvent event) {
+        if (showPassBtn.isSelected()) {
             showPassBtn.setText("Hide");
             shownPasswordField.setText(passwordField.getText());
             shownPasswordField.setVisible(true);
             passwordField.setVisible(false);
-        }
-        else
-        {
+        } else {
             showPassBtn.setText("Show");
             passwordField.setVisible(true);
             shownPasswordField.setVisible(false);
@@ -132,12 +162,9 @@ public class UserSettingsController implements Initializable {
     }
 
 
-    public void switchButtonsVisibility(HBox fieldBox)
-    {
-        for (Node node : fieldBox.getChildren())
-        {
-            if (node instanceof Button)
-            {
+    public void switchButtonsVisibility(HBox fieldBox) {
+        for (Node node : fieldBox.getChildren()) {
+            if (node instanceof Button) {
                 node.setVisible(!node.isVisible());
             }
         }
@@ -145,7 +172,15 @@ public class UserSettingsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        if(passStatus == null)
+        dobPicker.setEditable(false);
+        dobPicker.getEditor().setDisable(true);
+        try {
+            Registry registry = LocateRegistry.getRegistry(8189);
+            updateInfoService = ((ServiceFactory) registry.lookup("ServiceFactory")).getUpdateInfoService();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (passStatus == null)
             passStatus = new Label();
         confirmPassField.textProperty().addListener(new ChangeListener<String>() {
             @Override
@@ -166,14 +201,17 @@ public class UserSettingsController implements Initializable {
             nameField.setEditable(true);
             switchButtonsVisibility(nameBox);
         });
-        editEmailBtn.setOnAction(event -> {
+
+        /*editEmailBtn.setOnAction(event -> {
             emailField.setEditable(true);
             switchButtonsVisibility(emailBox);
-        });
+        });*/
+
         editDobBtn.setOnAction(event -> {
             dobPicker.setEditable(true);
             switchButtonsVisibility(dobBox);
         });
+
         editPassBtn.setOnAction(event -> {
             switchButtonsVisibility(changePassBox);
             savePassBtn.setDisable(true);
@@ -183,23 +221,48 @@ public class UserSettingsController implements Initializable {
         });
 
         saveNameBtn.setOnAction(event -> {
-            // TODO: Save the changes
+            try {
+                int ret = updateInfoService.updateField(new UpdateInfoDto("display_name", nameField.getText(), user.getId()));
+                if (ret == 1) {
+                    user.setDisplayName(nameField.getText());
+                }
+                nameField.setText(user.getDisplayName());
+                nameLabel.setText(user.getDisplayName());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             nameField.setEditable(false);
             switchButtonsVisibility(nameBox);
         });
-        saveEmailBtn.setOnAction(event -> {
+        /*saveEmailBtn.setOnAction(event -> {
             // TODO: Save the changes
             emailField.setEditable(false);
             switchButtonsVisibility(emailBox);
-        });
+        });*/
         saveDobBtn.setOnAction(event -> {
-            // TODO: Save the changes
+            try {
+                int ret = updateInfoService.updateDOB(new UpdateInfoDto(java.sql.Date.valueOf(dobPicker.getValue()), user.getId()));
+                if (ret == 1) {
+                    user.setDateOfBirth(java.sql.Date.valueOf(dobPicker.getValue()));
+                }
+                dobPicker.setValue(user.getDateOfBirth().toLocalDate());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             dobPicker.setEditable(false);
             switchButtonsVisibility(dobBox);
         });
 
         savePassBtn.setOnAction(event -> {
-            // TODO: Save the changes
+            try {
+                int ret = updateInfoService.updateField(new UpdateInfoDto("password", newPassField.getText(), user.getId()));
+                if (ret == 1) {
+                    user.setPassword(newPassField.getText());
+                }
+                passwordField.setText(user.getPassword());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
             passStatus.setVisible(false);
             passwordField.setText(newPassField.getText());
             clearPassFields();
@@ -210,17 +273,22 @@ public class UserSettingsController implements Initializable {
         });
 
         cancelNameBtn.setOnAction(event -> {
+            nameField.setText(user.getDisplayName());
             nameField.setEditable(false);
             switchButtonsVisibility(nameBox);
         });
-        cancelEmailBtn.setOnAction(event -> {
+
+        /*cancelEmailBtn.setOnAction(event -> {
             emailField.setEditable(false);
             switchButtonsVisibility(emailBox);
-        });
+        });*/
+
         cancelDobBtn.setOnAction(event -> {
+            dobPicker.setValue(user.getDateOfBirth().toLocalDate());
             dobPicker.setEditable(false);
             switchButtonsVisibility(dobBox);
         });
+
         cancelPassBtn.setOnAction(event -> {
             clearPassFields();
             switchButtonsVisibility(changePassBox);
@@ -230,9 +298,61 @@ public class UserSettingsController implements Initializable {
             passStatus.setVisible(false);
         });
     }
-    public void clearPassFields()
-    {
+
+    public void clearPassFields() {
         newPassField.clear();
         confirmPassField.clear();
+    }
+
+    public void setUser(UserDto user) {
+        this.user = user;
+        initializeFields();
+    }
+
+    private void initializeFields() {
+        nameField.setText(user.getDisplayName());
+        nameLabel.setText(user.getDisplayName());
+        emailField.setText(user.getEmail());
+        dobPicker.setValue(user.getDateOfBirth().toLocalDate());
+        passwordField.setText(user.getPassword());
+        bio.setText(user.getBio());
+        profilePic.setImage(new Image(new ByteArrayInputStream(user.getPicture())));
+    }
+
+    public void setChatScreenController(ChatScreenController chatScreenController) {
+        this.chatScreenController = chatScreenController;
+    }
+
+    public void redirectToChatScreen() throws IOException {
+        FXMLLoader loader = ViewsFactory.getViewsFactory().getUserSettingsLoader();
+        Stage currentStage = (Stage) backBtn.getScene().getWindow();
+        currentStage.setScene(ViewsFactory.getViewsFactory().getChatScene());
+    }
+
+    @FXML
+    public void onClickSaveBioButton() throws Exception {
+        updateInfoService.updateField(new UpdateInfoDto("bio", bio.getText(), user.getId()));
+        user.setBio(bio.getText());
+    }
+
+    @FXML
+    public void onClickRemovePhoto() throws IOException {
+        File img = new File("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png");
+        profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath()))));
+        user.setPicture(Files.readAllBytes(img.toPath()));
+    }
+
+    @FXML
+    public void onClickEditPhoto() throws Exception {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Choose Photo");
+        FileChooser.ExtensionFilter imageFilter = new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.gif", "*.bmp");
+        fileChooser.getExtensionFilters().add(imageFilter);
+        File selectedFile = fileChooser.showOpenDialog(editPhotoBtn.getScene().getWindow());
+        if (selectedFile != null) {
+            profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath()))));
+            user.setPicture(Files.readAllBytes(selectedFile.toPath()));
+        }
+        updateInfoService.updateImage(user.getId(), user.getPicture());
     }
 }

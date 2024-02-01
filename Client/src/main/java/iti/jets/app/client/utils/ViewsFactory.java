@@ -1,6 +1,8 @@
 package iti.jets.app.client.utils;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 
 public class ViewsFactory {
     private FXMLLoader loginLoader;
@@ -9,6 +11,20 @@ public class ViewsFactory {
     private FXMLLoader chatLoader;
     private FXMLLoader ConnectionGroupItemController;
 
+    private Parent loginRoot;
+
+    private Parent signUpRoot;
+
+    private Parent userSettingsRoot;
+
+    private Parent chatRoot;
+
+    private Scene loginScene;
+    private Scene signUpScene;
+
+    private Scene userSettingsScene;
+
+    private Scene chatScene;
     private static ViewsFactory viewsFactory;
 
     private ViewsFactory() {
@@ -58,9 +74,82 @@ public class ViewsFactory {
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-item.fxml"));
         return fxmlLoader;
     }
+
     public FXMLLoader getConnectionGroupItemController() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-Group-item.fxml"));
         return fxmlLoader;
+    }
+
+    public Parent getLoginRoot() {
+        if (loginRoot == null) {
+            try {
+                loginRoot = loginLoader.load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return loginRoot;
+    }
+
+    public Parent getSignUpRoot() {
+        if (signUpRoot == null) {
+            try {
+                signUpRoot = signUpLoader.load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return signUpRoot;
+    }
+
+    public Parent getUserSettingsRoot() {
+        if (userSettingsRoot == null) {
+            try {
+                userSettingsRoot = userSettingsLoader.load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return userSettingsRoot;
+    }
+
+    public Parent getChatRoot() {
+        if (chatRoot == null) {
+            try {
+                chatRoot = chatLoader.load();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return chatRoot;
+    }
+
+    public Scene getLoginScene() {
+        if (loginScene == null) {
+            loginScene = new Scene(getLoginRoot());
+        }
+        return loginScene;
+    }
+
+    public Scene getSignUpScene() {
+        if (signUpScene == null) {
+            signUpScene = new Scene(getSignUpRoot());
+        }
+        return signUpScene;
+    }
+
+    public Scene getUserSettingsScene() {
+        if (userSettingsScene == null) {
+            userSettingsScene = new Scene(getUserSettingsRoot());
+        }
+        return userSettingsScene;
+    }
+
+    public Scene getChatScene() {
+        if (chatScene == null) {
+            chatScene = new Scene(getChatRoot());
+        }
+        return chatScene;
     }
 }

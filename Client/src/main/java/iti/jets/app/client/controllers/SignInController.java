@@ -105,18 +105,15 @@ public class SignInController implements Initializable {
 
     private void redirectToSignUpPage() throws IOException {
         Stage currentStage = (Stage) signUpLabel.getScene().getWindow();
-        if (signUpParent == null)
-            signUpParent = ViewsFactory.getViewsFactory().getSignUpLoader().load();
-        currentStage.setScene(new Scene(signUpParent));
+        currentStage.setScene(ViewsFactory.getViewsFactory().getSignUpScene());
         currentStage.show();
     }
 
     private void redirectToChatScreenPage(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         FXMLLoader loader = ViewsFactory.getViewsFactory().getChatLoader();
-        Parent root = loader.load();
+        ((Stage) signUpLabel.getScene().getWindow()).setScene(ViewsFactory.getViewsFactory().getChatScene());
         ChatScreenController chatScreenController = loader.getController();
         chatScreenController.setChatScreenDto(loginResultDto);
-        ((Stage) signUpLabel.getScene().getWindow()).setScene(new Scene(root));
     }
 }
 

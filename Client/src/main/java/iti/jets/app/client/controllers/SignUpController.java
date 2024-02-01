@@ -177,9 +177,7 @@ public class SignUpController implements Initializable {
 
     private void redirectToSignInPage() throws IOException {
         Stage currentStage = (Stage) logInLabel.getScene().getWindow();
-        if (signInParent == null)
-            signInParent = ViewsFactory.getViewsFactory().getLoginLoader().load();
-        currentStage.setScene(new Scene(signInParent));
+        currentStage.setScene(ViewsFactory.getViewsFactory().getLoginScene());
         currentStage.show();
     }
 

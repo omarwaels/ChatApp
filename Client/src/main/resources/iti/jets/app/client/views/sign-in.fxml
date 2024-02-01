@@ -69,6 +69,9 @@
                            <font>
                               <Font size="17.0" />
                            </font>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
                         </TextField>
                      </children>
                      <VBox.margin>
@@ -92,12 +95,12 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <PasswordField fx:id="passwordTextField" onKeyTyped="#onPasswordInput" prefHeight="30.0" prefWidth="368.0" promptText="Enter your password" HBox.hgrow="ALWAYS">
+                        <PasswordField fx:id="passwordTextField" onKeyTyped="#onPasswordInput" prefHeight="30.0" prefWidth="390.0" promptText="Enter your password" HBox.hgrow="ALWAYS">
                            <font>
                               <Font size="17.0" />
                            </font>
                            <cursor>
-                              <Cursor fx:constant="NONE" />
+                              <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                            <HBox.margin>
                               <Insets left="60.0" right="60.0" top="5.0" />
@@ -128,6 +131,9 @@
                      <VBox.margin>
                         <Insets top="-15.0" />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
                   </Button>
                   <Label fx:id="LogInErrorLabel" prefHeight="19.0" prefWidth="214.0" textFill="RED">
                      <font>
@@ -149,6 +155,9 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
                   </Label>
                </children>
             </VBox>
