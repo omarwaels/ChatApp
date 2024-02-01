@@ -120,7 +120,7 @@ public class ChatScreenController implements Initializable {
     Image currentScreenImage = null;
 
     HashMap<Integer, Node[]> chatsArr = new HashMap<>();
-    HashMap<Integer, Image> allUserFriendsImg = new HashMap<>();
+
 
     ClientImpl client;
     ServerService serverService;
@@ -141,6 +141,7 @@ public class ChatScreenController implements Initializable {
 
     public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
+        System.out.println(loginResultDto.getGroupParticipants());
         customInit();
         new Thread(() -> {
             try {
@@ -163,7 +164,6 @@ public class ChatScreenController implements Initializable {
         List<FriendInfoDto> contactListArray = getContactListArray();
         List<ChatDto> groubsListArray = getGroupListArray();
         showGroupList(groubsListArray);
-        saveUserFriendsImgs(contactListArray);
         this.showContactList(contactListArray);
 
         Collection<Node> nodesToScaleTransition = new ArrayList<>();
@@ -175,16 +175,7 @@ public class ChatScreenController implements Initializable {
 
     }
 
-    private void saveUserFriendsImgs(List<FriendInfoDto> contactListArray) {
-        for (FriendInfoDto friend : contactListArray) {
-            int friendId = friend.getUserFriendID();
-            Image image = null;
-            if (friend.getUserFriendPhoto() != null) {
-                image = new Image(new ByteArrayInputStream(friend.getUserFriendPhoto()));
-            }
-            allUserFriendsImg.put(friendId, image);
-        }
-    }
+
 
     void updateCurrentScreenStatusWord(StatusEnum statusWord) {
         currentScreenStatusWord.setText(statusWord.getStatus());
@@ -248,7 +239,32 @@ public class ChatScreenController implements Initializable {
     }
 
     private MessageDto createMessageDto(String text) {
-        return new MessageDto(loginResultDto.getUserDto().getId(), currentScreenUserId, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()));
+        ArrayList<Integer> IdsOfRecivers = new ArrayList<>();
+
+        if(currentScreenUserId == null){
+
+            IdsOfRecivers = getUserFriendsIdsInSameGroup(loginResultDto, currentScreenChatId);
+        }else{
+            IdsOfRecivers.add(currentScreenUserId);
+        }
+
+        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()) ,loginResultDto.getUserDto().getPicture() );
+    }
+
+    private ArrayList<Integer> getUserFriendsIdsInSameGroup(LoginResultDto loginResultDto , Integer currentChatId){
+        ArrayList <Integer> userFriendsIdsInSameGroup = new ArrayList<>();
+        HashMap<ChatDto,ArrayList<FriendInfoDto>> groubsAndMembers = loginResultDto.getGroupParticipants();
+        for ( ChatDto chatDto : groubsAndMembers.keySet()) {
+            if( currentChatId.equals(chatDto.getChatId())){
+                ArrayList <FriendInfoDto > membersOfGroup = groubsAndMembers.get(chatDto);
+                for(FriendInfoDto memberGroup : membersOfGroup) {
+                    userFriendsIdsInSameGroup.add(memberGroup.getUserFriendID());
+                }
+                return userFriendsIdsInSameGroup;
+
+            }
+        }
+        return userFriendsIdsInSameGroup;
     }
 
     public void receiveMessage(MessageDto message) {
@@ -261,7 +277,8 @@ public class ChatScreenController implements Initializable {
                 throw new RuntimeException(e);
             }
             MessageReceiveController msc = fxmlLoader.getController();
-            msc.setData(message, allUserFriendsImg.get(message.getSenderId()));
+            Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
+            msc.setData( message, messageImage );
             //update Current Screen
 
             if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
@@ -271,7 +288,6 @@ public class ChatScreenController implements Initializable {
                 //Add message between nodes
                 //If chat screen array includes the chat
                 if (chatsArr.containsKey(message.getChatId())) {
-                    System.out.println(chatsArr.get(message.getChatId()).length);
                     Node[] nodes = chatsArr.get(message.getChatId());
                     ArrayList<Node> nodeList = new ArrayList<>(Arrays.asList(nodes));
                     nodeList.add(hbox);
@@ -297,8 +313,7 @@ public class ChatScreenController implements Initializable {
         }
         chatLayout.getChildren().clear();
         if (chatsArr.containsKey(newChatIdScreen)) {
-            System.out.println(chatsArr.get(newChatIdScreen).length);
-            System.out.println("reached here");
+
             chatLayout.getChildren().addAll(chatsArr.get(newChatIdScreen));
 
         }
