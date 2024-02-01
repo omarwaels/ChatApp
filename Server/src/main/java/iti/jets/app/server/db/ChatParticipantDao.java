@@ -106,7 +106,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
 
     public ArrayList<User> getChatParticipants(int chat_id, int userId) {
         ArrayList<User> participants = new ArrayList<>();
-        String query = "SELECT u.* FROM users u JOIN chatparticipants cp WHERE u.user_id = cp.participant_id AND chat_id = ? AND u.user_id = ?;";
+        String query = "SELECT u.* FROM users u JOIN chatparticipants cp WHERE u.user_id = cp.participant_id AND chat_id = ? AND u.user_id <> ?;";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, chat_id);
             preparedStatement.setInt(2, userId);
