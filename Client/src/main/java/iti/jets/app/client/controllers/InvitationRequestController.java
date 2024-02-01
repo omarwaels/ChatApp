@@ -17,13 +17,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 public class InvitationRequestController implements Initializable {
-
-
 
     @FXML
     public ListView<UserInvitationDto> invitationList;
@@ -39,16 +35,18 @@ public class InvitationRequestController implements Initializable {
     }
 
     public ObservableList<UserInvitationDto> generateDummyData() {
-        UserInvitationDto user1 = new UserInvitationDto("John Doe", "+123456789", 1, getImageBytes("C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\ASherif.jpg"));
-        UserInvitationDto user2 = new UserInvitationDto("Alice Wonderland", "+987654321", 2, getImageBytes("C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\ASherif.jpg"));
-        UserInvitationDto user3 = new UserInvitationDto("Bob Builder", "+111223344", 3, getImageBytes("C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\ASherif.jpg"));
+        UserInvitationDto user1 = new UserInvitationDto("John Doe", "+123456789", 1, getImageBytes("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png"));
+        UserInvitationDto user2 = new UserInvitationDto("Alice Wonderland", "+987654321", 2, getImageBytes("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png"));
+        UserInvitationDto user3 = new UserInvitationDto("Bob Builder", "+111223344", 3, getImageBytes("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png"));
         return FXCollections.observableArrayList(user1, user2, user3);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        invitationList.getItems().addAll(generateDummyData());
+        ObservableList<UserInvitationDto> dummyData = generateDummyData();
+        invitationList.getItems().addAll(dummyData);
         setRequestsList();
+        invitationList.setPrefHeight(dummyData.size() * 40 + 2);
     }
 
     public void setRequestsList() {
@@ -61,7 +59,7 @@ public class InvitationRequestController implements Initializable {
                         if (!empty) {
                             if (item != null) {
                                 Image userImage = new Image(new ByteArrayInputStream(item.getImage()), 30, 30, false, true);
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/invitationCard.fxml"));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/invitation-card.fxml"));
                                 InvitationRequestCardController requestCardController = new InvitationRequestCardController(item.getUserName(), item.getPhoneNumber(), userImage, item.getUserId());
                                 loader.setController(requestCardController);
                                 try {
@@ -77,8 +75,6 @@ public class InvitationRequestController implements Initializable {
                     }
                 };
                 cell.setStyle("-fx-background-color: #FFFFFF;");
-                invitationList.getItems().add(cell.getItem());
-                invitationList.setPrefHeight(invitationList.getItems().size() * 40 + 2);
                 return cell;
             }
         });
