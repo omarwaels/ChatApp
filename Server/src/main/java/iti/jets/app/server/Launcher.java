@@ -13,11 +13,6 @@ import java.io.IOException;
 public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
-        LoginServiceImpl loginService = new LoginServiceImpl();
-        ChatParticipantDao chatParticipantDao = new ChatParticipantDao();
-
-        System.out.println(chatParticipantDao.getUserGroups(3));
-        //System.out.println(loginService.login(new UserLoginDto("123","123")).getGroupParticipants());
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("views/server-dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/iti/jets/app/server/style/style.css").toExternalForm());
