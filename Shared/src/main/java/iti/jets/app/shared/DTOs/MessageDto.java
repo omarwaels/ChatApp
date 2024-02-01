@@ -15,6 +15,27 @@ public class MessageDto implements Serializable {
     private Timestamp sentAt;
     private byte[] senderImage ;
 
+    private boolean singleChat ;
+
+    public MessageDto(Integer senderId, ArrayList<Integer> receiverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt, byte[] senderImage, boolean singleChat) {
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.chatId = chatId;
+        this.containsFile = containsFile;
+        this.messageContent = messageContent;
+        this.sentAt = sentAt;
+        this.senderImage = senderImage;
+        this.singleChat = singleChat;
+    }
+
+    public boolean isSingleChat() {
+        return singleChat;
+    }
+
+    public void setSingleChat(boolean singleChat) {
+        this.singleChat = singleChat;
+    }
+
     public MessageDto() {
     }
 
@@ -75,13 +96,5 @@ public class MessageDto implements Serializable {
         this.senderImage = senderImage;
     }
 
-    public MessageDto(Integer senderId, ArrayList<Integer> receiverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt, byte[] senderImage) {
-        this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.chatId = chatId;
-        this.containsFile = containsFile;
-        this.messageContent = messageContent;
-        this.sentAt = sentAt;
-        this.senderImage = senderImage;
-    }
+
 }

@@ -9,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
@@ -26,10 +27,21 @@ public class ConnectionGroupItemController implements Initializable {
     @FXML
     public HBox connectionItem;
     private int UserID;
+    @FXML
+    public StackPane counterContainer;
+    @FXML
+    public Label counter;
 
     private ChatDto chatDto;
     private ChatScreenController chatScreenController;
+    private Integer counterNumber = 0 ;
+    public void updateCounter(){
 
+        counterContainer.setVisible(false);
+        counterNumber = counterNumber + 1 ;
+        counter.setText(counterNumber.toString());
+        counterContainer.setVisible(true);
+    }
 
     public void setData( ChatDto chatDto, ChatScreenController chatScreenController) {
 
@@ -46,6 +58,8 @@ public class ConnectionGroupItemController implements Initializable {
 
     @FXML
     public void friendClicked() {
+        counterContainer.setVisible(false);
+        counterNumber = 0 ;
         chatScreenController.temporaryScreen.setVisible(false);
         chatScreenController.updateChatLayout(null , chatDto.getChatId());
         chatScreenController.updateConnectionName(chatDto.getChatName());
