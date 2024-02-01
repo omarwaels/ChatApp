@@ -8,6 +8,8 @@ import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -153,8 +155,42 @@ public class ChatScreenController implements Initializable {
                 e.printStackTrace();
             }
         }).start();
+
+        Node node = connectionLayout.getChildren().get(0);
+
+
     }
 
+    private static int getOrderOfNode(Node node){
+        if (node instanceof HBox) {
+            Node node2 = ((HBox) node).getChildren().get(2);
+            if (node2 instanceof Pane) {
+                Node node3 = ((Pane) node2).getChildren().get(0);
+                if (node3 instanceof Circle) {
+                    Color color = (Color)((Circle) node3).getFill();
+                    if(color.toString().equals("0x008000ff")) return 0 ;
+
+                }
+            }
+        }
+        return 1;
+    }
+    private void sortSingleChatContactListOnstatus(){
+        connectionLayout.setVisible(false);
+
+        // Create a new sorted list of children
+        ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
+        System.out.println("unsorted");
+        System.out.println(sortedChildren);
+        sortedChildren.sort(Comparator.comparingInt(ChatScreenController::getOrderOfNode));
+
+        // Replace the unsorted children with the sorted ones
+        connectionLayout.getChildren().setAll(sortedChildren);
+        System.out.println("sorted");
+        System.out.println(connectionLayout.getChildren());
+        // Set the visibility to true after sorting
+        connectionLayout.setVisible(true);
+    }
     ServerService getServerService() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(8189);
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
@@ -400,6 +436,7 @@ public class ChatScreenController implements Initializable {
                     connectionItemController.user.setUserFriendStatus(StatusEnum.ONLINE);
                     onlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(javafx.scene.paint.Color.GREEN);
+
                 }
             } else {
                 connectionItemController = onlineUsers.get(friendId);
@@ -412,8 +449,11 @@ public class ChatScreenController implements Initializable {
             }
             if (connectionItemController == currentConnection)
                 currentConnection.friendClicked();
+            sortSingleChatContactListOnstatus();
         });
     }
+
+
 
     public void informFriends(boolean online) {
         if (onlineUsers.keySet().isEmpty())
