@@ -130,6 +130,7 @@ public class ChatScreenController implements Initializable {
     private HashMap<Integer, ConnectionItemController> onlineUsers = new HashMap<>();
 
     private HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
+    private HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -276,15 +277,16 @@ public class ChatScreenController implements Initializable {
 
     private MessageDto createMessageDto(String text) {
         ArrayList<Integer> IdsOfRecivers = new ArrayList<>();
-
+        boolean isSingleChat =true ;
         if(currentScreenUserId == null){
-
+            isSingleChat = false;
             IdsOfRecivers = getUserFriendsIdsInSameGroup(loginResultDto, currentScreenChatId);
         }else{
+
             IdsOfRecivers.add(currentScreenUserId);
         }
 
-        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()) ,loginResultDto.getUserDto().getPicture() );
+        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()) ,loginResultDto.getUserDto().getPicture() ,isSingleChat);
     }
 
     private ArrayList<Integer> getUserFriendsIdsInSameGroup(LoginResultDto loginResultDto , Integer currentChatId){
@@ -304,7 +306,9 @@ public class ChatScreenController implements Initializable {
     }
 
     public void receiveMessage(MessageDto message) {
+
         Platform.runLater(() -> {
+            updateCounters(message);
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
             HBox hbox = null;
             try {
@@ -337,8 +341,26 @@ public class ChatScreenController implements Initializable {
                     chatsArr.put(message.getChatId(), nodesArray);
                 }
             }
+
+
         });
+
+
     }
+    private void updateCounters(MessageDto message){
+        if(!message.getChatId().equals(currentScreenChatId)){
+            if(message.isSingleChat()){
+                ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
+                connectionItemController.updateCounter();
+            }else{
+                ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
+                connectionGroupItemController.updateCounter();
+
+            }
+
+        }
+    }
+
 
 
     public void updateChatLayout(Integer newUserIdScreen, Integer newChatIdScreen) {
@@ -379,6 +401,8 @@ public class ChatScreenController implements Initializable {
             FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
             HBox hbox = fxmlLoaders.load();
             ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
+            //Update groupchat Hashmap
+            groupChats.put(connection.getChatId(), connectionGroupItemController);
             connectionGroupItemController.setData(connection, this);
             connectionGroupsLayout.getChildren().add(hbox);
         }
