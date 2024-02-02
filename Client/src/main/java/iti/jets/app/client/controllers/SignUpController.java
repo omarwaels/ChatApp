@@ -6,11 +6,16 @@ import iti.jets.app.shared.Interfaces.server.RegisterService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.File;
 import java.io.IOException;
@@ -121,6 +126,12 @@ public class SignUpController implements Initializable {
 
     @FXML
     public void onSignUpSubmit() throws IOException, NotBoundException {
+        Notifications notifications = Notifications.create()
+                .text("hello test")
+                .graphic(new ImageView(new Image("C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\chat.png")))
+                .hideAfter(Duration.seconds(3))
+                .position(Pos.BOTTOM_RIGHT);
+        notifications.showConfirm();
         if (nonEmptyRequiredFields())
             addUser();
     }

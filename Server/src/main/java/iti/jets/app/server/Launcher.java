@@ -1,14 +1,11 @@
 package iti.jets.app.server;
 
-import iti.jets.app.server.db.UserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class Launcher extends Application {
     @Override

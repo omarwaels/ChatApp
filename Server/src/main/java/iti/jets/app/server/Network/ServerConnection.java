@@ -21,10 +21,11 @@ public class ServerConnection {
             registry = LocateRegistry.createRegistry(8189);
             ServiceFactory serviceFactory = new ServiceFactoryImpl();
             registry.rebind("ServiceFactory", serviceFactory);
+            System.out.println("Server is open now ....");
+
         } catch (RemoteException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Server is open now ....");
     }
 
     public static void closeConnection() {

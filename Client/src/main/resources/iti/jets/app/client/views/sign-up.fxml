@@ -45,7 +45,7 @@
         </VBox>
         <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #808080;" HBox.hgrow="ALWAYS">
             <children>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                <HBox alignment="CENTER" prefHeight="134.0" prefWidth="430.0" style="-fx-pref-height: 100;">
                     <children>
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                             <image>
