@@ -15,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -156,10 +158,7 @@ public class ChatScreenController implements Initializable {
                 e.printStackTrace();
             }
         }).start();
-
-        Node node = connectionLayout.getChildren().get(0);
-
-
+        
     }
 
     private static int getOrderOfNodeByStatus(Node node){
@@ -183,7 +182,6 @@ public class ChatScreenController implements Initializable {
                 Node node3 = ((VBox) node2).getChildren().get(0);
                 if (node3 instanceof Label) {
                     String timeOfNode = ((Label) node3).getText();
-                    System.out.println(timeOfNode);
                     return Timestamp.valueOf(timeOfNode);
 
                 }
@@ -195,11 +193,9 @@ public class ChatScreenController implements Initializable {
         connectionLayout.setVisible(false);
         // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
-        System.out.println(sortedChildren);
         sortedChildren.sort(Comparator.comparingInt(ChatScreenController::getOrderOfNodeByStatus));
         // Replace the unsorted children with the sorted ones
         connectionLayout.getChildren().setAll(sortedChildren);
-        System.out.println(connectionLayout.getChildren());
         // Set the visibility to true after sorting
         connectionLayout.setVisible(true);
     }
@@ -241,6 +237,7 @@ public class ChatScreenController implements Initializable {
         nodesToScaleTransition.add(groupChat);
         nodesToScaleTransition.add(chatSettingImg);
         nodesToScaleTransition.add(exitImg);
+        nodesToScaleTransition.add(createGroupBtn);
         scaleTransitionIn(nodesToScaleTransition);
 
     }
@@ -449,6 +446,25 @@ public class ChatScreenController implements Initializable {
         }
     }
 
+
+
+    private void addNewFriendinContactList(FriendInfoDto friend , ChatDto friendChat) throws IOException {
+        FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getConnectionLoader();
+        HBox hbox = fxmlLoader.load();
+        ConnectionItemController connectionItemController = fxmlLoader.getController();
+
+        connectionItemController.setData(friend, this, friendChat);
+        connectionItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
+        if (friend.getUserFriendStatus() == StatusEnum.ONLINE) {
+            onlineUsers.put(friend.getUserFriendID(), connectionItemController);
+        } else {
+            offlineUsers.put(friend.getUserFriendID(), connectionItemController);
+        }
+        connectionLayout.getChildren().add(hbox);
+        sortSingleContactListOnTimeStamp();
+        sortSingleChatContactListOnstatus();
+    }
+
     private void showGroupList(List<ChatDto> connections) throws IOException {
         for (ChatDto connection : connections) {
             FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
@@ -458,7 +474,19 @@ public class ChatScreenController implements Initializable {
             groupChats.put(connection.getChatId(), connectionGroupItemController);
             connectionGroupItemController.setData(connection, this);
             connectionGroupsLayout.getChildren().add(hbox);
+
         }
+    }
+    private void addNewGroupinContactList( ChatDto groupChat) throws IOException {
+        FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
+        HBox hbox = fxmlLoaders.load();
+        ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
+        //Update groupchat Hashmap
+        connectionGroupItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
+        groupChats.put(groupChat.getChatId(), connectionGroupItemController);
+        connectionGroupItemController.setData(groupChat, this);
+        connectionGroupsLayout.getChildren().add(hbox);
+        sortGroupContactListOnTimeStamp();
     }
 
     private List<FriendInfoDto> getContactListArray() {

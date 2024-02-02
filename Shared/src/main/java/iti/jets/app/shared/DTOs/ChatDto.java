@@ -10,12 +10,12 @@ public class ChatDto implements Serializable {
     private byte[] chatImage;
     private String chatName;
     private Timestamp createdAt;
-    private int adminId;
+    private Integer adminId;
 
     public ChatDto() {
     }
 
-    public ChatDto(int chatId, byte[] chatImage, String chatName, Timestamp createdAt, int adminId) {
+    public ChatDto(int chatId, byte[] chatImage, String chatName, Timestamp createdAt, Integer adminId) {
         this.chatId = chatId;
         this.chatImage = chatImage;
         this.chatName = chatName;
@@ -55,11 +55,11 @@ public class ChatDto implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public int getAdminId() {
+    public Integer getAdminId() {
         return adminId;
     }
 
-    public void setAdminId(int adminId) {
+    public void setAdminId(Integer adminId) {
         this.adminId = adminId;
     }
 
