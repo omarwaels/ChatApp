@@ -3,6 +3,7 @@ package iti.jets.app.client.controllers;
 import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.Interfaces.server.CreateGroupService;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -82,6 +83,9 @@ public class CreateGroupController implements Initializable {
             System.out.println(ret);
             txtFieldGroupName.setText("");
             if (ret != -1) {
+                chatDto.setChatId(ret);
+                ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
+                serverService.addGroup(chatDto, membersIds);
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Success");
                 alert.setHeaderText("Group Created Successfully");

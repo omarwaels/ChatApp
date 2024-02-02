@@ -1,9 +1,12 @@
 package iti.jets.app.shared.Interfaces.server;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.List;
 
+import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 
@@ -15,5 +18,7 @@ public interface ServerService extends Remote {
     void unregister(Client c) throws RemoteException;
 
     void updateStatus(ArrayList<Integer> friendsIds, int userId, boolean status) throws RemoteException;
+
+    void addGroup(ChatDto chatDto, List<Integer> membersIds) throws IOException;
 
 }

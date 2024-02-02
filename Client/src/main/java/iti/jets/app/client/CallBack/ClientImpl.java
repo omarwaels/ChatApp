@@ -1,12 +1,16 @@
 package iti.jets.app.client.CallBack;
 
 import iti.jets.app.client.controllers.ChatScreenController;
+import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientImpl extends UnicastRemoteObject implements Client {
     private final int id;
@@ -31,5 +35,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     @Override
     public void updateFriendStatus(int friendId, boolean online) throws RemoteException {
         chatScreenController.updateFriendStatus(friendId, online);
+    }
+
+    @Override
+    public void addGroup(ChatDto chatDto, List<Integer> membersId) throws IOException {
+        chatScreenController.addNewGroupInContactList(chatDto, membersId);
     }
 }

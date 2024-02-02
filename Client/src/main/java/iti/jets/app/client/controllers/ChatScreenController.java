@@ -158,24 +158,25 @@ public class ChatScreenController implements Initializable {
                 e.printStackTrace();
             }
         }).start();
-        
+
     }
 
-    private static int getOrderOfNodeByStatus(Node node){
+    private static int getOrderOfNodeByStatus(Node node) {
         if (node instanceof HBox) {
             Node node2 = ((HBox) node).getChildren().get(2);
             if (node2 instanceof Pane) {
                 Node node3 = ((Pane) node2).getChildren().get(0);
                 if (node3 instanceof Circle) {
-                    Color color = (Color)((Circle) node3).getFill();
-                    if(color.toString().equals("0x008000ff")) return 0 ;
+                    Color color = (Color) ((Circle) node3).getFill();
+                    if (color.toString().equals("0x008000ff")) return 0;
 
                 }
             }
         }
         return 1;
     }
-    private static Timestamp getOrderOfNodeByTimeStamp(Node node){
+
+    private static Timestamp getOrderOfNodeByTimeStamp(Node node) {
         if (node instanceof HBox) {
             Node node2 = ((HBox) node).getChildren().get(1);
             if (node2 instanceof VBox) {
@@ -189,7 +190,8 @@ public class ChatScreenController implements Initializable {
         }
         return null;
     }
-    private void sortSingleChatContactListOnstatus(){
+
+    private void sortSingleChatContactListOnstatus() {
         connectionLayout.setVisible(false);
         // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
@@ -199,7 +201,8 @@ public class ChatScreenController implements Initializable {
         // Set the visibility to true after sorting
         connectionLayout.setVisible(true);
     }
-    private void sortSingleContactListOnTimeStamp(){
+
+    private void sortSingleContactListOnTimeStamp() {
         connectionLayout.setVisible(false);
         // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
@@ -210,7 +213,8 @@ public class ChatScreenController implements Initializable {
         // Set the visibility to true after sorting
         connectionLayout.setVisible(true);
     }
-    private void sortGroupContactListOnTimeStamp(){
+
+    private void sortGroupContactListOnTimeStamp() {
         connectionGroupsLayout.setVisible(false);
         // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionGroupsLayout.getChildren());
@@ -221,6 +225,7 @@ public class ChatScreenController implements Initializable {
         // Set the visibility to true after sorting
         connectionGroupsLayout.setVisible(true);
     }
+
     ServerService getServerService() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(8189);
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
@@ -306,16 +311,16 @@ public class ChatScreenController implements Initializable {
 
     private MessageDto createMessageDto(String text) {
         ArrayList<Integer> IdsOfRecivers = new ArrayList<>();
-        boolean isSingleChat =true ;
-        if(currentScreenUserId == null){
+        boolean isSingleChat = true;
+        if (currentScreenUserId == null) {
             isSingleChat = false;
             IdsOfRecivers = getUserFriendsIdsInSameGroup(loginResultDto, currentScreenChatId);
-        }else{
+        } else {
 
             IdsOfRecivers.add(currentScreenUserId);
         }
 
-        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()) ,loginResultDto.getUserDto().getPicture() ,isSingleChat);
+        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()), loginResultDto.getUserDto().getPicture(), isSingleChat);
     }
 
     private ArrayList<Integer> getUserFriendsIdsInSameGroup(LoginResultDto loginResultDto, Integer currentChatId) {
@@ -339,9 +344,9 @@ public class ChatScreenController implements Initializable {
         Platform.runLater(() -> {
             updateCounters(message);
             updateTimeStamps(message);
-            if(message.isSingleChat()){
+            if (message.isSingleChat()) {
                 sortSingleContactListOnTimeStamp();
-            }else{
+            } else {
                 sortGroupContactListOnTimeStamp();
             }
 
@@ -383,12 +388,13 @@ public class ChatScreenController implements Initializable {
 
 
     }
-    private void updateCounters(MessageDto message){
-        if(!message.getChatId().equals(currentScreenChatId)){
-            if(message.isSingleChat()){
+
+    private void updateCounters(MessageDto message) {
+        if (!message.getChatId().equals(currentScreenChatId)) {
+            if (message.isSingleChat()) {
                 ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
                 connectionItemController.updateCounter();
-            }else{
+            } else {
                 ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
                 connectionGroupItemController.updateCounter();
 
@@ -396,21 +402,20 @@ public class ChatScreenController implements Initializable {
 
         }
     }
-    private void updateTimeStamps(MessageDto message){
 
-            if(message.isSingleChat()){
-                ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
-                connectionItemController.setLastTimeStamp(message.getSentAt());
-            }else{
-                ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
-                connectionGroupItemController.setLastTimeStamp(message.getSentAt());
+    private void updateTimeStamps(MessageDto message) {
 
-            }
+        if (message.isSingleChat()) {
+            ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
+            connectionItemController.setLastTimeStamp(message.getSentAt());
+        } else {
+            ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
+            connectionGroupItemController.setLastTimeStamp(message.getSentAt());
+
+        }
 
 
     }
-
-
 
 
     public void updateChatLayout(Integer newUserIdScreen, Integer newChatIdScreen) {
@@ -447,8 +452,7 @@ public class ChatScreenController implements Initializable {
     }
 
 
-
-    private void addNewFriendinContactList(FriendInfoDto friend , ChatDto friendChat) throws IOException {
+    public void addNewFriendInContactList(FriendInfoDto friend, ChatDto friendChat) throws IOException {
         FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getConnectionLoader();
         HBox hbox = fxmlLoader.load();
         ConnectionItemController connectionItemController = fxmlLoader.getController();
@@ -477,16 +481,37 @@ public class ChatScreenController implements Initializable {
 
         }
     }
-    private void addNewGroupinContactList( ChatDto groupChat) throws IOException {
-        FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
-        HBox hbox = fxmlLoaders.load();
-        ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
-        //Update groupchat Hashmap
-        connectionGroupItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
-        groupChats.put(groupChat.getChatId(), connectionGroupItemController);
-        connectionGroupItemController.setData(groupChat, this);
-        connectionGroupsLayout.getChildren().add(hbox);
-        sortGroupContactListOnTimeStamp();
+
+    public void addNewGroupInContactList(ChatDto groupChat, List<Integer> groupUsers) throws IOException {
+        Platform.runLater(() -> {
+            FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
+            HBox hbox = null;
+            try {
+                hbox = fxmlLoaders.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
+            //Update groupchat Hashmap
+            connectionGroupItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
+            groupChats.put(groupChat.getChatId(), connectionGroupItemController);
+            connectionGroupItemController.setData(groupChat, this);
+            connectionGroupsLayout.getChildren().add(hbox);
+            updateLoginResultDtoForNewGroup(groupChat, groupUsers);
+            sortGroupContactListOnTimeStamp();
+        });
+    }
+
+    private void updateLoginResultDtoForNewGroup(ChatDto chatDto, List<Integer> groupUsers) {
+        HashMap<ChatDto, ArrayList<FriendInfoDto>> groups = loginResultDto.getGroupParticipants();
+        ArrayList<FriendInfoDto> friends = new ArrayList<>();
+        for (Integer userId : groupUsers) {
+            if (userId.equals(loginResultDto.getUserDto().getId())) continue;
+            FriendInfoDto friend = new FriendInfoDto();
+            friend.setUserFriendID(userId);
+            friends.add(friend);
+        }
+        groups.put(chatDto, friends);
     }
 
     private List<FriendInfoDto> getContactListArray() {
@@ -557,7 +582,6 @@ public class ChatScreenController implements Initializable {
             sortSingleChatContactListOnstatus();
         });
     }
-
 
 
     public void informFriends(boolean online) {

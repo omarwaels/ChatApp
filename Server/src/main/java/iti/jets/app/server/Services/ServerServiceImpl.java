@@ -1,12 +1,15 @@
 package iti.jets.app.server.Services;
 
+import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ServerServiceImpl extends UnicastRemoteObject implements ServerService {
     private static ArrayList<Client> clients = new ArrayList<>();
@@ -18,7 +21,7 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     public void sendMessage(MessageDto messageDto) throws RemoteException {
         for (Client c : clients) {
             System.out.println(c.getID() + " " + messageDto.getReceiverId());
-            for(Integer userID : messageDto.getReceiverId()){
+            for (Integer userID : messageDto.getReceiverId()) {
                 if (c.getID() == userID) {
                     c.receiveMessage(messageDto);
                 }
@@ -42,6 +45,14 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
             if (friendsIds.contains(c.getID())) {
                 c.updateFriendStatus(userId, online);
             }
+        }
+    }
+
+    @Override
+    public void addGroup(ChatDto chatDto, List<Integer> membersIds) throws IOException {
+        for (Client c : clients) {
+            if (membersIds.contains(c.getID()))
+                c.addGroup(chatDto, membersIds);
         }
     }
 }

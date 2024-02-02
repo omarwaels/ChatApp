@@ -1,15 +1,20 @@
 package iti.jets.app.shared.Interfaces.client;
 
 
+import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.util.List;
 
-public interface Client extends Remote  {
-    void receiveMessage(MessageDto messageDto)throws RemoteException;
+public interface Client extends Remote {
+    void receiveMessage(MessageDto messageDto) throws RemoteException;
 
     int getID() throws RemoteException;
 
     void updateFriendStatus(int friendId, boolean online) throws RemoteException;
+
+    void addGroup(ChatDto chatDto, List<Integer> membersId) throws IOException;
 }
