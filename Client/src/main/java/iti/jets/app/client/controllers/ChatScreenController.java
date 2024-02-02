@@ -17,9 +17,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -113,9 +111,22 @@ public class ChatScreenController implements Initializable {
     public HBox chatFooter;
     @FXML
     public VBox temporaryScreen;
-
     @FXML
     public ImageView createGroupBtn;
+    @FXML
+    public ToggleButton boldToggleBtn;
+    @FXML
+    public ToggleButton italicTogglebtn;
+    @FXML
+    public ToggleButton lineToggleBtn;
+    @FXML
+    public ColorPicker colorPicker;
+    @FXML
+    public FlowPane editPane;
+    @FXML
+    public ComboBox<String> fontComboBox;
+    @FXML
+    public ComboBox<String> fontSizeComboBox;
     public ConnectionItemController currentConnection;
 
     private LoginResultDto loginResultDto;
@@ -139,8 +150,8 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        customizeEditorPane();
         groubChatContainer.setVisible(false);
-
     }
 
     public void setCurrentScreenImage(Image currentScreenImage) {
@@ -291,8 +302,10 @@ public class ChatScreenController implements Initializable {
 
     public void sendMessage() throws IOException {
         String text = messageTextField.getText().trim();
+
         messageTextField.setText("");
         if (!text.isEmpty()) {
+
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageSentLoader();
             HBox hbox = fxmlLoader.load();
             MessageDto newMessage = createMessageDto(text);
@@ -312,6 +325,14 @@ public class ChatScreenController implements Initializable {
     }
 
     private MessageDto createMessageDto(String text) {
+
+        String color = toRGBCode(colorPicker.getValue());
+        String weight = (boldToggleBtn.isSelected()) ? "Bold" : "normal";
+        String size = fontSizeComboBox.getSelectionModel().getSelectedItem();
+        String style = (italicTogglebtn.isSelected()) ? "italic" : "normal";
+        String font = fontComboBox.getSelectionModel().getSelectedItem();
+        Boolean underline = lineToggleBtn.isSelected();
+
         ArrayList<Integer> IdsOfRecivers = new ArrayList<>();
         boolean isSingleChat = true;
         if (currentScreenUserId == null) {
@@ -322,7 +343,17 @@ public class ChatScreenController implements Initializable {
             IdsOfRecivers.add(currentScreenUserId);
         }
 
-        return new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId, false, text, new Timestamp(System.currentTimeMillis()), loginResultDto.getUserDto().getPicture(), isSingleChat);
+        MessageDto msgDto = new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId,
+                false, text, new Timestamp(System.currentTimeMillis()) ,loginResultDto.getUserDto().getPicture() ,isSingleChat);
+
+        msgDto.setFontSize(Integer.parseInt(size));
+        msgDto.setFontColor(color);
+        msgDto.setFontWeight(weight);
+        msgDto.setFontFamily(font);
+        msgDto.setFontStyle(style);
+        msgDto.setUnderline(underline);
+
+        return msgDto;
     }
 
     private ArrayList<Integer> getUserFriendsIdsInSameGroup(LoginResultDto loginResultDto, Integer currentChatId) {
@@ -655,5 +686,24 @@ public class ChatScreenController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void customizeEditorPane()
+    {
+        ObservableList<String> limitedFonts = FXCollections.observableArrayList("Arial", "Times", "Courier New", "Comic Sans MS");
+        fontComboBox.setItems(limitedFonts);
+        fontComboBox.getSelectionModel().selectFirst();
+
+        ObservableList<String> fontSizes = FXCollections.observableArrayList("8", "10", "12", "14", "18", "24");
+        fontSizeComboBox.setItems(fontSizes);
+        fontSizeComboBox.getSelectionModel().select(2);
+
+        colorPicker.setValue(Color.BLACK);
+    }
+    public String toRGBCode(Color color)
+    {
+        return String.format("#%02X%02X%02X",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
     }
 }

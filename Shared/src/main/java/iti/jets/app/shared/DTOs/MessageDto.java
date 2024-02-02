@@ -16,6 +16,12 @@ public class MessageDto implements Serializable {
     private byte[] senderImage ;
 
     private boolean singleChat ;
+    private int fontSize;
+    private String fontColor;
+    private String fontWeight;
+    private String fontFamily;
+    private String fontStyle;
+    private Boolean underline;
 
     public MessageDto(Integer senderId, ArrayList<Integer> receiverId, Integer chatId, boolean containsFile, String messageContent, Timestamp sentAt, byte[] senderImage, boolean singleChat) {
         this.senderId = senderId;
@@ -27,6 +33,8 @@ public class MessageDto implements Serializable {
         this.senderImage = senderImage;
         this.singleChat = singleChat;
     }
+
+
 
     public boolean isSingleChat() {
         return singleChat;
@@ -96,5 +104,51 @@ public class MessageDto implements Serializable {
         this.senderImage = senderImage;
     }
 
+    public int getFontSize() {
+        return fontSize;
+    }
 
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
+    }
+
+    public String getFontColor() {
+        return fontColor;
+    }
+
+    public void setFontColor(String fontColor) {
+        this.fontColor = fontColor;
+    }
+
+    public String getFontWeight() {
+        return fontWeight;
+    }
+
+    public void setFontWeight(String fontWeight) {
+        this.fontWeight = fontWeight;
+    }
+
+    public String getFontFamily() {
+        return fontFamily;
+    }
+
+    public void setFontFamily(String fontFamily) {
+        this.fontFamily = fontFamily;
+    }
+
+    public String getFontStyle() {
+        return fontStyle;
+    }
+
+    public void setFontStyle(String fontStyle) {
+        this.fontStyle = fontStyle;
+    }
+
+    public Boolean getUnderline() {
+        return underline;
+    }
+
+    public void setUnderline(Boolean underline) {
+        this.underline = underline;
+    }
 }

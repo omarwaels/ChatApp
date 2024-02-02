@@ -201,7 +201,7 @@ public class SignUpController implements Initializable {
         userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
         userRegisterDto.setBio(bioTextField.getText());
         if (picture == null) {
-            File img = new File("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png");
+            File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
             picture = Files.readAllBytes(img.toPath());
         }
         userRegisterDto.setPicture(picture);
