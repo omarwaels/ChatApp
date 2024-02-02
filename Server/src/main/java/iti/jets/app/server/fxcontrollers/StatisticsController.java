@@ -130,14 +130,14 @@ public class StatisticsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<PieChart.Data> list = FXCollections.observableArrayList(
-                new PieChart.Data("Male", StatisticsServiceImpl.getStatisticsService().getMaleFemaleCount().get("Male")),
-                new PieChart.Data("Female", StatisticsServiceImpl.getStatisticsService().getMaleFemaleCount().get("Female"))
-        );
-        pieChart.setData(list);
-
-        for (final PieChart.Data data : pieChart.getData()) {
-            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<MouseEvent>) mouseEvent -> status.setText(String.valueOf(data.getPieValue()) + "%"));
-        }
+//        ObservableList<PieChart.Data> list = FXCollections.observableArrayList(
+//                new PieChart.Data("Male", StatisticsServiceImpl.getStatisticsService().getMaleFemaleCount().get("Male")),
+//                new PieChart.Data("Female", StatisticsServiceImpl.getStatisticsService().getMaleFemaleCount().get("Female"))
+//        );
+//        pieChart.setData(list);
+//
+//        for (final PieChart.Data data : pieChart.getData()) {
+//            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<MouseEvent>) mouseEvent -> status.setText(String.valueOf(data.getPieValue()) + "%"));
+//        }
     }
 }

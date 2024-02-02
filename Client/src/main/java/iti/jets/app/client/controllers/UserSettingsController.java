@@ -337,7 +337,7 @@ public class UserSettingsController implements Initializable {
 
     @FXML
     public void onClickRemovePhoto() throws IOException {
-        File img = new File("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png");
+        File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
         profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath()))));
         user.setPicture(Files.readAllBytes(img.toPath()));
     }
