@@ -1,7 +1,9 @@
 package iti.jets.app.server.Services;
 
-import iti.jets.app.server.db.InvitationRequestDAO;
-import iti.jets.app.shared.DTOs.UserInvitationDto;
+import iti.jets.app.server.Mappers.InvitationDtoMapper;
+import iti.jets.app.server.db.InvitationDao;
+import iti.jets.app.server.models.entities.Invitation;
+import iti.jets.app.shared.DTOs.InvitationDto;
 import iti.jets.app.shared.Interfaces.server.InvitationService;
 
 import java.rmi.RemoteException;
@@ -13,14 +15,21 @@ public class GetInvitationsServiceImpl extends UnicastRemoteObject implements In
     }
 
     @Override
-    public List<UserInvitationDto> getUserRequests(int receiverId) throws RemoteException {
-        InvitationRequestDAO dao = new InvitationRequestDAO();
-        return dao.getInvitationsByReceiverId(receiverId);
+    public List<InvitationDto> getUserRequests(int receiverId) throws RemoteException {
+        InvitationDao invitationDao = new InvitationDao();
+        List<Invitation> invitations = invitationDao.getAllInvitations(receiverId);
+        return InvitationDtoMapper.invitationArrToInvitationDtoArr(invitations);
     }
 
     @Override
-    public boolean acceptInvitation(int invitationId, int receiverId) throws RemoteException {
-        InvitationRequestDAO dao = new InvitationRequestDAO();
-        return dao.acceptInvitation(invitationId,receiverId);
+    public int acceptInvitation(InvitationDto invitationDto) throws RemoteException {
+        InvitationDao invitationDao = new InvitationDao();
+        return invitationDao.acceptInvitation(InvitationDtoMapper.invitationDtoToInvitation(invitationDto));
+    }
+
+    @Override
+    public int declineInvitation(InvitationDto invitationDto) throws RemoteException {
+        InvitationDao invitationDao = new InvitationDao();
+        return invitationDao.declineInvitation(InvitationDtoMapper.invitationDtoToInvitation(invitationDto));
     }
 }

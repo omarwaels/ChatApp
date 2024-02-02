@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class InvitationDao implements Dao<Invitation, Integer>{
+public class InvitationDao implements Dao<Invitation, Integer> {
 
     private DataSource dataSource;
 
@@ -27,6 +27,7 @@ public class InvitationDao implements Dao<Invitation, Integer>{
     public Invitation getById(Integer integer) {
         return null;
     }
+
     @Override
     public int insert(Invitation invitation) {
         String query = "INSERT INTO invitations (sender_id , receiver_id) VALUES (?, ?)";
@@ -38,10 +39,12 @@ public class InvitationDao implements Dao<Invitation, Integer>{
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public int update(Invitation invitation) {
         return 0;
     }
+
     @Override
     public int delete(Integer integer) {
         return 0;
@@ -87,5 +90,23 @@ public class InvitationDao implements Dao<Invitation, Integer>{
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public int acceptInvitation(Invitation invitation) {
+        String insertQuery = "INSERT INTO connections (first_user_id, second_user_id, connected_since) VALUES (?, ?, ?)";
+        delete(invitation);
+        try (PreparedStatement insertStatement = dataSource.getConnection().prepareStatement(insertQuery);) {
+            insertStatement.setInt(1, invitation.getReceiverID());
+            insertStatement.setInt(2, invitation.getSenderID());
+            insertStatement.setTimestamp(3, new java.sql.Timestamp(System.currentTimeMillis()));
+            return insertStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public int declineInvitation(Invitation invitation) {
+        return delete(invitation);
     }
 }

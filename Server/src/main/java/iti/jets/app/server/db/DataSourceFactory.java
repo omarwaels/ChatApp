@@ -1,37 +1,47 @@
 package iti.jets.app.server.db;
 
-import java.io.*;
-import java.util.Properties;
+
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 
 import javax.sql.DataSource;
-
-import com.mysql.cj.jdbc.MysqlDataSource;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public enum DataSourceFactory {
-    INSTANCE;  // The single instance
+    INSTANCE;
 
     private static DataSource dataSource;
-
 
     DataSourceFactory() {
         initializeDataSource();
     }
 
     private void initializeDataSource() {
-        Properties p = new Properties();
-        MysqlDataSource mySqlDataSource = null;
-        try {
-            mySqlDataSource = new MysqlDataSource();
-            mySqlDataSource.setURL("jdbc:mysql://127.0.0.1:3308/chat_app");
-            mySqlDataSource.setUser("root");
-            mySqlDataSource.setPassword(p.getProperty(""));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        Properties properties = new Properties();
+
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            if (input == null) {
+                throw new RuntimeException("Unable to find database.properties");
+            }
+            properties.load(input);
+        } catch (IOException e) {
+            throw new RuntimeException("Error loading database properties", e);
         }
-        dataSource = mySqlDataSource;
+
+        HikariConfig config = new HikariConfig();
+        config.setJdbcUrl(properties.getProperty("jdbc.url"));
+        config.setUsername(properties.getProperty("jdbc.username"));
+        config.setPassword(properties.getProperty("jdbc.password"));
+
+        //  config.setMaximumPoolSize(500);
+        config.setMaximumPoolSize(500);
+
+        dataSource = new HikariDataSource(config);
     }
 
     public static DataSource getMySQLDataSource() {
-        return INSTANCE.dataSource;
+        return dataSource;
     }
 }
