@@ -1,5 +1,6 @@
 package iti.jets.app.shared.DTOs;
 
+
 import java.io.Serializable;
 
 public class InvitationDto implements Serializable {

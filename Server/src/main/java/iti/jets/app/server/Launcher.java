@@ -1,5 +1,6 @@
 package iti.jets.app.server;
 
+import iti.jets.app.server.db.InvitationRequestDAO;
 import iti.jets.app.server.db.UserDao;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -24,24 +25,26 @@ public class Launcher extends Application {
     }
 
     public static void main(String[] args) {
-        UserDao userDao = new UserDao();
-
-
-        String imagePath = "C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Server\\src\\main\\resources\\iti\\jets\\app\\server\\images\\user.png";
-
-        try {
-            byte[] newImageData = Files.readAllBytes(Paths.get(imagePath));
-
-            int rowsUpdated = userDao.updateImage("1234567890", newImageData);
-
-            if (rowsUpdated > 0) {
-                System.out.println("Done");
-            } else {
-                System.out.println("Failed");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        UserDao userDao = new UserDao();
+//
+//
+//        String imagePath = "C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Server\\src\\main\\resources\\iti\\jets\\app\\server\\images\\user.png";
+//
+//        try {
+//            byte[] newImageData = Files.readAllBytes(Paths.get(imagePath));
+//
+//            int rowsUpdated = userDao.updateImage("1234567890", newImageData);
+//
+//            if (rowsUpdated > 0) {
+//                System.out.println("Done");
+//            } else {
+//                System.out.println("Failed");
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        InvitationRequestDAO invitationRequestDAO = new InvitationRequestDAO();
+        System.out.println(invitationRequestDAO.acceptInvitation(55,1));
         launch();
     }
 }

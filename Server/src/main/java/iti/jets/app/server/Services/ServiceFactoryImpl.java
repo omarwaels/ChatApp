@@ -1,9 +1,6 @@
 package iti.jets.app.server.Services;
 
-import iti.jets.app.shared.Interfaces.server.LoginService;
-import iti.jets.app.shared.Interfaces.server.RegisterService;
-import iti.jets.app.shared.Interfaces.server.ServerService;
-import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import iti.jets.app.shared.Interfaces.server.*;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -28,4 +25,10 @@ public class ServiceFactoryImpl extends UnicastRemoteObject implements ServiceFa
     public ServerService getServerService() throws RemoteException {
         return new ServerServiceImpl();
     }
+
+    @Override
+    public InvitationService getInvitationService() throws RemoteException {
+        return new GetInvitationsServiceImpl();
+    }
+
 }

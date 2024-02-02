@@ -3,6 +3,7 @@ package iti.jets.app.server.fxcontrollers;
 import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton;
+import iti.jets.app.server.Network.ServerConnection;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -31,9 +32,8 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        toggleButton.setSelected(true);
+        toggleButton.setSelected(false);
         snackbar = new JFXSnackbar(bp);
-
     }
 
 
@@ -93,9 +93,13 @@ public class DashboardController implements Initializable {
     @FXML
     private void handleToggleButton() {
         if (toggleButton.isSelected()) {
-            showSnackbar("Server is on");
+            try {
+                ServerConnection.openConnection();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else {
-            showSnackbar("Server is off");
+            ServerConnection.closeConnection();
         }
     }
 

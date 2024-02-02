@@ -11,6 +11,7 @@
 <?import javafx.scene.text.Font?>
 
 <HBox alignment="CENTER" prefHeight="81.0" prefWidth="321.0" styleClass="number-card" stylesheets="@../style/invitation.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="iti.jets.app.client.controllers.InvitationRequestCardController"
 >
     <children>
         <ImageView fx:id="friendImage" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
