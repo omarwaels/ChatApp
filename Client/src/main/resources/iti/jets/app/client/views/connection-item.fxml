@@ -24,6 +24,11 @@
       </ImageView>
       <VBox alignment="CENTER" prefHeight="66.0" prefWidth="147.0">
          <children>
+            <Label fx:id="lastMessageTimestamp" prefHeight="0.0" prefWidth="0.0" text="1970-01-01 00:00:00.000" textFill="TRANSPARENT">
+               <font>
+                  <Font size="1.0" />
+               </font>
+            </Label>
             <Label fx:id="connectionName" prefHeight="18.0" prefWidth="138.0" text="Omar El-Sherif" textFill="WHITE">
                <font>
                   <Font name="Ebrima Bold" size="18.0" />

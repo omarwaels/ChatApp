@@ -14,6 +14,7 @@ import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class ConnectionItemController implements Initializable {
@@ -29,7 +30,10 @@ public class ConnectionItemController implements Initializable {
     public StackPane counterContainer;
     @FXML
     public Label counter;
+    @FXML
+    public Label lastMessageTimestamp;
     private int UserID;
+    private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
 
     public FriendInfoDto user;
     private ChatDto chatDto;
@@ -79,6 +83,11 @@ public class ConnectionItemController implements Initializable {
 
     public void hoverExitEffect() {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.0);");
+    }
+
+    public void setLastTimeStamp( Timestamp timeStamp){
+        this.lastMessageTime = timeStamp;
+        lastMessageTimestamp.setText(timeStamp.toString());
     }
 
 
