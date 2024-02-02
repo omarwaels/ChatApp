@@ -87,6 +87,12 @@ public class ViewsFactory {
         return fxmlLoader;
     }
 
+    public FXMLLoader getInvitationsLoader() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/invitations-screen.fxml"));
+        return fxmlLoader;
+    }
+
     public Parent getLoginRoot() {
         if (loginRoot == null) {
             try {

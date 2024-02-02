@@ -31,6 +31,9 @@ public class InvitationRequestController implements Initializable {
 
     public void setData(int userId) {
         this.userId = userId;
+        ObservableList<InvitationDto> data = generateDataObservable();
+        invitationList.getItems().addAll(data);
+        setRequestsList();
     }
 
     InvitationService getInvitationService() throws RemoteException, NotBoundException {
@@ -53,9 +56,6 @@ public class InvitationRequestController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ObservableList<InvitationDto> data = generateDataObservable();
-        invitationList.getItems().addAll(data);
-        setRequestsList();
     }
 
     public void setRequestsList() {

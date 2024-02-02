@@ -27,6 +27,11 @@ public class ServiceFactoryImpl extends UnicastRemoteObject implements ServiceFa
     }
 
     @Override
+    public InvitationService getInvitationService() throws RemoteException {
+        return new InvitationsServiceImpl();
+    }
+
+    @Override
     public UpdateInfoService getUpdateInfoService() throws RemoteException {
         return new UpdateInfoServiceImpl();
     }

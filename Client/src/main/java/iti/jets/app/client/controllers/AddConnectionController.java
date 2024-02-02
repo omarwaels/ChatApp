@@ -51,11 +51,12 @@ public class AddConnectionController{
 
          *      1- if one of the entered users isn't registered on the system.
          *      2- if one of the entered users is already in the connections list of the user.
+         *      3- if one of the entered users has already sent an invitation from the user.
 
          * if (!isUserRegistered(username))     -> invoke showNotRegisteredAlert
          * if (isUserAlreadyConnected(username))-> invoke showAlreadyConnectedAlert
 
-         * */
+         **/
     }
     public void showNotRegisteredAlert(String phoneNumber) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

@@ -45,7 +45,6 @@ import java.util.*;
 
 public class ChatScreenController implements Initializable {
 
-    private static ChatScreenController chatScreenController;
     @FXML
     public ImageView attachementBtn;
 
@@ -134,6 +133,9 @@ public class ChatScreenController implements Initializable {
 
     private HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     private HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
+
+    @FXML
+    public ImageView invitationsBtn;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -629,6 +631,25 @@ public class ChatScreenController implements Initializable {
             dialogStage.initStyle(StageStyle.DECORATED);
             dialogStage.setResizable(false);
             dialogStage.setTitle("Create Group");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onClickInvitations() {
+        try {
+            FXMLLoader loader = ViewsFactory.getViewsFactory().getInvitationsLoader();
+            Parent root = loader.load();
+            InvitationRequestController invitationRequestController = loader.getController();
+            invitationRequestController.setData(loginResultDto.getUserDto().getId());
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initStyle(StageStyle.DECORATED);
+            dialogStage.setResizable(false);
+            dialogStage.setTitle("Invitations");
             dialogStage.setScene(new Scene(root));
             dialogStage.showAndWait();
         } catch (IOException e) {

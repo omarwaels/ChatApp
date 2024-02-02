@@ -10,8 +10,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-public class GetInvitationsServiceImpl extends UnicastRemoteObject implements InvitationService {
-    public GetInvitationsServiceImpl() throws RemoteException {
+public class InvitationsServiceImpl extends UnicastRemoteObject implements InvitationService {
+    public InvitationsServiceImpl() throws RemoteException {
     }
 
     @Override
