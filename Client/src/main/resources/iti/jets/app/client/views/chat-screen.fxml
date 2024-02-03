@@ -24,50 +24,50 @@
     <left>
         <HBox prefHeight="598.0" prefWidth="277.0" BorderPane.alignment="CENTER">
             <children>
-                <VBox alignment="CENTER" prefHeight="598.0" prefWidth="53.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
+                <VBox alignment="CENTER" prefHeight="598.0" prefWidth="56.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
                     <children>
-                        <Pane layoutX="10.0" layoutY="185.0" prefHeight="422.0" prefWidth="92.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
+                        <Pane layoutX="10.0" layoutY="185.0" prefHeight="330.0" prefWidth="42.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
                      <children>
-                        <ImageView fx:id="createGroupBtn" fitHeight="45.0" fitWidth="40.0" layoutX="1.0" layoutY="253.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="createGroupBtn" fitHeight="43.0" fitWidth="41.0" layoutX="2.0" layoutY="253.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/add_3820117.png" />
+                           </image>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fx:id="invitationsBtn" fitHeight="51.0" fitWidth="55.0" layoutX="-4.0" layoutY="191.0" onMouseClicked="#onClickInvitations" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/people.png" />
                            </image>
-                           <cursor>
-                              <Cursor fx:constant="OPEN_HAND" />
-                           </cursor>
                         </ImageView>
-                        <ImageView fx:id="invitationsBtn" fitHeight="42.0" fitWidth="42.0" layoutY="194.0" onMouseClicked="#onClickInvitations" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../img/bell.png" />
-                           </image>
-                        </ImageView>
-                              <ImageView fx:id="singleChat" fitHeight="48.0" fitWidth="38.0" layoutX="4.0" layoutY="86.0" onMouseClicked="#showSingleChat" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="singleChat" fitHeight="48.0" fitWidth="38.0" layoutX="2.0" layoutY="86.0" onMouseClicked="#showSingleChat" pickOnBounds="true" preserveRatio="true">
                                   <image>
-                                      <Image url="@../img/chat-box.png" />
+                                      <Image url="@../img/chat.png" />
                                   </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                               </ImageView>
-                        <ImageView fx:id="addFriendBtn" fitHeight="40.0" fitWidth="37.0" layoutX="2.0" layoutY="136.0" onMouseClicked="#onClickInviteFriends" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="addFriendBtn" fitHeight="40.0" fitWidth="37.0" layoutX="2.0" layoutY="139.0" onMouseClicked="#onClickInviteFriends" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/add-user.png" />
+                              <Image url="@../img/add-friend.png" />
                            </image>
                         </ImageView>
                      </children></Pane>
-                        <Pane prefHeight="343.0" prefWidth="92.0" VBox.vgrow="ALWAYS">
+                        <Pane prefHeight="212.0" prefWidth="42.0" VBox.vgrow="ALWAYS">
                      <children>
-                              <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" layoutX="2.0" layoutY="116.0" onMouseClicked="#onSettingClicked" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" layoutX="2.0" layoutY="70.0" onMouseClicked="#onSettingClicked" pickOnBounds="true" preserveRatio="true">
                                   <image>
-                                      <Image url="@../img/user-profile.png" />
+                                      <Image url="@../img/settings.png" />
                                   </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                               </ImageView>
-                              <ImageView fx:id="groupChat" fitHeight="48.0" fitWidth="38.0" layoutX="2.0" layoutY="55.0" onMouseClicked="#showGroupChat" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="groupChat" fitHeight="43.0" fitWidth="48.0" layoutX="1.0" layoutY="13.0" onMouseClicked="#showGroupChat" pickOnBounds="true" preserveRatio="true">
                                   <image>
-                                      <Image url="@../img/multiple-users-silhouette.png" />
+                                      <Image url="@../img/discussion.png" />
                                   </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
@@ -77,7 +77,7 @@
                   </Pane>
                         <ImageView fx:id="exitImg" fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/icons8-sign-out-50.png" />
+                                <Image url="@../img/logout.png" />
                             </image>
                             <VBox.margin>
                                 <Insets bottom="30.0" top="20.0" />

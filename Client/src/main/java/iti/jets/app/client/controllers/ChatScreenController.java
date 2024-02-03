@@ -45,7 +45,8 @@ public class ChatScreenController implements Initializable {
 
     @FXML
     public ImageView attachementBtn;
-
+    @FXML
+    public ImageView addFriendBtn;
     @FXML
     public ImageView exitImg;
     @FXML
@@ -153,6 +154,7 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        createToolTips();
         customizeEditorPane();
         groubChatContainer.setVisible(false);
     }
@@ -737,5 +739,35 @@ public class ChatScreenController implements Initializable {
         } catch (IOException | NotBoundException e) {
             e.printStackTrace();
         }
+    }
+    public void createToolTips()
+    {
+        final Tooltip tooltipSingleChat = new Tooltip();
+        tooltipSingleChat.setText("Find your private chats here");
+        Tooltip.install(singleChat, tooltipSingleChat);
+
+        final Tooltip tooltipAddFriend = new Tooltip();
+        tooltipAddFriend.setText("Create new connection");
+        Tooltip.install(addFriendBtn, tooltipAddFriend);
+
+        final Tooltip tooltipInvitation = new Tooltip();
+        tooltipInvitation.setText("New connection requests");
+        Tooltip.install(invitationsBtn, tooltipInvitation);
+
+        final Tooltip tooltipCreateGroup = new Tooltip();
+        tooltipCreateGroup.setText("Create New Group");
+        Tooltip.install(createGroupBtn, tooltipCreateGroup);
+
+        final Tooltip tooltipGroupChat = new Tooltip();
+        tooltipGroupChat.setText("Find your group chats here");
+        Tooltip.install(groupChat, tooltipGroupChat);
+
+        final Tooltip tooltipUserSettings = new Tooltip();
+        tooltipUserSettings.setText("Edit profile");
+        Tooltip.install(chatSettingImg, tooltipUserSettings);
+
+        final Tooltip tooltipExit = new Tooltip();
+        tooltipExit.setText("Logout");
+        Tooltip.install(exitImg, tooltipExit);
     }
 }
