@@ -30,21 +30,21 @@
                      <children>
                         <ImageView fx:id="createGroupBtn" fitHeight="45.0" fitWidth="40.0" layoutX="1.0" layoutY="173.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/people.png" />
+                              <Image url="@../img/people1.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView fx:id="invitationsBtn" fitHeight="42.0" fitWidth="42.0" layoutY="114.0" onMouseClicked="#onClickInvitations" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="invitationsBtn" fitHeight="38.0" fitWidth="43.0" layoutX="1.0" layoutY="115.0" onMouseClicked="#onClickInvitations" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/bell.png" />
+                              <Image url="@../img/invitation%20(2).png" />
                            </image>
                         </ImageView>
                      </children></Pane>
                         <ImageView fx:id="singleChat" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#showSingleChat" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/chat-box.png" />
+                                <Image url="@../img/chat.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
@@ -55,7 +55,7 @@
                         </ImageView>
                         <ImageView fx:id="groupChat" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#showGroupChat" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/multiple-users-silhouette.png" />
+                                <Image url="@../img/group.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
@@ -66,7 +66,7 @@
                         </ImageView>
                         <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#onSettingClicked" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../img/user-profile.png" />
+                                <Image url="@../img/profilesettings.png" />
                             </image>
                             <VBox.margin>
                                 <Insets top="20.0" />
