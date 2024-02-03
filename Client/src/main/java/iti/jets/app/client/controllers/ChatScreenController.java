@@ -261,10 +261,11 @@ public class ChatScreenController implements Initializable {
         nodesToScaleTransition.add(chatSettingImg);
         nodesToScaleTransition.add(exitImg);
         nodesToScaleTransition.add(createGroupBtn);
+        nodesToScaleTransition.add(addFriendBtn);
+        nodesToScaleTransition.add(invitationsBtn);
         scaleTransitionIn(nodesToScaleTransition);
 
     }
-
 
     void updateCurrentScreenStatusWord(StatusEnum statusWord) {
         currentScreenStatusWord.setText(statusWord.getStatus());
@@ -492,7 +493,6 @@ public class ChatScreenController implements Initializable {
             connectionLayout.getChildren().add(hbox);
         }
     }
-
 
     public void addNewFriendInContactList(FriendInfoDto friend, ChatDto friendChat) throws IOException {
         Platform.runLater(() -> {
