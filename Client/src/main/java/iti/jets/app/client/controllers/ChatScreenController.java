@@ -319,7 +319,7 @@ public class ChatScreenController implements Initializable {
             MessageSentController msc = fxmlLoader.getController();
             Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
             msc.setData(newMessage, userImg);
-            chatLayout.setAlignment(Pos.CENTER_RIGHT);
+            chatLayout.setAlignment(Pos.TOP_RIGHT);
             chatLayout.getChildren().add(hbox);
             new Thread(() -> {
                 try {
@@ -403,7 +403,7 @@ public class ChatScreenController implements Initializable {
             //update Current Screen
 
             if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
-                chatLayout.setAlignment(Pos.CENTER_LEFT);
+                chatLayout.setAlignment(Pos.TOP_LEFT);
                 chatLayout.getChildren().add(hbox);
             } else {
                 //Add message between nodes

@@ -95,6 +95,10 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
                 continue;
             }
             invitationDto.setReceiverID(receiverID);
+            if (invitationDto.getSenderID() == invitationDto.getReceiverID()) {
+                ret.add(4);
+                continue;
+            }
             if (isAlreadyConnected(invitationDto.getSenderID(), invitationDto.getReceiverID())) {
                 ret.add(2);
                 continue;
@@ -107,7 +111,7 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
             if (Success) {
                 ret.add(0);
             } else {
-                ret.add(4);
+                ret.add(5);
             }
         }
         return ret;

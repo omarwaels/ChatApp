@@ -64,6 +64,8 @@ public class AddConnectionController {
                 showAlreadyConnectedAlert(users.get(i));
             } else if (ret.get(i) == 3) {
                 showAlreadyInvitedAlert(users.get(i));
+            } else if (ret.get(i) == 4) {
+                showSelfInviteAlert(users.get(i));
             } else if (ret.get(i) == 0) {
                 showSuccessAlert(users.get(i));
             } else
@@ -119,6 +121,15 @@ public class AddConnectionController {
         alert.setTitle("Validation Error");
         alert.setHeaderText(null);
         alert.setContentText("The user " + phoneNumber + " is already invited.");
+
+        alert.showAndWait();
+    }
+
+    public void showSelfInviteAlert(String phoneNumber) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Validation Error");
+        alert.setHeaderText(null);
+        alert.setContentText("You cannot invite yourself.");
 
         alert.showAndWait();
     }
