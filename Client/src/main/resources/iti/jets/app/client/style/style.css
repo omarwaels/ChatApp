@@ -44,3 +44,21 @@
     -fx-border-width: 0 0 1 0;
     -fx-border-color: #242551;
 }
+.SenderLabel{
+
+    -fx-border-radius: 10 0 10 10;
+    -fx-background-radius:10 0 10 10;
+    -fx-background-color:#dbe5e7;
+    -fx-padding:10;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+}
+.ReceiverLabel {
+    -fx-border-radius: 0 10 10 10;
+    -fx-background-radius:0 10 10 10;
+    -fx-background-color:#e4e4e4;
+    -fx-padding:10;
+    -fx-border-insets: 5px;
+    -fx-background-insets: 5px;
+
+}

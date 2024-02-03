@@ -84,7 +84,7 @@ public class ChatScreenController implements Initializable {
     public ImageView emojiBtn;
 
     @FXML
-    public TextField messageTextField;
+    public TextArea messageTextField;
 
     @FXML
     public ImageView sendBtn;

@@ -126,12 +126,6 @@ public class SignUpController implements Initializable {
 
     @FXML
     public void onSignUpSubmit() throws IOException, NotBoundException {
-        Notifications notifications = Notifications.create()
-                .text("hello test")
-                .graphic(new ImageView(new Image("C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\chat.png")))
-                .hideAfter(Duration.seconds(3))
-                .position(Pos.BOTTOM_RIGHT);
-        notifications.showConfirm();
         if (nonEmptyRequiredFields())
             addUser();
     }
