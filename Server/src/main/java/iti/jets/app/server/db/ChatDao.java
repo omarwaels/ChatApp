@@ -110,4 +110,33 @@ public class ChatDao implements Dao<Chat, Integer> {
             throw new RuntimeException(e);
         }
     }
+
+    public int createPrivateChat(Chat chat) throws SQLException {
+        String query = "INSERT INTO chats (chat_name, created_at) " +
+                "VALUES (?, ?)";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, chat.getChatName());
+            preparedStatement.setTimestamp(2, chat.getCreatedAt());
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int getPrivateChatId(Chat chat){
+        String query = "SELECT chat_id FROM chats WHERE chat_name = ? AND created_at = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setString(1, chat.getChatName());
+            preparedStatement.setTimestamp(2, chat.getCreatedAt());
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getInt(1);
+                } else {
+                    return -1;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

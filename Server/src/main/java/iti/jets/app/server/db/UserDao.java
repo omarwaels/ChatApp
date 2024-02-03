@@ -80,7 +80,6 @@ public class UserDao implements Dao<User, String> {
         }
     }
 
-
     @Override
     public int insert(User user) {
         PreparedStatement preparedStatement = null;
@@ -177,66 +176,12 @@ public class UserDao implements Dao<User, String> {
         }
     }
 
-    public ArrayList<User> getUserFriends(ArrayList<Integer> userFriendsIds) {
-        ArrayList<User> userFriends = new ArrayList<>();
-        ResultSet resultSet = null;
-        StringBuilder sqlBuilder = new StringBuilder("SELECT * FROM users WHERE user_id IN (");
-        for (int i = 0; i < userFriendsIds.size(); i++) {
-            sqlBuilder.append("?");
-            if (i < userFriendsIds.size() - 1) {
-                sqlBuilder.append(", ");
-            }
-        }
-        sqlBuilder.append(")");
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(sqlBuilder.toString())) {
-            int columnCounter = 1;
-            for (int i = 0; i < userFriendsIds.size(); i++) {
-                preparedStatement.setInt(i + 1, userFriendsIds.get(i));
-            }
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                User user = extractUser(resultSet);
-                userFriends.add(user);
-            }
-            return userFriends;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
-    public int updateName(int userID, String name) {
-        String query = "UPDATE users " +
-                "SET display_name = ?" +
-                "WHERE user_id = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, userID);
-            return preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public int updateUserDob(int userID, Date date) {
         String query = "UPDATE users " +
                 "SET date_of_birth = ?" +
                 "WHERE user_id = ?;";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setDate(1, Utils.getSqlDate(date));
-            preparedStatement.setInt(2, userID);
-            return preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public int updateUserEmail(int userID, String email) {
-        String query = "UPDATE users " +
-                "SET email = ?" +
-                "WHERE user_id = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-            preparedStatement.setString(1, email);
             preparedStatement.setInt(2, userID);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -256,23 +201,6 @@ public class UserDao implements Dao<User, String> {
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }
-    }
-
-
-    public int updateBio(String phoneNumber, String newBio) {
-        String query = "UPDATE users SET bio = ? WHERE phone_number = ?";
-        try (Connection connection = dataSource.getConnection()) {
-
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, newBio);
-                preparedStatement.setString(2, phoneNumber);
-
-                return preparedStatement.executeUpdate();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return 0;
         }
     }
 

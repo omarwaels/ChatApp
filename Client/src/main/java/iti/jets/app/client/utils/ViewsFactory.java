@@ -93,6 +93,12 @@ public class ViewsFactory {
         return fxmlLoader;
     }
 
+    public FXMLLoader getAddConnectionLoader() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/add-connection.fxml"));
+        return fxmlLoader;
+    }
+
     public Parent getLoginRoot() {
         if (loginRoot == null) {
             try {

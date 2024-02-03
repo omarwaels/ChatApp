@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import iti.jets.app.shared.DTOs.ChatDto;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 
@@ -20,5 +21,7 @@ public interface ServerService extends Remote {
     void updateStatus(ArrayList<Integer> friendsIds, int userId, boolean status) throws RemoteException;
 
     void addGroup(ChatDto chatDto, List<Integer> membersIds) throws IOException;
+
+    void addChatForNewFriend(int receiverId, FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException;
 
 }

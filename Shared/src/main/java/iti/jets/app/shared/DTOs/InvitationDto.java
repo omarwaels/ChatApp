@@ -6,17 +6,19 @@ import java.io.Serializable;
 public class InvitationDto implements Serializable {
     private int invitationID;
     private int receiverID;
+
     private int senderID;
 
     private String senderName;
     private String senderPhone;
+    private String receiverPhone;
 
     private byte[] senderImage;
 
     public InvitationDto() {
     }
 
-    public InvitationDto(int invitationID, int senderID, int receiverID, String senderName, String senderPhone, byte[] senderImage) {
+    public InvitationDto(int invitationID, int senderID, int receiverID, String senderName, String senderPhone, byte[] senderImage, String receiverPhone) {
         this.invitationID = invitationID;
         this.senderID = senderID;
         this.receiverID = receiverID;
@@ -71,5 +73,13 @@ public class InvitationDto implements Serializable {
 
     public void setSenderImage(byte[] senderImage) {
         this.senderImage = senderImage;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 }

@@ -12,8 +12,9 @@ public class InvitationDtoMapper {
 
     public static InvitationDto invitationToInvitationDto(Invitation invitation) {
         UserDao userDao = new UserDao();
-        User user = userDao.getByIntegerId(invitation.getSenderID());
-        return (new InvitationDto(invitation.getInvitationID(), invitation.getSenderID(), invitation.getReceiverID(), user.getDisplayName(), user.getPhoneNumber(), user.getPicture()));
+        User sender = userDao.getByIntegerId(invitation.getSenderID());
+        User receiver = userDao.getByIntegerId(invitation.getReceiverID());
+        return (new InvitationDto(invitation.getInvitationID(), invitation.getSenderID(), invitation.getReceiverID(), sender.getDisplayName(), sender.getPhoneNumber(), sender.getPicture(), receiver.getPhoneNumber()));
     }
 
     public static ArrayList<InvitationDto> invitationArrToInvitationDtoArr(List<Invitation> invitations) {

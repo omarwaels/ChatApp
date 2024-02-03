@@ -7,6 +7,9 @@ public class Connection {
     private int secondUserId;
     private Timestamp connectedSince;
 
+    public Connection() {
+    }
+
     public Connection(int firstUserId, int secondUserId, Timestamp connectedSince) {
         this.firstUserId = firstUserId;
         this.secondUserId = secondUserId;
