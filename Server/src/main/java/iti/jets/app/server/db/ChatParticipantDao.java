@@ -31,7 +31,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
 
     @Override
     public int insert(ChatParticipant chatParticipant) {
-        String query = "INSERT INTO chatparticipants (  chat_id , participant_id , member_since) " +
+        String query = "INSERT INTO chatparticipants (chat_id , participant_id , member_since) " +
                 "VALUES ( ?, ?, ?)";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, chatParticipant.getChatId());

@@ -29,8 +29,11 @@ public class InvitationRequestController implements Initializable {
 
     public int userId;
 
-    public void setData(int userId) {
+    public ChatScreenController chatScreenController;
+
+    public void setData(int userId, ChatScreenController chatScreenController) {
         this.userId = userId;
+        this.chatScreenController = chatScreenController;
         ObservableList<InvitationDto> data = generateDataObservable();
         invitationList.getItems().addAll(data);
         setRequestsList();
@@ -75,7 +78,7 @@ public class InvitationRequestController implements Initializable {
                                     throw new RuntimeException(e);
                                 }
                                 InvitationRequestCardController invitationRequestCardController = loader.getController();
-                                invitationRequestCardController.setData(item, InvitationRequestController.this);
+                                invitationRequestCardController.setData(item, InvitationRequestController.this, chatScreenController);
                                 try {
                                     setGraphic(root);
                                 } catch (Exception e) {
@@ -101,4 +104,5 @@ public class InvitationRequestController implements Initializable {
     public void addInvitationCard(InvitationDto invitationDto) {
         invitationList.getItems().add(invitationDto);
     }
+
 }

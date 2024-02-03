@@ -2,6 +2,7 @@ package iti.jets.app.client.CallBack;
 
 import iti.jets.app.client.controllers.ChatScreenController;
 import iti.jets.app.shared.DTOs.ChatDto;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 
@@ -40,5 +41,10 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     @Override
     public void addGroup(ChatDto chatDto, List<Integer> membersId) throws IOException {
         chatScreenController.addNewGroupInContactList(chatDto, membersId);
+    }
+
+    @Override
+    public void addChatForNewFriend(FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException {
+        chatScreenController.addNewFriendInContactList(friendInfoDto, chatDto);
     }
 }

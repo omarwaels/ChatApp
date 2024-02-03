@@ -1,6 +1,7 @@
 package iti.jets.app.server.Services;
 
 import iti.jets.app.shared.DTOs.ChatDto;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.ServerService;
@@ -20,7 +21,6 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     @Override
     public void sendMessage(MessageDto messageDto) throws RemoteException {
         for (Client c : clients) {
-            System.out.println(c.getID() + " " + messageDto.getReceiverId());
             for (Integer userID : messageDto.getReceiverId()) {
                 if (c.getID() == userID) {
                     c.receiveMessage(messageDto);
@@ -53,6 +53,16 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
         for (Client c : clients) {
             if (membersIds.contains(c.getID()))
                 c.addGroup(chatDto, membersIds);
+        }
+    }
+
+    @Override
+    public void addChatForNewFriend(int receiverId, FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException {
+        for (Client c : clients) {
+            if (c.getID() == receiverId) {
+                c.addChatForNewFriend(friendInfoDto, chatDto);
+                return;
+            }
         }
     }
 }

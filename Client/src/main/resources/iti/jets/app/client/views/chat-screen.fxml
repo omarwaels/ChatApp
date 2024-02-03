@@ -28,54 +28,53 @@
                     <children>
                         <Pane layoutX="10.0" layoutY="185.0" prefHeight="422.0" prefWidth="92.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
                      <children>
-                        <ImageView fx:id="createGroupBtn" fitHeight="45.0" fitWidth="40.0" layoutX="1.0" layoutY="173.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="createGroupBtn" fitHeight="45.0" fitWidth="40.0" layoutX="1.0" layoutY="253.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/people1.png" />
+                              <Image url="@../img/people.png" />
                            </image>
                            <cursor>
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                         </ImageView>
-                        <ImageView fx:id="invitationsBtn" fitHeight="38.0" fitWidth="43.0" layoutX="1.0" layoutY="115.0" onMouseClicked="#onClickInvitations" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="invitationsBtn" fitHeight="42.0" fitWidth="42.0" layoutY="194.0" onMouseClicked="#onClickInvitations" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../img/invitation%20(2).png" />
+                              <Image url="@../img/bell.png" />
+                           </image>
+                        </ImageView>
+                              <ImageView fx:id="singleChat" fitHeight="48.0" fitWidth="38.0" layoutX="4.0" layoutY="86.0" onMouseClicked="#showSingleChat" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../img/chat-box.png" />
+                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                              </ImageView>
+                        <ImageView fx:id="addFriendBtn" fitHeight="40.0" fitWidth="37.0" layoutX="2.0" layoutY="136.0" onMouseClicked="#onClickInviteFriends" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/add-user.png" />
                            </image>
                         </ImageView>
                      </children></Pane>
-                        <ImageView fx:id="singleChat" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#showSingleChat" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../img/chat.png" />
-                            </image>
-                            <VBox.margin>
-                                <Insets top="20.0" />
-                            </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
-                     </cursor>
-                        </ImageView>
-                        <ImageView fx:id="groupChat" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#showGroupChat" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../img/group.png" />
-                            </image>
-                            <VBox.margin>
-                                <Insets top="20.0" />
-                            </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
-                     </cursor>
-                        </ImageView>
-                        <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#onSettingClicked" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../img/profilesettings.png" />
-                            </image>
-                            <VBox.margin>
-                                <Insets top="20.0" />
-                            </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
-                     </cursor>
-                        </ImageView>
-                        <Pane prefHeight="343.0" prefWidth="92.0" VBox.vgrow="ALWAYS" />
+                        <Pane prefHeight="343.0" prefWidth="92.0" VBox.vgrow="ALWAYS">
+                     <children>
+                              <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" layoutX="2.0" layoutY="116.0" onMouseClicked="#onSettingClicked" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../img/user-profile.png" />
+                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                              </ImageView>
+                              <ImageView fx:id="groupChat" fitHeight="48.0" fitWidth="38.0" layoutX="2.0" layoutY="55.0" onMouseClicked="#showGroupChat" pickOnBounds="true" preserveRatio="true">
+                                  <image>
+                                      <Image url="@../img/multiple-users-silhouette.png" />
+                                  </image>
+                           <cursor>
+                              <Cursor fx:constant="OPEN_HAND" />
+                           </cursor>
+                              </ImageView>
+                     </children>
+                  </Pane>
                         <ImageView fx:id="exitImg" fitHeight="48.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/icons8-sign-out-50.png" />
@@ -263,7 +262,7 @@
                               <Insets left="10.0" right="8.0" />
                            </HBox.margin>
                         </TextField>
-                        <ImageView fx:id="sendBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="sendBtn" fitHeight="34.0" fitWidth="37.0" onMouseClicked="#sendMessageByIcon" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../img/paper.png" />
                            </image>

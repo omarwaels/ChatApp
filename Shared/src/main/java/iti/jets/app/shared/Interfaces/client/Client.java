@@ -2,6 +2,7 @@ package iti.jets.app.shared.Interfaces.client;
 
 
 import iti.jets.app.shared.DTOs.ChatDto;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 
 import java.io.IOException;
@@ -17,4 +18,6 @@ public interface Client extends Remote {
     void updateFriendStatus(int friendId, boolean online) throws RemoteException;
 
     void addGroup(ChatDto chatDto, List<Integer> membersId) throws IOException;
+
+    void addChatForNewFriend(FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException;
 }

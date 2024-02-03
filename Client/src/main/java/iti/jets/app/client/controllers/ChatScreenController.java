@@ -127,9 +127,12 @@ public class ChatScreenController implements Initializable {
     public ComboBox<String> fontComboBox;
     @FXML
     public ComboBox<String> fontSizeComboBox;
+
+    @FXML
+    public ImageView inviteFriendsBtn;
     public ConnectionItemController currentConnection;
 
-    private LoginResultDto loginResultDto;
+    public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
     Image currentScreenImage = null;
@@ -300,6 +303,10 @@ public class ChatScreenController implements Initializable {
             sendMessage();
     }
 
+    public void sendMessageByIcon() throws IOException {
+        sendMessage();
+    }
+
     public void sendMessage() throws IOException {
         String text = messageTextField.getText().trim();
 
@@ -344,7 +351,7 @@ public class ChatScreenController implements Initializable {
         }
 
         MessageDto msgDto = new MessageDto(loginResultDto.getUserDto().getId(), IdsOfRecivers, currentScreenChatId,
-                false, text, new Timestamp(System.currentTimeMillis()) ,loginResultDto.getUserDto().getPicture() ,isSingleChat);
+                false, text, new Timestamp(System.currentTimeMillis()), loginResultDto.getUserDto().getPicture(), isSingleChat);
 
         msgDto.setFontSize(Integer.parseInt(size));
         msgDto.setFontColor(color);
@@ -486,20 +493,27 @@ public class ChatScreenController implements Initializable {
 
 
     public void addNewFriendInContactList(FriendInfoDto friend, ChatDto friendChat) throws IOException {
-        FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getConnectionLoader();
-        HBox hbox = fxmlLoader.load();
-        ConnectionItemController connectionItemController = fxmlLoader.getController();
+        Platform.runLater(() -> {
+            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getConnectionLoader();
+            HBox hbox = null;
+            try {
+                hbox = fxmlLoader.load();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            ConnectionItemController connectionItemController = fxmlLoader.getController();
 
-        connectionItemController.setData(friend, this, friendChat);
-        connectionItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
-        if (friend.getUserFriendStatus() == StatusEnum.ONLINE) {
-            onlineUsers.put(friend.getUserFriendID(), connectionItemController);
-        } else {
-            offlineUsers.put(friend.getUserFriendID(), connectionItemController);
-        }
-        connectionLayout.getChildren().add(hbox);
-        sortSingleContactListOnTimeStamp();
-        sortSingleChatContactListOnstatus();
+            connectionItemController.setData(friend, this, friendChat);
+            connectionItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
+            if (friend.getUserFriendStatus() == StatusEnum.ONLINE) {
+                onlineUsers.put(friend.getUserFriendID(), connectionItemController);
+            } else {
+                offlineUsers.put(friend.getUserFriendID(), connectionItemController);
+            }
+            connectionLayout.getChildren().add(hbox);
+            sortSingleContactListOnTimeStamp();
+            sortSingleChatContactListOnstatus();
+        });
     }
 
     private void showGroupList(List<ChatDto> connections) throws IOException {
@@ -556,8 +570,7 @@ public class ChatScreenController implements Initializable {
 
     private List<ChatDto> getGroupListArray() {
         HashMap<ChatDto, ArrayList<FriendInfoDto>> userFriendsAndChatDto = loginResultDto.getGroupParticipants();
-        List<ChatDto> ls = new ArrayList<>(userFriendsAndChatDto.keySet());
-        return ls;
+        return new ArrayList<>(userFriendsAndChatDto.keySet());
     }
 
     public void scaleTransitionIn(Collection<Node> nodes) {
@@ -675,7 +688,7 @@ public class ChatScreenController implements Initializable {
             FXMLLoader loader = ViewsFactory.getViewsFactory().getInvitationsLoader();
             Parent root = loader.load();
             InvitationRequestController invitationRequestController = loader.getController();
-            invitationRequestController.setData(loginResultDto.getUserDto().getId());
+            invitationRequestController.setData(loginResultDto.getUserDto().getId(), this);
             Stage dialogStage = new Stage();
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.initStyle(StageStyle.DECORATED);
@@ -687,8 +700,8 @@ public class ChatScreenController implements Initializable {
             e.printStackTrace();
         }
     }
-    public void customizeEditorPane()
-    {
+
+    public void customizeEditorPane() {
         ObservableList<String> limitedFonts = FXCollections.observableArrayList("Arial", "Times", "Courier New", "Comic Sans MS");
         fontComboBox.setItems(limitedFonts);
         fontComboBox.getSelectionModel().selectFirst();
@@ -699,11 +712,30 @@ public class ChatScreenController implements Initializable {
 
         colorPicker.setValue(Color.BLACK);
     }
-    public String toRGBCode(Color color)
-    {
+
+    public String toRGBCode(Color color) {
         return String.format("#%02X%02X%02X",
                 (int) (color.getRed() * 255),
                 (int) (color.getGreen() * 255),
                 (int) (color.getBlue() * 255));
+    }
+
+    @FXML
+    public void onClickInviteFriends() {
+        FXMLLoader loader = ViewsFactory.getViewsFactory().getAddConnectionLoader();
+        try {
+            Parent root = loader.load();
+            AddConnectionController addConnectionController = loader.getController();
+            addConnectionController.setData(loginResultDto.getUserDto());
+            Stage dialogStage = new Stage();
+            dialogStage.initModality(Modality.APPLICATION_MODAL);
+            dialogStage.initStyle(StageStyle.DECORATED);
+            dialogStage.setResizable(false);
+            dialogStage.setTitle("Add Connection");
+            dialogStage.setScene(new Scene(root));
+            dialogStage.showAndWait();
+        } catch (IOException | NotBoundException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -76,22 +76,6 @@ public class InvitationDao implements Dao<Invitation, Integer> {
         }
     }
 
-    public Invitation getInvitation(Invitation invitation) {
-        String query = "SELECT * FROM invitations WHERE senderID = ? AND receiver_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-            preparedStatement.setInt(1, invitation.getSenderID());
-            preparedStatement.setInt(2, invitation.getReceiverID());
-            ResultSet rs = preparedStatement.executeQuery();
-            if (rs.next()) {
-                return extractInvitation(rs);
-            } else {
-                return null;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public int acceptInvitation(Invitation invitation) {
         String insertQuery = "INSERT INTO connections (first_user_id, second_user_id, connected_since) VALUES (?, ?, ?)";
         delete(invitation);
@@ -103,10 +87,25 @@ public class InvitationDao implements Dao<Invitation, Integer> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public int declineInvitation(Invitation invitation) {
         return delete(invitation);
+    }
+
+    public Invitation getInvitation(int senderId, int receiverId) {
+        String query = "SELECT * FROM invitations WHERE sender_id = ? AND receiver_id = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, senderId);
+            preparedStatement.setInt(2, receiverId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    return extractInvitation(resultSet);
+                }
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
