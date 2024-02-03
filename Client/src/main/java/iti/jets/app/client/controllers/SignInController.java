@@ -14,6 +14,7 @@ import iti.jets.app.shared.DTOs.*;
 
 import iti.jets.app.shared.Interfaces.server.LoginService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import iti.jets.app.shared.utils.NotificationsHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -60,6 +61,7 @@ public class SignInController implements Initializable {
 
     @FXML
     public void onLoginSubmit() throws NotBoundException, IOException {
+        NotificationsHandler.pushServerAnnouncement("This announcement from the server");
         if (nonEmptyPhoneAndPassword())
             login();
     }
