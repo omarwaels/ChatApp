@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" nodeOrientation="LEFT_TO_RIGHT" opacity="0.87" prefHeight="88.0" prefWidth="490.0" styleClass="transparent-background" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.FileReceiveController">
+   <children>
+      <ImageView fx:id="img" fitHeight="39.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/user.png" />
+         </image>
+         <HBox.margin>
+            <Insets right="5.0" />
+         </HBox.margin>
+      </ImageView>
+      <TextFlow fx:id="txtFlow" nodeOrientation="LEFT_TO_RIGHT" onMouseClicked="#showFileInExplorer" onMouseEntered="#mouseEnterEffect" onMouseExited="#mouseExitEffect" prefHeight="33.0" prefWidth="152.0" styleClass="mesaage-sent" stylesheets="@../style/style.css">
+         <padding>
+            <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+         </padding>
+         <children>
+            <VBox alignment="CENTER" prefHeight="66.0" prefWidth="122.0">
+               <children>
+                  <ImageView fitHeight="45.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/file.png" />
+                     </image>
+                  </ImageView>
+                  <Text fx:id="txt" fill="#eff2ff" nodeOrientation="LEFT_TO_RIGHT" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="123.73674964904785">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Text>
+               </children>
+            </VBox>
+         </children>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </TextFlow>
+      <StackPane fx:id="fileExploreContainer" alignment="CENTER_LEFT" onMouseClicked="#openFileInExplorer" prefHeight="52.0" prefWidth="35.0">
+         <children>
+            <Circle fill="#918e8e" radius="15.0" stroke="#cfcfcf" strokeType="INSIDE">
+               <StackPane.margin>
+                  <Insets left="5.0" />
+               </StackPane.margin>
+            </Circle>
+            <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+               <StackPane.margin>
+                  <Insets left="9.0" />
+               </StackPane.margin>
+               <image>
+                  <Image url="@../img/folderExplorer.png" />
+               </image>
+            </ImageView>
+         </children>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </StackPane>
+   </children>
+   <padding>
+      <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+   </padding>
+</HBox>

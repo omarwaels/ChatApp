@@ -10,6 +10,8 @@ public class ViewsFactory {
     private FXMLLoader userSettingsLoader;
     private FXMLLoader chatLoader;
     private FXMLLoader ConnectionGroupItemController;
+    private FXMLLoader FileSentController;
+    private FXMLLoader FileReceiveController;
 
     private Parent loginRoot;
 
@@ -33,6 +35,9 @@ public class ViewsFactory {
         userSettingsLoader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/user-settings.fxml"));
         chatLoader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));
         ConnectionGroupItemController = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/connection-Group-item.fxml"));
+        FileSentController = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/file-sent.fxml"));
+        FileReceiveController = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/file-receive.fxml"));
+
     }
 
     public static ViewsFactory getViewsFactory() {
@@ -78,6 +83,16 @@ public class ViewsFactory {
     public FXMLLoader getConnectionGroupItemController() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-Group-item.fxml"));
+        return fxmlLoader;
+    }
+    public FXMLLoader getFileSentController() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/file-sent.fxml"));
+        return fxmlLoader;
+    }
+    public FXMLLoader getFileRecieveController() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/file-receive.fxml"));
         return fxmlLoader;
     }
 

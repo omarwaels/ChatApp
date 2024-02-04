@@ -39,6 +39,7 @@ public class DashboardController implements Initializable {
         }
         toggleButton.setSelected(true);
         snackbar = new JFXSnackbar(bp);
+
     }
 
 

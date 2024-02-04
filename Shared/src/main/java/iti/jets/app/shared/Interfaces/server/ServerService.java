@@ -1,6 +1,7 @@
 package iti.jets.app.shared.Interfaces.server;
 
 import java.io.IOException;
+import java.nio.channels.FileChannel;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ import iti.jets.app.shared.Interfaces.client.Client;
 
 public interface ServerService extends Remote {
     void sendMessage(MessageDto messageDto) throws RemoteException;
+    void sendFile(MessageDto messageDto,byte[] fileData) throws RemoteException;
+
+
 
     void register(Client c) throws RemoteException;
 
