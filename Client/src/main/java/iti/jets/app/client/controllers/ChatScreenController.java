@@ -613,7 +613,7 @@ public class ChatScreenController implements Initializable {
                 if (connectionItemController != null) {
                     offlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.ONLINE);
-                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is online now, let's chat");
+                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is online now, let's chat with him.");
                     onlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(javafx.scene.paint.Color.GREEN);
 
@@ -623,7 +623,7 @@ public class ChatScreenController implements Initializable {
                 if (connectionItemController != null) {
                     onlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.OFFLINE);
-                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is offline now");
+                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is offline now.");
                     offlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(Color.RED);
                 }
