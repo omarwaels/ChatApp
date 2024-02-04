@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.rmi.NotBoundException;
@@ -746,7 +747,7 @@ public class ChatScreenController implements Initializable {
     public void chooseFile() throws IOException {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(new Stage());
-        if (selectedFile != null && showConfirmationDialog()) {
+        if (selectedFile != null && showConfirmationDialog(selectedFile.toPath())) {
             // User confirmed, proceed with sending the file
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
             HBox hbox = fxmlLoader.load();
@@ -786,9 +787,6 @@ public class ChatScreenController implements Initializable {
             } while (count != -1);
         }
     }
-
-
-
 
     public void customizeEditorPane() {
         ObservableList<String> limitedFonts = FXCollections.observableArrayList("Arial", "Times", "Courier New", "Comic Sans MS");
@@ -857,7 +855,19 @@ public class ChatScreenController implements Initializable {
         tooltipExit.setText("Logout");
         Tooltip.install(exitImg, tooltipExit);
     }
-    private boolean showConfirmationDialog() {
+    private boolean showConfirmationDialog(Path filePath) throws IOException {
+        long fileSizeInBytes = Files.size(filePath);
+        long oneGiga =  (1000 * 1000 * 1000);
+
+        if (fileSizeInBytes >= oneGiga) {
+            Alert sizeExceededAlert = new Alert(Alert.AlertType.ERROR);
+            sizeExceededAlert.setTitle("File Size Exceeded");
+            sizeExceededAlert.setHeaderText(null);
+            sizeExceededAlert.setContentText("File size exceeds 1 gigabyte. Please choose a smaller file.");
+            sizeExceededAlert.showAndWait();
+            return false;
+        }
+
         Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
         confirmationAlert.setTitle("Confirm File Sending");
         confirmationAlert.setHeaderText(null);
@@ -865,6 +875,5 @@ public class ChatScreenController implements Initializable {
 
         Optional<ButtonType> result = confirmationAlert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
-
     }
 }
