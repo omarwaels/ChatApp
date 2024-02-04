@@ -131,7 +131,7 @@ public class ChatScreenController implements Initializable {
 
     @FXML
     public ImageView inviteFriendsBtn;
-    public ConnectionItemController currentConnection;
+    public ConnectionItemController currentConnection = null ;
 
     public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
@@ -605,6 +605,7 @@ public class ChatScreenController implements Initializable {
     }
 
     public void updateFriendStatus(int friendId, boolean online) {
+        System.out.println("Before " + currentConnection);
         Platform.runLater(() -> {
             ConnectionItemController connectionItemController = null;
             if (online) {
@@ -627,8 +628,10 @@ public class ChatScreenController implements Initializable {
                     connectionItemController.connectionStatus.setFill(Color.RED);
                 }
             }
-            if (connectionItemController == currentConnection)
+            if (connectionItemController == currentConnection){
                 currentConnection.friendClicked();
+            }
+
             sortSingleChatContactListOnstatus();
         });
     }
