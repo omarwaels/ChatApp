@@ -40,4 +40,7 @@ public class ServiceFactoryImpl extends UnicastRemoteObject implements ServiceFa
     public CreateGroupService getCreateGroupService() throws RemoteException {
         return new CreateGroupServiceImpl();
     }
+
+
+
 }

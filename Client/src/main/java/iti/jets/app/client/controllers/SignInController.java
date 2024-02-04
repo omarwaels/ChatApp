@@ -9,12 +9,14 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
+import iti.jets.app.client.CallBack.ClientImpl;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 
+import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.LoginService;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
-import iti.jets.app.shared.utils.NotificationsHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -44,6 +46,7 @@ public class SignInController implements Initializable {
     public Label signUpLabel;
 
     public Parent signUpParent;
+    ClientImpl client;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -59,9 +62,14 @@ public class SignInController implements Initializable {
         PasswordErrorLabel.setText("");
     }
 
+    ServerService getServerService() throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(8189);
+        return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
+    }
+
     @FXML
     public void onLoginSubmit() throws NotBoundException, IOException {
-        NotificationsHandler.pushServerAnnouncement("This announcement from the server");
+
         if (nonEmptyPhoneAndPassword())
             login();
     }

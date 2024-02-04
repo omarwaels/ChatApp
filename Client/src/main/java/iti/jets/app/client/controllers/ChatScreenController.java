@@ -247,6 +247,7 @@ public class ChatScreenController implements Initializable {
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
 
+
     public void customInit() throws IOException {
         List<FriendInfoDto> contactListArray = getContactListArray();
         List<ChatDto> groubsListArray = getGroupListArray();

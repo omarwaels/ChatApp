@@ -18,7 +18,7 @@ public class ServerConnection {
 
     public static void openConnection() throws Exception {
         try {
-            registry = LocateRegistry.createRegistry(8189);
+            registry = LocateRegistry.createRegistry(5059);
             ServiceFactory serviceFactory = new ServiceFactoryImpl();
             registry.rebind("ServiceFactory", serviceFactory);
             System.out.println("Server is open now ....");

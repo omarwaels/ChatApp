@@ -5,6 +5,11 @@ import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.ServerService;
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -65,4 +70,20 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
             }
         }
     }
+
+    @Override
+    public void sendAnnouncement(String message) throws RemoteException {
+        System.out.println("Sending notification to all clients");
+        for (Client client : clients) {
+            Notifications notifications = Notifications.create()
+                    .title("          Server Announcements")
+                    .text("hello user")
+                    .graphic(new ImageView(new Image("C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Shared\\src\\main\\java\\iti\\jets\\app\\shared\\images\\img.png")))
+                    .hideAfter(Duration.seconds(3))
+                    .position(Pos.BOTTOM_CENTER);
+            notifications.show();
+        }
+    }
 }
+
+

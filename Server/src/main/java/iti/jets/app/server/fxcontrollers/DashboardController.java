@@ -32,11 +32,11 @@ public class DashboardController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            ServerConnection.openConnection();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            ServerConnection.openConnection();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
         toggleButton.setSelected(true);
         snackbar = new JFXSnackbar(bp);
     }
@@ -98,9 +98,20 @@ public class DashboardController implements Initializable {
     @FXML
     private void handleToggleButton() {
         if (toggleButton.isSelected()) {
-            showSnackbar("Server is on");
+            try {
+                showSnackbar("Server is on");
+                ServerConnection.openConnection();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else {
-            showSnackbar("Server is off");
+            try {
+                ServerConnection.closeConnection();
+
+                showSnackbar("Server is off");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

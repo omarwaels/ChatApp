@@ -20,4 +20,6 @@ public interface Client extends Remote {
     void addGroup(ChatDto chatDto, List<Integer> membersId) throws IOException;
 
     void addChatForNewFriend(FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException;
+
+    void sendAnnouncement(String msg) throws RemoteException;
 }

@@ -24,4 +24,5 @@ public interface ServerService extends Remote {
 
     void addChatForNewFriend(int receiverId, FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException;
 
+    void sendAnnouncement(String msg) throws RemoteException;
 }
