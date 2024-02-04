@@ -32,6 +32,9 @@ public class ConnectionItemController implements Initializable {
     public Label counter;
     @FXML
     public Label lastMessageTimestamp;
+
+    @FXML
+    public Label userModeLabel;
     private int UserID;
     private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
 
@@ -53,13 +56,15 @@ public class ConnectionItemController implements Initializable {
             this.userImage = userImg;
         }
         chatScreenController.currentConnection = this;
+        userModeLabel.setText(user.getUserFriendMode().getMode());
     }
-    private Integer counterNumber = 0 ;
 
-    public void updateCounter(){
+    private Integer counterNumber = 0;
+
+    public void updateCounter() {
 
         counterContainer.setVisible(false);
-        counterNumber = counterNumber + 1 ;
+        counterNumber = counterNumber + 1;
         counter.setText(counterNumber.toString());
         counterContainer.setVisible(true);
     }
@@ -68,7 +73,7 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public void friendClicked() {
         counterContainer.setVisible(false);
-        counterNumber = 0 ;
+        counterNumber = 0;
         chatScreenController.temporaryScreen.setVisible(false);
         chatScreenController.updateChatLayout(UserID, chatDto.getChatId());
         chatScreenController.updateConnectionName(user.getUserFriendName());
@@ -85,7 +90,7 @@ public class ConnectionItemController implements Initializable {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.0);");
     }
 
-    public void setLastTimeStamp( Timestamp timeStamp){
+    public void setLastTimeStamp(Timestamp timeStamp) {
         this.lastMessageTime = timeStamp;
         lastMessageTimestamp.setText(timeStamp.toString());
     }

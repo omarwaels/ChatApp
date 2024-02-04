@@ -21,7 +21,7 @@ public class UserDto implements Serializable {
     private ModeEnum userEnum;
     private StatusEnum statusEnum;
 
-    public UserDto(int id, String phoneNumber, String displayName, String email, byte[] picture, String password, String gender, String country, Date dateOfBirth, String bio) {
+    public UserDto(int id, String phoneNumber, String displayName, String email, byte[] picture, String password, String gender, String country, Date dateOfBirth, String bio, StatusEnum statusEnum, ModeEnum userEnum) {
         this.id = id;
         this.phoneNumber = phoneNumber;
         this.displayName = displayName;
@@ -32,6 +32,8 @@ public class UserDto implements Serializable {
         this.country = country;
         this.dateOfBirth = dateOfBirth;
         this.bio = bio;
+        this.statusEnum = statusEnum;
+        this.userEnum = userEnum;
     }
 
     public static class UserDtoBuilder {
@@ -110,7 +112,7 @@ public class UserDto implements Serializable {
         }
 
         public UserDto build() {
-            return new UserDto(id, phoneNumber, displayName, email, picture, password, gender, country, dateOfBirth, bio);
+            return new UserDto(id, phoneNumber, displayName, email, picture, password, gender, country, dateOfBirth, bio, statusEnum, userEnum);
         }
     }
 

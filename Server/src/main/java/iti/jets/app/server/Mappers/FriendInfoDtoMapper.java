@@ -6,7 +6,7 @@ import iti.jets.app.shared.enums.StatusEnum;
 
 public class FriendInfoDtoMapper {
     public static FriendInfoDto userToFriend (User user){
-        return(new FriendInfoDto(user.getDisplayName(),user.getPicture(),user.getId(),user.getMode(),user.getStatus())) ;
+        return(new FriendInfoDto(user.getDisplayName(),user.getPicture(),user.getId(),user.getMode(),user.getStatus()));
 
     }
 }

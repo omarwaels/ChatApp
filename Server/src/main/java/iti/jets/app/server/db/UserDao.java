@@ -30,6 +30,7 @@ public class UserDao implements Dao<User, String> {
                 .setEmail(resultSet.getString(UserEnum.EMAIL.getField())).setGender(resultSet.getString(UserEnum.GENDER.getField()))
                 .setDateOfBirth(resultSet.getDate(UserEnum.DATE_OF_BIRTH.getField()))
                 .setStatus(StatusEnum.valueOf(resultSet.getString(UserEnum.STATUS.getField()).toUpperCase()))
+                .setMode(ModeEnum.valueOf(resultSet.getString(UserEnum.MODE.getField()).toUpperCase()))
                 .build();
     }
 
