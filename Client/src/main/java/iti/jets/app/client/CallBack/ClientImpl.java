@@ -7,7 +7,6 @@ import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.Path;
@@ -15,7 +14,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ClientImpl extends UnicastRemoteObject implements Client {
@@ -38,12 +36,11 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
         try {
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
             Path downloadsFilePath = getPathOfDownloadsFileOnSys();
-            FileChannel channel = FileChannel.open(Paths.get(downloadsFilePath.toString()+"\\" + messageDto.getMessageContent()),
+            FileChannel channel = FileChannel.open(Paths.get(downloadsFilePath.toString() + "\\" + messageDto.getMessageContent()),
                     StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             channel.write(byteBuffer);
             chatScreenController.receiveMessage(messageDto);
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RemoteException("Failed to send File!!");
         }
@@ -69,9 +66,18 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
         chatScreenController.addNewFriendInContactList(friendInfoDto, chatDto);
     }
 
-    private static Path getPathOfDownloadsFileOnSys(){
+    private static Path getPathOfDownloadsFileOnSys() {
         String userHome = System.getProperty("user.home");
-        Path DocumentsPath = Paths.get(userHome, "Downloads");
-        return DocumentsPath ;
+        return Paths.get(userHome, "Downloads");
+    }
+
+    @Override
+    public void receiveAnnouncement(String message) throws RemoteException {
+        chatScreenController.showServerAnnouncement(message);
+    }
+
+    @Override
+    public void receiveInvitationRequest(String name, String phoneNumber) throws RemoteException {
+        chatScreenController.showInvitationAnnouncement("You have a friend request from " + name + " with phone number " + phoneNumber + " go to the invitations tab to check it");
     }
 }

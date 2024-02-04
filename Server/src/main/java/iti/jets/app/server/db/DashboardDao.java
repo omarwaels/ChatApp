@@ -1,7 +1,6 @@
 package iti.jets.app.server.db;
 
 
-
 import iti.jets.app.server.models.entities.User;
 
 import javax.sql.DataSource;
@@ -56,6 +55,8 @@ public class DashboardDao {
 
     public Map<String, Integer> getMaleFemaleCount() {
         Map<String, Integer> countMap = new HashMap<>();
+        countMap.put("Male", 0);
+        countMap.put("Female", 0);
 
         try {
             Connection connection = dataSource.getConnection();
@@ -65,8 +66,7 @@ public class DashboardDao {
                     while (resultSet.next()) {
                         String gender = resultSet.getString("gender");
                         int genderCount = resultSet.getInt("count");
-
-                        countMap.put(gender, genderCount);
+                        countMap.put(gender, countMap.getOrDefault(gender, 0) + genderCount);
                     }
                 }
             }
@@ -80,7 +80,6 @@ public class DashboardDao {
 
     public Map<String, Integer> getUsersCountByCountry() {
         Map<String, Integer> countMap = new HashMap<>();
-
         try {
             Connection connection = dataSource.getConnection();
             String query = "SELECT country, COUNT(*) as count FROM users GROUP BY country";
@@ -99,9 +98,11 @@ public class DashboardDao {
 
         return countMap;
     }
+
     public Map<String, Integer> getUsersCountByStatus() {
         Map<String, Integer> countMap = new HashMap<>();
-
+        countMap.put("Online", 0);
+        countMap.put("Offline", 0);
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT status, COUNT(*) as count FROM users GROUP BY status";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

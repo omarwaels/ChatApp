@@ -24,5 +24,6 @@ public interface InvitationService extends Remote {
     List<Integer> sendInvitations(List<InvitationDto> invitationsDto) throws RemoteException;
 
     public StatusEnum getUserStatusById(int id) throws RemoteException;
+
     public ModeEnum getUserModeById(int id) throws RemoteException;
 }

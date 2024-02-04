@@ -29,8 +29,8 @@ public class Launcher extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(getClass().getResource("/iti/jets/app/server/style/style.css").toExternalForm());
         stage.setScene(scene);
-        stage.setHeight(600);
-        stage.setWidth(1000);
+        stage.setMinHeight(600);
+        stage.setMinWidth(1000);
         stage.setMaxHeight(600);
         stage.setMaxWidth(1000);
         stage.show();

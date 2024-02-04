@@ -9,10 +9,13 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
+import iti.jets.app.client.CallBack.ClientImpl;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 
+import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.LoginService;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -64,6 +67,7 @@ public class SignInController implements Initializable {
     String phoneNumber;
 
     public Parent signUpParent;
+    ClientImpl client;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -78,6 +82,11 @@ public class SignInController implements Initializable {
     @FXML
     public void onPasswordInput() {
         PasswordErrorLabel.setText("");
+    }
+
+    ServerService getServerService() throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(8189);
+        return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
 
     @FXML

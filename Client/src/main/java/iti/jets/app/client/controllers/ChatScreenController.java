@@ -32,6 +32,8 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javafx.stage.FileChooser;
+import org.controlsfx.control.Notifications;
+
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -136,10 +138,11 @@ public class ChatScreenController implements Initializable {
     public ComboBox<String> fontComboBox;
     @FXML
     public ComboBox<String> fontSizeComboBox;
+
     @FXML
     public ImageView inviteFriendsBtn;
 
-    public ConnectionItemController currentConnection;
+    public ConnectionItemController currentConnection = null;
 
     public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
@@ -167,8 +170,7 @@ public class ChatScreenController implements Initializable {
         customizeEditorPane();
         chatLayout.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight)
-            {
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight) {
                 chatScrollPane.setVvalue((Double) newHeight);
             }
         });
@@ -264,6 +266,7 @@ public class ChatScreenController implements Initializable {
         Registry registry = LocateRegistry.getRegistry(8189);
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
+
 
     public void customInit() throws IOException {
         List<FriendInfoDto> contactListArray = getContactListArray();
@@ -407,10 +410,10 @@ public class ChatScreenController implements Initializable {
             } else {
                 sortGroupContactListOnTimeStamp();
             }
-            FXMLLoader fxmlLoader ;
-            if(message.isContainsFile()){
+            FXMLLoader fxmlLoader;
+            if (message.isContainsFile()) {
                 fxmlLoader = ViewsFactory.getViewsFactory().getFileRecieveController();
-            }else{
+            } else {
                 fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
             }
             HBox hbox = null;
@@ -419,17 +422,17 @@ public class ChatScreenController implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            if(message.isContainsFile()){
+            if (message.isContainsFile()) {
                 FileReceiveController msc = fxmlLoader.getController();
-                createRecievedFile(message , msc , hbox);
-            }else{
+                createRecievedFile(message, msc, hbox);
+            } else {
                 MessageReceiveController msc = fxmlLoader.getController();
-                createRecievedMessage(message , msc , hbox);
+                createRecievedMessage(message, msc, hbox);
             }
         });
     }
 
-    private void createRecievedFile(MessageDto message ,FileReceiveController msc , HBox hbox){
+    private void createRecievedFile(MessageDto message, FileReceiveController msc, HBox hbox) {
         Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
         msc.setData(message, messageImage);
 
@@ -452,7 +455,8 @@ public class ChatScreenController implements Initializable {
             }
         }
     }
-    private void createRecievedMessage(MessageDto message ,MessageReceiveController msc , HBox hbox){
+
+    private void createRecievedMessage(MessageDto message, MessageReceiveController msc, HBox hbox) {
         Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
         msc.setData(message, messageImage);
         if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
@@ -646,6 +650,7 @@ public class ChatScreenController implements Initializable {
     }
 
     public void updateFriendStatus(int friendId, boolean online) {
+        System.out.println("Before " + currentConnection);
         Platform.runLater(() -> {
             ConnectionItemController connectionItemController = null;
             if (online) {
@@ -653,6 +658,7 @@ public class ChatScreenController implements Initializable {
                 if (connectionItemController != null) {
                     offlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.ONLINE);
+                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is online now, let's chat with him.");
                     onlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(javafx.scene.paint.Color.GREEN);
 
@@ -662,12 +668,15 @@ public class ChatScreenController implements Initializable {
                 if (connectionItemController != null) {
                     onlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.OFFLINE);
+                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is offline now.");
                     offlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(Color.RED);
                 }
             }
-            if (connectionItemController == currentConnection)
+            if (connectionItemController == currentConnection) {
                 currentConnection.friendClicked();
+            }
+
             sortSingleChatContactListOnstatus();
         });
     }
@@ -855,9 +864,10 @@ public class ChatScreenController implements Initializable {
         tooltipExit.setText("Logout");
         Tooltip.install(exitImg, tooltipExit);
     }
+
     private boolean showConfirmationDialog(Path filePath) throws IOException {
         long fileSizeInBytes = Files.size(filePath);
-        long oneGiga =  (1000 * 1000 * 1000);
+        long oneGiga = (1000 * 1000 * 1000);
 
         if (fileSizeInBytes >= oneGiga) {
             Alert sizeExceededAlert = new Alert(Alert.AlertType.ERROR);
@@ -875,5 +885,50 @@ public class ChatScreenController implements Initializable {
 
         Optional<ButtonType> result = confirmationAlert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
+    }
+
+    public void showServerAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/megaphone.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("Server Announcements")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(7))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
+    }
+
+    public void showInvitationAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/friend-request.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("Friend Request")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(7))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
+    }
+
+    public void showFriendChangeStatusAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/change.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("Friend Status Change")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(7))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
     }
 }

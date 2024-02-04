@@ -80,6 +80,7 @@ public class ConnectionItemController implements Initializable {
         chatScreenController.updateCurrentScreenStatusWord(user.getUserFriendStatus());
         chatScreenController.chatArea.setVisible(true);
         chatScreenController.setCurrentScreenImage(userImage);
+        chatScreenController.currentConnection = this;
     }
 
     public void hoverEnterEffect() {

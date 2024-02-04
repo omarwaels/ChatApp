@@ -8,6 +8,7 @@ import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.InvitationDto;
 import iti.jets.app.shared.DTOs.UserDto;
 import iti.jets.app.shared.Interfaces.server.InvitationService;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.enums.ModeEnum;
 import iti.jets.app.shared.enums.StatusEnum;
 
@@ -109,6 +110,8 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
             }
             boolean Success = invitationDao.insert(InvitationDtoMapper.invitationDtoToInvitation(invitationDto)) > 0;
             if (Success) {
+                ServerService serverService = new ServerServiceImpl();
+                serverService.notifyFriendRequest(invitationDto.getReceiverID(), invitationDto.getSenderName(), invitationDto.getSenderPhone());
                 ret.add(0);
             } else {
                 ret.add(5);

@@ -5,6 +5,11 @@ import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.ServerService;
+import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -79,4 +84,24 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
             }
         }
     }
+
+    @Override
+    public void sendAnnouncement(String message) throws RemoteException {
+        System.out.println("Sending notification to all clients");
+        for (Client client : clients) {
+            client.receiveAnnouncement(message);
+        }
+    }
+
+    @Override
+    public void notifyFriendRequest(int receiverId, String name, String phoneNumber) throws RemoteException {
+        for (Client c : clients) {
+            if (c.getID() == receiverId) {
+                c.receiveInvitationRequest(name, phoneNumber);
+                return;
+            }
+        }
+    }
 }
+
+

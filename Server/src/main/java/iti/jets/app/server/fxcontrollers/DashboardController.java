@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,30 +29,18 @@ public class DashboardController implements Initializable {
     @FXML
     public AnchorPane ap;
 
-    public JFXSnackbar snackbar;
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        try {
-            ServerConnection.openConnection();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        toggleButton.setSelected(true);
-        snackbar = new JFXSnackbar(bp);
-
-    }
-
-
     @FXML
     public JFXToggleButton toggleButton;
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        toggleButton.setSelected(false);
+    }
 
     @FXML
     void home(MouseEvent event) {
         bp.setCenter(ap);
     }
-
 
     @FXML
     void announcements(MouseEvent event) {
@@ -78,35 +67,34 @@ public class DashboardController implements Initializable {
         bp.setCenter(root);
     }
 
-    private void showSnackbar(String message) {
-        Platform.runLater(() -> {
-            JFXSnackbarLayout snackbarLayout = new JFXSnackbarLayout(message);
-            snackbar.enqueue(new JFXSnackbar.SnackbarEvent(snackbarLayout));
-            snackbarLayout.getStyleClass().add("jfx-snackbar");
-            snackbar.setPrefWidth(180);
-            snackbarLayout.setStyle("-fx-text-fill: white;");
-
-            int displayDurationMillis = 400;
-
-            Timeline timeline = new Timeline(new KeyFrame(Duration.millis(displayDurationMillis), event -> {
-                snackbar.close();
-            }));
-            timeline.play();
-        });
-        snackbar.setVisible(true);
-    }
 
     @FXML
     private void handleToggleButton() {
         if (toggleButton.isSelected()) {
-            showSnackbar("Server is on");
+            try {
+                ServerConnection.openConnection();
+                showNotification("Server is open now ....");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         } else {
-            showSnackbar("Server is off");
+            try {
+                ServerConnection.closeConnection();
+                showNotification("Server Closed Successfully ....");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-
-
-
-
+    private void showNotification(String message) {
+        Notifications notificationBuilder = Notifications.create()
+                .title("Server")
+                .text(message)
+                .graphic(null)
+                .hideAfter(Duration.seconds(3))
+                .position(javafx.geometry.Pos.BOTTOM_RIGHT)
+                .owner(bp.getScene().getWindow());
+        notificationBuilder.show();
+    }
 }

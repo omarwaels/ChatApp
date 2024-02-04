@@ -13,7 +13,7 @@ import java.util.List;
 public interface Client extends Remote {
     void receiveMessage(MessageDto messageDto) throws RemoteException;
 
-    void readFile(MessageDto messageDto, byte[] bytes ) throws RemoteException;
+    void readFile(MessageDto messageDto, byte[] bytes) throws RemoteException;
 
     int getID() throws RemoteException;
 
@@ -23,4 +23,7 @@ public interface Client extends Remote {
 
     void addChatForNewFriend(FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException;
 
+    void receiveAnnouncement(String msg) throws RemoteException;
+
+    void receiveInvitationRequest(String name, String phoneNumber) throws RemoteException;
 }
