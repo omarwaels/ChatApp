@@ -1,0 +1,15 @@
+.background-color{
+    -fx-background-color: linear-gradient(from 25% 25% to 100% 100%, grey, midnightblue);
+}
+.decline-background{
+    -fx-background-color: #FF3B2F;
+    -fx-background-radius: 50;
+}
+.accept-background{
+    -fx-background-color: #47CF5F;
+    -fx-background-radius: 50;
+}
+.round-transparent-background{
+    -fx-background-color: rgba(255,255,255,0.1);
+    -fx-background-radius: 50;
+}
