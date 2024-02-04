@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
@@ -31,7 +32,7 @@ import java.util.ResourceBundle;
 
 public class InvitationRequestCardController implements Initializable {
     @FXML
-    public ImageView friendImage;
+    public Circle friendImage;
 
     @FXML
     public Label friendName;
@@ -57,11 +58,9 @@ public class InvitationRequestCardController implements Initializable {
         this.invitationRequestController = invitationRequestController;
         this.chatScreenController = chatScreenController;
         this.userDto = chatScreenController.loginResultDto.getUserDto();
-        Circle circle = new Circle(25, 25, 25);
         Image image = new Image(new ByteArrayInputStream(this.invitationDto.getSenderImage()));
         friendName.setText(this.invitationDto.getSenderName());
-        this.friendImage.setImage(image);
-        this.friendImage.setClip(circle);
+        friendImage.setFill(new ImagePattern(image));
         this.friendPhone.setText(this.invitationDto.getSenderPhone());
     }
 
