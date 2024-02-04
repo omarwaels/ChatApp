@@ -24,6 +24,10 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
     public LoginServiceImpl() throws RemoteException {
     }
 
+    public boolean userExists(String phoneNumber) {
+        UserDao userDao = new UserDao();
+        return userDao.getById(phoneNumber) != null;
+    }
     @Override
     public LoginResultDto login(UserLoginDto userLoginDto) throws RemoteException {
         UserDao userDao = new UserDao();
