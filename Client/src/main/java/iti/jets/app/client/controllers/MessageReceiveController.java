@@ -39,7 +39,7 @@ public class MessageReceiveController implements Initializable {
         }
 
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
-        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
