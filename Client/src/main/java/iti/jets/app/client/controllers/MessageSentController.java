@@ -10,16 +10,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 
+import java.io.ByteArrayInputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MessageSentController implements Initializable {
     @FXML
-    public ImageView img;
+    public Circle img;
     @FXML
     public Text txt;
     @FXML
@@ -40,7 +43,8 @@ public class MessageSentController implements Initializable {
         txt.setText(msg.getMessageContent());
         //txtFlow.setTextAlignment(TextAlignment.LEFT);
         if(userImg != null){
-            img.setImage(userImg);
+            img.setFill(new ImagePattern(userImg));
+            //img.setImage(userImg);
         }
 
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);

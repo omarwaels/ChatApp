@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
@@ -13,7 +15,7 @@ import java.util.ResourceBundle;
 
 public class MessageReceiveController implements Initializable {
     @FXML
-    public ImageView img;
+    public Circle img;
 
     @FXML
     public Text txt;
@@ -35,7 +37,8 @@ public class MessageReceiveController implements Initializable {
 
         txt.setText(msg.getMessageContent());
         if(userImage != null){
-            img.setImage(userImage);
+            img.setFill(new ImagePattern(userImage));
+            //img.setImage(userImage);
         }
 
         //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);

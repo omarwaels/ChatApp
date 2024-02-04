@@ -21,6 +21,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -107,7 +109,7 @@ public class UserSettingsController implements Initializable {
     public PasswordField passwordField;
 
     @FXML
-    public ImageView profilePic;
+    public Circle profilePic;
 
     @FXML
     public Button removePhotoBtn;
@@ -316,7 +318,9 @@ public class UserSettingsController implements Initializable {
         dobPicker.setValue(user.getDateOfBirth().toLocalDate());
         passwordField.setText(user.getPassword());
         bio.setText(user.getBio());
-        profilePic.setImage(new Image(new ByteArrayInputStream(user.getPicture())));
+
+        profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(user.getPicture()))));
+        //profilePic.setImage(new Image(new ByteArrayInputStream(user.getPicture())));
     }
 
     public void setChatScreenController(ChatScreenController chatScreenController) {
@@ -338,7 +342,8 @@ public class UserSettingsController implements Initializable {
     @FXML
     public void onClickRemovePhoto() throws IOException {
         File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
-        profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath()))));
+        profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
+        //profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath()))));
         user.setPicture(Files.readAllBytes(img.toPath()));
     }
 
@@ -350,7 +355,8 @@ public class UserSettingsController implements Initializable {
         fileChooser.getExtensionFilters().add(imageFilter);
         File selectedFile = fileChooser.showOpenDialog(editPhotoBtn.getScene().getWindow());
         if (selectedFile != null) {
-            profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath()))));
+            profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
+            //profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath()))));
             user.setPicture(Files.readAllBytes(selectedFile.toPath()));
         }
         updateInfoService.updateImage(user.getId(), user.getPicture());

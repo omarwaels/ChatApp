@@ -39,17 +39,18 @@
                         <Insets top="50.0" />
                     </VBox.margin>
                     <children>
-                        <ImageView fx:id="profilePic" fitHeight="187.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
-                            <clip>
-                                <Circle centerX="75.0" centerY="75.0" radius="75.0" />
-                            </clip>
-                            <image>
-                                <Image url="@../img/OSherif.jpg" />
-                            </image>
-                            <VBox.margin>
-                                <Insets left="10.0" />
-                            </VBox.margin>
-                        </ImageView>
+                        <Circle fx:id="profilePic" radius="65.0" />
+<!--                        <ImageView fx:id="profilePic" fitHeight="187.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                            <clip>-->
+<!--                                <Circle centerX="75.0" centerY="75.0" radius="75.0" />-->
+<!--                            </clip>-->
+<!--                            <image>-->
+<!--                                <Image url="@../img/OSherif.jpg" />-->
+<!--                            </image>-->
+<!--                            <VBox.margin>-->
+<!--                                <Insets left="10.0" />-->
+<!--                            </VBox.margin>-->
+<!--                        </ImageView>-->
                         <Label fx:id="nameLabel" text="Omar Elsherif" textFill="WHITE">
                             <font>
                                 <Font name="System Bold" size="18.0" />
