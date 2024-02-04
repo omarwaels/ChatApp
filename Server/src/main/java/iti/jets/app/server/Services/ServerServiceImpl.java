@@ -7,6 +7,9 @@ import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
@@ -24,6 +27,17 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
             for (Integer userID : messageDto.getReceiverId()) {
                 if (c.getID() == userID) {
                     c.receiveMessage(messageDto);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void sendFile(MessageDto messageDto , byte[] fileData) throws RemoteException {
+        for (Client c : clients) {
+            for (Integer userID : messageDto.getReceiverId()) {
+                if (c.getID() == userID) {
+                    c.readFile(messageDto , fileData);
                 }
             }
         }

@@ -29,10 +29,15 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-
+import javafx.stage.FileChooser;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -380,7 +385,6 @@ public class ChatScreenController implements Initializable {
     }
 
     public void receiveMessage(MessageDto message) {
-
         Platform.runLater(() -> {
             updateCounters(message);
             updateTimeStamps(message);
@@ -389,45 +393,73 @@ public class ChatScreenController implements Initializable {
             } else {
                 sortGroupContactListOnTimeStamp();
             }
-
-            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
+            FXMLLoader fxmlLoader ;
+            if(message.isContainsFile()){
+                fxmlLoader = ViewsFactory.getViewsFactory().getFileRecieveController();
+            }else{
+                fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
+            }
             HBox hbox = null;
             try {
                 hbox = fxmlLoader.load();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            MessageReceiveController msc = fxmlLoader.getController();
-            Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
-            msc.setData(message, messageImage);
-            //update Current Screen
-
-            if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
-                chatLayout.setAlignment(Pos.TOP_LEFT);
-                chatLayout.getChildren().add(hbox);
-            } else {
-                //Add message between nodes
-                //If chat screen array includes the chat
-                if (chatsArr.containsKey(message.getChatId())) {
-                    Node[] nodes = chatsArr.get(message.getChatId());
-                    ArrayList<Node> nodeList = new ArrayList<>(Arrays.asList(nodes));
-                    nodeList.add(hbox);
-                    Node[] updatedNodesArray = nodeList.toArray(new Node[0]);
-                    chatsArr.put(message.getChatId(), updatedNodesArray);
-                } else {
-                    //If the chat didn't start
-                    ArrayList<Node> nodeList = new ArrayList<>();
-                    nodeList.add(hbox);
-                    Node[] nodesArray = nodeList.toArray(new Node[0]);
-                    chatsArr.put(message.getChatId(), nodesArray);
-                }
+            if(message.isContainsFile()){
+                FileReceiveController msc = fxmlLoader.getController();
+                createRecievedFile(message , msc , hbox);
+            }else{
+                MessageReceiveController msc = fxmlLoader.getController();
+                createRecievedMessage(message , msc , hbox);
             }
-
-
         });
-
-
     }
+
+    private void createRecievedFile(MessageDto message ,FileReceiveController msc , HBox hbox){
+        Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
+        msc.setData(message, messageImage);
+
+        if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
+            chatLayout.setAlignment(Pos.TOP_LEFT);
+            chatLayout.getChildren().add(hbox);
+        } else {
+            if (chatsArr.containsKey(message.getChatId())) {
+                Node[] nodes = chatsArr.get(message.getChatId());
+                ArrayList<Node> nodeList = new ArrayList<>(Arrays.asList(nodes));
+                nodeList.add(hbox);
+                Node[] updatedNodesArray = nodeList.toArray(new Node[0]);
+                chatsArr.put(message.getChatId(), updatedNodesArray);
+            } else {
+                //If the chat didn't start
+                ArrayList<Node> nodeList = new ArrayList<>();
+                nodeList.add(hbox);
+                Node[] nodesArray = nodeList.toArray(new Node[0]);
+                chatsArr.put(message.getChatId(), nodesArray);
+            }
+        }
+    }
+    private void createRecievedMessage(MessageDto message ,MessageReceiveController msc , HBox hbox){
+        Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
+        msc.setData(message, messageImage);
+        if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
+            chatLayout.setAlignment(Pos.TOP_LEFT);
+            chatLayout.getChildren().add(hbox);
+        } else {
+            if (chatsArr.containsKey(message.getChatId())) {
+                Node[] nodes = chatsArr.get(message.getChatId());
+                ArrayList<Node> nodeList = new ArrayList<>(Arrays.asList(nodes));
+                nodeList.add(hbox);
+                Node[] updatedNodesArray = nodeList.toArray(new Node[0]);
+                chatsArr.put(message.getChatId(), updatedNodesArray);
+            } else {
+                ArrayList<Node> nodeList = new ArrayList<>();
+                nodeList.add(hbox);
+                Node[] nodesArray = nodeList.toArray(new Node[0]);
+                chatsArr.put(message.getChatId(), nodesArray);
+            }
+        }
+    }
+
 
     private void updateCounters(MessageDto message) {
         if (!message.getChatId().equals(currentScreenChatId)) {
@@ -437,9 +469,7 @@ public class ChatScreenController implements Initializable {
             } else {
                 ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
                 connectionGroupItemController.updateCounter();
-
             }
-
         }
     }
 
@@ -701,6 +731,53 @@ public class ChatScreenController implements Initializable {
         }
     }
 
+    public void chooseFile() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        File selectedFile = fileChooser.showOpenDialog(new Stage());
+        if (selectedFile != null && showConfirmationDialog()) {
+            // User confirmed, proceed with sending the file
+            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
+            HBox hbox = fxmlLoader.load();
+            MessageDto newMessage = createMessageDto(selectedFile.getName());
+            newMessage.setContainsFile(true);
+            FileSentController msc = fxmlLoader.getController();
+            Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+            msc.setData(newMessage, userImg, selectedFile);
+            chatLayout.setAlignment(Pos.TOP_RIGHT);
+            chatLayout.getChildren().add(hbox);
+            sendFile(selectedFile.getAbsolutePath(), newMessage);
+        }
+    }
+
+    private void sendFile(String filePath, MessageDto messageDto) throws IOException {
+        try (FileChannel fileChannel = FileChannel.open(Paths.get(filePath))) {
+            int bufferSize = 1_000_000_000;
+            ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
+            int count;
+            do {
+                count = fileChannel.read(byteBuffer);
+                if (count != -1) {
+                    ByteBuffer sendBuffer = ByteBuffer.allocate(count);
+                    byteBuffer.flip();
+                    byteBuffer.limit(count);
+                    sendBuffer.put(byteBuffer);
+                    sendBuffer.flip();
+                    new Thread(() -> {
+                        try {
+                            serverService.sendFile(messageDto, sendBuffer.array());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                    byteBuffer.clear();
+                }
+            } while (count != -1);
+        }
+    }
+
+
+
+
     public void customizeEditorPane() {
         ObservableList<String> limitedFonts = FXCollections.observableArrayList("Arial", "Times", "Courier New", "Comic Sans MS");
         fontComboBox.setItems(limitedFonts);
@@ -737,5 +814,14 @@ public class ChatScreenController implements Initializable {
         } catch (IOException | NotBoundException e) {
             e.printStackTrace();
         }
+    }
+    private boolean showConfirmationDialog() {
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm File Sending");
+        confirmationAlert.setHeaderText(null);
+        confirmationAlert.setContentText("Do you want to send the file?");
+
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+        return result.isPresent() && result.get() == ButtonType.OK;
     }
 }
