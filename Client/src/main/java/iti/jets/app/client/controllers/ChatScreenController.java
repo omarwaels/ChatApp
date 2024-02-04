@@ -8,6 +8,8 @@ import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -128,9 +130,9 @@ public class ChatScreenController implements Initializable {
     public ComboBox<String> fontComboBox;
     @FXML
     public ComboBox<String> fontSizeComboBox;
-
     @FXML
     public ImageView inviteFriendsBtn;
+
     public ConnectionItemController currentConnection;
 
     public LoginResultDto loginResultDto;
@@ -154,8 +156,16 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         createToolTips();
         customizeEditorPane();
+        chatLayout.heightProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight)
+            {
+                chatScrollPane.setVvalue((Double) newHeight);
+            }
+        });
         groubChatContainer.setVisible(false);
     }
 
