@@ -29,6 +29,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
+import org.controlsfx.control.Notifications;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -611,6 +612,7 @@ public class ChatScreenController implements Initializable {
                 if (connectionItemController != null) {
                     offlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.ONLINE);
+                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is online now, let's chat");
                     onlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(javafx.scene.paint.Color.GREEN);
 
@@ -620,6 +622,7 @@ public class ChatScreenController implements Initializable {
                 if (connectionItemController != null) {
                     onlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.OFFLINE);
+                    showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is offline now");
                     offlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(Color.RED);
                 }
@@ -739,4 +742,50 @@ public class ChatScreenController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    public void showServerAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/megaphone.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("Server Announcements")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(7))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
+    }
+
+    public void showInvitationAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/friend-request.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("Friend Request")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(7))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
+    }
+
+    public void showFriendChangeStatusAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/change.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("Friend Status Change")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(7))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
+    }
+
 }

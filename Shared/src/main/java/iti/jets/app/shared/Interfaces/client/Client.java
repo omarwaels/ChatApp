@@ -21,5 +21,7 @@ public interface Client extends Remote {
 
     void addChatForNewFriend(FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException;
 
-    void sendAnnouncement(String msg) throws RemoteException;
+    void receiveAnnouncement(String msg) throws RemoteException;
+
+    void receiveInvitationRequest(String name, String phoneNumber) throws RemoteException;
 }

@@ -18,7 +18,7 @@ public class ServerConnection {
 
     public static void openConnection() throws Exception {
         try {
-            registry = LocateRegistry.createRegistry(5059);
+            registry = LocateRegistry.createRegistry(8189);
             ServiceFactory serviceFactory = new ServiceFactoryImpl();
             registry.rebind("ServiceFactory", serviceFactory);
             System.out.println("Server is open now ....");
@@ -30,8 +30,16 @@ public class ServerConnection {
 
     public static void closeConnection() {
         try {
-            UnicastRemoteObject.unexportObject(registry, true);
-            UnicastRemoteObject.unexportObject(registry, false);
+            try {
+                UnicastRemoteObject.unexportObject(registry, true);
+            } catch (NoSuchObjectException e) {
+                // Ignore because the object is already unexported
+            }
+            try {
+                UnicastRemoteObject.unexportObject(registry, false);
+            } catch (NoSuchObjectException e) {
+                // Ignore because the object is already unexported
+            }
             registry.unbind("ServiceFactory");
         } catch (Exception e) {
             e.printStackTrace();

@@ -75,13 +75,17 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     public void sendAnnouncement(String message) throws RemoteException {
         System.out.println("Sending notification to all clients");
         for (Client client : clients) {
-            Notifications notifications = Notifications.create()
-                    .title("          Server Announcements")
-                    .text("hello user")
-                    .graphic(new ImageView(new Image("C:\\Users\\ELGOHARY\\IdeaProjects\\ChatApp\\Shared\\src\\main\\java\\iti\\jets\\app\\shared\\images\\img.png")))
-                    .hideAfter(Duration.seconds(3))
-                    .position(Pos.BOTTOM_CENTER);
-            notifications.show();
+            client.receiveAnnouncement(message);
+        }
+    }
+
+    @Override
+    public void notifyFriendRequest(int receiverId, String name, String phoneNumber) throws RemoteException {
+        for (Client c : clients) {
+            if (c.getID() == receiverId) {
+                c.receiveInvitationRequest(name, phoneNumber);
+                return;
+            }
         }
     }
 }
