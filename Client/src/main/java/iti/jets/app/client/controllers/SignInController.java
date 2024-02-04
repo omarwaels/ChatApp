@@ -82,29 +82,36 @@ public class SignInController implements Initializable {
 
     @FXML
     public void onLoginSubmit() throws NotBoundException, IOException {
-        if (isFirstScreen) {
-            if (!validPhoneNumber(userNameTextField.getText())) {
-                userNameErrorLabel.setText("Invalid phone number");
+        Platform.runLater(() -> {
+            if (isFirstScreen) {
+                try {
+                    if (!validPhoneNumber(userNameTextField.getText())) {
+                        userNameErrorLabel.setText("Invalid phone number");
+                    } else {
+                        isFirstScreen = false;
+                        firstScreen.setVisible(false);
+                        secondScreen.setVisible(true);
+                        tmpField.requestFocus();
+                    }
+                } catch (NotBoundException e) {
+                    throw new RuntimeException(e);
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
             } else {
-                isFirstScreen = false;
-                firstScreen.setVisible(false);
-                secondScreen.setVisible(true);
-                tmpField.requestFocus();
+                if (passwordField.getText().isEmpty())
+                    userNameErrorLabel.setText("Password Can't be empty");
+                else {
+                    try {
+                        login();
+                    } catch (NotBoundException e) {
+                        throw new RuntimeException(e);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
             }
-        } else {
-            if (passwordField.getText().isEmpty())
-                userNameErrorLabel.setText("Password Can't be empty");
-            else
-                new Thread(
-                        () -> {
-                            try {
-                                login();
-                            } catch (NotBoundException | IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                ).start();
-        }
+        });
     }
 
     private boolean validPhoneNumber(String phoneNumber) throws NotBoundException, RemoteException {
