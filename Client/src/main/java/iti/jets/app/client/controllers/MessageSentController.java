@@ -18,6 +18,7 @@ import javafx.scene.text.TextFlow;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ResourceBundle;
 
 public class MessageSentController implements Initializable {
@@ -28,6 +29,8 @@ public class MessageSentController implements Initializable {
     @FXML
     public TextFlow txtFlow;
 
+    @FXML
+    public Label timeStamp;
 
     public void setData(MessageDto msg , Image userImg) {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
@@ -41,6 +44,9 @@ public class MessageSentController implements Initializable {
                 + "\";-fx-underline:"   + msg.getUnderline()
                 + ";");
         txt.setText(msg.getMessageContent());
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+        String formattedTime = timeFormat.format(msg.getSentAt());
+        timeStamp.setText(formattedTime);
         //txtFlow.setTextAlignment(TextAlignment.LEFT);
         if(userImg != null){
             img.setFill(new ImagePattern(userImg));
