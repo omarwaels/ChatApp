@@ -550,8 +550,8 @@ public class ChatScreenController implements Initializable {
             connectionLayout.getChildren().add(hbox);
 
             //update Hashmap
-            HashMap<FriendInfoDto,ChatDto> friendInfoDtoChatDtoHashMap = loginResultDto.getUserFriendsAndChatDto();
-            friendInfoDtoChatDtoHashMap.put(friend,friendChat);
+            HashMap<FriendInfoDto, ChatDto> friendInfoDtoChatDtoHashMap = loginResultDto.getUserFriendsAndChatDto();
+            friendInfoDtoChatDtoHashMap.put(friend, friendChat);
 
             sortSingleContactListOnTimeStamp();
             sortSingleChatContactListOnstatus();
@@ -660,6 +660,7 @@ public class ChatScreenController implements Initializable {
                     onlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(javafx.scene.paint.Color.GREEN);
                     connectionItemController.userModeLabel.setText(ModeEnum.AVAILABLE.getMode());
+                    connectionItemController.userModeLabel.setStyle("-fx-text-fill: green;");
                 }
             } else {
                 connectionItemController = onlineUsers.get(friendId);
@@ -670,7 +671,7 @@ public class ChatScreenController implements Initializable {
                     showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is offline now.");
                     offlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(Color.RED);
-                    connectionItemController.userModeLabel.setText(ModeEnum.AWAY.getMode());
+                    connectionItemController.userModeLabel.setText("");
                 }
             }
             if (connectionItemController == currentConnection && isSingleChat) {
@@ -688,16 +689,14 @@ public class ChatScreenController implements Initializable {
                 connectionItemController.userModeLabel.setText(mode);
                 switch (mode) {
                     case "Available":
-                        // Handle the AVAILABLE mode
                         connectionItemController.userModeLabel.setStyle("-fx-text-fill: green;");
                         break;
                     case "Busy":
-                        // Handle the BUSY mode
                         connectionItemController.userModeLabel.setStyle("-fx-text-fill: orange;");
                         break;
                     case "Away":
-                        // Handle the AWAY mode
-                        connectionItemController.userModeLabel.setStyle("-fx-text-fill: yellow;");;
+                        connectionItemController.userModeLabel.setStyle("-fx-text-fill: yellow;");
+                        ;
                         break;
                 }
             }
@@ -853,8 +852,7 @@ public class ChatScreenController implements Initializable {
         colorPicker.setValue(Color.BLACK);
     }
 
-    public void customizeStatusBox()
-    {
+    public void customizeStatusBox() {
         ObservableList<String> statusList = FXCollections.observableArrayList(ModeEnum.AVAILABLE.getMode(), ModeEnum.BUSY.getMode(), ModeEnum.AWAY.getMode());
         comboBoxStatus.setItems(statusList);
         comboBoxStatus.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
@@ -944,6 +942,7 @@ public class ChatScreenController implements Initializable {
         tooltipExit.setText("Logout");
         Tooltip.install(exitBtn, tooltipExit);
     }
+
     public void updateMode(String newMode) throws Exception {
         // Update the new mode in the DB
         int userID = loginResultDto.getUserDto().getId();

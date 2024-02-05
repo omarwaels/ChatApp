@@ -56,13 +56,27 @@ public class ConnectionItemController implements Initializable {
             this.userImage = userImg;
         }
         chatScreenController.currentConnection = this;
-        userModeLabel.setText(user.getUserFriendMode().getMode());
+        System.out.println("User Mode: " + user.getUserFriendStatus().getStatus());
+        if (user.getUserFriendStatus().getStatus().equalsIgnoreCase("Online")) {
+            userModeLabel.setText(user.getUserFriendMode().getMode());
+            switch (user.getUserFriendMode().getMode()) {
+                case "Available":
+                    userModeLabel.setStyle("-fx-text-fill: green;");
+                    break;
+                case "Busy":
+                    userModeLabel.setStyle("-fx-text-fill: orange;");
+                    break;
+                case "Away":
+                    userModeLabel.setStyle("-fx-text-fill: yellow;");
+                    break;
+            }
+        } else
+            userModeLabel.setText("");
     }
 
     private Integer counterNumber = 0;
 
     public void updateCounter() {
-
         counterContainer.setVisible(false);
         counterNumber = counterNumber + 1;
         counter.setText(counterNumber.toString());
