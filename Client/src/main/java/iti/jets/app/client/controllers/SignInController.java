@@ -1,8 +1,14 @@
 package iti.jets.app.client.controllers;
 
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -27,6 +33,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class SignInController implements Initializable {
+
+    private final String appDirectoryForLogin = "AppDirectory\\userObj";
+    private final String appDirectoryForNumber = "AppDirectory\\phoneNumObj";
     @FXML
     public Label userNameErrorLabel;
     @FXML
@@ -70,7 +79,24 @@ public class SignInController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         tmpField.requestFocus();
+        UserLoginDto userLoginDto = loadObjectFromFile(appDirectoryForLogin);
+
+        if(userLoginDto != null){
+            try {
+                login(userLoginDto);
+            } catch (NotBoundException e) {
+                System.out.println("Cant automatic Login");
+            } catch (RemoteException e) {
+                System.out.println("Cant automatic Login");
+            }
+        }
+        String phoneNumber = loadPhoneNumObjectFromFile(appDirectoryForNumber);
+        if(phoneNumber != null){
+            userNameTextField.setText(phoneNumber);
+        }
+
     }
 
     @FXML
@@ -111,7 +137,7 @@ public class SignInController implements Initializable {
                     userNameErrorLabel.setText("Password Can't be empty");
                 else {
                     try {
-                        login();
+                        getDataFromScreenAndlogin();
                     } catch (NotBoundException e) {
                         throw new RuntimeException(e);
                     } catch (IOException e) {
@@ -144,14 +170,20 @@ public class SignInController implements Initializable {
         return isInputValid;
     }
 
-    private void login() throws NotBoundException, IOException {
+    private void getDataFromScreenAndlogin() throws NotBoundException, IOException {
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordField.getText());
+        login(userLoginDto);
+    }
+
+    private void login(UserLoginDto userLoginDto) throws NotBoundException, RemoteException {
         LoginResultDto loginResultDto = getLoginService().login(userLoginDto);
         Platform.runLater(() -> {
             if (loginResultDto == null)
                 errorInLogin();
             else {
                 try {
+                    saveLoginObjectToFile(userLoginDto, appDirectoryForLogin);
+                    savePhoneNumObjectToFile(userLoginDto.getPhoneNumber(), appDirectoryForNumber);
                     redirectToChatScreenPage(loginResultDto);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -186,6 +218,63 @@ public class SignInController implements Initializable {
         ((Stage) signUpLabel.getScene().getWindow()).setScene(new Scene(root));
         ChatScreenController chatScreenController = loader.getController();
         chatScreenController.setChatScreenDto(loginResultDto);
+    }
+    public static void saveLoginObjectToFile(UserLoginDto object, String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path.getParent())) {
+                Files.createDirectories(path.getParent());
+            }
+
+            try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(Files.newOutputStream(path))) {
+                objectOutputStream.writeObject(object);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void savePhoneNumObjectToFile(String object, String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path.getParent())) {
+                Files.createDirectories(path.getParent());
+            }
+
+            try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(Files.newOutputStream(path))) {
+                objectOutputStream.writeObject(object);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static UserLoginDto loadObjectFromFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+                    return (UserLoginDto) objectInputStream.readObject();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String loadPhoneNumObjectFromFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+                    return (String) objectInputStream.readObject();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public void setUserNameInScreen(String userPhoneNumber){
+        userNameTextField.setText(userPhoneNumber);
     }
 }
 

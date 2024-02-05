@@ -13,6 +13,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,12 +30,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.StageStyle;
+import javafx.stage.*;
 import javafx.util.Callback;
 import javafx.util.Duration;
-import javafx.stage.FileChooser;
 import org.controlsfx.control.Notifications;
 
 import java.io.ByteArrayInputStream;
@@ -52,6 +50,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class ChatScreenController implements Initializable {
@@ -131,6 +130,8 @@ public class ChatScreenController implements Initializable {
     public ImageView inviteFriendsBtn;
     @FXML
     public Circle profilePic;
+
+    private final String appDirectory = "AppDirectory\\userObj";
     public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
@@ -138,9 +139,10 @@ public class ChatScreenController implements Initializable {
     HashMap<Integer, Node[]> chatsArr = new HashMap<>();
     ClientImpl client;
     ServerService serverService;
-    public HashMap<Integer, ConnectionItemController> onlineUsers = new HashMap<>();
+    public ConcurrentHashMap<Integer, ConnectionItemController> onlineUsers = new ConcurrentHashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
+
     @FXML
     public ImageView invitationsBtn;
 
@@ -274,6 +276,20 @@ public class ChatScreenController implements Initializable {
         nodesToScaleTransition.add(invitationsBtn);
         scaleTransitionIn(nodesToScaleTransition);
         profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()))));
+
+        Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
+        currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                try {
+                    performActionsBeforeClosing();
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                } catch (NotBoundException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
     }
 
     void updateCurrentScreenStatusWord(StatusEnum statusWord) {
@@ -1022,17 +1038,36 @@ public class ChatScreenController implements Initializable {
         );
     }
 
-    public void onSignOutClicked() {
+    private void signOutActions(){
         Platform.runLater(() -> {
             try {
+
+                String UserPhoneNumber = loginResultDto.getUserDto().getPhoneNumber();
                 performActionsBeforeClosing();
                 FXMLLoader loader = ViewsFactory.getViewsFactory().getLoginLoader();
                 Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
                 Parent root = loader.load();
+                SignInController signInController = loader.getController();
+                signInController.setUserNameInScreen(UserPhoneNumber);
                 currentStage.setScene(new Scene(root));
             } catch (IOException | NotBoundException e) {
                 e.printStackTrace();
             }
         });
+    }
+
+    public void onSignOutClicked() {
+        deleteFileIfExists(appDirectory);
+        signOutActions();
+    }
+    private void deleteFileIfExists(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                Files.delete(path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
