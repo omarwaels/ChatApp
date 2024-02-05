@@ -34,7 +34,8 @@ import javafx.stage.Stage;
 
 public class SignInController implements Initializable {
 
-    private final String appDirectory = "AppDirectory\\userObj";
+    private final String appDirectoryForLogin = "AppDirectory\\userObj";
+    private final String appDirectoryForNumber = "AppDirectory\\phoneNumObj";
     @FXML
     public Label userNameErrorLabel;
     @FXML
@@ -80,7 +81,8 @@ public class SignInController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         tmpField.requestFocus();
-        UserLoginDto userLoginDto = loadObjectFromFile(appDirectory);
+        UserLoginDto userLoginDto = loadObjectFromFile(appDirectoryForLogin);
+
         if(userLoginDto != null){
             try {
                 login(userLoginDto);
@@ -89,6 +91,10 @@ public class SignInController implements Initializable {
             } catch (RemoteException e) {
                 System.out.println("Cant automatic Login");
             }
+        }
+        String phoneNumber = loadPhoneNumObjectFromFile(appDirectoryForNumber);
+        if(phoneNumber != null){
+            userNameTextField.setText(phoneNumber);
         }
 
     }
@@ -176,7 +182,8 @@ public class SignInController implements Initializable {
                 errorInLogin();
             else {
                 try {
-                    saveObjectToFile(userLoginDto, appDirectory);
+                    saveLoginObjectToFile(userLoginDto, appDirectoryForLogin);
+                    savePhoneNumObjectToFile(userLoginDto.getPhoneNumber(), appDirectoryForNumber);
                     redirectToChatScreenPage(loginResultDto);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -212,20 +219,30 @@ public class SignInController implements Initializable {
         ChatScreenController chatScreenController = loader.getController();
         chatScreenController.setChatScreenDto(loginResultDto);
     }
-    public static void saveObjectToFile(UserLoginDto object, String filePath) {
+    public static void saveLoginObjectToFile(UserLoginDto object, String filePath) {
         try {
-            // Create Path object
             Path path = Paths.get(filePath);
             if (!Files.exists(path.getParent())) {
                 Files.createDirectories(path.getParent());
             }
 
-            // Serialize the object
             try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(Files.newOutputStream(path))) {
                 objectOutputStream.writeObject(object);
-                System.out.println("UserLoginDto object has been saved to: " + filePath);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void savePhoneNumObjectToFile(String object, String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (!Files.exists(path.getParent())) {
+                Files.createDirectories(path.getParent());
             }
 
+            try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(Files.newOutputStream(path))) {
+                objectOutputStream.writeObject(object);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -236,6 +253,19 @@ public class SignInController implements Initializable {
             if (Files.exists(path)) {
                 try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path.toFile()))) {
                     return (UserLoginDto) objectInputStream.readObject();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String loadPhoneNumObjectFromFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(path.toFile()))) {
+                    return (String) objectInputStream.readObject();
                 }
             }
         } catch (Exception e) {
