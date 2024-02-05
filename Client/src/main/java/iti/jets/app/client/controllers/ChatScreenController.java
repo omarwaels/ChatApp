@@ -152,7 +152,7 @@ public class ChatScreenController implements Initializable {
 
     public boolean isSingleChat = true;
 
-    public boolean botOn = true;
+    public boolean botOn = false;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -191,8 +191,8 @@ public class ChatScreenController implements Initializable {
     public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
         // TODO: to be deleted
-        if (loginResultDto.getUserDto().getId() == 4)
-            botOn = false;
+        /*if (loginResultDto.getUserDto().getId() == 4)
+            botOn = false;*/
         customInit();
         new Thread(() -> {
             try {
@@ -452,7 +452,7 @@ public class ChatScreenController implements Initializable {
                 MessageReceiveController msc = fxmlLoader.getController();
                 createRecievedMessage(message, msc, hbox);
             }
-            if (message.isSingleChat() && botOn) {
+            if (message.isSingleChat() && botOn && !message.getMessageContent().isEmpty()) {
                 try {
                     String response = chatBot.getResponse(message.getMessageContent());
                     FXMLLoader fxmlLoaderBot = ViewsFactory.getViewsFactory().getMessageSentLoader();
@@ -465,8 +465,7 @@ public class ChatScreenController implements Initializable {
                     MessageSentController mscBot = fxmlLoaderBot.getController();
                     Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
                     mscBot.setData(newMessage, userImg);
-                    chatLayout.setAlignment(Pos.TOP_RIGHT);
-                    chatLayout.getChildren().add(hboxBot);
+                    createSentMessage(newMessage, mscBot, hboxBot);
                     new Thread(() -> {
                         try {
                             serverService.sendMessage(newMessage);
@@ -506,6 +505,28 @@ public class ChatScreenController implements Initializable {
     }
 
     private void createRecievedMessage(MessageDto message, MessageReceiveController msc, HBox hbox) {
+        Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
+        msc.setData(message, messageImage);
+        if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
+            chatLayout.setAlignment(Pos.TOP_LEFT);
+            chatLayout.getChildren().add(hbox);
+        } else {
+            if (chatsArr.containsKey(message.getChatId())) {
+                Node[] nodes = chatsArr.get(message.getChatId());
+                ArrayList<Node> nodeList = new ArrayList<>(Arrays.asList(nodes));
+                nodeList.add(hbox);
+                Node[] updatedNodesArray = nodeList.toArray(new Node[0]);
+                chatsArr.put(message.getChatId(), updatedNodesArray);
+            } else {
+                ArrayList<Node> nodeList = new ArrayList<>();
+                nodeList.add(hbox);
+                Node[] nodesArray = nodeList.toArray(new Node[0]);
+                chatsArr.put(message.getChatId(), nodesArray);
+            }
+        }
+    }
+
+    private void createSentMessage(MessageDto message, MessageSentController msc, HBox hbox) {
         Image messageImage = new Image(new ByteArrayInputStream(message.getSenderImage()));
         msc.setData(message, messageImage);
         if (currentScreenChatId != null && currentScreenChatId.equals(message.getChatId())) {
@@ -1082,8 +1103,7 @@ public class ChatScreenController implements Initializable {
                             .text("     " + message)
                             .graphic(new ImageView(image))
                             .hideAfter(Duration.seconds(3))
-                            .position(Pos.BOTTOM_RIGHT)
-                            .owner(chatBorderPane.getScene().getWindow());
+                            .position(Pos.BOTTOM_RIGHT);
                     notifications.show();
                 }
         );
@@ -1136,5 +1156,10 @@ public class ChatScreenController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    public void toggleBotAction() {
+        botOn = !botOn;
     }
 }

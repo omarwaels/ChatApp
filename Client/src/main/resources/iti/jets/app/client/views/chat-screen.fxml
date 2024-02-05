@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
@@ -60,7 +61,7 @@
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                               </ImageView>
-                        <Circle fx:id="profilePic" fill="#9e9e9e" layoutX="22.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="profilePic" fill="#9e9e9e" layoutX="21.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
                         <Separator layoutY="69.0" opacity="0.2" prefHeight="9.0" prefWidth="43.0" />
                      </children></Pane>
                         <Pane prefHeight="212.0" prefWidth="42.0" VBox.vgrow="ALWAYS">
@@ -100,6 +101,14 @@
                     <children>
                   <VBox alignment="CENTER" prefHeight="74.0" prefWidth="235.0">
                      <children>
+                        <RadioButton mnemonicParsing="false" onMouseClicked="#toggleBotAction" text="ChitChat AI Bot">
+                           <VBox.margin>
+                              <Insets bottom="5.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Arial Black" size="13.0" />
+                           </font>
+                        </RadioButton>
                         <ComboBox fx:id="comboBoxStatus" prefHeight="25.0" prefWidth="111.0" promptText="Status" stylesheets="@../style/status.css">
                            <VBox.margin>
                               <Insets bottom="5.0" left="10.0" />
