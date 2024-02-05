@@ -538,6 +538,11 @@ public class ChatScreenController implements Initializable {
                 offlineUsers.put(friend.getUserFriendID(), connectionItemController);
             }
             connectionLayout.getChildren().add(hbox);
+
+            //update Hashmap
+            HashMap<FriendInfoDto,ChatDto> friendInfoDtoChatDtoHashMap = loginResultDto.getUserFriendsAndChatDto();
+            friendInfoDtoChatDtoHashMap.put(friend,friendChat);
+
             sortSingleContactListOnTimeStamp();
             sortSingleChatContactListOnstatus();
             showAddedToGroupAnnouncement("You and " + friend.getUserFriendName() + " are now friends, go and chat with him.");
