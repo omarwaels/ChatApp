@@ -1,6 +1,7 @@
 package iti.jets.app.client.controllers;
 
 import iti.jets.app.client.CallBack.ClientImpl;
+import iti.jets.app.client.utils.ChatBot;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.server.ServerService;
@@ -8,7 +9,6 @@ import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import iti.jets.app.shared.Interfaces.server.UpdateInfoService;
 import iti.jets.app.shared.enums.ModeEnum;
 import iti.jets.app.shared.enums.StatusEnum;
-import iti.jets.app.shared.enums.UserEnum;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -141,6 +141,8 @@ public class ChatScreenController implements Initializable {
     HashMap<Integer, Node[]> chatsArr = new HashMap<>();
     ClientImpl client;
     ServerService serverService;
+
+    ChatBot chatBot;
     public ConcurrentHashMap<Integer, ConnectionItemController> onlineUsers = new ConcurrentHashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
@@ -150,12 +152,19 @@ public class ChatScreenController implements Initializable {
 
     public boolean isSingleChat = true;
 
+    public boolean botOn = true;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         customizeStatusBox();
         createToolTips();
         customizeEditorPane();
+        try {
+            chatBot = new ChatBot();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         comboBoxStatus.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -181,6 +190,9 @@ public class ChatScreenController implements Initializable {
 
     public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
+        // TODO: to be deleted
+        if (loginResultDto.getUserDto().getId() == 4)
+            botOn = false;
         customInit();
         new Thread(() -> {
             try {
@@ -192,7 +204,6 @@ public class ChatScreenController implements Initializable {
                 e.printStackTrace();
             }
         }).start();
-
     }
 
     private static int getOrderOfNodeByStatus(Node node) {
@@ -346,7 +357,6 @@ public class ChatScreenController implements Initializable {
 
         messageTextField.setText("");
         if (!text.isEmpty()) {
-
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageSentLoader();
             HBox hbox = fxmlLoader.load();
             MessageDto newMessage = createMessageDto(text);
@@ -380,7 +390,6 @@ public class ChatScreenController implements Initializable {
             isSingleChat = false;
             IdsOfRecivers = getUserFriendsIdsInSameGroup(loginResultDto, currentScreenChatId);
         } else {
-
             IdsOfRecivers.add(currentScreenUserId);
         }
 
@@ -442,6 +451,32 @@ public class ChatScreenController implements Initializable {
             } else {
                 MessageReceiveController msc = fxmlLoader.getController();
                 createRecievedMessage(message, msc, hbox);
+            }
+            if (message.isSingleChat() && botOn) {
+                try {
+                    String response = chatBot.getResponse(message.getMessageContent());
+                    FXMLLoader fxmlLoaderBot = ViewsFactory.getViewsFactory().getMessageSentLoader();
+                    HBox hboxBot = fxmlLoaderBot.load();
+                    MessageDto newMessage = createMessageDto(response);
+                    newMessage.setReceiverId(new ArrayList<>(Arrays.asList(message.getSenderId())));
+                    newMessage.setChatId(message.getChatId());
+                    newMessage.setSingleChat(true);
+                    System.out.println(newMessage);
+                    MessageSentController mscBot = fxmlLoaderBot.getController();
+                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                    mscBot.setData(newMessage, userImg);
+                    chatLayout.setAlignment(Pos.TOP_RIGHT);
+                    chatLayout.getChildren().add(hboxBot);
+                    new Thread(() -> {
+                        try {
+                            serverService.sendMessage(newMessage);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -1069,7 +1104,7 @@ public class ChatScreenController implements Initializable {
         );
     }
 
-    private void signOutActions(){
+    private void signOutActions() {
         Platform.runLater(() -> {
             try {
 
@@ -1091,6 +1126,7 @@ public class ChatScreenController implements Initializable {
         deleteFileIfExists(appDirectory);
         signOutActions();
     }
+
     private void deleteFileIfExists(String filePath) {
         try {
             Path path = Paths.get(filePath);

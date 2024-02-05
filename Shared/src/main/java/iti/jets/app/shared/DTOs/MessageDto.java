@@ -4,6 +4,7 @@ package iti.jets.app.shared.DTOs;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MessageDto implements Serializable {
 
@@ -13,9 +14,9 @@ public class MessageDto implements Serializable {
     private boolean containsFile;
     private String messageContent;
     private Timestamp sentAt;
-    private byte[] senderImage ;
+    private byte[] senderImage;
 
-    private boolean singleChat ;
+    private boolean singleChat;
     private int fontSize;
     private String fontColor;
     private String fontWeight;
@@ -33,7 +34,6 @@ public class MessageDto implements Serializable {
         this.senderImage = senderImage;
         this.singleChat = singleChat;
     }
-
 
 
     public boolean isSingleChat() {
@@ -150,5 +150,18 @@ public class MessageDto implements Serializable {
 
     public void setUnderline(Boolean underline) {
         this.underline = underline;
+    }
+
+    @Override
+    public String toString() {
+        return "MessageDto{" +
+                "senderId=" + senderId +
+                ", receiverId=" + receiverId +
+                ", chatId=" + chatId +
+                ", containsFile=" + containsFile +
+                ", messageContent='" + messageContent + '\'' +
+                ", sentAt=" + sentAt +
+                ", singleChat=" + singleChat +
+                '}';
     }
 }
