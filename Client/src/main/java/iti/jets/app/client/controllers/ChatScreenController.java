@@ -268,8 +268,6 @@ public class ChatScreenController implements Initializable {
         nodesToScaleTransition.add(invitationsBtn);
         scaleTransitionIn(nodesToScaleTransition);
         profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()))));
-
-
     }
 
     void updateCurrentScreenStatusWord(StatusEnum statusWord) {

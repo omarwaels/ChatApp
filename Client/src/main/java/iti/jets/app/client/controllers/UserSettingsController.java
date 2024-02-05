@@ -339,6 +339,7 @@ public class UserSettingsController implements Initializable {
     public void onClickRemovePhoto() throws IOException, NotBoundException {
         File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
         profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
+        chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
         user.setPicture(Files.readAllBytes(img.toPath()));
         Registry registry = LocateRegistry.getRegistry(8189);
         ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
@@ -360,6 +361,7 @@ public class UserSettingsController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(editPhotoBtn.getScene().getWindow());
         if (selectedFile != null) {
             profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
+            chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
             user.setPicture(Files.readAllBytes(selectedFile.toPath()));
             Registry registry = LocateRegistry.getRegistry(8189);
             ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();

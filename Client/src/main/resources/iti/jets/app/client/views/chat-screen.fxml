@@ -60,7 +60,7 @@
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                               </ImageView>
-                        <Circle fx:id="profilePic" fill="#9e9e9e" layoutX="22.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="profilePic" fill="#9e9e9e" layoutX="20.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
                         <Separator layoutY="69.0" opacity="0.2" prefHeight="9.0" prefWidth="43.0" />
                      </children></Pane>
                         <Pane prefHeight="212.0" prefWidth="42.0" VBox.vgrow="ALWAYS">
@@ -133,11 +133,11 @@
    <center>
       <StackPane BorderPane.alignment="CENTER">
          <children>
-            <VBox fx:id="chatArea" prefHeight="200.0" prefWidth="100.0" visible="false">
+            <VBox fx:id="chatArea" prefHeight="200.0" prefWidth="100.0">
                <children>
                   <HBox fx:id="chatHeader" alignment="CENTER_LEFT" prefHeight="82.0" prefWidth="200.0">
                      <children>
-                        <Label fx:id="connectionName" prefHeight="28.0" prefWidth="169.0" text="Omar El-Sherif" textFill="#9da7a7">
+                        <Label fx:id="connectionName" prefHeight="28.0" prefWidth="182.0" text="Omar El-Sherif" textFill="#9da7a7">
                            <font>
                               <Font name="Ebrima Bold" size="22.0" />
                            </font>
@@ -264,7 +264,7 @@
                   </HBox>
                </children>
             </VBox>
-            <VBox fx:id="temporaryScreen" alignment="CENTER" StackPane.alignment="CENTER">
+            <VBox fx:id="temporaryScreen" alignment="CENTER" visible="false" StackPane.alignment="CENTER">
                <children>
                   <Label alignment="CENTER" prefHeight="70.0" prefWidth="316.0" stylesheets="@../style/status.css" text="Select a chat to start Messaging ">
                      <font>
