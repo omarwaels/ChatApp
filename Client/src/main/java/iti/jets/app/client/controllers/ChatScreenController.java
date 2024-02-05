@@ -152,6 +152,12 @@ public class ChatScreenController implements Initializable {
         customizeStatusBox();
         createToolTips();
         customizeEditorPane();
+        comboBoxStatus.valueProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                System.out.println("A7A7A7A7A7A");
+            }
+        });
         chatLayout.heightProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observableValue, Number oldHeight, Number newHeight) {
@@ -829,7 +835,7 @@ public class ChatScreenController implements Initializable {
 
     public void customizeStatusBox()
     {
-        ObservableList<String> statusList = FXCollections.observableArrayList("Available", "Busy", "Away");
+        ObservableList<String> statusList = FXCollections.observableArrayList(ModeEnum.AVAILABLE.getMode(), ModeEnum.BUSY.getMode(), ModeEnum.AWAY.getMode());
         comboBoxStatus.setItems(statusList);
         comboBoxStatus.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
             @Override
@@ -860,6 +866,7 @@ public class ChatScreenController implements Initializable {
                 };
             }
         });
+        comboBoxStatus.setValue(statusList.get(0));
     }
 
     public String toRGBCode(Color color) {
