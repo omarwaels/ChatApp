@@ -5,8 +5,10 @@ import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import iti.jets.app.shared.Interfaces.server.UpdateInfoService;
 import iti.jets.app.shared.enums.ModeEnum;
 import iti.jets.app.shared.enums.StatusEnum;
+import iti.jets.app.shared.enums.UserEnum;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -155,7 +157,11 @@ public class ChatScreenController implements Initializable {
         comboBoxStatus.valueProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println("A7A7A7A7A7A");
+                try {
+                    updateMode(newValue);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
         chatLayout.heightProperty().addListener(new ChangeListener<Number>() {
@@ -678,8 +684,22 @@ public class ChatScreenController implements Initializable {
         Platform.runLater(() -> {
             ConnectionItemController connectionItemController = onlineUsers.get(friendId);
             if (connectionItemController != null) {
-                connectionItemController.user.setUserFriendMode(ModeEnum.valueOf(mode));
+                connectionItemController.user.setUserFriendMode(ModeEnum.valueOf(mode.toUpperCase()));
                 connectionItemController.userModeLabel.setText(mode);
+                switch (mode) {
+                    case "Available":
+                        // Handle the AVAILABLE mode
+                        connectionItemController.userModeLabel.setStyle("-fx-text-fill: green;");
+                        break;
+                    case "Busy":
+                        // Handle the BUSY mode
+                        connectionItemController.userModeLabel.setStyle("-fx-text-fill: orange;");
+                        break;
+                    case "Away":
+                        // Handle the AWAY mode
+                        connectionItemController.userModeLabel.setStyle("-fx-text-fill: yellow;");;
+                        break;
+                }
             }
         });
     }
@@ -855,7 +875,7 @@ public class ChatScreenController implements Initializable {
                             if (item.equals("Available")) {
                                 circle.setFill(Color.GREEN);
                             } else if (item.equals("Busy")) {
-                                circle.setFill(Color.RED);
+                                circle.setFill(Color.ORANGE);
                             } else if (item.equals("Away")) {
                                 circle.setFill(Color.YELLOW);
                             }
@@ -923,6 +943,18 @@ public class ChatScreenController implements Initializable {
         final Tooltip tooltipExit = new Tooltip();
         tooltipExit.setText("Logout");
         Tooltip.install(exitBtn, tooltipExit);
+    }
+    public void updateMode(String newMode) throws Exception {
+        // Update the new mode in the DB
+        int userID = loginResultDto.getUserDto().getId();
+        UpdateInfoDto newUpdateInfo = new UpdateInfoDto("mode", newMode, userID);
+        Registry registry = LocateRegistry.getRegistry(8189);
+        UpdateInfoService updateInfoService = ((ServiceFactory) registry.lookup("ServiceFactory")).getUpdateInfoService();
+        updateInfoService.updateField(newUpdateInfo);
+
+        //Notify all friends with the new changed mode.
+        getServerService().updateMode(new ArrayList<>(onlineUsers.keySet()), userID, newMode);
+
     }
 
     private boolean showConfirmationDialog(Path filePath) throws IOException {
