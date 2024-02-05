@@ -27,10 +27,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.Notifications;
@@ -123,6 +125,12 @@ public class ChatScreenController implements Initializable {
     @FXML
     public ComboBox<String> fontSizeComboBox;
     public ConnectionItemController currentConnection = null;
+    @FXML
+    public ComboBox<String> comboBoxStatus;
+    @FXML
+    public ImageView inviteFriendsBtn;
+    @FXML
+    public Circle profilePic;
     public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
@@ -141,6 +149,7 @@ public class ChatScreenController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        customizeStatusBox();
         createToolTips();
         customizeEditorPane();
         chatLayout.heightProperty().addListener(new ChangeListener<Number>() {
@@ -258,6 +267,8 @@ public class ChatScreenController implements Initializable {
         nodesToScaleTransition.add(addFriendBtn);
         nodesToScaleTransition.add(invitationsBtn);
         scaleTransitionIn(nodesToScaleTransition);
+        profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()))));
+
 
     }
 
@@ -811,6 +822,41 @@ public class ChatScreenController implements Initializable {
         fontSizeComboBox.getSelectionModel().select(2);
 
         colorPicker.setValue(Color.BLACK);
+    }
+
+    public void customizeStatusBox()
+    {
+        ObservableList<String> statusList = FXCollections.observableArrayList("Available", "Busy", "Away");
+        comboBoxStatus.setItems(statusList);
+        comboBoxStatus.setCellFactory(new Callback<ListView<String>, ListCell<String>>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                return new ListCell<String>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (item != null) {
+                            HBox hBox = new HBox(5); // 5 is the spacing between circle and label
+                            Circle circle = new Circle(5); // 5 is the radius of the circle
+                            Label label = new Label(item);
+                            hBox.getChildren().addAll(circle, label);
+                            setGraphic(hBox);
+
+                            // Set the color of the circle based on the status
+                            if (item.equals("Available")) {
+                                circle.setFill(Color.GREEN);
+                            } else if (item.equals("Busy")) {
+                                circle.setFill(Color.RED);
+                            } else if (item.equals("Away")) {
+                                circle.setFill(Color.YELLOW);
+                            }
+                        } else {
+                            setGraphic(null);
+                        }
+                    }
+                };
+            }
+        });
     }
 
     public String toRGBCode(Color color) {
