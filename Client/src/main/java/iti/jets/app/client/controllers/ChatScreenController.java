@@ -131,6 +131,8 @@ public class ChatScreenController implements Initializable {
     public ImageView inviteFriendsBtn;
     @FXML
     public Circle profilePic;
+
+    private final String appDirectory = "AppDirectory\\userObj";
     public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
@@ -141,6 +143,7 @@ public class ChatScreenController implements Initializable {
     public HashMap<Integer, ConnectionItemController> onlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
+
     @FXML
     public ImageView invitationsBtn;
 
@@ -1020,14 +1023,28 @@ public class ChatScreenController implements Initializable {
     public void onSignOutClicked() {
         Platform.runLater(() -> {
             try {
+                deleteFileIfExists(appDirectory);
+                String UserPhoneNumber = loginResultDto.getUserDto().getPhoneNumber();
                 performActionsBeforeClosing();
                 FXMLLoader loader = ViewsFactory.getViewsFactory().getLoginLoader();
                 Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
                 Parent root = loader.load();
+                SignInController signInController = loader.getController();
+                signInController.setUserNameInScreen(UserPhoneNumber);
                 currentStage.setScene(new Scene(root));
             } catch (IOException | NotBoundException e) {
                 e.printStackTrace();
             }
         });
+    }
+    private void deleteFileIfExists(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                Files.delete(path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
