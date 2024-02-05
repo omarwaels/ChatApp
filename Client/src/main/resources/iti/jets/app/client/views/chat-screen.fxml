@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -61,6 +60,8 @@
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                               </ImageView>
+                        <Circle fx:id="profilePic" fill="#9e9e9e" layoutX="22.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Separator layoutY="69.0" opacity="0.2" prefHeight="9.0" prefWidth="43.0" />
                      </children></Pane>
                         <Pane prefHeight="212.0" prefWidth="42.0" VBox.vgrow="ALWAYS">
                      <children>
@@ -97,33 +98,15 @@
                 </VBox>
                 <VBox prefHeight="598.0" prefWidth="248.0" styleClass="gray-background" stylesheets="@../style/style.css">
                     <children>
-                        <HBox alignment="CENTER" prefHeight="0.0" prefWidth="160.0" stylesheets="@../style/style.css">
-                            <children>
-                                <ImageView fitHeight="19.0" fitWidth="23.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../img/magnifying-glass.png" />
-                                    </image>
-                           <HBox.margin>
-                              <Insets right="3.0" />
-                           </HBox.margin>
-                                </ImageView>
-                        <TextField prefHeight="26.0" prefWidth="146.0" promptText="Search" styleClass="transparent-background" stylesheets="@../style/style.css">
-                           <HBox.margin>
-                              <Insets right="10.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font name="Ebrima" size="15.0" />
-                           </font>
-                        </TextField>
-                            </children>
-                     <VBox.margin>
-                        <Insets bottom="20.0" left="30.0" right="30.0" top="20.0" />
-                     </VBox.margin>
-                     <styleClass>
-                        <String fx:value="dark-gray-background" />
-                        <String fx:value="radius" />
-                     </styleClass>
-                        </HBox>
+                  <VBox alignment="CENTER" prefHeight="74.0" prefWidth="235.0">
+                     <children>
+                        <ComboBox fx:id="comboBoxStatus" prefHeight="25.0" prefWidth="111.0" promptText="Status" stylesheets="@../style/status.css">
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="10.0" />
+                           </VBox.margin>
+                        </ComboBox>
+                     </children>
+                  </VBox>
                   <Pane prefHeight="3.0" prefWidth="248.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
@@ -283,7 +266,7 @@
             </VBox>
             <VBox fx:id="temporaryScreen" alignment="CENTER" StackPane.alignment="CENTER">
                <children>
-                  <Label alignment="CENTER" prefHeight="70.0" prefWidth="316.0" text="Select a chat to start Messaging ">
+                  <Label alignment="CENTER" prefHeight="70.0" prefWidth="316.0" stylesheets="@../style/status.css" text="Select a chat to start Messaging ">
                      <font>
                         <Font size="22.0" />
                      </font>
