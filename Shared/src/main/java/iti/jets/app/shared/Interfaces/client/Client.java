@@ -19,6 +19,12 @@ public interface Client extends Remote {
 
     void updateFriendStatus(int friendId, boolean online) throws RemoteException;
 
+    void updateFriendPhoto(int friendId, byte[] photo) throws RemoteException;
+
+    void updateFriendMode(int friendId, String mode) throws RemoteException;
+
+    void updateFriendName(int friendId, String newName) throws RemoteException;
+
     void addGroup(ChatDto chatDto, List<Integer> membersId) throws IOException;
 
     void addChatForNewFriend(FriendInfoDto friendInfoDto, ChatDto chatDto) throws IOException;

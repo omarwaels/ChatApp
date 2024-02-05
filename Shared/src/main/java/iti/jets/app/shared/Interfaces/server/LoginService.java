@@ -10,4 +10,6 @@ public interface LoginService extends Remote {
     LoginResultDto login(UserLoginDto userLoginDto) throws RemoteException;
 
     boolean userExists(String phoneNumber) throws RemoteException;
+
+    int logOut(String phoneNumber) throws RemoteException;
 }

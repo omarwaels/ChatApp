@@ -36,17 +36,18 @@ public class ConnectionGroupItemController implements Initializable {
 
     private ChatDto chatDto;
     private ChatScreenController chatScreenController;
-    private Integer counterNumber = 0 ;
+    private Integer counterNumber = 0;
     private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
-    public void updateCounter(){
+
+    public void updateCounter() {
 
         counterContainer.setVisible(false);
-        counterNumber = counterNumber + 1 ;
+        counterNumber = counterNumber + 1;
         counter.setText(counterNumber.toString());
         counterContainer.setVisible(true);
     }
 
-    public void setData( ChatDto chatDto, ChatScreenController chatScreenController) {
+    public void setData(ChatDto chatDto, ChatScreenController chatScreenController) {
 
         this.chatScreenController = chatScreenController;
         this.chatDto = chatDto;
@@ -62,24 +63,28 @@ public class ConnectionGroupItemController implements Initializable {
     @FXML
     public void friendClicked() {
         counterContainer.setVisible(false);
-        counterNumber = 0 ;
+        counterNumber = 0;
         chatScreenController.temporaryScreen.setVisible(false);
-        chatScreenController.updateChatLayout(null , chatDto.getChatId());
+        chatScreenController.updateChatLayout(null, chatDto.getChatId());
         chatScreenController.updateConnectionName(chatDto.getChatName());
         chatScreenController.updateCurrentScreenStatusWordForGroups("");
         chatScreenController.chatArea.setVisible(true);
+        chatScreenController.isSingleChat = false;
     }
+
     public void hoverEnterEffect() {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.7);");
     }
+
     public void hoverExitEffect() {
         connectionItem.setStyle("-fx-background-color: rgba(230, 230, 230, 0.0);");
     }
 
-    public void setLastTimeStamp( Timestamp timeStamp){
+    public void setLastTimeStamp(Timestamp timeStamp) {
         this.lastMessageTime = timeStamp;
         lastMessageTimestamp.setText(timeStamp.toString());
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }

@@ -68,6 +68,33 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     }
 
     @Override
+    public void updatePhoto(ArrayList<Integer> friendsIds, int userId, byte[] photo) throws RemoteException {
+        for (Client c : clients) {
+            if (friendsIds.contains(c.getID())) {
+                c.updateFriendPhoto(userId, photo);
+            }
+        }
+    }
+
+    @Override
+    public void updateMode(ArrayList<Integer> friendsIds, int userId, String mode) throws RemoteException {
+        for (Client c : clients) {
+            if (friendsIds.contains(c.getID())) {
+                c.updateFriendMode(userId, mode);
+            }
+        }
+    }
+
+    @Override
+    public void updateUserName(ArrayList<Integer> friendsIds, int userId, String newName) throws RemoteException {
+        for (Client c : clients) {
+            if (friendsIds.contains(c.getID())) {
+                c.updateFriendName(userId, newName);
+            }
+        }
+    }
+
+    @Override
     public void addGroup(ChatDto chatDto, List<Integer> membersIds) throws IOException {
         for (Client c : clients) {
             if (membersIds.contains(c.getID()))

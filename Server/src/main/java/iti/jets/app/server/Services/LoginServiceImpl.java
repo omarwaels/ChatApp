@@ -11,6 +11,7 @@ import iti.jets.app.server.models.entities.User;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.LoginService;
+import iti.jets.app.shared.enums.ModeEnum;
 import iti.jets.app.shared.enums.StatusEnum;
 import iti.jets.app.shared.enums.UserEnum;
 
@@ -28,15 +29,15 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         UserDao userDao = new UserDao();
         return userDao.getById(phoneNumber) != null;
     }
+
     @Override
     public LoginResultDto login(UserLoginDto userLoginDto) throws RemoteException {
         UserDao userDao = new UserDao();
         User userResult = userDao.getById(userLoginDto.getPhoneNumber());
-        System.out.println(userResult.getMode().getMode());
         if (userResult == null || !userResult.getPassword().equals(userLoginDto.getPassword()))
             return null;
-
         userDao.updateStatus(userResult.getPhoneNumber(), StatusEnum.ONLINE.getStatus());
+        userDao.updateMode(userResult.getPhoneNumber(), ModeEnum.AVAILABLE.getMode());
         // Get user
         UserDto userDtoResult = UserDtoMapper.UserToUserDto(userResult);
         // Get invitations
@@ -91,5 +92,12 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
             groupParticipants.put(ChatDtoMapper.chatToChatDto(chat), participantsDto);
         }
         return groupParticipants;
+    }
+
+    public int logOut(String phoneNumber) throws RemoteException {
+        UserDao userDao = new UserDao();
+        int ret = userDao.updateStatus(phoneNumber, StatusEnum.OFFLINE.getStatus());
+        ret += userDao.updateMode(phoneNumber, ModeEnum.AWAY.getMode());
+        return ret;
     }
 }

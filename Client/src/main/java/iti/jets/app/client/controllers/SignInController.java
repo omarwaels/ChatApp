@@ -13,7 +13,6 @@ import iti.jets.app.client.CallBack.ClientImpl;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 
-import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.LoginService;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
@@ -182,8 +181,9 @@ public class SignInController implements Initializable {
     }
 
     private void redirectToChatScreenPage(LoginResultDto loginResultDto) throws IOException, NotBoundException {
-        FXMLLoader loader = ViewsFactory.getViewsFactory().getChatLoader();
-        ((Stage) signUpLabel.getScene().getWindow()).setScene(ViewsFactory.getViewsFactory().getChatScene());
+        FXMLLoader loader = ViewsFactory.getViewsFactory().getNewChatLoader();
+        Parent root = loader.load();
+        ((Stage) signUpLabel.getScene().getWindow()).setScene(new Scene(root));
         ChatScreenController chatScreenController = loader.getController();
         chatScreenController.setChatScreenDto(loginResultDto);
     }

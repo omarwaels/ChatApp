@@ -35,6 +35,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class UserSettingsController implements Initializable {
@@ -204,10 +205,6 @@ public class UserSettingsController implements Initializable {
             switchButtonsVisibility(nameBox);
         });
 
-        /*editEmailBtn.setOnAction(event -> {
-            emailField.setEditable(true);
-            switchButtonsVisibility(emailBox);
-        });*/
 
         editDobBtn.setOnAction(event -> {
             dobPicker.setEditable(true);
@@ -227,6 +224,15 @@ public class UserSettingsController implements Initializable {
                 int ret = updateInfoService.updateField(new UpdateInfoDto("display_name", nameField.getText(), user.getId()));
                 if (ret == 1) {
                     user.setDisplayName(nameField.getText());
+                    Registry registry = LocateRegistry.getRegistry(8189);
+                    ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
+                    new Thread(() -> {
+                        try {
+                            serverService.updateUserName(new ArrayList<>(chatScreenController.onlineUsers.keySet()), user.getId(), user.getDisplayName());
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
                 }
                 nameField.setText(user.getDisplayName());
                 nameLabel.setText(user.getDisplayName());
@@ -236,11 +242,7 @@ public class UserSettingsController implements Initializable {
             nameField.setEditable(false);
             switchButtonsVisibility(nameBox);
         });
-        /*saveEmailBtn.setOnAction(event -> {
-            // TODO: Save the changes
-            emailField.setEditable(false);
-            switchButtonsVisibility(emailBox);
-        });*/
+
         saveDobBtn.setOnAction(event -> {
             try {
                 int ret = updateInfoService.updateDOB(new UpdateInfoDto(java.sql.Date.valueOf(dobPicker.getValue()), user.getId()));
@@ -279,11 +281,6 @@ public class UserSettingsController implements Initializable {
             nameField.setEditable(false);
             switchButtonsVisibility(nameBox);
         });
-
-        /*cancelEmailBtn.setOnAction(event -> {
-            emailField.setEditable(false);
-            switchButtonsVisibility(emailBox);
-        });*/
 
         cancelDobBtn.setOnAction(event -> {
             dobPicker.setValue(user.getDateOfBirth().toLocalDate());
@@ -328,9 +325,8 @@ public class UserSettingsController implements Initializable {
     }
 
     public void redirectToChatScreen() throws IOException {
-        FXMLLoader loader = ViewsFactory.getViewsFactory().getUserSettingsLoader();
         Stage currentStage = (Stage) backBtn.getScene().getWindow();
-        currentStage.setScene(ViewsFactory.getViewsFactory().getChatScene());
+        currentStage.setScene(chatScreenController.chatSettingImg.getScene());
     }
 
     @FXML
@@ -340,11 +336,19 @@ public class UserSettingsController implements Initializable {
     }
 
     @FXML
-    public void onClickRemovePhoto() throws IOException {
+    public void onClickRemovePhoto() throws IOException, NotBoundException {
         File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
         profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
-        //profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath()))));
         user.setPicture(Files.readAllBytes(img.toPath()));
+        Registry registry = LocateRegistry.getRegistry(8189);
+        ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
+        new Thread(() -> {
+            try {
+                serverService.updatePhoto(new ArrayList<>(chatScreenController.onlineUsers.keySet()), user.getId(), user.getPicture());
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     @FXML
@@ -356,9 +360,19 @@ public class UserSettingsController implements Initializable {
         File selectedFile = fileChooser.showOpenDialog(editPhotoBtn.getScene().getWindow());
         if (selectedFile != null) {
             profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
-            //profilePic.setImage(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath()))));
             user.setPicture(Files.readAllBytes(selectedFile.toPath()));
+            Registry registry = LocateRegistry.getRegistry(8189);
+            ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
+            new Thread(() -> {
+                try {
+                    serverService.updatePhoto(new ArrayList<>(chatScreenController.onlineUsers.keySet()), user.getId(), user.getPicture());
+                    updateInfoService.updateImage(user.getId(), user.getPicture());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }).start();
         }
-        updateInfoService.updateImage(user.getId(), user.getPicture());
     }
 }

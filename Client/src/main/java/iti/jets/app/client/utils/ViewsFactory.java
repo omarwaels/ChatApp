@@ -37,7 +37,6 @@ public class ViewsFactory {
         ConnectionGroupItemController = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/connection-Group-item.fxml"));
         FileSentController = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/file-sent.fxml"));
         FileReceiveController = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/file-receive.fxml"));
-
     }
 
     public static ViewsFactory getViewsFactory() {
@@ -47,15 +46,25 @@ public class ViewsFactory {
     }
 
     public FXMLLoader getLoginLoader() {
-        return loginLoader;
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/sign-in.fxml"));
+        return fxmlLoader;
     }
 
     public FXMLLoader getSignUpLoader() {
-        return signUpLoader;
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/sign-up.fxml"));
+        return fxmlLoader;
     }
 
     public FXMLLoader getUserSettingsLoader() {
         return userSettingsLoader;
+    }
+
+    public FXMLLoader getNewChatLoader() {
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/chat-screen.fxml"));
+        return fxmlLoader;
     }
 
     public FXMLLoader getChatLoader() {
@@ -85,11 +94,13 @@ public class ViewsFactory {
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/connection-Group-item.fxml"));
         return fxmlLoader;
     }
+
     public FXMLLoader getFileSentController() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/file-sent.fxml"));
         return fxmlLoader;
     }
+
     public FXMLLoader getFileRecieveController() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/file-receive.fxml"));

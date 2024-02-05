@@ -57,6 +57,21 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
+    public void updateFriendPhoto(int friendId, byte[] photo) throws RemoteException {
+        chatScreenController.updateFriendPhoto(friendId, photo);
+    }
+
+    @Override
+    public void updateFriendMode(int friendId, String mode) throws RemoteException {
+        chatScreenController.updateFriendMode(friendId, mode);
+    }
+
+    @Override
+    public void updateFriendName(int friendId, String newName) throws RemoteException {
+        chatScreenController.updateFriendName(friendId, newName);
+    }
+
+    @Override
     public void addGroup(ChatDto chatDto, List<Integer> membersId) throws IOException {
         chatScreenController.addNewGroupInContactList(chatDto, membersId);
     }

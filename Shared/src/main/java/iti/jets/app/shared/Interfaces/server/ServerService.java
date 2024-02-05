@@ -14,8 +14,8 @@ import iti.jets.app.shared.Interfaces.client.Client;
 
 public interface ServerService extends Remote {
     void sendMessage(MessageDto messageDto) throws RemoteException;
-    void sendFile(MessageDto messageDto,byte[] fileData) throws RemoteException;
 
+    void sendFile(MessageDto messageDto, byte[] fileData) throws RemoteException;
 
 
     void register(Client c) throws RemoteException;
@@ -23,6 +23,12 @@ public interface ServerService extends Remote {
     void unregister(Client c) throws RemoteException;
 
     void updateStatus(ArrayList<Integer> friendsIds, int userId, boolean status) throws RemoteException;
+
+    void updatePhoto(ArrayList<Integer> friendsIds, int userId, byte[] photo) throws RemoteException;
+
+    void updateMode(ArrayList<Integer> friendsIds, int userId, String mode) throws RemoteException;
+
+    void updateUserName(ArrayList<Integer> friendsIds, int userId, String newName) throws RemoteException;
 
     void addGroup(ChatDto chatDto, List<Integer> membersIds) throws IOException;
 

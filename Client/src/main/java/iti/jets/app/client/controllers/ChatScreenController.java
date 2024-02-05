@@ -5,6 +5,7 @@ import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import iti.jets.app.shared.enums.ModeEnum;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.animation.ScaleTransition;
 import javafx.application.Platform;
@@ -58,64 +59,47 @@ public class ChatScreenController implements Initializable {
     @FXML
     public ImageView addFriendBtn;
     @FXML
-    public ImageView exitImg;
+    public ImageView exitBtn;
     @FXML
     public ImageView singleChat;
     @FXML
     public ImageView groupChat;
     @FXML
     public ImageView chatSettingImg;
-
     @FXML
     public BorderPane chatBorderPane;
     @FXML
     public VBox chatArea;
-
     @FXML
     public HBox chatHeader;
-
     @FXML
     public VBox chatLayout;
-
     @FXML
     public VBox connectionLayout;
     @FXML
     public VBox connectionGroupsLayout;
-
     @FXML
     public Label connectionName;
-
     @FXML
     public ScrollPane singleChatContainer;
     @FXML
     public ScrollPane groubChatContainer;
-
     @FXML
     public ImageView emojiBtn;
-
     @FXML
     public TextArea messageTextField;
-
     @FXML
     public ImageView sendBtn;
-
     @FXML
     public Circle currentScreenStatusColor;
-
-
     @FXML
     public Label currentScreenStatusWord;
-
-
     @FXML
     public ImageView threeDotsBtn;
-
     @FXML
     public ImageView videoCallBtn;
-
     @FXML
     public ImageView voiceCallBtn;
-
     @FXML
     public ScrollPane chatScrollPane;
     @FXML
@@ -138,30 +122,21 @@ public class ChatScreenController implements Initializable {
     public ComboBox<String> fontComboBox;
     @FXML
     public ComboBox<String> fontSizeComboBox;
-
-    @FXML
-    public ImageView inviteFriendsBtn;
-
     public ConnectionItemController currentConnection = null;
-
     public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
     Image currentScreenImage = null;
-
     HashMap<Integer, Node[]> chatsArr = new HashMap<>();
-
-
     ClientImpl client;
     ServerService serverService;
-
-    private HashMap<Integer, ConnectionItemController> onlineUsers = new HashMap<>();
-
-    private HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
-    private HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
-
+    public HashMap<Integer, ConnectionItemController> onlineUsers = new HashMap<>();
+    public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
+    public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
     @FXML
     public ImageView invitationsBtn;
+
+    public boolean isSingleChat = true;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -278,7 +253,7 @@ public class ChatScreenController implements Initializable {
         nodesToScaleTransition.add(singleChat);
         nodesToScaleTransition.add(groupChat);
         nodesToScaleTransition.add(chatSettingImg);
-        nodesToScaleTransition.add(exitImg);
+        nodesToScaleTransition.add(exitBtn);
         nodesToScaleTransition.add(createGroupBtn);
         nodesToScaleTransition.add(addFriendBtn);
         nodesToScaleTransition.add(invitationsBtn);
@@ -406,8 +381,10 @@ public class ChatScreenController implements Initializable {
             updateCounters(message);
             updateTimeStamps(message);
             if (message.isSingleChat()) {
+                showReceivedMessageAnnouncement("You have received a new private message, go and check it.");
                 sortSingleContactListOnTimeStamp();
             } else {
+                showReceivedMessageAnnouncement("You have received a new group message, go and check it.");
                 sortGroupContactListOnTimeStamp();
             }
             FXMLLoader fxmlLoader;
@@ -492,31 +469,23 @@ public class ChatScreenController implements Initializable {
     }
 
     private void updateTimeStamps(MessageDto message) {
-
         if (message.isSingleChat()) {
             ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
             connectionItemController.setLastTimeStamp(message.getSentAt());
         } else {
             ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
             connectionGroupItemController.setLastTimeStamp(message.getSentAt());
-
         }
-
-
     }
 
-
     public void updateChatLayout(Integer newUserIdScreen, Integer newChatIdScreen) {
-
         if (this.currentScreenChatId != null) {
             Node[] currentChildren = chatLayout.getChildren().toArray(new Node[0]);
             chatsArr.put(this.currentScreenChatId, currentChildren);
         }
         chatLayout.getChildren().clear();
         if (chatsArr.containsKey(newChatIdScreen)) {
-
             chatLayout.getChildren().addAll(chatsArr.get(newChatIdScreen));
-
         }
         //Just update the current Screen user Id & current Screen chat Id
         this.currentScreenUserId = newUserIdScreen;
@@ -560,6 +529,7 @@ public class ChatScreenController implements Initializable {
             connectionLayout.getChildren().add(hbox);
             sortSingleContactListOnTimeStamp();
             sortSingleChatContactListOnstatus();
+            showAddedToGroupAnnouncement("You and " + friend.getUserFriendName() + " are now friends, go and chat with him.");
         });
     }
 
@@ -593,6 +563,7 @@ public class ChatScreenController implements Initializable {
             connectionGroupsLayout.getChildren().add(hbox);
             updateLoginResultDtoForNewGroup(groupChat, groupUsers);
             sortGroupContactListOnTimeStamp();
+            showAddedToGroupAnnouncement("You have been added to " + groupChat.getChatName() + " group, go and check it.");
         });
     }
 
@@ -658,26 +629,56 @@ public class ChatScreenController implements Initializable {
                 if (connectionItemController != null) {
                     offlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.ONLINE);
+                    connectionItemController.user.setUserFriendMode(ModeEnum.AVAILABLE);
                     showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is online now, let's chat with him.");
                     onlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(javafx.scene.paint.Color.GREEN);
-
+                    connectionItemController.userModeLabel.setText(ModeEnum.AVAILABLE.getMode());
                 }
             } else {
                 connectionItemController = onlineUsers.get(friendId);
                 if (connectionItemController != null) {
                     onlineUsers.remove(friendId);
                     connectionItemController.user.setUserFriendStatus(StatusEnum.OFFLINE);
+                    connectionItemController.user.setUserFriendMode(ModeEnum.AWAY);
                     showFriendChangeStatusAnnouncement("Your friend " + connectionItemController.user.getUserFriendName() + " is offline now.");
                     offlineUsers.put(friendId, connectionItemController);
                     connectionItemController.connectionStatus.setFill(Color.RED);
+                    connectionItemController.userModeLabel.setText(ModeEnum.AWAY.getMode());
                 }
             }
-            if (connectionItemController == currentConnection) {
+            if (connectionItemController == currentConnection && isSingleChat) {
                 currentConnection.friendClicked();
             }
-
             sortSingleChatContactListOnstatus();
+        });
+    }
+
+    public void updateFriendMode(int friendId, String mode) {
+        Platform.runLater(() -> {
+            ConnectionItemController connectionItemController = onlineUsers.get(friendId);
+            if (connectionItemController != null) {
+                connectionItemController.user.setUserFriendMode(ModeEnum.valueOf(mode));
+                connectionItemController.userModeLabel.setText(mode);
+            }
+        });
+    }
+
+    public void updateFriendPhoto(int friendId, byte[] photo) {
+        Platform.runLater(() -> {
+            ConnectionItemController connectionItemController = onlineUsers.get(friendId);
+            if (connectionItemController != null) {
+                connectionItemController.connectionPic.setImage(new Image(new ByteArrayInputStream(photo)));
+            }
+        });
+    }
+
+    public void updateFriendName(int friendId, String newName) {
+        Platform.runLater(() -> {
+            ConnectionItemController connectionItemController = onlineUsers.get(friendId);
+            if (connectionItemController != null) {
+                connectionItemController.connectionName.setText(newName);
+            }
         });
     }
 
@@ -694,9 +695,12 @@ public class ChatScreenController implements Initializable {
         }).start();
     }
 
-    public void performActionsBeforeClosing() throws RemoteException {
+    public void performActionsBeforeClosing() throws RemoteException, NotBoundException {
         informFriends(false);
         serverService.unregister(client);
+        Registry registry = LocateRegistry.getRegistry(8189);
+        ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
+        serviceFactory.getLoginService().logOut(loginResultDto.getUserDto().getPhoneNumber());
     }
 
     public void onSettingClicked() throws IOException {
@@ -862,7 +866,7 @@ public class ChatScreenController implements Initializable {
 
         final Tooltip tooltipExit = new Tooltip();
         tooltipExit.setText("Logout");
-        Tooltip.install(exitImg, tooltipExit);
+        Tooltip.install(exitBtn, tooltipExit);
     }
 
     private boolean showConfirmationDialog(Path filePath) throws IOException {
@@ -930,5 +934,49 @@ public class ChatScreenController implements Initializable {
                     notifications.show();
                 }
         );
+    }
+
+    public void showReceivedMessageAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/communication.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("New Message")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(3))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
+    }
+
+    public void showAddedToGroupAnnouncement(String message) {
+        Platform.runLater(() -> {
+                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/groupAnn.png"));
+                    Notifications notifications = Notifications.create()
+                            .title("Group Invitation")
+                            .text("     " + message)
+                            .graphic(new ImageView(image))
+                            .hideAfter(Duration.seconds(7))
+                            .position(Pos.BOTTOM_RIGHT)
+                            .owner(chatBorderPane.getScene().getWindow());
+                    notifications.show();
+                }
+        );
+    }
+
+    public void onSignOutClicked() {
+        Platform.runLater(() -> {
+            try {
+                performActionsBeforeClosing();
+                FXMLLoader loader = ViewsFactory.getViewsFactory().getLoginLoader();
+                Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
+                Parent root = loader.load();
+                currentStage.setScene(new Scene(root));
+            } catch (IOException | NotBoundException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }
