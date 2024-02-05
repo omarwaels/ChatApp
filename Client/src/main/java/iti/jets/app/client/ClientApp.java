@@ -15,7 +15,7 @@ public class ClientApp extends Application {
     public void start(Stage stage) throws IOException {
         Platform.setImplicitExit(true);
 
-        Parent root = FXMLLoader.load(getClass().getResource("views/sign-in.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("views/sign-up.fxml"));
         stage.setTitle("Chatting App");
         stage.setScene(new Scene(root));
         stage.show();

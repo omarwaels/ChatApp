@@ -20,6 +20,7 @@
     <children>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="430.0" style="-fx-background-color: #fffffff;" HBox.hgrow="ALWAYS">
             <children>
+            <Label fx:id="tmpLabel" />
                 <ImageView fitHeight="321.0" fitWidth="432.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../img/loginlogo.gif" />
@@ -250,117 +251,80 @@
                         </Label>
                     </children>
                 </VBox>
-                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
-                    <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                            <children>
-                                <ComboBox fx:id="genderComboBox" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onGenderChoose" prefHeight="30.0" prefWidth="800.0" promptText="Select your gender">
-                                    <items>
-                                        <FXCollections fx:factory="observableArrayList">
-                                            <String fx:value="Male" />
-                                            <String fx:value="Female" />
-                                        </FXCollections>
-                                    </items>
-                           <HBox.margin>
-                              <Insets left="60.0" right="80.0" />
-                           </HBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="OPEN_HAND" />
-                           </cursor>
-                                </ComboBox>
-                            </children>
-                        </HBox>
-                        <Label fx:id="genderErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
-                            <VBox.margin>
-                                <Insets bottom="15.0" left="10.0" />
-                            </VBox.margin>
-                            <font>
-                                <Font size="13.0" />
-                            </font>
-                            <padding>
-                                <Insets left="50.0" />
-                            </padding>
-                        </Label>
-                    </children>
-                </VBox>
-                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
-                      <HBox prefHeight="100.0" prefWidth="200.0">
+            <HBox>
+               <children>
+                      <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
                           <children>
-                              <ComboBox fx:id="countryComboBox" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onCountryChoose" prefHeight="30.0" prefWidth="800.0" promptText="Select your country">
-                                  <items>
-                                      <FXCollections fx:factory="observableArrayList">
-                                          <String fx:value="Egypt" />
-                                          <String fx:value="Palestine" />
-                                          <String fx:value="Saudi Arabia" />
-                                      </FXCollections>
-                                  </items>
-                        <HBox.margin>
-                           <Insets left="60.0" right="80.0" />
-                        </HBox.margin>
-                        <cursor>
-                           <Cursor fx:constant="OPEN_HAND" />
-                        </cursor>
-                              </ComboBox>
+                              <HBox prefHeight="100.0" prefWidth="200.0">
+                                  <children>
+                                      <ComboBox fx:id="genderComboBox" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onGenderChoose" prefHeight="30.0" prefWidth="800.0" promptText="Select your gender">
+                                          <items>
+                                              <FXCollections fx:factory="observableArrayList">
+                                                  <String fx:value="Male" />
+                                                  <String fx:value="Female" />
+                                              </FXCollections>
+                                          </items>
+                                 <HBox.margin>
+                                    <Insets left="60.0" right="20.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="OPEN_HAND" />
+                                 </cursor>
+                                      </ComboBox>
+                                  </children>
+                              </HBox>
+                              <Label fx:id="genderErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                                  <VBox.margin>
+                                      <Insets bottom="15.0" left="10.0" />
+                                  </VBox.margin>
+                                  <font>
+                                      <Font size="13.0" />
+                                  </font>
+                                  <padding>
+                                      <Insets left="50.0" />
+                                  </padding>
+                              </Label>
                           </children>
-                      </HBox>
-                      <Label fx:id="countryErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
-                          <font>
-                              <Font size="13.0" />
-                          </font>
-                          <padding>
-                              <Insets left="50.0" />
-                          </padding>
-                  <VBox.margin>
-                     <Insets bottom="15.0" left="10.0" />
-                  </VBox.margin>
-                      </Label>
-
-                </VBox>
+                      </VBox>
+                      <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
+                            <HBox prefHeight="100.0" prefWidth="200.0">
+                                <children>
+                                    <ComboBox fx:id="countryComboBox" maxHeight="-Infinity" maxWidth="-Infinity" onAction="#onCountryChoose" prefHeight="30.0" prefWidth="800.0" promptText="Select your country">
+                                        <items>
+                                            <FXCollections fx:factory="observableArrayList">
+                                                <String fx:value="Egypt" />
+                                                <String fx:value="Palestine" />
+                                                <String fx:value="Saudi Arabia" />
+                                            </FXCollections>
+                                        </items>
+                              <HBox.margin>
+                                 <Insets right="80.0" />
+                              </HBox.margin>
+                              <cursor>
+                                 <Cursor fx:constant="OPEN_HAND" />
+                              </cursor>
+                                    </ComboBox>
+                                </children>
+                            </HBox>
+                            <Label fx:id="countryErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                                <font>
+                                    <Font size="13.0" />
+                                </font>
+                                <padding>
+                                    <Insets left="50.0" />
+                                </padding>
+                        <VBox.margin>
+                           <Insets bottom="15.0" left="10.0" />
+                        </VBox.margin>
+                            </Label>
+      
+                      </VBox>
+               </children>
+            </HBox>
 
                 <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
                     <children>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                            <children>
-                                <TextField fx:id="bioTextField" onKeyTyped="#onBioInput" prefHeight="30.0" prefWidth="448.0" promptText="Enter your bio" HBox.hgrow="ALWAYS">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets left="60.0" right="80.0" />
-                                    </HBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="OPEN_HAND" />
-                           </cursor>
-                                </TextField>
-                            </children>
-                        </HBox>
-                    </children>
-                </VBox>
-
-                <VBox alignment="CENTER_LEFT" prefHeight="106.0" prefWidth="414.0">
-                    <children>
-                        <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="800.0">
-                            <children>
-                                <Label fx:id="photoLabel" text="Upload Your Photo:" textFill="#000000">
-                                    <font>
-                                        <Font size="14.0" />
-                                    </font>
-                                    <HBox.margin>
-                                        <Insets left="60.0" right="80.0" top="15.0" />
-                                    </HBox.margin>
-                                </Label>
-                                <Button onAction="#onUploadPhoto" prefHeight="25.0" prefWidth="128.0" text="Browse">
-                           <HBox.margin>
-                              <Insets top="15.0" />
-                           </HBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="OPEN_HAND" />
-                           </cursor></Button>
-                            </children>
-                     <VBox.margin>
-                        <Insets top="15.0" />
-                     </VBox.margin>
-                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0" />
                     </children>
                 </VBox>
                 <VBox alignment="TOP_CENTER" prefHeight="92.0" prefWidth="399.0">
@@ -370,7 +334,7 @@
                                 <Font name="Calibri Bold Italic" size="36.0" />
                             </font>
                      <VBox.margin>
-                        <Insets top="20.0" />
+                        <Insets />
                      </VBox.margin>
                      <cursor>
                         <Cursor fx:constant="OPEN_HAND" />

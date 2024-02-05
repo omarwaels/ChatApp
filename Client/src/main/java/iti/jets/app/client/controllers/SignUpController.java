@@ -4,6 +4,7 @@ import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.UserRegisterDto;
 import iti.jets.app.shared.Interfaces.server.RegisterService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -85,12 +86,19 @@ public class SignUpController implements Initializable {
     @FXML
     public TextField confirmPasswordTextField;
 
+    @FXML
+    public Label tmpLabel;
+
     public byte[] picture;
 
     public Parent signInParent;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        Platform.runLater(() -> {
+            // Replace rootPane with the fx:id of your root layout
+            tmpLabel.requestFocus();
+        });
     }
 
     @FXML
