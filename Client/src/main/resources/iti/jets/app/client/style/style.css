@@ -56,7 +56,7 @@
 .ReceiverLabel {
     -fx-border-radius: 0 10 10 10;
     -fx-background-radius:0 10 10 10;
-    -fx-background-color: rgba(219, 229, 231, 0.76);
+    -fx-background-color: #ADABAE;
     -fx-padding:10;
     -fx-border-insets: 5px;
     -fx-background-insets: 5px;

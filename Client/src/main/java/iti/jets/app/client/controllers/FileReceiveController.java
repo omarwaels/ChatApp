@@ -9,6 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
@@ -25,7 +26,7 @@ import java.util.ResourceBundle;
 
 public class FileReceiveController implements Initializable {
     @FXML
-    public ImageView img;
+    public Circle img;
     @FXML
     public Text txt;
     @FXML
@@ -38,9 +39,9 @@ public class FileReceiveController implements Initializable {
         this.FileName = msg.getMessageContent();
         txt.setText(msg.getMessageContent());
         if(userImage != null){
-            img.setImage(userImage);
+            img.setFill(new ImagePattern(userImage));
         }
-        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
