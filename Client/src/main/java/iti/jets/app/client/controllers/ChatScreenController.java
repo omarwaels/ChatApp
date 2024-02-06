@@ -785,7 +785,11 @@ public class ChatScreenController implements Initializable {
         Platform.runLater(() -> {
             ConnectionItemController connectionItemController = onlineUsers.get(friendId);
             if (connectionItemController != null) {
+                connectionItemController.user.setUserFriendName(newName);
                 connectionItemController.connectionName.setText(newName);
+                if (currentScreenUserId == friendId) {
+                    updateConnectionName(newName);
+                }
             }
         });
     }
