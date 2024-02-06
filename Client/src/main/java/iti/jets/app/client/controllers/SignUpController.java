@@ -6,6 +6,7 @@ import iti.jets.app.shared.Interfaces.server.RegisterService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -13,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -27,6 +29,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class SignUpController implements Initializable {
 
@@ -91,12 +95,14 @@ public class SignUpController implements Initializable {
 
     public byte[] picture;
 
-    public Parent signInParent;
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        phoneNumberTextField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("\\d")) {
+                event.consume();
+            }
+        });
         Platform.runLater(() -> {
-            // Replace rootPane with the fx:id of your root layout
             tmpLabel.requestFocus();
         });
     }
@@ -170,9 +176,10 @@ public class SignUpController implements Initializable {
     private void addUser() throws IOException, NotBoundException {
         UserRegisterDto userRegisterDto = createUserRegisterDto();
         int ret = getRegisterService().register(userRegisterDto);
-        if (ret == 1)
+        if (ret == 1) {
+            successfulSignUp();
             redirectToSignInPage();
-        else
+        } else
             errorInSignUp();
     }
 
@@ -189,8 +196,10 @@ public class SignUpController implements Initializable {
     }
 
     private void redirectToSignInPage() throws IOException {
+        FXMLLoader fxml = ViewsFactory.getViewsFactory().getLoginLoader();
+        Parent root = fxml.load();
         Stage currentStage = (Stage) logInLabel.getScene().getWindow();
-        currentStage.setScene(ViewsFactory.getViewsFactory().getLoginScene());
+        currentStage.setScene(new Scene(root));
         currentStage.show();
     }
 
@@ -220,8 +229,8 @@ public class SignUpController implements Initializable {
             phoneNumberErrorLabel.setText("You must enter your phone number");
             valid = false;
         }
-        if (emailTextField.getText().isEmpty()) {
-            emailErrorLabel.setText("You must enter your email");
+        if (!isValidEmail(emailTextField.getText())) {
+            emailErrorLabel.setText("You must enter a valid email");
             valid = false;
         }
         if (passwordTextField.getText().isEmpty()) {
@@ -229,7 +238,7 @@ public class SignUpController implements Initializable {
             valid = false;
         }
         if (confirmPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().equals(passwordTextField.getText())) {
-            confirmPasswordErrorLabel.setText("You must confirm your password");
+            confirmPasswordErrorLabel.setText("Your password doesn't match");
             valid = false;
         }
         if (dobDatePicker.getEditor().getText().isEmpty()) {
@@ -245,6 +254,20 @@ public class SignUpController implements Initializable {
             valid = false;
         }
         return valid;
+    }
+
+    private boolean isValidEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        return matcher.matches();
+    }
+
+    public void successfulSignUp() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Success");
+        alert.setContentText("You have successfully signed up");
+        alert.showAndWait();
     }
 }
 

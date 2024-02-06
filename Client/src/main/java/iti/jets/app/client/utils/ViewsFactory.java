@@ -67,10 +67,6 @@ public class ViewsFactory {
         return fxmlLoader;
     }
 
-    public FXMLLoader getChatLoader() {
-        return chatLoader;
-    }
-
     public FXMLLoader getMessageSentLoader() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/iti/jets/app/client/views/message-sent.fxml"));

@@ -83,7 +83,7 @@ public class SignInController implements Initializable {
         tmpField.requestFocus();
         UserLoginDto userLoginDto = loadObjectFromFile(appDirectoryForLogin);
 
-        if(userLoginDto != null){
+        if (userLoginDto != null) {
             try {
                 login(userLoginDto);
             } catch (NotBoundException e) {
@@ -93,7 +93,7 @@ public class SignInController implements Initializable {
             }
         }
         String phoneNumber = loadPhoneNumObjectFromFile(appDirectoryForNumber);
-        if(phoneNumber != null){
+        if (phoneNumber != null) {
             userNameTextField.setText(phoneNumber);
         }
 
@@ -207,8 +207,14 @@ public class SignInController implements Initializable {
     }
 
     private void redirectToSignUpPage() throws IOException {
+        FXMLLoader fxml = ViewsFactory.getViewsFactory().getSignUpLoader();
+        Parent root = fxml.load();
         Stage currentStage = (Stage) signUpLabel.getScene().getWindow();
-        currentStage.setScene(ViewsFactory.getViewsFactory().getSignUpScene());
+        currentStage.setScene(new Scene(root));
+        currentStage.setMinHeight(750);
+        currentStage.setMinWidth(1000);
+        currentStage.setMaxHeight(750);
+        currentStage.setMaxWidth(1000);
         currentStage.show();
     }
 
@@ -219,6 +225,7 @@ public class SignInController implements Initializable {
         ChatScreenController chatScreenController = loader.getController();
         chatScreenController.setChatScreenDto(loginResultDto);
     }
+
     public static void saveLoginObjectToFile(UserLoginDto object, String filePath) {
         try {
             Path path = Paths.get(filePath);
@@ -233,6 +240,7 @@ public class SignInController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public static void savePhoneNumObjectToFile(String object, String filePath) {
         try {
             Path path = Paths.get(filePath);
@@ -247,6 +255,7 @@ public class SignInController implements Initializable {
             e.printStackTrace();
         }
     }
+
     public static UserLoginDto loadObjectFromFile(String filePath) {
         try {
             Path path = Paths.get(filePath);
@@ -260,6 +269,7 @@ public class SignInController implements Initializable {
         }
         return null;
     }
+
     public static String loadPhoneNumObjectFromFile(String filePath) {
         try {
             Path path = Paths.get(filePath);
@@ -273,7 +283,8 @@ public class SignInController implements Initializable {
         }
         return null;
     }
-    public void setUserNameInScreen(String userPhoneNumber){
+
+    public void setUserNameInScreen(String userPhoneNumber) {
         userNameTextField.setText(userPhoneNumber);
     }
 }

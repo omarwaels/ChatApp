@@ -273,7 +273,7 @@
                                       </ComboBox>
                                   </children>
                               </HBox>
-                              <Label fx:id="genderErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                              <Label fx:id="genderErrorLabel" prefHeight="19.0" prefWidth="219.0" textFill="#bf0000">
                                   <VBox.margin>
                                       <Insets bottom="15.0" left="10.0" />
                                   </VBox.margin>
@@ -306,15 +306,12 @@
                                     </ComboBox>
                                 </children>
                             </HBox>
-                            <Label fx:id="countryErrorLabel" prefHeight="25.0" prefWidth="380.0" textFill="#bf0000">
+                            <Label fx:id="countryErrorLabel" prefHeight="19.0" prefWidth="201.0" textFill="#bf0000">
                                 <font>
                                     <Font size="13.0" />
                                 </font>
-                                <padding>
-                                    <Insets left="50.0" />
-                                </padding>
                         <VBox.margin>
-                           <Insets bottom="15.0" left="10.0" />
+                           <Insets bottom="15.0" />
                         </VBox.margin>
                             </Label>
       
