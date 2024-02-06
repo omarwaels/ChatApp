@@ -83,7 +83,6 @@ public class InvitationRequestCardController implements Initializable {
     }
 
     private FriendInfoDto UserDtoToFriendInfoDto(UserDto userDto) {
-        System.out.println(userDto.getMode());
         return new FriendInfoDto(userDto.getDisplayName(), userDto.getPicture(), userDto.getId(), userDto.getMode(), StatusEnum.ONLINE);
     }
 

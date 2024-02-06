@@ -1,8 +1,14 @@
 package iti.jets.app.client.controllers;
 
+import iti.jets.app.shared.DTOs.ChatDto;
+import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.InvitationDto;
+import iti.jets.app.shared.DTOs.UserDto;
 import iti.jets.app.shared.Interfaces.server.InvitationService;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
+import iti.jets.app.shared.enums.ModeEnum;
+import iti.jets.app.shared.enums.StatusEnum;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -19,6 +25,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -101,8 +108,32 @@ public class InvitationRequestController implements Initializable {
         invitationList.getItems().remove(invitationDto);
     }
 
+    public void deleteInvitationCard(String phone) throws NotBoundException, IOException, SQLException {
+        for (InvitationDto invitationDto : invitationList.getItems()) {
+            if (invitationDto.getSenderPhone().equals(phone)) {
+                invitationList.getItems().remove(invitationDto);
+                deleteInvitationCard(invitationDto);
+                ChatDto chatDto = getInvitationService().acceptInvitation(invitationDto);
+                chatScreenController.addNewFriendInContactList(invitationDtoToFriendInfoDto(invitationDto), chatDto);
+                ServerService serverService = chatScreenController.getServerService();
+                serverService.addChatForNewFriend(invitationDto.getSenderID(), UserDtoToFriendInfoDto(chatScreenController.loginResultDto.getUserDto()), chatDto);
+                break;
+            }
+        }
+    }
+
     public void addInvitationCard(InvitationDto invitationDto) {
         invitationList.getItems().add(invitationDto);
+    }
+
+    private FriendInfoDto invitationDtoToFriendInfoDto(InvitationDto invitationDto) throws NotBoundException, RemoteException {
+        StatusEnum userStatus = getInvitationService().getUserStatusById(invitationDto.getSenderID());
+        ModeEnum userMode = getInvitationService().getUserModeById(invitationDto.getSenderID());
+        return new FriendInfoDto(invitationDto.getSenderName(), invitationDto.getSenderImage(), invitationDto.getSenderID(), userMode, userStatus);
+    }
+
+    private FriendInfoDto UserDtoToFriendInfoDto(UserDto userDto) {
+        return new FriendInfoDto(userDto.getDisplayName(), userDto.getPicture(), userDto.getId(), userDto.getMode(), StatusEnum.ONLINE);
     }
 
 }

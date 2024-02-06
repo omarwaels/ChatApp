@@ -9,6 +9,7 @@ import javafx.beans.binding.Bindings;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
@@ -16,11 +17,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -40,6 +43,7 @@ public class AddConnectionController {
 
     ServiceFactory serviceFactory;
 
+    ChatScreenController chatScreenController;
 
     @FXML
     public void addField(MouseEvent event) {
@@ -49,7 +53,7 @@ public class AddConnectionController {
     }
 
     @FXML
-    public void sendInvitation(ActionEvent event) throws RemoteException {
+    public void sendInvitation(ActionEvent event) throws IOException, SQLException, NotBoundException {
         ArrayList<String> users = new ArrayList<>();
         for (TextField field : listOfInvitations.getItems()) {
             String text = field.getText();
@@ -68,6 +72,9 @@ public class AddConnectionController {
                 showAlreadyInvitedAlert(users.get(i));
             } else if (ret.get(i) == 4) {
                 showSelfInviteAlert(users.get(i));
+            } else if (ret.get(i) == 5) {
+                deleteFromRequestsList(users.get(i));
+                showAcceptInvitationAlert(users.get(i));
             } else if (ret.get(i) == 0) {
                 showSuccessAlert(users.get(i));
             } else
@@ -75,8 +82,9 @@ public class AddConnectionController {
         }
     }
 
-    public void setData(UserDto user) throws RemoteException, NotBoundException {
+    public void setData(UserDto user, ChatScreenController chatScreenController) throws RemoteException, NotBoundException {
         this.user = user;
+        this.chatScreenController = chatScreenController;
         Registry registry = LocateRegistry.getRegistry(8189);
         serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
     }
@@ -152,6 +160,24 @@ public class AddConnectionController {
         alert.setContentText("Failed to send invitation to " + phoneNumber + ".");
 
         alert.showAndWait();
+    }
+
+    public void showAcceptInvitationAlert(String phoneNumber) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initOwner(btnInvite.getScene().getWindow());
+        alert.setTitle("Success");
+        alert.setHeaderText(null);
+        alert.setContentText("Invitation from " + phoneNumber + " accepted successfully.");
+        alert.showAndWait();
+    }
+
+    public void deleteFromRequestsList(String phone) throws IOException, SQLException, NotBoundException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/iti/jets/app/client/views/invitations-screen.fxml"));
+        loader.load();
+        InvitationRequestController invitationRequestController = loader.getController();
+        invitationRequestController.setData(user.getId(), chatScreenController);
+        invitationRequestController.deleteInvitationCard(phone);
     }
 
 }

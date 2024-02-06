@@ -190,9 +190,6 @@ public class ChatScreenController implements Initializable {
 
     public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
-        // TODO: to be deleted
-        /*if (loginResultDto.getUserDto().getId() == 4)
-            botOn = false;*/
         customInit();
         new Thread(() -> {
             try {
@@ -973,8 +970,9 @@ public class ChatScreenController implements Initializable {
         try {
             Parent root = loader.load();
             AddConnectionController addConnectionController = loader.getController();
-            addConnectionController.setData(loginResultDto.getUserDto());
+            addConnectionController.setData(loginResultDto.getUserDto(), this);
             Stage dialogStage = new Stage();
+            dialogStage.initOwner(invitationsBtn.getScene().getWindow());
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.initStyle(StageStyle.DECORATED);
             dialogStage.setResizable(false);

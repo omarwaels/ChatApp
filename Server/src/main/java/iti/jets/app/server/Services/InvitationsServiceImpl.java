@@ -110,6 +110,10 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
                 ret.add(3);
                 continue;
             }
+            if (isInvitedByFriend(invitationDto.getSenderID(), invitationDto.getReceiverID())) {
+                ret.add(5);
+                continue;
+            }
             boolean Success = invitationDao.insert(InvitationDtoMapper.invitationDtoToInvitation(invitationDto)) > 0;
             if (Success) {
                 mailingService.sendMail(invitationDto.getReceiverID(), "Friend Request", "You have a friend request from " + invitationDto.getSenderName() + " " + invitationDto.getSenderPhone());
@@ -117,7 +121,7 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
                 serverService.notifyFriendRequest(invitationDto.getReceiverID(), invitationDto.getSenderName(), invitationDto.getSenderPhone());
                 ret.add(0);
             } else {
-                ret.add(5);
+                ret.add(6);
             }
         }
         return ret;
@@ -140,6 +144,12 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
     private boolean isAlreadyInvited(int senderID, int receiverID) {
         InvitationDao invitationDao = new InvitationDao();
         Invitation invitation = invitationDao.getInvitation(senderID, receiverID);
+        return invitation != null;
+    }
+
+    private boolean isInvitedByFriend(int senderID, int receiverID) {
+        InvitationDao invitationDao = new InvitationDao();
+        Invitation invitation = invitationDao.getInvitation(receiverID, senderID);
         return invitation != null;
     }
 

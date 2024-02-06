@@ -51,8 +51,6 @@ public class Launcher extends Application {
     }
 
     public static void main(String[] args) {
-        MailingDao mailingDao = new MailingDao();
-        System.out.println(mailingDao.getEmailByUserId(1));
         launch();
     }
 }
