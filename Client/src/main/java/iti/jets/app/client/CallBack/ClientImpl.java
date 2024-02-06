@@ -95,4 +95,5 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     public void receiveInvitationRequest(String name, String phoneNumber) throws RemoteException {
         chatScreenController.showInvitationAnnouncement("You have a friend request from " + name + " with phone number " + phoneNumber + " go to the invitations tab to check it");
     }
+
 }
