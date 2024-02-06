@@ -1128,7 +1128,6 @@ public class ChatScreenController implements Initializable {
     private void signOutActions() {
         Platform.runLater(() -> {
             try {
-
                 String UserPhoneNumber = loginResultDto.getUserDto().getPhoneNumber();
                 performActionsBeforeClosing();
                 FXMLLoader loader = ViewsFactory.getViewsFactory().getLoginLoader();
@@ -1137,6 +1136,7 @@ public class ChatScreenController implements Initializable {
                 SignInController signInController = loader.getController();
                 signInController.setUserNameInScreen(UserPhoneNumber);
                 currentStage.setScene(new Scene(root));
+
             } catch (IOException | NotBoundException e) {
                 e.printStackTrace();
             }
