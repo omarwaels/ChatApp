@@ -1,5 +1,6 @@
 package iti.jets.app.server;
 
+import iti.jets.app.server.db.MailingDao;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -50,6 +51,8 @@ public class Launcher extends Application {
     }
 
     public static void main(String[] args) {
+        MailingDao mailingDao = new MailingDao();
+        System.out.println(mailingDao.getEmailByUserId(1));
         launch();
     }
 }

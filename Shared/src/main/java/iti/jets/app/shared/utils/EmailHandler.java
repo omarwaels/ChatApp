@@ -1,4 +1,4 @@
-package iti.jets.app.client.controllers;
+package iti.jets.app.shared.utils;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
@@ -11,10 +11,10 @@ public class EmailHandler {
 
     private static final String password = "rejg ziif donj vmul";
     private static final String email = "itijets@gmail.com";
-    public static void main(String[] args) {
-        EmailHandler emailHandler = new EmailHandler();
-       emailHandler.sendEmail("mohamedadelfarah@gmail.com", "Testing Jakarta Mail Api Lib", "Dola");
-    }
+//    public static void main(String[] args) {
+//        EmailHandler emailHandler = new EmailHandler();
+//       emailHandler.sendEmail("mohamedadelfarah@gmail.com", "Testing Jakarta Mail Api Lib", "Dola");
+//    }
     private Session session = null;
 
     public EmailHandler() {

@@ -41,6 +41,10 @@ public class ServiceFactoryImpl extends UnicastRemoteObject implements ServiceFa
         return new CreateGroupServiceImpl();
     }
 
+    @Override
+    public MailingService getMailingService() throws RemoteException {
+        return new MailingServiceImpl();
+    }
 
 
 }
