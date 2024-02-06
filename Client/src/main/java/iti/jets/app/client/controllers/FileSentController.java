@@ -44,24 +44,26 @@ public class FileSentController implements Initializable {
 
     private File fileInfo;
 
-    private int fileChatId  ;
+    private int fileChatId;
 
-    public void setData(MessageDto msg ,Image userImg ,File fileInfo ) throws IOException {
+    public void setData(MessageDto msg, Image userImg, File fileInfo) throws IOException {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
-        this.fileInfo = fileInfo ;
+        this.fileInfo = fileInfo;
         this.fileChatId = msg.getChatId();
         txt.setText(msg.getMessageContent());
         txtFlow.setTextAlignment(TextAlignment.LEFT);
-        if(userImg != null){
+        if (userImg != null) {
             img.setFill(new ImagePattern(userImg));
         }
 
 
-        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
     }
-    public void showFileInExplorer(){
+
+    public void showFileInExplorer() {
         try {
             Path filePath = fileInfo.toPath();
             if (Files.exists(filePath)) {
@@ -74,16 +76,19 @@ public class FileSentController implements Initializable {
 
         }
     }
-    public void mouseEnterEffect(){
+
+    public void mouseEnterEffect() {
         txtFlow.setStyle("-fx-background-color: rgba(153, 172, 255, 1);");
 
 
     }
-    public void mouseExitEffect(){
+
+    public void mouseExitEffect() {
 
         txtFlow.setStyle("-fx-background-color: rgba(15, 125, 242, 1);");
     }
-    public void openFileInExplorer(){
+
+    public void openFileInExplorer() {
         try {
             Path filePath = fileInfo.toPath();
             if (Files.exists(filePath)) {
@@ -97,6 +102,7 @@ public class FileSentController implements Initializable {
         }
 
     }
+
     private void showFileNotAvailableAlert() {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("File Not Available");
@@ -112,9 +118,6 @@ public class FileSentController implements Initializable {
 
         alert.showAndWait();
     }
-
-
-
 
 
 }
