@@ -1,11 +1,12 @@
 package iti.jets.app.shared.Interfaces.server;
 
 import java.io.IOException;
-import java.nio.channels.FileChannel;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
@@ -40,4 +41,6 @@ public interface ServerService extends Remote {
     void receiveAllOfflineMessages(int receiverId) throws RemoteException;
 
     boolean isAlreadyLoggedIn(int userId) throws RemoteException;
+
+    CompletableFuture<Void> closeServer() throws RemoteException;
 }

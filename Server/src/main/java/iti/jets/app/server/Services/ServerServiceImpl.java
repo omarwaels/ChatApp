@@ -5,25 +5,16 @@ import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.ServerService;
-import javafx.geometry.Pos;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.util.Duration;
-import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.Future;
 
 public class ServerServiceImpl extends UnicastRemoteObject implements ServerService {
     private static CopyOnWriteArraySet<Client> clients = new CopyOnWriteArraySet<>();
@@ -175,6 +166,24 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
             }
         }
         return false;
+    }
+
+    @Override
+    public CompletableFuture<Void> closeServer() throws RemoteException {
+        CompletableFuture<Void> future = new CompletableFuture<>();
+
+        new Thread(() -> {
+            try {
+                for (Client c : clients) {
+                    c.closeClient();
+                }
+                future.complete(null); // Complete the future when all clients have been closed
+            } catch (RemoteException e) {
+                future.completeExceptionally(e); // Complete the future exceptionally if an error occurs
+            }
+        }).start();
+
+        return future;
     }
 }
 

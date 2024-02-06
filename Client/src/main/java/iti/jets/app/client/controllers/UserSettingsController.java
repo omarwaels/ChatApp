@@ -179,7 +179,7 @@ public class UserSettingsController implements Initializable {
         dobPicker.setEditable(false);
         dobPicker.getEditor().setDisable(true);
         try {
-            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
             updateInfoService = ((ServiceFactory) registry.lookup("ServiceFactory")).getUpdateInfoService();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -225,7 +225,7 @@ public class UserSettingsController implements Initializable {
                 int ret = updateInfoService.updateField(new UpdateInfoDto("display_name", nameField.getText(), user.getId()));
                 if (ret == 1) {
                     user.setDisplayName(nameField.getText());
-                    Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+                    Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
                     ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
                     new Thread(() -> {
                         try {
@@ -234,6 +234,8 @@ public class UserSettingsController implements Initializable {
                             e.printStackTrace();
                         }
                     }).start();
+                } else {
+                    showErrorAlert();
                 }
                 nameField.setText(user.getDisplayName());
                 nameLabel.setText(user.getDisplayName());
@@ -342,7 +344,7 @@ public class UserSettingsController implements Initializable {
         profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
         chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
         user.setPicture(Files.readAllBytes(img.toPath()));
-        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
         ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
         new Thread(() -> {
             try {
@@ -364,7 +366,7 @@ public class UserSettingsController implements Initializable {
             profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
             chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
             user.setPicture(Files.readAllBytes(selectedFile.toPath()));
-            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
             ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
             new Thread(() -> {
                 try {
@@ -377,5 +379,13 @@ public class UserSettingsController implements Initializable {
                 }
             }).start();
         }
+    }
+
+    public void showErrorAlert() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText("This user name is already Exists, please choose another name.");
+        alert.showAndWait();
     }
 }

@@ -76,6 +76,28 @@ public class UserDao implements Dao<User, String> {
         }
     }
 
+    public User getByUserName(String userName) {
+        ResultSet resultSet = null;
+
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE display_name = ?")) {
+            preparedStatement.setString(1, userName);
+
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return extractUser(resultSet);
+            } else return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
     public User getByIntegerId(int Id) {
         ResultSet resultSet = null;
 

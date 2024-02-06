@@ -96,4 +96,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
         chatScreenController.showInvitationAnnouncement("You have a friend request from " + name + " with phone number " + phoneNumber + " go to the invitations tab to check it");
     }
 
+    @Override
+    public void closeClient() throws RemoteException {
+        chatScreenController.closeClient();
+    }
 }

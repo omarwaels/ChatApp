@@ -28,6 +28,7 @@ import java.util.Objects;
 public class InvitationsServiceImpl extends UnicastRemoteObject implements InvitationService {
     public InvitationsServiceImpl() throws RemoteException {
     }
+
     MailingService mailingService = new MailingServiceImpl();
 
     @Override
@@ -116,10 +117,16 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
             }
             boolean Success = invitationDao.insert(InvitationDtoMapper.invitationDtoToInvitation(invitationDto)) > 0;
             if (Success) {
-                mailingService.sendMail(invitationDto.getReceiverID(), "Friend Request", "You have a friend request from " + invitationDto.getSenderName() + " " + invitationDto.getSenderPhone());
-                ServerService serverService = new ServerServiceImpl();
-                serverService.notifyFriendRequest(invitationDto.getReceiverID(), invitationDto.getSenderName(), invitationDto.getSenderPhone());
                 ret.add(0);
+                new Thread(() -> {
+                    try {
+                        mailingService.sendMail(invitationDto.getReceiverID(), "Friend Request", "You have a friend request from " + invitationDto.getSenderName() + " " + invitationDto.getSenderPhone());
+                        ServerService serverService = new ServerServiceImpl();
+                        serverService.notifyFriendRequest(invitationDto.getReceiverID(), invitationDto.getSenderName(), invitationDto.getSenderPhone());
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).start();
             } else {
                 ret.add(6);
             }

@@ -4,9 +4,12 @@ import com.jfoenix.controls.JFXSnackbar;
 import com.jfoenix.controls.JFXSnackbarLayout;
 import com.jfoenix.controls.JFXToggleButton;
 import iti.jets.app.server.Network.ServerConnection;
+import iti.jets.app.server.Services.ServerServiceImpl;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,13 +21,19 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
 import java.io.IOException;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class DashboardController implements Initializable {
     @FXML
@@ -73,7 +82,7 @@ public class DashboardController implements Initializable {
 
 
     @FXML
-    private void handleToggleButton() {
+    public void handleToggleButton() throws RemoteException, InterruptedException {
         if (toggleButton.isSelected()) {
             try {
                 ServerConnection.openConnection();
@@ -82,12 +91,10 @@ public class DashboardController implements Initializable {
                 throw new RuntimeException(e);
             }
         } else {
-            try {
-                ServerConnection.closeConnection();
-                showNotification("Server Closed Successfully ....");
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            ServerService serverService = new ServerServiceImpl();
+            serverService.closeServer();
+            Thread.sleep(200);
+            ServerConnection.closeConnection();
         }
     }
 
@@ -108,12 +115,16 @@ public class DashboardController implements Initializable {
         stage.setIconified(true);
     }
 
-    public void closeDashboard(MouseEvent mouseEvent) {
+    public void closeDashboard(MouseEvent mouseEvent) throws RemoteException, InterruptedException {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
                 " Are you sure you want to exit?", ButtonType.YES, ButtonType.NO);
         alert.setHeaderText("Server Dashboard");
         alert.showAndWait();
         if (alert.getResult() == ButtonType.YES) {
+            if (toggleButton.isSelected()) {
+                toggleButton.setSelected(false);
+                handleToggleButton();
+            }
             System.exit(0);
         }
     }

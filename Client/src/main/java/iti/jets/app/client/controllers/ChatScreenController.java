@@ -155,6 +155,8 @@ public class ChatScreenController implements Initializable {
 
     public boolean botOn = false;
 
+    public boolean registered = true;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customizeStatusBox();
@@ -196,6 +198,7 @@ public class ChatScreenController implements Initializable {
                 client = new ClientImpl(this, loginResultDto.getUserDto().getId());
                 serverService = getServerService();
                 serverService.register(client);
+                registered = true;
                 informFriends(true);
             } catch (IOException | NotBoundException e) {
                 e.printStackTrace();
@@ -278,7 +281,7 @@ public class ChatScreenController implements Initializable {
     }
 
     ServerService getServerService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
 
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
@@ -305,13 +308,16 @@ public class ChatScreenController implements Initializable {
         currentStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent event) {
-                try {
-                    performActionsBeforeClosing();
-                } catch (RemoteException e) {
-                    throw new RuntimeException(e);
-                } catch (NotBoundException e) {
-                    throw new RuntimeException(e);
+                if (registered) {
+                    try {
+                        performActionsBeforeClosing();
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    } catch (NotBoundException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
+                System.exit(0);
             }
         });
     }
@@ -825,7 +831,7 @@ public class ChatScreenController implements Initializable {
     public void performActionsBeforeClosing() throws RemoteException, NotBoundException {
         informFriends(false);
         serverService.unregister(client);
-        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
         ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
         serviceFactory.getLoginService().logOut(loginResultDto.getUserDto().getPhoneNumber());
     }
@@ -1037,7 +1043,7 @@ public class ChatScreenController implements Initializable {
         // Update the new mode in the DB
         int userID = loginResultDto.getUserDto().getId();
         UpdateInfoDto newUpdateInfo = new UpdateInfoDto("mode", newMode, userID);
-        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
         UpdateInfoService updateInfoService = ((ServiceFactory) registry.lookup("ServiceFactory")).getUpdateInfoService();
         updateInfoService.updateField(newUpdateInfo);
 
@@ -1145,7 +1151,6 @@ public class ChatScreenController implements Initializable {
     private void signOutActions() {
         Platform.runLater(() -> {
             try {
-
                 String UserPhoneNumber = loginResultDto.getUserDto().getPhoneNumber();
                 performActionsBeforeClosing();
                 FXMLLoader loader = ViewsFactory.getViewsFactory().getLoginLoader();
@@ -1174,6 +1179,24 @@ public class ChatScreenController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void closeClient() {
+        onSignOutClicked();
+        registered = false;
+        showServerDownAlert();
+    }
+
+    public void showServerDownAlert() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Server Down");
+            alert.setHeaderText(null);
+            alert.setContentText("Server is down, please try again later.");
+            // Check if this is correct
+            alert.initOwner(chatBorderPane.getScene().getWindow());
+            alert.showAndWait();
+        });
     }
 
     @FXML

@@ -33,4 +33,6 @@ public interface Client extends Remote {
 
     void receiveInvitationRequest(String name, String phoneNumber) throws RemoteException;
 
+    void closeClient() throws RemoteException;
+
 }

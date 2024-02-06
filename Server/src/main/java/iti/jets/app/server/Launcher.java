@@ -1,6 +1,7 @@
 package iti.jets.app.server;
 
 import iti.jets.app.server.db.MailingDao;
+import iti.jets.app.server.fxcontrollers.DashboardController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -8,11 +9,14 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.*;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 
 public class Launcher extends Application {
 
@@ -29,6 +33,7 @@ public class Launcher extends Application {
         scene.getStylesheets().add(getClass().getResource("/iti/jets/app/server/style/style.css").toExternalForm());
         stage.setScene(scene);
         stage.initStyle(javafx.stage.StageStyle.UNDECORATED);
+        DashboardController controller = fxmlLoader.getController();
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {

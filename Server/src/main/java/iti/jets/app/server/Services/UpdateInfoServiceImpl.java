@@ -1,6 +1,7 @@
 package iti.jets.app.server.Services;
 
 import iti.jets.app.server.db.UserDao;
+import iti.jets.app.server.models.entities.User;
 import iti.jets.app.shared.DTOs.UpdateInfoDto;
 import iti.jets.app.shared.Interfaces.server.UpdateInfoService;
 
@@ -15,6 +16,12 @@ public class UpdateInfoServiceImpl extends UnicastRemoteObject implements Update
     @Override
     public int updateField(UpdateInfoDto updateInfoDto) throws Exception {
         UserDao userDao = new UserDao();
+        if (updateInfoDto.getFieldName().equals("display_name")) {
+            User user = userDao.getByUserName(updateInfoDto.getNewValue());
+            if (user != null) {
+                return 0;
+            }
+        }
         return userDao.updateField(updateInfoDto.getFieldName(), updateInfoDto.getNewValue(), updateInfoDto.getUserId());
     }
 

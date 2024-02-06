@@ -30,6 +30,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -81,6 +82,12 @@ public class SignInController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
+        userNameTextField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            if (!event.getCharacter().matches("\\d")) {
+                event.consume();
+            }
+        });
+
         tmpField.requestFocus();
         UserLoginDto userLoginDto = loadObjectFromFile(appDirectoryForLogin);
 
@@ -111,7 +118,7 @@ public class SignInController implements Initializable {
     }
 
     ServerService getServerService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
 
@@ -130,9 +137,9 @@ public class SignInController implements Initializable {
                         tmpField.requestFocus();
                     }
                 } catch (NotBoundException e) {
-                    throw new RuntimeException(e);
+                    showServerDownAlert();
                 } catch (RemoteException e) {
-                    throw new RuntimeException(e);
+                    showServerDownAlert();
                 }
             } else {
                 if (passwordField.getText().isEmpty())
@@ -141,9 +148,9 @@ public class SignInController implements Initializable {
                     try {
                         getDataFromScreenAndlogin();
                     } catch (NotBoundException e) {
-                        throw new RuntimeException(e);
+                        showServerDownAlert();
                     } catch (IOException e) {
-                        throw new RuntimeException(e);
+                        showServerDownAlert();
                     }
                 }
             }
@@ -186,7 +193,7 @@ public class SignInController implements Initializable {
     }
 
     LoginService getLoginService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getLoginService();
     }
 
@@ -284,6 +291,18 @@ public class SignInController implements Initializable {
 
     public void setUserNameInScreen(String userPhoneNumber) {
         userNameTextField.setText(userPhoneNumber);
+    }
+
+    public void showServerDownAlert() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Server Down");
+            alert.setHeaderText(null);
+            alert.setContentText("Server is down, please try again later.");
+            // Check if this is correct
+            alert.initOwner(loginBtn.getScene().getWindow());
+            alert.showAndWait();
+        });
     }
 }
 

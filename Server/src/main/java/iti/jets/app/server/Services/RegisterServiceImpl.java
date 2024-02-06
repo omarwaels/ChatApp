@@ -25,6 +25,10 @@ public class RegisterServiceImpl extends UnicastRemoteObject implements Register
         if (user != null) {
             return 0;
         }
+        user = userDao.getByUserName(userRegisterDto.getDisplayName());
+        if (user != null) {
+            return 0;
+        }
         return userDao.insert(RegisterDtoMapper.registerDtoToUser(userRegisterDto));
     }
 }

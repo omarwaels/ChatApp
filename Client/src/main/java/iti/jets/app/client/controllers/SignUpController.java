@@ -174,25 +174,29 @@ public class SignUpController implements Initializable {
         redirectToSignInPage();
     }
 
-    private void addUser() throws IOException, NotBoundException {
-        UserRegisterDto userRegisterDto = createUserRegisterDto();
-        int ret = getRegisterService().register(userRegisterDto);
-        if (ret == 1) {
-            successfulSignUp();
-            redirectToSignInPage();
-        } else
-            errorInSignUp();
+    private void addUser() throws IOException {
+        try {
+            UserRegisterDto userRegisterDto = createUserRegisterDto();
+            int ret = getRegisterService().register(userRegisterDto);
+            if (ret == 1) {
+                successfulSignUp();
+                redirectToSignInPage();
+            } else
+                errorInSignUp();
+        } catch (NotBoundException | RemoteException e) {
+            showServerDownAlert();
+        }
     }
 
     private RegisterService getRegisterService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getRegisterService();
     }
 
     private void errorInSignUp() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setContentText("Phone number or email already exists, please try again");
+        alert.setContentText("Phone number, email, or user name already exists, please try again");
         alert.showAndWait();
     }
 
@@ -223,19 +227,19 @@ public class SignUpController implements Initializable {
     private boolean nonEmptyRequiredFields() {
         boolean valid = true;
         if (fullNameTextField.getText().isEmpty()) {
-            fullNameErrorLabel.setText("You must enter your user name");
+            fullNameErrorLabel.setText("please enter a valid username.");
             valid = false;
         }
-        if (phoneNumberTextField.getText().isEmpty()) {
-            phoneNumberErrorLabel.setText("You must enter your phone number");
+        if (phoneNumberTextField.getText().isEmpty() || !phoneNumberTextField.getText().matches("\\b(?:010|011|012|015)\\d{8}\\b")) {
+            phoneNumberErrorLabel.setText("Please enter a valid phone number");
             valid = false;
         }
         if (!isValidEmail(emailTextField.getText())) {
-            emailErrorLabel.setText("You must enter a valid email");
+            emailErrorLabel.setText("Please enter a valid email address");
             valid = false;
         }
         if (passwordTextField.getText().isEmpty()) {
-            passwordErrorLabel.setText("You must enter your password");
+            passwordErrorLabel.setText("Please enter a valid password");
             valid = false;
         }
         if (confirmPasswordTextField.getText().isEmpty() || !confirmPasswordTextField.getText().equals(passwordTextField.getText())) {
@@ -243,7 +247,7 @@ public class SignUpController implements Initializable {
             valid = false;
         }
         if (dobDatePicker.getEditor().getText().isEmpty()) {
-            dobErrorLabel.setText("You must enter a valid date");
+            dobErrorLabel.setText("Please choose a valid date of birth");
             valid = false;
         }
         if (genderComboBox.getSelectionModel().isEmpty()) {
@@ -269,6 +273,18 @@ public class SignUpController implements Initializable {
         alert.setTitle("Success");
         alert.setContentText("You have successfully signed up");
         alert.showAndWait();
+    }
+
+    public void showServerDownAlert() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Server Down");
+            alert.setHeaderText(null);
+            alert.setContentText("Server is down, please try again later.");
+            // Check if this is correct
+            alert.initOwner(logInLabel.getScene().getWindow());
+            alert.showAndWait();
+        });
     }
 }
 
