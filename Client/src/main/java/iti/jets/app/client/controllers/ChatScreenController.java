@@ -776,7 +776,8 @@ public class ChatScreenController implements Initializable {
         Platform.runLater(() -> {
             ConnectionItemController connectionItemController = onlineUsers.get(friendId);
             if (connectionItemController != null) {
-                connectionItemController.connectionPic.setImage(new Image(new ByteArrayInputStream(photo)));
+                connectionItemController.connectionPic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(photo))));
+                //connectionItemController.connectionPic.setImage(new Image(new ByteArrayInputStream(photo)));
             }
         });
     }

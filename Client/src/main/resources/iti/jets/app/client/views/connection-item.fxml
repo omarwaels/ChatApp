@@ -3,8 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
@@ -14,14 +12,18 @@
 
 <HBox fx:id="connectionItem" alignment="CENTER_LEFT" onMouseClicked="#friendClicked" onMouseEntered="#hoverEnterEffect" onMouseExited="#hoverExitEffect" prefHeight="66.0" prefWidth="257.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.client.controllers.ConnectionItemController">
    <children>
-      <ImageView fx:id="connectionPic" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/user.png" />
-         </image>
+      <Circle fx:id="connectionPic" radius="25.0">
          <HBox.margin>
-            <Insets left="10.0" />
-         </HBox.margin>
-      </ImageView>
+            <Insets left="3.0" />
+         </HBox.margin></Circle>
+<!--      <ImageView fx:id="connectionPic" fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">-->
+<!--         <image>-->
+<!--            <Image url="@../img/user.png" />-->
+<!--         </image>-->
+<!--         <HBox.margin>-->
+<!--            <Insets left="10.0" />-->
+<!--         </HBox.margin>-->
+<!--      </ImageView>-->
       <VBox alignment="CENTER" prefHeight="66.0" prefWidth="147.0">
          <children>
             <Label fx:id="lastMessageTimestamp" prefHeight="0.0" prefWidth="0.0" text="1970-01-01 00:00:00.000" textFill="TRANSPARENT">

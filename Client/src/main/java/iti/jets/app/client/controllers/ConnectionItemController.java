@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
@@ -21,7 +22,7 @@ public class ConnectionItemController implements Initializable {
     @FXML
     public Label connectionName;
     @FXML
-    public ImageView connectionPic;
+    public Circle connectionPic;
     @FXML
     public Circle connectionStatus;
     @FXML
@@ -52,7 +53,8 @@ public class ConnectionItemController implements Initializable {
         UserID = user.getUserFriendID();
         if (user.getUserFriendPhoto() != null) {
             Image userImg = new Image(new ByteArrayInputStream(user.getUserFriendPhoto()));
-            connectionPic.setImage(userImg);
+            connectionPic.setFill(new ImagePattern(userImg));
+            //connectionPic.setImage(userImg);
             this.userImage = userImg;
         }
         chatScreenController.currentConnection = this;
