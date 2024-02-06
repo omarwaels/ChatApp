@@ -11,7 +11,7 @@ public class EmailHandler {
 
     private static final String password = "rejg ziif donj vmul";
     private static final String email = "itijets@gmail.com";
-//    public static void main(String[] args) {
+    //    public static void main(String[] args) {
 //        EmailHandler emailHandler = new EmailHandler();
 //       emailHandler.sendEmail("mohamedadelfarah@gmail.com", "Testing Jakarta Mail Api Lib", "Dola");
 //    }
@@ -28,16 +28,10 @@ public class EmailHandler {
         Transport transport = null;
 
         try {
-//            rejg ziif donj vmul
-//            transport = session.getTransport("smtp");
-//            transport.connect(emailHost, "maher.naser.gh@gmail.com", "hqgq kahr iepb ollu");
             transport = session.getTransport("smtp");
             transport.connect(emailHost, email, password);
-
-
             transport.sendMessage(mimeMessage, mimeMessage.getAllRecipients());
         } catch (MessagingException e) {
-            throw new RuntimeException("Error sending email", e);
         } finally {
             try {
                 if (transport != null) {
@@ -49,7 +43,7 @@ public class EmailHandler {
         }
     }
 
-    private MimeMessage draftEmail( String toEmail, String subject, String friendName) {
+    private MimeMessage draftEmail(String toEmail, String subject, String friendName) {
         MimeMessage mimeMessage = new MimeMessage(session);
         try {
             mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(toEmail));
@@ -76,6 +70,7 @@ public class EmailHandler {
         }
         session = Session.getDefaultInstance(properties, null);
     }
+
     private static String getHtmlContent(String friendName) {
         return "<!DOCTYPE html>\n" +
                 "<html lang=\"en\">\n" +
@@ -122,7 +117,7 @@ public class EmailHandler {
                 "        <h1>Hey " + friendName + ",</h1>\n" +
                 "        <p>I hope this message finds you well. I wanted to invite you to join me on our Chat App!</p>\n" +
                 "        <p>It's a great platform to connect and chat. Click the link below to join:</p>\n" +
-                "        <p><a href=\"" + "https://iti.gov.eg"+ "\" class=\"button\">Join Chat App</a></p>\n" +
+                "        <p><a href=\"" + "https://iti.gov.eg" + "\" class=\"button\">Join Chat App</a></p>\n" +
                 "        <p>Looking forward to chatting with you!</p>\n" +
                 "    </div>\n" +
                 "</body>\n" +
