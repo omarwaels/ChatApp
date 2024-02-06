@@ -54,7 +54,6 @@ public class ConnectionItemController implements Initializable {
         if (user.getUserFriendPhoto() != null) {
             Image userImg = new Image(new ByteArrayInputStream(user.getUserFriendPhoto()));
             connectionPic.setFill(new ImagePattern(userImg));
-            //connectionPic.setImage(userImg);
             this.userImage = userImg;
         }
 
@@ -113,7 +112,6 @@ public class ConnectionItemController implements Initializable {
         this.lastMessageTime = timeStamp;
         lastMessageTimestamp.setText(timeStamp.toString());
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

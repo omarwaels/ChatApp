@@ -20,10 +20,8 @@ public class DashboardDao {
         this.dataSource = DataSourceFactory.getMySQLDataSource();
     }
 
-
     public List<User> getAllUsers() {
         List<User> userList = new ArrayList<>();
-
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT * FROM users";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -47,9 +45,8 @@ public class DashboardDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception according to your application's needs
+            e.printStackTrace();
         }
-
         return userList;
     }
 
@@ -57,7 +54,6 @@ public class DashboardDao {
         Map<String, Integer> countMap = new HashMap<>();
         countMap.put("Male", 0);
         countMap.put("Female", 0);
-
         try {
             Connection connection = dataSource.getConnection();
             String query = "SELECT gender, COUNT(*) as count FROM users GROUP BY gender";
@@ -73,8 +69,6 @@ public class DashboardDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-
         return countMap;
     }
 
@@ -95,7 +89,6 @@ public class DashboardDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return countMap;
     }
 
@@ -118,9 +111,6 @@ public class DashboardDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return countMap;
     }
-
-
 }

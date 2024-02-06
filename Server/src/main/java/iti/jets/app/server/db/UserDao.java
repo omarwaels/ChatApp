@@ -45,6 +45,12 @@ public class UserDao implements Dao<User, String> {
             } else return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -61,6 +67,12 @@ public class UserDao implements Dao<User, String> {
             } else return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -78,6 +90,12 @@ public class UserDao implements Dao<User, String> {
             } else return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -110,6 +128,7 @@ public class UserDao implements Dao<User, String> {
             }
             return result;
         }
+
     }
 
     @Override
@@ -192,13 +211,9 @@ public class UserDao implements Dao<User, String> {
 
     public int updateImage(int userId, byte[] newImage) {
         String query = "UPDATE users SET picture = ? WHERE user_id = ?";
-
-        try (
-                PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setBytes(1, newImage);
             preparedStatement.setInt(2, userId);
-
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

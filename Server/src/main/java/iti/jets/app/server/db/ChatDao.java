@@ -52,7 +52,6 @@ public class ChatDao implements Dao<Chat, Integer> {
         String query = "UPDATE messages SET `chat_image`=?,`chat_name`=?,`created_at`=?, " +
                 "`admin_id `=? WHERE chat_id  = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-
             preparedStatement.setBytes(1, chat.getChatImage());
             preparedStatement.setString(2, chat.getChatName());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());

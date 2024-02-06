@@ -38,4 +38,6 @@ public interface ServerService extends Remote {
     void notifyFriendRequest(int receiverId, String name, String phoneNumber) throws RemoteException;
 
     void receiveAllOfflineMessages(int receiverId) throws RemoteException;
+
+    boolean isAlreadyLoggedIn(int userId) throws RemoteException;
 }

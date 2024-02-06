@@ -70,6 +70,7 @@ public class InvitationDao implements Dao<Invitation, Integer> {
             while (rs.next()) {
                 invitations.add(extractInvitation(rs));
             }
+            rs.close();
             return invitations;
         } catch (SQLException e) {
             throw new RuntimeException(e);

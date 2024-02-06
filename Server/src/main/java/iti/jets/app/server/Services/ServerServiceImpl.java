@@ -18,11 +18,15 @@ import java.nio.file.Paths;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 public class ServerServiceImpl extends UnicastRemoteObject implements ServerService {
-    private static ArrayList<Client> clients = new ArrayList<>();
+    private static CopyOnWriteArraySet<Client> clients = new CopyOnWriteArraySet<>();
 
     private static ConcurrentHashMap<Integer, List<MessageDto>> offlineMessages = new ConcurrentHashMap<>();
 
@@ -160,6 +164,17 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
                 }
             }
         }
+    }
+
+    @Override
+    public boolean isAlreadyLoggedIn(int userId) throws RemoteException {
+        for (Client c : clients) {
+            if (c.getID() == userId) {
+                c.receiveAnnouncement("Log in problem", "You are trying to log in from another device. Please logout from this device first.");
+                return true;
+            }
+        }
+        return false;
     }
 }
 

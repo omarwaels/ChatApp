@@ -11,6 +11,7 @@ import iti.jets.app.server.models.entities.User;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.client.Client;
 import iti.jets.app.shared.Interfaces.server.LoginService;
+import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.enums.ModeEnum;
 import iti.jets.app.shared.enums.StatusEnum;
 import iti.jets.app.shared.enums.UserEnum;
@@ -36,6 +37,11 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
         User userResult = userDao.getById(userLoginDto.getPhoneNumber());
         if (userResult == null || !userResult.getPassword().equals(userLoginDto.getPassword()))
             return null;
+        ServerService server = new ServerServiceImpl();
+        if (server.isAlreadyLoggedIn(userResult.getId())) {
+            LoginResultDto loginResultDto = new LoginResultDto();
+            return loginResultDto;
+        }
         userDao.updateStatus(userResult.getPhoneNumber(), StatusEnum.ONLINE.getStatus());
         userDao.updateMode(userResult.getPhoneNumber(), ModeEnum.AVAILABLE.getMode());
         userResult.setMode(ModeEnum.AVAILABLE);

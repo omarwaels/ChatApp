@@ -158,19 +158,6 @@ public class SignInController implements Initializable {
         redirectToSignUpPage();
     }
 
-    private boolean nonEmptyPhoneAndPassword() {
-        boolean isInputValid = true;
-        if (userNameTextField.getText().isEmpty()) {
-            userNameErrorLabel.setText("You must enter your phone number");
-            isInputValid = false;
-        }
-        if (passwordTextField.getText().isEmpty()) {
-            PasswordErrorLabel.setText("You must enter your password");
-            isInputValid = false;
-        }
-        return isInputValid;
-    }
-
     private void getDataFromScreenAndlogin() throws NotBoundException, IOException {
         UserLoginDto userLoginDto = new UserLoginDto(userNameTextField.getText(), passwordField.getText());
         login(userLoginDto);
@@ -181,6 +168,8 @@ public class SignInController implements Initializable {
         Platform.runLater(() -> {
             if (loginResultDto == null)
                 errorInLogin();
+            else if (loginResultDto.getUserDto() == null)
+                isAlreadyLoggedIn();
             else {
                 try {
                     saveLoginObjectToFile(userLoginDto, appDirectoryForLogin);
@@ -204,6 +193,13 @@ public class SignInController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setContentText("Password is incorrect, please try again");
+        alert.showAndWait();
+    }
+
+    private void isAlreadyLoggedIn() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setContentText("You are already logged in from another device. Please logout from this device first.");
         alert.showAndWait();
     }
 

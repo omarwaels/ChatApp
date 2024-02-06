@@ -53,19 +53,6 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
         throw new IllegalArgumentException("Error");
     }
 
-    public ResultSet selectByCompositeKey(Integer chat_id, Integer participant_id) {
-        String query = "SELECT * FROM chatparticipants WHERE chat_id = ? and participant_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
-            preparedStatement.setInt(1, chat_id);
-            preparedStatement.setInt(2, participant_id);
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                return resultSet;
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public HashMap<Integer, Integer> getUserFriendsAndChatIDs(int userId, ArrayList<Integer> Friends) {
         String query = "SELECT * FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.chat_id In (SELECT chats.chat_id FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.admin_id is NULL and participant_id = ?) and chatparticipants.participant_id <> ?;";
         HashMap<Integer, Integer> userContacts = new HashMap<>();
