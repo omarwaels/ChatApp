@@ -57,7 +57,7 @@ public class ConnectionItemController implements Initializable {
             //connectionPic.setImage(userImg);
             this.userImage = userImg;
         }
-        chatScreenController.currentConnection = this;
+
         System.out.println("User Mode: " + user.getUserFriendStatus().getStatus());
         if (user.getUserFriendStatus().getStatus().equalsIgnoreCase("Online")) {
             userModeLabel.setText(user.getUserFriendMode().getMode());
@@ -88,6 +88,7 @@ public class ConnectionItemController implements Initializable {
 
     @FXML
     public void friendClicked() {
+        chatScreenController.currentConnection = this;
         counterContainer.setVisible(false);
         counterNumber = 0;
         chatScreenController.temporaryScreen.setVisible(false);
