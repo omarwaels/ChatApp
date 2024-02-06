@@ -156,7 +156,6 @@ public class ChatScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         customizeStatusBox();
         createToolTips();
         customizeEditorPane();
@@ -201,6 +200,15 @@ public class ChatScreenController implements Initializable {
                 e.printStackTrace();
             }
         }).start();
+        Platform.runLater(() -> {
+            try {
+                getServerService().receiveAllOfflineMessages(loginResultDto.getUserDto().getId());
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
+            } catch (NotBoundException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     private static int getOrderOfNodeByStatus(Node node) {
@@ -550,6 +558,8 @@ public class ChatScreenController implements Initializable {
         if (!message.getChatId().equals(currentScreenChatId)) {
             if (message.isSingleChat()) {
                 ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
+                if (connectionItemController == null)
+                    connectionItemController = offlineUsers.get(message.getSenderId());
                 connectionItemController.updateCounter();
             } else {
                 ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());
@@ -561,6 +571,8 @@ public class ChatScreenController implements Initializable {
     private void updateTimeStamps(MessageDto message) {
         if (message.isSingleChat()) {
             ConnectionItemController connectionItemController = onlineUsers.get(message.getSenderId());
+            if (connectionItemController == null)
+                connectionItemController = offlineUsers.get(message.getSenderId());
             connectionItemController.setLastTimeStamp(message.getSentAt());
         } else {
             ConnectionGroupItemController connectionGroupItemController = groupChats.get(message.getChatId());

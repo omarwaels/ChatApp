@@ -77,17 +77,6 @@ public class FileSentController implements Initializable {
         }
     }
 
-    public void mouseEnterEffect() {
-        txtFlow.setStyle("-fx-background-color: rgba(153, 172, 255, 1);");
-
-
-    }
-
-    public void mouseExitEffect() {
-
-        txtFlow.setStyle("-fx-background-color: rgba(15, 125, 242, 1);");
-    }
-
     public void openFileInExplorer() {
         try {
             Path filePath = fileInfo.toPath();
@@ -98,9 +87,8 @@ public class FileSentController implements Initializable {
                 showFileNotAvailableAlert();
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Handle or log the exception
+            e.printStackTrace();
         }
-
     }
 
     private void showFileNotAvailableAlert() {

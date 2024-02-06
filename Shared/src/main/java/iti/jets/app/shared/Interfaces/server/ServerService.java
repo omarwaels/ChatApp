@@ -17,7 +17,6 @@ public interface ServerService extends Remote {
 
     void sendFile(MessageDto messageDto, byte[] fileData) throws RemoteException;
 
-
     void register(Client c) throws RemoteException;
 
     void unregister(Client c) throws RemoteException;
@@ -37,4 +36,6 @@ public interface ServerService extends Remote {
     void sendAnnouncement(String subject, String body) throws RemoteException;
 
     void notifyFriendRequest(int receiverId, String name, String phoneNumber) throws RemoteException;
+
+    void receiveAllOfflineMessages(int receiverId) throws RemoteException;
 }

@@ -19,30 +19,46 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerServiceImpl extends UnicastRemoteObject implements ServerService {
     private static ArrayList<Client> clients = new ArrayList<>();
+
+    private static ConcurrentHashMap<Integer, List<MessageDto>> offlineMessages = new ConcurrentHashMap<>();
 
     public ServerServiceImpl() throws RemoteException {
     }
 
     @Override
     public void sendMessage(MessageDto messageDto) throws RemoteException {
-        for (Client c : clients) {
-            for (Integer userID : messageDto.getReceiverId()) {
+        boolean online;
+        for (Integer userID : messageDto.getReceiverId()) {
+            online = false;
+            for (Client c : clients) {
                 if (c.getID() == userID) {
+                    online = true;
                     c.receiveMessage(messageDto);
+                    break;
+                }
+            }
+            if (!online) {
+                if (offlineMessages.containsKey(userID)) {
+                    offlineMessages.get(userID).add(messageDto);
+                } else {
+                    List<MessageDto> messages = new ArrayList<>();
+                    messages.add(messageDto);
+                    offlineMessages.put(userID, messages);
                 }
             }
         }
     }
 
     @Override
-    public void sendFile(MessageDto messageDto , byte[] fileData) throws RemoteException {
+    public void sendFile(MessageDto messageDto, byte[] fileData) throws RemoteException {
         for (Client c : clients) {
             for (Integer userID : messageDto.getReceiverId()) {
                 if (c.getID() == userID) {
-                    c.readFile(messageDto , fileData);
+                    c.readFile(messageDto, fileData);
                 }
             }
         }
@@ -55,7 +71,9 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
 
     @Override
     public void unregister(Client c) throws RemoteException {
+        System.out.println(clients.size());
         clients.remove(c);
+        System.out.println(clients.size());
     }
 
     @Override
@@ -116,7 +134,7 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     public void sendAnnouncement(String subject, String body) throws RemoteException {
         System.out.println("Sending notification to all clients");
         for (Client client : clients) {
-            client.receiveAnnouncement(subject,body);
+            client.receiveAnnouncement(subject, body);
         }
     }
 
@@ -126,6 +144,20 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
             if (c.getID() == receiverId) {
                 c.receiveInvitationRequest(name, phoneNumber);
                 return;
+            }
+        }
+    }
+
+    @Override
+    public void receiveAllOfflineMessages(int receiverId) throws RemoteException {
+        for (Client c : clients) {
+            if (c.getID() == receiverId) {
+                if (offlineMessages.containsKey(receiverId)) {
+                    for (MessageDto messageDto : offlineMessages.get(receiverId)) {
+                        c.receiveMessage(messageDto);
+                    }
+                    offlineMessages.remove(receiverId);
+                }
             }
         }
     }
