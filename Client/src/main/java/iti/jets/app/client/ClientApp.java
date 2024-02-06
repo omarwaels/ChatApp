@@ -1,5 +1,6 @@
 package iti.jets.app.client;
 
+import iti.jets.app.client.controllers.EmailHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ public class ClientApp extends Application {
     public void start(Stage stage) throws IOException {
         Platform.setImplicitExit(true);
 
+
         Parent root = FXMLLoader.load(getClass().getResource("views/sign-in.fxml"));
         stage.setTitle("Chatting App");
         stage.setScene(new Scene(root));
@@ -22,6 +24,7 @@ public class ClientApp extends Application {
     }
 
     public static void main(String[] args) {
+
         launch();
     }
 }

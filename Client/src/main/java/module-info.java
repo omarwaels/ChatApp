@@ -10,6 +10,7 @@ module client {
     requires static lombok;
     requires MaterialFX;
     requires chatter.bot.api;
+    requires jakarta.mail;
     opens iti.jets.app.client to javafx.fxml;
     exports iti.jets.app.client;
     exports iti.jets.app.client.controllers;

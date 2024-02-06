@@ -116,6 +116,7 @@ public class SignInController implements Initializable {
 
     @FXML
     public void onLoginSubmit() throws NotBoundException, IOException {
+
         Platform.runLater(() -> {
             if (isFirstScreen) {
                 try {
