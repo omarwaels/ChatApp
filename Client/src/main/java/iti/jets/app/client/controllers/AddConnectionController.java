@@ -53,9 +53,11 @@ public class AddConnectionController {
         ArrayList<String> users = new ArrayList<>();
         for (TextField field : listOfInvitations.getItems()) {
             String text = field.getText();
-            if (text != null && !text.isEmpty())
+            if (text != null && !text.isEmpty()) {
                 users.add(text);
+            }
         }
+        listOfInvitations.getItems().removeAll(listOfInvitations.getItems());
         List<Integer> ret = validateUsers(users);
         for (int i = 0; i < ret.size(); i++) {
             if (ret.get(i) == 1) {

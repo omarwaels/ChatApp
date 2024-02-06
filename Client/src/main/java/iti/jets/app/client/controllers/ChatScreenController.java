@@ -857,6 +857,7 @@ public class ChatScreenController implements Initializable {
             InvitationRequestController invitationRequestController = loader.getController();
             invitationRequestController.setData(loginResultDto.getUserDto().getId(), this);
             Stage dialogStage = new Stage();
+            dialogStage.initOwner(invitationsBtn.getScene().getWindow());
             dialogStage.initModality(Modality.APPLICATION_MODAL);
             dialogStage.initStyle(StageStyle.DECORATED);
             dialogStage.setResizable(false);

@@ -78,7 +78,6 @@ public class InvitationRequestCardController implements Initializable {
         ChatDto chatDto = getInvitationService().acceptInvitation(invitationDto);
         invitationRequestController.deleteInvitationCard(invitationDto);
         chatScreenController.addNewFriendInContactList(invitationDtoToFriendInfoDto(invitationDto), chatDto);
-        // Check validity of the following line
         ServerService serverService = chatScreenController.getServerService();
         serverService.addChatForNewFriend(invitationDto.getSenderID(), UserDtoToFriendInfoDto(userDto), chatDto);
     }

@@ -127,7 +127,6 @@ public class CreateGroupController implements Initializable {
         this.friends = friends;
         ObservableList<String> data = FXCollections.observableArrayList();
         for (FriendInfoDto friend : friends) {
-            // TODO: replace the ID with the phone number
             data.add(friend.getUserFriendName());
         }
         listOfConnections.setItems(data);
@@ -137,9 +136,8 @@ public class CreateGroupController implements Initializable {
         ChatDto chatDto = new ChatDto();
         chatDto.setChatName(groupName);
         chatDto.setAdminId(userId);
-        File img = new File("D:\\ITI\\Project\\ChatApp\\Client\\src\\main\\resources\\iti\\jets\\app\\client\\img\\user.png");
+        File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
         chatDto.setChatImage(Files.readAllBytes(img.toPath()));
-
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         LocalDateTime localDate = timestamp.toLocalDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
