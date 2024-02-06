@@ -4,12 +4,11 @@
     -fx-font-size: 25;
     -fx-background-color: linear-gradient(to top, #c9b5b5, #d3c4c4);
     -fx-background-radius: 10 10 0 0;
-    -fx-text-fill: white !important; /* Use !important to enforce the style */
+    -fx-text-fill: white !important;
     -fx-fill-height: 10;
     -fx-min-width: 90;
 }
 
-/* Additional styles for jfx-snackbar-content and jfx-snackbar-toast here */
 
 jfx-snackbar-content {
     -fx-text-fill: WHITE;
@@ -17,12 +16,13 @@ jfx-snackbar-content {
       -fx-text-fill: WHITE;
   }
 
-.jfx-snackbar-label {
-    -fx-text-fill: white; /* Text color */
-    -fx-font-size: 62px; /* Font size */
-}
+
 .leftSideMenu {
-    -fx-background-color: linear-gradient(to top, #333333, #968d8d); /* Black to dark gray gradient */
+    -fx-background-color: linear-gradient(to bottom, #333333, #968d8d);
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0.5, 0.0, 0.0);
+}
+.appBar {
+    fx-background-color: linear-gradient(to left,#333333, #968d8d);
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0.5, 0.0, 0.0);
 }
 
@@ -154,12 +154,11 @@ jfx-snackbar-content {
 
 
 .customTitleBar {
-    -fx-background-color: #333333; /* Customize the background color */
-    -fx-padding: 5 10; /* Customize padding */
+    -fx-background-color: #333333;
+    -fx-padding: 5 10;
 }
 
 .customTitle {
-    -fx-text-fill: white; /* Customize the text color */
-    -fx-font-size: 18; /* Customize the font size */
-    /* Add more styling properties as needed */
+    -fx-text-fill: white;
+    -fx-font-size: 18;
 }

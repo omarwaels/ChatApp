@@ -113,10 +113,10 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
     }
 
     @Override
-    public void sendAnnouncement(String message) throws RemoteException {
+    public void sendAnnouncement(String subject, String body) throws RemoteException {
         System.out.println("Sending notification to all clients");
         for (Client client : clients) {
-            client.receiveAnnouncement(message);
+            client.receiveAnnouncement(subject,body);
         }
     }
 

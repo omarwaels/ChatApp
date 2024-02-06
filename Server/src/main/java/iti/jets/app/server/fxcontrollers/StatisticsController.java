@@ -41,7 +41,7 @@ public class StatisticsController implements Initializable {
         pieChart.setData(list);
 
         for (final PieChart.Data data : pieChart.getData()) {
-            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<MouseEvent>) mouseEvent -> status.setText(String.valueOf(data.getPieValue())));
+            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<MouseEvent>) mouseEvent -> status.setText(String.valueOf((int)data.getPieValue()+" Users")));
         }
 
     }
@@ -84,7 +84,7 @@ public class StatisticsController implements Initializable {
         pieChart.setData(dataList);
         for (final PieChart.Data data : pieChart.getData()) {
             data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<MouseEvent>) mouseEvent ->
-                    status.setText(String.valueOf(data.getPieValue())));
+                    status.setText(String.valueOf((int)data.getPieValue()+" Users")));
         }
     }
 
@@ -96,7 +96,7 @@ public class StatisticsController implements Initializable {
         );
         pieChart.setData(list);
         for (final PieChart.Data data : pieChart.getData()) {
-            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<MouseEvent>) mouseEvent -> status.setText(String.valueOf(data.getPieValue())));
+            data.getNode().addEventHandler(MouseEvent.MOUSE_CLICKED, (EventHandler<MouseEvent>) mouseEvent -> status.setText(String.valueOf((int)data.getPieValue()+" Users")));
         }
     }
 }

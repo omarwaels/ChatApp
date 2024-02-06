@@ -87,8 +87,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void receiveAnnouncement(String message) throws RemoteException {
-        chatScreenController.showServerAnnouncement(message);
+    public void receiveAnnouncement(String subject, String body) throws RemoteException {
+        chatScreenController.showServerAnnouncement(subject, body);
     }
 
     @Override

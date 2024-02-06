@@ -3,22 +3,28 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="362.0" prefWidth="556.0"  xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.server.fxcontrollers.AnnouncementsController">
-   <Label layoutX="112.0" layoutY="7.0" styleClass="annTitle" stylesheets="@../style/annoucemnets.css" text="Announcements">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0" prefWidth="556.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.server.fxcontrollers.AnnouncementsController">
+   <Label layoutX="169.0" layoutY="23.0" styleClass="annTitle" stylesheets="@../style/annoucemnets.css" text="Announcements">
       <font>
          <Font name="System Bold" size="20" />
       </font>
    </Label>
-   <TextArea fx:id="ann1" layoutX="14.0" layoutY="58.0" prefHeight="221.0" prefWidth="350.0" promptText="Write your announcement!" style="-fx-background-radius: 5;" styleClass="text-field">
+   <TextArea fx:id="ann1" layoutX="71.0" layoutY="123.0" prefHeight="221.0" prefWidth="350.0" promptText="Announcement Content" style="-fx-background-radius: 5;" styleClass="text-field">
       <font>
          <Font name="Arial" size="18.0" />
       </font>
    </TextArea>
 
-    <JFXButton buttonType="RAISED" layoutX="364.0" layoutY="297.0" onAction="#sendAnnouncement" prefHeight="38.0" prefWidth="152.0" styleClass="sendButton" stylesheets="@../style/annoucemnets.css" text=" SEND ">
+    <JFXButton buttonType="RAISED" layoutX="390.0" layoutY="369.0" onAction="#sendAnnouncement" prefHeight="38.0" prefWidth="152.0" styleClass="sendButton" stylesheets="@../style/annoucemnets.css" text=" SEND ">
  >
     </JFXButton>
+   <TextField fx:id="title" layoutX="72.0" layoutY="69.0" prefHeight="38.0" prefWidth="348.0" promptText="Subject" style="-fx-border-radius: 5;" styleClass="text-field">
+      <font>
+         <Font name="Arial" size="18.0" />
+      </font>
+   </TextField>
 </AnchorPane>

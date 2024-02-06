@@ -1050,11 +1050,11 @@ public class ChatScreenController implements Initializable {
         return result.isPresent() && result.get() == ButtonType.OK;
     }
 
-    public void showServerAnnouncement(String message) {
+    public void showServerAnnouncement(String subject, String message) {
         Platform.runLater(() -> {
                     Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/megaphone.png"));
                     Notifications notifications = Notifications.create()
-                            .title("Server Announcements")
+                            .title(subject)
                             .text("     " + message)
                             .graphic(new ImageView(image))
                             .hideAfter(Duration.seconds(7))

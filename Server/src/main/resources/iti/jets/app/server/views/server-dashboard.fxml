@@ -1,20 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXToggleButton?>
+<?import com.jfoenix.controls.JFXToolbar?>
 <?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="bp" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1000.0" stylesheets="@../style/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="iti.jets.app.server.fxcontrollers.DashboardController">
 
+    <top>
+        <HBox alignment="CENTER_RIGHT" layoutX="707.0" prefHeight="34.0" prefWidth="897.0" style="-fx-background-color: linear-gradient(to right,#333333, #777373); -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 8, 0.5, 0.0, 0.0);" styleClass="appBar">
+            <cursor>
+                <Cursor fx:constant="MOVE" />
+            </cursor>
+            <children>
+                <ImageView fx:id="minimiseButton" fitHeight="30.0" fitWidth="27.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#minimizeWindow" pickOnBounds="true" preserveRatio="true" styleClass="close-button">
+                    <image>
+                        <Image url="@../images/min.png" />
+                    </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <HBox.margin>
+                        <Insets right="10.0" />
+                    </HBox.margin>
+                </ImageView>
+                <ImageView fx:id="closeXButton1" fitHeight="30.0" fitWidth="28.0" nodeOrientation="RIGHT_TO_LEFT" onMouseClicked="#closeDashboard" pickOnBounds="true" preserveRatio="true" styleClass="close-button">
+                    <image>
+                        <Image url="@../images/close.png" />
+                    </image>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                    <HBox.margin>
+                        <Insets right="10.0" />
+                    </HBox.margin>
+                </ImageView>
+            </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+        </HBox>
 
+    </top>
     <left>
-        <Pane fx:id="leftSideMenu" prefHeight="651.0" prefWidth="200.0" styleClass="leftSideMenu" BorderPane.alignment="CENTER">
+        <Pane fx:id="leftSideMenu" prefHeight="574.0" prefWidth="200.0" styleClass="leftSideMenu" BorderPane.alignment="CENTER">
             <children>
                 <AnchorPane prefHeight="104.0" prefWidth="200.0">
                     <children>
@@ -45,7 +84,7 @@
                             <children>
                                 <Label layoutX="55.0" layoutY="16.0" text="Announcement">
                                     <font>
-                                        <Font name="Oswald Regular" size="16.0" />
+                                        <Font size="16.0" />
                                     </font>
                                     <styleClass>
                                         <String fx:value="lefSideMenuItem" />
@@ -74,6 +113,7 @@
             </children>
         </Pane>
     </left>
+
     <center>
         <AnchorPane fx:id="ap" prefHeight="200.0" prefWidth="200.0" styleClass="contentArea" BorderPane.alignment="CENTER">
             <children>
@@ -82,7 +122,11 @@
                   <Font name="Calibri" size="18.0" />
                </font>
             </JFXToggleButton>
+            <JFXToolbar layoutX="110.0" layoutY="136.0" prefWidth="362.0" />
             </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
         </AnchorPane>
     </center>
 </BorderPane>

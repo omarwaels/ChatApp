@@ -10,10 +10,14 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
@@ -91,10 +95,26 @@ public class DashboardController implements Initializable {
         Notifications notificationBuilder = Notifications.create()
                 .title("Server")
                 .text(message)
+                .styleClass("jfx-notification")
                 .graphic(null)
-                .hideAfter(Duration.seconds(3))
+                .hideAfter(Duration.seconds(1))
                 .position(javafx.geometry.Pos.BOTTOM_RIGHT)
                 .owner(bp.getScene().getWindow());
         notificationBuilder.show();
+    }
+
+    public void minimizeWindow(MouseEvent event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setIconified(true);
+    }
+
+    public void closeDashboard(MouseEvent mouseEvent) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                " Are you sure you want to exit?", ButtonType.YES, ButtonType.NO);
+        alert.setHeaderText("Server Dashboard");
+        alert.showAndWait();
+        if (alert.getResult() == ButtonType.YES) {
+            System.exit(0);
+        }
     }
 }
