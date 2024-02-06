@@ -1,5 +1,6 @@
 package iti.jets.app.client.controllers;
 
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.Interfaces.server.CreateGroupService;
@@ -77,7 +78,7 @@ public class CreateGroupController implements Initializable {
             }
             System.out.println(membersIds);
             ChatDto chatDto = createChatDto(groupName);
-            Registry registry = LocateRegistry.getRegistry(8189);
+            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
             CreateGroupService createGroupService = ((ServiceFactory) registry.lookup("ServiceFactory")).getCreateGroupService();
             int ret = createGroupService.createGroup(chatDto, membersIds);
             System.out.println(ret);

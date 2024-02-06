@@ -16,6 +16,7 @@ import java.rmi.registry.Registry;
 import java.util.ResourceBundle;
 
 import iti.jets.app.client.CallBack.ClientImpl;
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 
@@ -110,7 +111,7 @@ public class SignInController implements Initializable {
     }
 
     ServerService getServerService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
 
@@ -185,7 +186,7 @@ public class SignInController implements Initializable {
     }
 
     LoginService getLoginService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getLoginService();
     }
 

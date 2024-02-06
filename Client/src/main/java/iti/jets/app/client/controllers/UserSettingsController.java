@@ -1,6 +1,7 @@
 package iti.jets.app.client.controllers;
 
 
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.UpdateInfoDto;
 import iti.jets.app.shared.DTOs.UserDto;
@@ -178,7 +179,7 @@ public class UserSettingsController implements Initializable {
         dobPicker.setEditable(false);
         dobPicker.getEditor().setDisable(true);
         try {
-            Registry registry = LocateRegistry.getRegistry(8189);
+            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
             updateInfoService = ((ServiceFactory) registry.lookup("ServiceFactory")).getUpdateInfoService();
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -224,7 +225,7 @@ public class UserSettingsController implements Initializable {
                 int ret = updateInfoService.updateField(new UpdateInfoDto("display_name", nameField.getText(), user.getId()));
                 if (ret == 1) {
                     user.setDisplayName(nameField.getText());
-                    Registry registry = LocateRegistry.getRegistry(8189);
+                    Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
                     ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
                     new Thread(() -> {
                         try {
@@ -341,7 +342,7 @@ public class UserSettingsController implements Initializable {
         profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
         chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
         user.setPicture(Files.readAllBytes(img.toPath()));
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
         new Thread(() -> {
             try {
@@ -363,7 +364,7 @@ public class UserSettingsController implements Initializable {
             profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
             chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(selectedFile.toPath())))));
             user.setPicture(Files.readAllBytes(selectedFile.toPath()));
-            Registry registry = LocateRegistry.getRegistry(8189);
+            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
             ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
             new Thread(() -> {
                 try {

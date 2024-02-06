@@ -2,6 +2,7 @@ package iti.jets.app.client.controllers;
 
 import iti.jets.app.client.CallBack.ClientImpl;
 import iti.jets.app.client.utils.ChatBot;
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
 import iti.jets.app.shared.Interfaces.server.ServerService;
@@ -277,7 +278,8 @@ public class ChatScreenController implements Initializable {
     }
 
     ServerService getServerService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
+
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
 
@@ -823,7 +825,7 @@ public class ChatScreenController implements Initializable {
     public void performActionsBeforeClosing() throws RemoteException, NotBoundException {
         informFriends(false);
         serverService.unregister(client);
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
         serviceFactory.getLoginService().logOut(loginResultDto.getUserDto().getPhoneNumber());
     }
@@ -1035,7 +1037,7 @@ public class ChatScreenController implements Initializable {
         // Update the new mode in the DB
         int userID = loginResultDto.getUserDto().getId();
         UpdateInfoDto newUpdateInfo = new UpdateInfoDto("mode", newMode, userID);
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         UpdateInfoService updateInfoService = ((ServiceFactory) registry.lookup("ServiceFactory")).getUpdateInfoService();
         updateInfoService.updateField(newUpdateInfo);
 

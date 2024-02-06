@@ -1,5 +1,6 @@
 package iti.jets.app.client.controllers;
 
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.InvitationDto;
 import iti.jets.app.shared.DTOs.UserDto;
@@ -85,7 +86,7 @@ public class AddConnectionController {
     public void setData(UserDto user, ChatScreenController chatScreenController) throws RemoteException, NotBoundException {
         this.user = user;
         this.chatScreenController = chatScreenController;
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
     }
 

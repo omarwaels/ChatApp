@@ -1,5 +1,6 @@
 package iti.jets.app.client;
 
+import iti.jets.app.client.utils.ServerIPAddress;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +21,10 @@ public class ClientApp extends Application {
     }
 
     public static void main(String[] args) {
-
+        if (args.length > 0 && args[0] != null ) {
+            ServerIPAddress.setIp(args[0]);
+            ServerIPAddress.setPort(Integer.parseInt(args[1]));
+        }
         launch();
     }
 }

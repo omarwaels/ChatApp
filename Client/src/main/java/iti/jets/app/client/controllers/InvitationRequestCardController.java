@@ -1,6 +1,7 @@
 package iti.jets.app.client.controllers;
 
 import io.github.palexdev.materialfx.controls.MFXButton;
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
 import iti.jets.app.shared.DTOs.InvitationDto;
@@ -69,7 +70,7 @@ public class InvitationRequestCardController implements Initializable {
     }
 
     InvitationService getInvitationService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getInvitationService();
     }
 

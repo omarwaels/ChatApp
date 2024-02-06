@@ -1,5 +1,6 @@
 package iti.jets.app.client.controllers;
 
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.UserRegisterDto;
 import iti.jets.app.shared.Interfaces.server.RegisterService;
@@ -184,7 +185,7 @@ public class SignUpController implements Initializable {
     }
 
     private RegisterService getRegisterService() throws RemoteException, NotBoundException {
-        Registry registry = LocateRegistry.getRegistry(8189);
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getRegisterService();
     }
 
