@@ -1,4 +1,5 @@
 .updateButton{
     -fx-text-fill: white;
-    -fx-background-color: linear-gradient(to top, #3ea3f8, #2e7ea4);    -fx-font-family: Roboto;
+    -fx-background-color: linear-gradient(to left bottom, #524b4b, #524B4BFF);
+    -fx-font-family: Roboto;
 }

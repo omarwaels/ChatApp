@@ -11,4 +11,5 @@ module shared {
     requires javafx.fxml;
     requires java.naming;
     requires org.controlsfx.controls;
+    requires jakarta.mail;
 }

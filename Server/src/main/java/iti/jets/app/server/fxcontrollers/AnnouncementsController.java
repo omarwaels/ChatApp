@@ -4,6 +4,7 @@ import iti.jets.app.server.Services.ServerServiceImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -16,6 +17,8 @@ public class AnnouncementsController implements Initializable {
 
     @FXML
     public TextArea ann1;
+   @FXML
+    public TextField title;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -29,6 +32,6 @@ public class AnnouncementsController implements Initializable {
 
     @FXML
     public void sendAnnouncement() throws RemoteException {
-        serverService.sendAnnouncement(ann1.getText());
+        serverService.sendAnnouncement(title.getText(),ann1.getText());
     }
 }

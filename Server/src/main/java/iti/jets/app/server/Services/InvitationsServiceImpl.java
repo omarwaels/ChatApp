@@ -8,6 +8,7 @@ import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.InvitationDto;
 import iti.jets.app.shared.DTOs.UserDto;
 import iti.jets.app.shared.Interfaces.server.InvitationService;
+import iti.jets.app.shared.Interfaces.server.MailingService;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.enums.ModeEnum;
 import iti.jets.app.shared.enums.StatusEnum;
@@ -27,6 +28,7 @@ import java.util.Objects;
 public class InvitationsServiceImpl extends UnicastRemoteObject implements InvitationService {
     public InvitationsServiceImpl() throws RemoteException {
     }
+    MailingService mailingService = new MailingServiceImpl();
 
     @Override
     public List<InvitationDto> getUserRequests(int receiverId) throws RemoteException {
@@ -110,6 +112,7 @@ public class InvitationsServiceImpl extends UnicastRemoteObject implements Invit
             }
             boolean Success = invitationDao.insert(InvitationDtoMapper.invitationDtoToInvitation(invitationDto)) > 0;
             if (Success) {
+                mailingService.sendMail(invitationDto.getReceiverID(), "Friend Request", "You have a friend request from " + invitationDto.getSenderName() + " " + invitationDto.getSenderPhone());
                 ServerService serverService = new ServerServiceImpl();
                 serverService.notifyFriendRequest(invitationDto.getReceiverID(), invitationDto.getSenderName(), invitationDto.getSenderPhone());
                 ret.add(0);

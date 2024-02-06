@@ -12,7 +12,7 @@ import java.util.Properties;
 public enum DataSourceFactory {
     INSTANCE;
 
-    private static DataSource dataSource;
+    private DataSource dataSource;
 
     DataSourceFactory() {
         initializeDataSource();
@@ -31,17 +31,18 @@ public enum DataSourceFactory {
         }
 
         HikariConfig config = new HikariConfig();
+
         config.setJdbcUrl(properties.getProperty("jdbc.url"));
         config.setUsername(properties.getProperty("jdbc.username"));
         config.setPassword(properties.getProperty("jdbc.password"));
+        config.setIdleTimeout(60000);
 
-        //  config.setMaximumPoolSize(500);
-        config.setMaximumPoolSize(500);
+        config.setMaximumPoolSize(120);
 
         dataSource = new HikariDataSource(config);
     }
 
     public static DataSource getMySQLDataSource() {
-        return dataSource;
+        return INSTANCE.dataSource;
     }
 }
