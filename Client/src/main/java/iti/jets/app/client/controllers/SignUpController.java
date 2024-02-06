@@ -210,7 +210,7 @@ public class SignUpController implements Initializable {
         userRegisterDto.setGender(genderComboBox.getSelectionModel().getSelectedItem().toString());
         userRegisterDto.setCountry(countryComboBox.getSelectionModel().getSelectedItem().toString());
         userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
-        userRegisterDto.setBio(bioTextField.getText());
+        userRegisterDto.setBio("");
         if (picture == null) {
             File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
             picture = Files.readAllBytes(img.toPath());
