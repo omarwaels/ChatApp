@@ -65,9 +65,9 @@ public class ChatScreenController implements Initializable {
     @FXML
     public ImageView exitBtn;
     @FXML
-    public ImageView singleChat;
+    public StackPane singleChat;
     @FXML
-    public ImageView groupChat;
+    public StackPane groupChat;
     @FXML
     public ImageView chatSettingImg;
     @FXML
@@ -133,8 +133,15 @@ public class ChatScreenController implements Initializable {
     public ImageView inviteFriendsBtn;
     @FXML
     public Circle profilePic;
+    @FXML
+    public ImageView invitaionStarImage;
+    @FXML
+    public ImageView singleChatStarImage;
+    @FXML
+    public ImageView groubChatStarImage;
 
     private final String appDirectory = "AppDirectory\\userObj";
+
     public LoginResultDto loginResultDto;
     Integer currentScreenUserId = null;
     Integer currentScreenChatId = null;
@@ -147,9 +154,10 @@ public class ChatScreenController implements Initializable {
     public ConcurrentHashMap<Integer, ConnectionItemController> onlineUsers = new ConcurrentHashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
+    private String currentTypeOfActiveScreen = "SINGLECHAT"  ;
 
     @FXML
-    public ImageView invitationsBtn;
+    public StackPane invitationsBtn;
 
     public boolean isSingleChat = true;
 
@@ -345,11 +353,15 @@ public class ChatScreenController implements Initializable {
     public void showGroupChat() {
         singleChatContainer.setVisible(false);
         groubChatContainer.setVisible(true);
+        this.currentTypeOfActiveScreen="GROUBCHAT";
+        groubChatStarImage.setVisible(false);
     }
 
     public void showSingleChat() {
         groubChatContainer.setVisible(false);
         singleChatContainer.setVisible(true);
+        this.currentTypeOfActiveScreen="SINGLECHAT";
+        singleChatStarImage.setVisible(false);
     }
 
     public void updateConnectionName(String name) {
@@ -442,9 +454,11 @@ public class ChatScreenController implements Initializable {
             if (message.isSingleChat()) {
                 showReceivedMessageAnnouncement("You have received a new private message, go and check it.");
                 sortSingleContactListOnTimeStamp();
+                showStar("SINGLECHAT");
             } else {
                 showReceivedMessageAnnouncement("You have received a new group message, go and check it.");
                 sortGroupContactListOnTimeStamp();
+                showStar("GROUPCHAT");
             }
             FXMLLoader fxmlLoader;
             if (message.isContainsFile()) {
@@ -886,6 +900,7 @@ public class ChatScreenController implements Initializable {
             dialogStage.setTitle("Invitations");
             dialogStage.setScene(new Scene(root));
             dialogStage.showAndWait();
+            invitaionStarImage.setVisible(false);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -1090,6 +1105,7 @@ public class ChatScreenController implements Initializable {
     }
 
     public void showInvitationAnnouncement(String message) {
+        showStar("INVITATION");
         Platform.runLater(() -> {
                     Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/friend-request.png"));
                     Notifications notifications = Notifications.create()
@@ -1197,6 +1213,20 @@ public class ChatScreenController implements Initializable {
             alert.initOwner(chatBorderPane.getScene().getWindow());
             alert.showAndWait();
         });
+    }
+     void showStar(String screenToStar){
+
+        if(this.currentTypeOfActiveScreen.equals(screenToStar)){
+            return;
+        }
+        if(screenToStar.equals("SINGLECHAT")){
+            singleChatStarImage.setVisible(true);
+        }else if(screenToStar.equals("GROUPCHAT")){
+            groubChatStarImage.setVisible(true);
+        }else {
+            invitaionStarImage.setVisible(true);
+        }
+
     }
 
     @FXML

@@ -57,6 +57,7 @@ public class InvitationRequestController implements Initializable {
         try {
             InvitationService invitationService = getInvitationService();
             List<InvitationDto> userRequests = invitationService.getUserRequests(userId);
+
             observableList.addAll(userRequests);
         } catch (NotBoundException | RemoteException e) {
             e.printStackTrace();

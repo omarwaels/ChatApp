@@ -98,6 +98,7 @@ public class ConnectionItemController implements Initializable {
         chatScreenController.setCurrentScreenImage(userImage);
         chatScreenController.currentConnection = this;
         chatScreenController.isSingleChat = true;
+
     }
 
     public void hoverEnterEffect() {

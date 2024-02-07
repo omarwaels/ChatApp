@@ -70,6 +70,7 @@ public class ConnectionGroupItemController implements Initializable {
         chatScreenController.updateCurrentScreenStatusWordForGroups("");
         chatScreenController.chatArea.setVisible(true);
         chatScreenController.isSingleChat = false;
+
     }
 
     public void hoverEnterEffect() {
