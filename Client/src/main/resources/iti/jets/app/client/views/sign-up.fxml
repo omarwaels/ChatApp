@@ -26,7 +26,7 @@
                         <Image url="@../img/loginlogo.gif" />
                     </image>
                 </ImageView>
-                <Label text="Welcome to ChatUp">
+                <Label text="Welcome to ChatUp" textFill="#50abff">
                     <font>
                         <Font name="Roboto" size="25.0" />
                     </font>
@@ -44,7 +44,7 @@
                 <Insets top="-30.0" />
             </opaqueInsets>
         </VBox>
-        <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #808080;" HBox.hgrow="ALWAYS">
+        <VBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #395a7f;" HBox.hgrow="ALWAYS">
             <children>
                 <HBox alignment="CENTER" prefHeight="134.0" prefWidth="430.0" style="-fx-pref-height: 100;">
                     <children>
@@ -53,7 +53,7 @@
                                 <Image url="@../img/Preloader.png" />
                             </image>
                         </ImageView>
-                        <Label text="Sign Up" textFill="#749aae">
+                        <Label text="Sign Up" textFill="#9fd4ee">
                             <font>
                                 <Font name="Comic Sans MS" size="51.0" />
                             </font>
@@ -337,7 +337,7 @@
                         <Cursor fx:constant="OPEN_HAND" />
                      </cursor>
                         </Button>
-                        <Label prefHeight="26.0" prefWidth="127.0" text="Already have an account? ">
+                        <Label prefHeight="26.0" prefWidth="127.0" text="Already have an account? " textFill="WHITE">
                             <VBox.margin>
                                 <Insets top="6.0" />
                             </VBox.margin>
@@ -345,7 +345,7 @@
                                 <Font size="11.0" />
                             </font>
                         </Label>
-                        <Label fx:id="logInLabel" onMouseClicked="#onLogInLabelClicked" style="-fx-underline: true;" text="Log In">
+                        <Label fx:id="logInLabel" onMouseClicked="#onLogInLabelClicked" style="-fx-underline: true;" text="Log In" textFill="WHITE">
                             <VBox.margin>
                                 <Insets />
                             </VBox.margin>

@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
@@ -23,7 +24,7 @@ public class ConnectionGroupItemController implements Initializable {
     @FXML
     public Label lastMessageTimestamp;
     @FXML
-    public ImageView connectionPic;
+    public Circle connectionPic;
     @FXML
     public Circle connectionStatus;
     @FXML
@@ -54,8 +55,8 @@ public class ConnectionGroupItemController implements Initializable {
         connectionName.setText(chatDto.getChatName());
         if (chatDto.getChatImage() != null) {
             Image chatImg = new Image(new ByteArrayInputStream(chatDto.getChatImage()));
-            connectionPic.setImage(chatImg);
-
+            connectionPic.setFill(new ImagePattern(chatImg));
+            //connectionPic.setImage(chatImg);
         }
     }
 

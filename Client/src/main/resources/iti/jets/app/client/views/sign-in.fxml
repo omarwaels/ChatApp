@@ -23,7 +23,7 @@
                   <Image url="@../img/loginlogo.gif" />
                </image>
             </ImageView>
-            <Label text="Welcom to ChatUp">
+            <Label text="Welcom to ChatUp" textFill="#50abff">
                <font>
                   <Font name="Roboto" size="25.0" />
                </font>
@@ -43,7 +43,7 @@
       </VBox>
       <StackPane HBox.hgrow="ALWAYS">
          <children>
-            <VBox fx:id="firstScreen" alignment="CENTER_LEFT" focusTraversable="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #808080;">
+            <VBox fx:id="firstScreen" alignment="CENTER_LEFT" focusTraversable="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #395a7f;">
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -52,7 +52,7 @@
                               <Image url="@../img/Preloader.png" />
                            </image>
                         </ImageView>
-                        <Label text="Sign In" textFill="#749aae">
+                        <Label text="Sign In" textFill="#9fd4ee">
                            <font>
                               <Font name="Comic Sans MS" size="51.0" />
                            </font>
@@ -133,7 +133,7 @@
                               <Insets left="50.0" />
                            </padding>
                         </Label>
-                        <Label fx:id="haveAccountLabel" text="Don't have an account yet? ">
+                        <Label fx:id="haveAccountLabel" text="Don't have an account yet? " textFill="WHITE">
                            <VBox.margin>
                               <Insets left="137.0" top="-100.0" />
                            </VBox.margin>
@@ -141,7 +141,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="signUpLabel" onMouseClicked="#onSignUpLabelClicked" style="-fx-underline: true;" text="Sign Up">
+                        <Label fx:id="signUpLabel" onMouseClicked="#onSignUpLabelClicked" style="-fx-underline: true;" text="Sign Up" textFill="WHITE">
                            <VBox.margin>
                               <Insets left="200.0" />
                            </VBox.margin>
@@ -156,7 +156,7 @@
                   <Insets left="30.0" />
                </padding>
             </VBox>
-            <VBox fx:id="secondScreen" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #808080;" visible="false">
+            <VBox fx:id="secondScreen" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="572.0" prefWidth="429.0" style="-fx-background-color: #395a7f;" visible="false">
                <children>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                      <children>
@@ -165,7 +165,7 @@
                               <Image url="@../img/Preloader.png" />
                            </image>
                         </ImageView>
-                        <Label text="Sign In" textFill="#749aae">
+                        <Label text="Sign In" textFill="#9fd4ee">
                            <font>
                               <Font name="Comic Sans MS" size="51.0" />
                            </font>
