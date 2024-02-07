@@ -21,8 +21,12 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.control.Notifications;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.rmi.NotBoundException;
@@ -216,11 +220,14 @@ public class SignUpController implements Initializable {
         userRegisterDto.setCountry(countryComboBox.getSelectionModel().getSelectedItem().toString());
         userRegisterDto.setDateOfBirth(java.sql.Date.valueOf(dobDatePicker.getValue()));
         userRegisterDto.setBio("");
-        if (picture == null) {
-            File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
-            picture = Files.readAllBytes(img.toPath());
-        }
-        userRegisterDto.setPicture(picture);
+
+        InputStream is = getClass().getResourceAsStream("/img/user.png");
+        BufferedImage bImage = ImageIO.read(is);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", bos);
+        byte[] imgBytes = bos.toByteArray();
+
+        userRegisterDto.setPicture(imgBytes);
         return userRegisterDto;
     }
 

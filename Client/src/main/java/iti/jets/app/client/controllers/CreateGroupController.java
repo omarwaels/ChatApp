@@ -13,9 +13,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.rmi.NotBoundException;
@@ -137,8 +142,18 @@ public class CreateGroupController implements Initializable {
         ChatDto chatDto = new ChatDto();
         chatDto.setChatName(groupName);
         chatDto.setAdminId(userId);
-        File img = new File("Client/src/main/resources/iti/jets/app/client/img/gIcon.png");
-        chatDto.setChatImage(Files.readAllBytes(img.toPath()));
+
+
+
+
+        InputStream is = getClass().getResourceAsStream("/img/gIcon.png");
+        BufferedImage bImage = ImageIO.read(is);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", bos );
+        byte[] imgBytes = bos.toByteArray();
+
+
+        chatDto.setChatImage(imgBytes);
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         LocalDateTime localDate = timestamp.toLocalDateTime();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

@@ -174,7 +174,7 @@ public class AddConnectionController {
 
     public void deleteFromRequestsList(String phone) throws IOException, SQLException, NotBoundException {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/iti/jets/app/client/views/invitations-screen.fxml"));
+        loader.setLocation(getClass().getResource("/views/invitations-screen.fxml"));
         loader.load();
         InvitationRequestController invitationRequestController = loader.getController();
         invitationRequestController.setData(user.getId(), chatScreenController);

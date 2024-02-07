@@ -79,7 +79,7 @@ public class InvitationRequestController implements Initializable {
                         super.updateItem(item, empty);
                         if (!empty) {
                             if (item != null) {
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/iti/jets/app/client/views/invitation-card.fxml"));
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/invitation-card.fxml"));
                                 Parent root;
                                 try {
                                     root = loader.load();

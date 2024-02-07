@@ -27,9 +27,9 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.URL;
 import java.nio.file.Files;
 import java.rmi.NotBoundException;
@@ -340,10 +340,15 @@ public class UserSettingsController implements Initializable {
 
     @FXML
     public void onClickRemovePhoto() throws IOException, NotBoundException {
-        File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
-        profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
-        chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(Files.readAllBytes(img.toPath())))));
-        user.setPicture(Files.readAllBytes(img.toPath()));
+        InputStream is = getClass().getResourceAsStream("/img/user.png");
+        BufferedImage bImage = ImageIO.read(is);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "png", bos);
+        byte[] imgBytes = bos.toByteArray();
+
+        profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(imgBytes))));
+        chatScreenController.profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(imgBytes))));
+        user.setPicture(imgBytes);
         Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
         ServerService serverService = ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
         new Thread(() -> {

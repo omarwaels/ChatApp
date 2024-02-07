@@ -1,22 +1,14 @@
-package iti.jets.app.server;
+package iti.jets.app.server.start;
 
-import iti.jets.app.server.db.MailingDao;
 import iti.jets.app.server.fxcontrollers.DashboardController;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.file.*;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 
 public class Launcher extends Application {
 
@@ -27,10 +19,10 @@ public class Launcher extends Application {
     public void start(Stage stage) throws IOException, InterruptedException {
 
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("views/server-dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("/views/server-dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        scene.getStylesheets().add(getClass().getResource("/iti/jets/app/server/style/style.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/style/style.css").toExternalForm());
         stage.setScene(scene);
         stage.initStyle(javafx.stage.StageStyle.UNDECORATED);
         DashboardController controller = fxmlLoader.getController();

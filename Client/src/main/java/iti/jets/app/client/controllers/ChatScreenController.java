@@ -1091,7 +1091,7 @@ public class ChatScreenController implements Initializable {
 
     public void showServerAnnouncement(String subject, String message) {
         Platform.runLater(() -> {
-                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/megaphone.png"));
+                    Image image = new Image(getClass().getResourceAsStream("/img/megaphone.png"));
                     Notifications notifications = Notifications.create()
                             .title(subject)
                             .text("     " + message)
@@ -1107,7 +1107,7 @@ public class ChatScreenController implements Initializable {
     public void showInvitationAnnouncement(String message) {
         showStar("INVITATION");
         Platform.runLater(() -> {
-                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/friend-request.png"));
+                    Image image = new Image(getClass().getResourceAsStream("/img/friend-request.png"));
                     Notifications notifications = Notifications.create()
                             .title("Friend Request")
                             .text("     " + message)
@@ -1122,7 +1122,7 @@ public class ChatScreenController implements Initializable {
 
     public void showFriendChangeStatusAnnouncement(String message) {
         Platform.runLater(() -> {
-                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/change.png"));
+                    Image image = new Image(getClass().getResourceAsStream("/img/change.png"));
                     Notifications notifications = Notifications.create()
                             .title("Friend Status Change")
                             .text("     " + message)
@@ -1137,7 +1137,7 @@ public class ChatScreenController implements Initializable {
 
     public void showReceivedMessageAnnouncement(String message) {
         Platform.runLater(() -> {
-                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/communication.png"));
+                    Image image = new Image(getClass().getResourceAsStream("/img/communication.png"));
                     Notifications notifications = Notifications.create()
                             .title("New Message")
                             .text("     " + message)
@@ -1151,7 +1151,7 @@ public class ChatScreenController implements Initializable {
 
     public void showAddedToGroupAnnouncement(String message) {
         Platform.runLater(() -> {
-                    Image image = new Image(getClass().getResourceAsStream("/iti/jets/app/client/img/groupAnn.png"));
+                    Image image = new Image(getClass().getResourceAsStream("/img/groupAnn.png"));
                     Notifications notifications = Notifications.create()
                             .title("Group Invitation")
                             .text("     " + message)

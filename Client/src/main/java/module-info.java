@@ -5,14 +5,13 @@ module client {
     requires org.kordamp.bootstrapfx.core;
     requires java.sql;
     requires shared;
-    requires server;
     requires java.rmi;
     requires static lombok;
     requires MaterialFX;
     requires chatter.bot.api;
     requires jakarta.mail;
-    opens iti.jets.app.client to javafx.fxml;
-    exports iti.jets.app.client;
     exports iti.jets.app.client.controllers;
     opens iti.jets.app.client.controllers to javafx.fxml;
+    exports iti.jets.app.client.start;
+    opens iti.jets.app.client.start to javafx.fxml;
 }

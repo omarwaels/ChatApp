@@ -57,12 +57,12 @@ public class DashboardController implements Initializable {
 
     @FXML
     void announcements(MouseEvent event) {
-        loadPage("/iti/jets/app/server/views/announcements.fxml");
+        loadPage("/views/announcements.fxml");
     }
 
     @FXML
     void statistics(MouseEvent event) {
-        loadPage("/iti/jets/app/server/views/statistics.fxml");
+        loadPage("/views/statistics.fxml");
     }
 
     private void loadPage(String page) {

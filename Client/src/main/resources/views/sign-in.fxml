@@ -108,7 +108,7 @@
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#onLoginSubmit" prefHeight="50.0" prefWidth="178.0" styleClass="btn-login" text="Continue" textFill="#48b5c6">
+                              <Button fx:id="continueBtn" mnemonicParsing="false" onAction="#onLoginSubmit" prefHeight="50.0" prefWidth="178.0" styleClass="btn-login" text="Continue" textFill="#48b5c6">
                                  <font>
                                     <Font name="Calibri Bold Italic" size="38.0" />
                                  </font>
