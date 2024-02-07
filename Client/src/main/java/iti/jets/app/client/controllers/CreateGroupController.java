@@ -136,7 +136,7 @@ public class CreateGroupController implements Initializable {
         ChatDto chatDto = new ChatDto();
         chatDto.setChatName(groupName);
         chatDto.setAdminId(userId);
-        File img = new File("Client/src/main/resources/iti/jets/app/client/img/user.png");
+        File img = new File("Client/src/main/resources/iti/jets/app/client/img/gIcon.png");
         chatDto.setChatImage(Files.readAllBytes(img.toPath()));
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         LocalDateTime localDate = timestamp.toLocalDateTime();

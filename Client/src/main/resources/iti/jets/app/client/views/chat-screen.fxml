@@ -25,9 +25,9 @@
     <left>
         <HBox prefHeight="598.0" prefWidth="277.0" BorderPane.alignment="CENTER">
             <children>
-                <VBox alignment="CENTER" prefHeight="598.0" prefWidth="56.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
+                <VBox alignment="CENTER" prefHeight="598.0" prefWidth="56.0" styleClass="navigation-bar" stylesheets="@../style/style.css">
                     <children>
-                        <Pane layoutX="10.0" layoutY="185.0" prefHeight="330.0" prefWidth="42.0" styleClass="dark-gray-background" stylesheets="@../style/style.css">
+                        <Pane layoutX="10.0" layoutY="185.0" prefHeight="330.0" prefWidth="42.0" styleClass="navigation-bar" stylesheets="@../style/style.css">
                      <children>
                         <ImageView fx:id="createGroupBtn" fitHeight="43.0" fitWidth="41.0" layoutX="1.0" layoutY="227.0" onMouseClicked="#onCreateGroup" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -61,7 +61,7 @@
                               <Cursor fx:constant="OPEN_HAND" />
                            </cursor>
                               </ImageView>
-                        <Circle fx:id="profilePic" fill="#9e9e9e" layoutX="21.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fx:id="profilePic" fill="#e9ecee" layoutX="21.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
                         <Separator layoutY="69.0" opacity="0.2" prefHeight="9.0" prefWidth="43.0" />
                      </children></Pane>
                         <Pane prefHeight="212.0" prefWidth="42.0" VBox.vgrow="ALWAYS">
@@ -97,7 +97,7 @@
                         </ImageView>
                     </children>
                 </VBox>
-                <VBox prefHeight="598.0" prefWidth="248.0" styleClass="gray-background" stylesheets="@../style/style.css">
+                <VBox prefHeight="598.0" prefWidth="248.0" styleClass="connections-background" stylesheets="@../style/style.css">
                     <children>
                   <VBox alignment="CENTER" prefHeight="74.0" prefWidth="235.0">
                      <children>
@@ -116,7 +116,7 @@
                         </ComboBox>
                      </children>
                   </VBox>
-                  <Pane prefHeight="3.0" prefWidth="248.0" styleClass="dark-gray-background" stylesheets="@../style/style.css" />
+                  <Pane prefHeight="3.0" prefWidth="248.0" styleClass="navigation-bar" stylesheets="@../style/style.css" />
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
                         <ScrollPane fx:id="singleChatContainer" prefHeight="524.0" prefWidth="236.0" stylesheets="@../style/style.css">

@@ -7,7 +7,7 @@
     -fx-padding: 1px;
     -fx-font-weight: 700;
     -fx-font-family: 'Open Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
-    -fx-background-color: #A9A9A9;
+    -fx-background-color: #E9ECEE;
 }
 .combo-box:hover{
     -fx-text-fill: white;
