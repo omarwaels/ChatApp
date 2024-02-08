@@ -194,7 +194,7 @@ public class UserSettingsController implements Initializable {
                     passStatus.setText("Password don't match");
                     passStatus.setTextFill(Color.RED);
                 } else {
-                    passStatus.setText("You can change the password now");
+                    passStatus.setText("");
                     savePassBtn.setDisable(false);
                     passStatus.setTextFill(Color.GREEN);
                 }
@@ -262,6 +262,8 @@ public class UserSettingsController implements Initializable {
 
         savePassBtn.setOnAction(event -> {
             try {
+                passStatus.setText("");
+                passStatus.setVisible(false);
                 int ret = updateInfoService.updateField(new UpdateInfoDto("password", newPassField.getText(), user.getId()));
                 if (ret == 1) {
                     user.setPassword(newPassField.getText());
@@ -270,7 +272,6 @@ public class UserSettingsController implements Initializable {
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-            passStatus.setVisible(false);
             passwordField.setText(newPassField.getText());
             clearPassFields();
             switchButtonsVisibility(changePassBox);

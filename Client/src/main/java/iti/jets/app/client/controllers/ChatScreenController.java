@@ -139,7 +139,10 @@ public class ChatScreenController implements Initializable {
     public ImageView singleChatStarImage;
     @FXML
     public ImageView groubChatStarImage;
-
+    @FXML
+    public Label emptyGroups;
+    @FXML
+    public Label emptyFriends;
     private final String appDirectory = "AppDirectory\\userObj";
 
     public LoginResultDto loginResultDto;
@@ -154,7 +157,7 @@ public class ChatScreenController implements Initializable {
     public ConcurrentHashMap<Integer, ConnectionItemController> onlineUsers = new ConcurrentHashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
-    private String currentTypeOfActiveScreen = "SINGLECHAT"  ;
+    private String currentTypeOfActiveScreen = "SINGLECHAT";
 
     @FXML
     public StackPane invitationsBtn;
@@ -353,15 +356,26 @@ public class ChatScreenController implements Initializable {
     public void showGroupChat() {
         singleChatContainer.setVisible(false);
         groubChatContainer.setVisible(true);
-        this.currentTypeOfActiveScreen="GROUBCHAT";
+        emptyFriends.setVisible(false);
+        this.currentTypeOfActiveScreen = "GROUBCHAT";
         groubChatStarImage.setVisible(false);
+        if (connectionGroupsLayout.getChildren().isEmpty())
+            emptyGroups.setVisible(true);
+        else
+            emptyGroups.setVisible(false);
     }
 
     public void showSingleChat() {
         groubChatContainer.setVisible(false);
         singleChatContainer.setVisible(true);
-        this.currentTypeOfActiveScreen="SINGLECHAT";
+        emptyGroups.setVisible(false);
+        this.currentTypeOfActiveScreen = "SINGLECHAT";
         singleChatStarImage.setVisible(false);
+        if (connectionLayout.getChildren().isEmpty())
+            emptyFriends.setVisible(true);
+        else
+            emptyFriends.setVisible(false);
+
     }
 
     public void updateConnectionName(String name) {
@@ -1215,16 +1229,17 @@ public class ChatScreenController implements Initializable {
             alert.showAndWait();
         });
     }
-     void showStar(String screenToStar){
 
-        if(this.currentTypeOfActiveScreen.equals(screenToStar)){
+    void showStar(String screenToStar) {
+
+        if (this.currentTypeOfActiveScreen.equals(screenToStar)) {
             return;
         }
-        if(screenToStar.equals("SINGLECHAT")){
+        if (screenToStar.equals("SINGLECHAT")) {
             singleChatStarImage.setVisible(true);
-        }else if(screenToStar.equals("GROUPCHAT")){
+        } else if (screenToStar.equals("GROUPCHAT")) {
             groubChatStarImage.setVisible(true);
-        }else {
+        } else {
             invitaionStarImage.setVisible(true);
         }
 

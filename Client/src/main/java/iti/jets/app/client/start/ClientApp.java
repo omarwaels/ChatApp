@@ -20,13 +20,13 @@ public class ClientApp extends Application {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/sign-in.fxml")));
         stage.setTitle("Chatting App");
         stage.setScene(new Scene(root));
-        stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("img/applogo.png")));
+        stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/img/applogo.png")));
         GuiUtils.setStageDraggable(stage, root);
         stage.show();
     }
 
     public static void main(String[] args) {
-        if (args.length > 0 && args[0] != null ) {
+        if (args.length > 0 && args[0] != null) {
             ServerIPAddress.setIp(args[0]);
             ServerIPAddress.setPort(Integer.parseInt(args[1]));
         }
