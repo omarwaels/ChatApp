@@ -70,12 +70,15 @@ public class ConnectionGroupItemController implements Initializable {
     public void friendClicked() {
         counterContainer.setVisible(false);
         counterNumber = 0;
+        chatScreenController.currentGroup = this;
         chatScreenController.temporaryScreen.setVisible(false);
         chatScreenController.updateChatLayout(null, chatDto.getChatId());
         chatScreenController.updateConnectionName(chatDto.getChatName());
         chatScreenController.updateCurrentScreenStatusWordForGroups("");
         chatScreenController.chatArea.setVisible(true);
         chatScreenController.isSingleChat = false;
+        chatScreenController.leaveGroupBtn.setVisible(true);
+        chatScreenController.deleteBtn.setVisible(false);
 
     }
 

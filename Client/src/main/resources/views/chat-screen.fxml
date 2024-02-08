@@ -242,14 +242,20 @@
                                         <Insets left="15.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <ImageView fx:id="threeDotsBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../img/more.png" />
-                                    </image>
-                                    <HBox.margin>
-                                        <Insets left="20.0" right="10.0" />
-                                    </HBox.margin>
-                                </ImageView>
+                        <StackPane prefHeight="37.0" prefWidth="49.0">
+                           <children>
+                                      <ImageView fx:id="deleteBtn" fitHeight="34.0" fitWidth="48.0" onMouseClicked="#onClickDeleteFriend" pickOnBounds="true" preserveRatio="true" visible="false">
+                                          <image>
+                                              <Image url="@../img/delete_friend.png" />
+                                          </image>
+                                      </ImageView>
+                              <ImageView fx:id="leaveGroupBtn" fitHeight="33.0" fitWidth="33.0" onMouseClicked="#onClickLeaveGroup" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../img/arrow.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </StackPane>
                             </children>
                         </HBox>
                         <ScrollPane fx:id="chatScrollPane" fitToHeight="true" fitToWidth="true" prefHeight="478.0" prefWidth="498.0" styleClass="transparent-background" stylesheets="@../style/style.css" HBox.hgrow="ALWAYS" VBox.vgrow="ALWAYS">

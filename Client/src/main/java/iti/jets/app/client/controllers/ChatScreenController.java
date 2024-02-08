@@ -128,6 +128,7 @@ public class ChatScreenController implements Initializable {
     @FXML
     public ComboBox<String> fontSizeComboBox;
     public ConnectionItemController currentConnection = null;
+    public ConnectionGroupItemController currentGroup = null;
     @FXML
     public ComboBox<String> comboBoxStatus;
     @FXML
@@ -144,6 +145,11 @@ public class ChatScreenController implements Initializable {
     public Label emptyGroups;
     @FXML
     public Label emptyFriends;
+    @FXML
+    public ImageView deleteBtn;
+
+    @FXML
+    public ImageView leaveGroupBtn;
 
     private final String appDirectory = "AppDirectory\\userObj";
 
@@ -647,7 +653,8 @@ public class ChatScreenController implements Initializable {
         for (FriendInfoDto connection : connections) {
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getConnectionLoader();
             HBox hbox = fxmlLoader.load();
-            privateChatHBoxes.put(connection.getUserFriendID(), hbox);
+            int chatId = loginResultDto.getUserFriendsAndChatDto().get(connection).getChatId();
+            privateChatHBoxes.put(chatId, hbox);
             ConnectionItemController connectionItemController = fxmlLoader.getController();
             ChatDto associateChatDto = loginResultDto.getUserFriendsAndChatDto().get(connection);
             connectionItemController.setData(connection, this, associateChatDto);
@@ -671,7 +678,7 @@ public class ChatScreenController implements Initializable {
             }
             privateChatHBoxes.put(friendChat.getChatId(), hbox);
             ConnectionItemController connectionItemController = fxmlLoader.getController();
-
+            emptyFriends.setVisible(false);
             connectionItemController.setData(friend, this, friendChat);
             connectionItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
             if (friend.getUserFriendStatus() == StatusEnum.ONLINE) {
@@ -715,6 +722,7 @@ public class ChatScreenController implements Initializable {
                 throw new RuntimeException(e);
             }
             groupHBoxes.put(groupChat.getChatId(), hbox);
+            emptyGroups.setVisible(false);
             ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
             //Update groupchat Hashmap
             connectionGroupItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
@@ -1269,6 +1277,15 @@ public class ChatScreenController implements Initializable {
         if (ret != 0) {
             connectionGroupsLayout.getChildren().remove(groupHBoxes.get(chatId));
             groupHBoxes.remove(chatId);
+            HashMap<ChatDto, ArrayList<FriendInfoDto>> groups = loginResultDto.getGroupParticipants();
+            for (ChatDto chat : groups.keySet()) {
+                if (chat.getChatId() == chatId) {
+                    groups.remove(chat);
+                    break;
+                }
+            }
+            if (connectionGroupsLayout.getChildren().isEmpty())
+                emptyGroups.setVisible(true);
             temporaryScreen.setVisible(true);
             chatArea.setVisible(false);
         } else {
@@ -1285,7 +1302,13 @@ public class ChatScreenController implements Initializable {
         if (ret != 0) {
             onlineUsers.remove(friendId);
             offlineUsers.remove(friendId);
-            System.out.println("here");
+            HashMap<FriendInfoDto, ChatDto> map = loginResultDto.getUserFriendsAndChatDto();
+            for (FriendInfoDto friend : map.keySet()) {
+                if (friendId == friend.getUserFriendID()) {
+                    map.remove(friend);
+                    break;
+                }
+            }
             Platform.runLater(() -> {
                 try {
                     ServerService serverService = serviceFactory.getServerService();
@@ -1295,6 +1318,8 @@ public class ChatScreenController implements Initializable {
                 }
                 connectionLayout.getChildren().remove(privateChatHBoxes.get(chatId));
                 privateChatHBoxes.remove(chatId);
+                if (connectionLayout.getChildren().isEmpty())
+                    emptyFriends.setVisible(true);
                 chatArea.setVisible(false);
                 temporaryScreen.setVisible(true);
             });
@@ -1308,12 +1333,33 @@ public class ChatScreenController implements Initializable {
             onlineUsers.remove(friendId);
             offlineUsers.remove(friendId);
             connectionLayout.getChildren().remove(privateChatHBoxes.get(chatId));
+            if (connectionLayout.getChildren().isEmpty())
+                emptyFriends.setVisible(true);
             privateChatHBoxes.remove(chatId);
             if (currentScreenChatId != null && currentScreenChatId.equals(chatId)) {
                 chatArea.setVisible(false);
                 temporaryScreen.setVisible(true);
             }
+            HashMap<FriendInfoDto, ChatDto> map = loginResultDto.getUserFriendsAndChatDto();
+            for (FriendInfoDto friend : map.keySet()) {
+                if (friendId == friend.getUserFriendID()) {
+                    map.remove(friend);
+                    break;
+                }
+            }
         });
+    }
+
+    @FXML
+    public void onClickDeleteFriend() throws NotBoundException, RemoteException {
+        if (currentConnection != null)
+            currentConnection.onDeleteFriend();
+    }
+
+    @FXML
+    public void onClickLeaveGroup() throws NotBoundException, RemoteException {
+        if (currentGroup != null)
+            currentGroup.onClickLeaveGroup();
     }
 
     @FXML

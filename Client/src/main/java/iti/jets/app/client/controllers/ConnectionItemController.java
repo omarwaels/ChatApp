@@ -37,8 +37,6 @@ public class ConnectionItemController implements Initializable {
     public Label lastMessageTimestamp;
     @FXML
     public Label userModeLabel;
-    @FXML
-    public ImageView deleteFriendBtn;
     private int UserID;
     private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
 
@@ -101,7 +99,8 @@ public class ConnectionItemController implements Initializable {
         chatScreenController.setCurrentScreenImage(userImage);
         chatScreenController.currentConnection = this;
         chatScreenController.isSingleChat = true;
-
+        chatScreenController.leaveGroupBtn.setVisible(false);
+        chatScreenController.deleteBtn.setVisible(true);
     }
 
     public void hoverEnterEffect() {

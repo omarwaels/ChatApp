@@ -3,8 +3,6 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -65,14 +63,6 @@
             <Insets />
          </HBox.margin>
       </VBox>
-      <ImageView fx:id="leaveGroupBtn" fitHeight="36.0" fitWidth="34.0" onMouseClicked="#onClickLeaveGroup" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/exit.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="OPEN_HAND" />
-         </cursor>
-      </ImageView>
    </children>
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />
