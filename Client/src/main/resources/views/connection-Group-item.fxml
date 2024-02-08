@@ -65,6 +65,14 @@
             <Insets />
          </HBox.margin>
       </VBox>
+      <ImageView fx:id="leaveGroupBtn" fitHeight="36.0" fitWidth="34.0" onMouseClicked="#onClickLeaveGroup" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/exit.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor>
+      </ImageView>
    </children>
    <cursor>
       <Cursor fx:constant="OPEN_HAND" />

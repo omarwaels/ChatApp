@@ -15,6 +15,8 @@ import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
@@ -33,9 +35,10 @@ public class ConnectionItemController implements Initializable {
     public Label counter;
     @FXML
     public Label lastMessageTimestamp;
-
     @FXML
     public Label userModeLabel;
+    @FXML
+    public ImageView deleteFriendBtn;
     private int UserID;
     private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
 
@@ -112,6 +115,12 @@ public class ConnectionItemController implements Initializable {
     public void setLastTimeStamp(Timestamp timeStamp) {
         this.lastMessageTime = timeStamp;
         lastMessageTimestamp.setText(timeStamp.toString());
+    }
+
+    public void onDeleteFriend() throws NotBoundException, RemoteException {
+        chatScreenController.chatArea.setVisible(false);
+        chatScreenController.temporaryScreen.setVisible(true);
+        chatScreenController.deleteFriend(user.getUserFriendID(), chatDto.getChatId());
     }
 
     @Override

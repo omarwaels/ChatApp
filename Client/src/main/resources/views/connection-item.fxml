@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
@@ -41,7 +43,7 @@
             </Label>
             <HBox prefHeight="22.0" prefWidth="147.0">
                <children>
-                  <Label fx:id="userModeLabel" prefHeight="18.0" prefWidth="84.0" text="UserMode" textFill="#8e8e8e">
+                  <Label fx:id="userModeLabel" prefHeight="18.0" prefWidth="178.0" text="UserMode" textFill="#8e8e8e">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>
@@ -62,6 +64,11 @@
                         <Insets bottom="10.0" />
                      </HBox.margin>
                   </StackPane>
+                  <ImageView fx:id="deleteFriendBtn" fitHeight="28.0" fitWidth="33.0" onMouseClicked="#onDeleteFriend" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/remove-user.png" />
+                     </image>
+                  </ImageView>
                </children>
                <VBox.margin>
                   <Insets left="10.0" top="2.0" />

@@ -53,6 +53,17 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
         throw new IllegalArgumentException("Error");
     }
 
+    public int deleteChatParticipant(int userId, int chatId) {
+        String query = "DELETE FROM chatparticipants WHERE participant_id = ? AND chat_id = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(2, chatId);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public HashMap<Integer, Integer> getUserFriendsAndChatIDs(int userId, ArrayList<Integer> Friends) {
         String query = "SELECT * FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.chat_id In (SELECT chats.chat_id FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.admin_id is NULL and participant_id = ?) and chatparticipants.participant_id <> ?;";
         HashMap<Integer, Integer> userContacts = new HashMap<>();

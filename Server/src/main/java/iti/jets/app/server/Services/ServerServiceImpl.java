@@ -185,6 +185,16 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
 
         return future;
     }
+
+    @Override
+    public void deleteFriend(int chatId, int friendId, int userId) throws RemoteException {
+        for (Client c : clients) {
+            if (c.getID() == friendId) {
+                c.deleteFriend(chatId, userId);
+                return;
+            }
+        }
+    }
 }
 
 

@@ -5,6 +5,7 @@ import iti.jets.app.client.utils.ChatBot;
 import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
+import iti.jets.app.shared.Interfaces.server.DeleteChatsService;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import iti.jets.app.shared.Interfaces.server.UpdateInfoService;
@@ -143,6 +144,7 @@ public class ChatScreenController implements Initializable {
     public Label emptyGroups;
     @FXML
     public Label emptyFriends;
+
     private final String appDirectory = "AppDirectory\\userObj";
 
     public LoginResultDto loginResultDto;
@@ -157,6 +159,8 @@ public class ChatScreenController implements Initializable {
     public ConcurrentHashMap<Integer, ConnectionItemController> onlineUsers = new ConcurrentHashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
+    public HashMap<Integer, HBox> privateChatHBoxes = new HashMap<>();
+    public HashMap<Integer, HBox> groupHBoxes = new HashMap<>();
     private String currentTypeOfActiveScreen = "SINGLECHAT";
 
     @FXML
@@ -204,6 +208,15 @@ public class ChatScreenController implements Initializable {
     public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
         customInit();
+        chatBorderPane.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    temporaryScreen.setVisible(true);
+                    chatArea.setVisible(false);
+                }
+            }
+        });
         new Thread(() -> {
             try {
                 client = new ClientImpl(this, loginResultDto.getUserDto().getId());
@@ -293,7 +306,6 @@ public class ChatScreenController implements Initializable {
 
     ServerService getServerService() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
-
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
 
@@ -302,7 +314,7 @@ public class ChatScreenController implements Initializable {
         List<FriendInfoDto> contactListArray = getContactListArray();
         List<ChatDto> groubsListArray = getGroupListArray();
         showGroupList(groubsListArray);
-        this.showContactList(contactListArray);
+        showContactList(contactListArray);
 
         Collection<Node> nodesToScaleTransition = new ArrayList<>();
         nodesToScaleTransition.add(singleChat);
@@ -589,7 +601,6 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-
     private void updateCounters(MessageDto message) {
         if (!message.getChatId().equals(currentScreenChatId)) {
             if (message.isSingleChat()) {
@@ -631,9 +642,12 @@ public class ChatScreenController implements Initializable {
     }
 
     private void showContactList(List<FriendInfoDto> connections) throws IOException {
+        if (connections.isEmpty())
+            emptyFriends.setVisible(true);
         for (FriendInfoDto connection : connections) {
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getConnectionLoader();
             HBox hbox = fxmlLoader.load();
+            privateChatHBoxes.put(connection.getUserFriendID(), hbox);
             ConnectionItemController connectionItemController = fxmlLoader.getController();
             ChatDto associateChatDto = loginResultDto.getUserFriendsAndChatDto().get(connection);
             connectionItemController.setData(connection, this, associateChatDto);
@@ -655,6 +669,7 @@ public class ChatScreenController implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            privateChatHBoxes.put(friendChat.getChatId(), hbox);
             ConnectionItemController connectionItemController = fxmlLoader.getController();
 
             connectionItemController.setData(friend, this, friendChat);
@@ -681,6 +696,7 @@ public class ChatScreenController implements Initializable {
             FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
             HBox hbox = fxmlLoaders.load();
             ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
+            groupHBoxes.put(connection.getChatId(), hbox);
             //Update groupchat Hashmap
             groupChats.put(connection.getChatId(), connectionGroupItemController);
             connectionGroupItemController.setData(connection, this);
@@ -698,6 +714,7 @@ public class ChatScreenController implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            groupHBoxes.put(groupChat.getChatId(), hbox);
             ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
             //Update groupchat Hashmap
             connectionGroupItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
@@ -1243,6 +1260,60 @@ public class ChatScreenController implements Initializable {
             invitaionStarImage.setVisible(true);
         }
 
+    }
+
+    public void leaveGroup(int chatId) throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
+        DeleteChatsService deleteChatsService = ((ServiceFactory) registry.lookup("ServiceFactory")).getDeleteChatsService();
+        int ret = deleteChatsService.leaveGroupChat(loginResultDto.getUserDto().getId(), chatId);
+        if (ret != 0) {
+            connectionGroupsLayout.getChildren().remove(groupHBoxes.get(chatId));
+            groupHBoxes.remove(chatId);
+            temporaryScreen.setVisible(true);
+            chatArea.setVisible(false);
+        } else {
+            showServerDownAlert();
+        }
+    }
+
+    public void deleteFriend(int friendId, int chatId) throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
+        ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
+        DeleteChatsService deleteChatsService = serviceFactory.getDeleteChatsService();
+        int ret = deleteChatsService.deletePrivateChat(loginResultDto.getUserDto().getId(), friendId, chatId);
+        System.out.println(ret);
+        if (ret != 0) {
+            onlineUsers.remove(friendId);
+            offlineUsers.remove(friendId);
+            System.out.println("here");
+            Platform.runLater(() -> {
+                try {
+                    ServerService serverService = serviceFactory.getServerService();
+                    serverService.deleteFriend(chatId, friendId, loginResultDto.getUserDto().getId());
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                connectionLayout.getChildren().remove(privateChatHBoxes.get(chatId));
+                privateChatHBoxes.remove(chatId);
+                chatArea.setVisible(false);
+                temporaryScreen.setVisible(true);
+            });
+        } else {
+            showServerDownAlert();
+        }
+    }
+
+    public void getDeleted(int chatId, int friendId) {
+        Platform.runLater(() -> {
+            onlineUsers.remove(friendId);
+            offlineUsers.remove(friendId);
+            connectionLayout.getChildren().remove(privateChatHBoxes.get(chatId));
+            privateChatHBoxes.remove(chatId);
+            if (currentScreenChatId != null && currentScreenChatId.equals(chatId)) {
+                chatArea.setVisible(false);
+                temporaryScreen.setVisible(true);
+            }
+        });
     }
 
     @FXML

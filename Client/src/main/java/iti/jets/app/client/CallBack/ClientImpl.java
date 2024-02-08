@@ -100,4 +100,9 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     public void closeClient() throws RemoteException {
         chatScreenController.closeClient();
     }
+
+    @Override
+    public void deleteFriend(int chatId, int friendId) throws RemoteException {
+        chatScreenController.getDeleted(chatId, friendId);
+    }
 }
