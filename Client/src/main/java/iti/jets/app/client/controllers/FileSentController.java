@@ -56,7 +56,8 @@ public class FileSentController implements Initializable {
         //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
         this.fileInfo = fileInfo;
         this.fileChatId = msg.getChatId();
-        txt.setText(msg.getMessageContent());
+        Path path = Paths.get(msg.getMessageContent());
+        txt.setText(path.getFileName().toString());
         txtFlow.setTextAlignment(TextAlignment.LEFT);
         if (userImg != null) {
             img.setFill(new ImagePattern(userImg));

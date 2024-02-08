@@ -2,6 +2,7 @@ package iti.jets.app.client.controllers;
 
 import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
+import iti.jets.app.shared.DTOs.MessageDto;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,8 +15,10 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ConnectionGroupItemController implements Initializable {
@@ -39,6 +42,8 @@ public class ConnectionGroupItemController implements Initializable {
     private ChatScreenController chatScreenController;
     private Integer counterNumber = 0;
     private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
+
+    private boolean messageRestoredFlag = false ;
 
     public void updateCounter() {
 
@@ -71,6 +76,20 @@ public class ConnectionGroupItemController implements Initializable {
         chatScreenController.updateCurrentScreenStatusWordForGroups("");
         chatScreenController.chatArea.setVisible(true);
         chatScreenController.isSingleChat = false;
+
+        if(!messageRestoredFlag){
+            messageRestoredFlag =true;
+
+            // Mohamed call Service  Here which takes chat ID and Returns messages in array list
+            // Files problem Solved  
+
+            try {
+                chatScreenController.getStoredMessage(new ArrayList<MessageDto>());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
 
     }
 

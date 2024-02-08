@@ -915,7 +915,7 @@ public class ChatScreenController implements Initializable {
                 try{
                     FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
                     HBox hbox = fxmlLoader.load();
-                    MessageDto newMessage = createMessageDto(selectedFile.getName());
+                    MessageDto newMessage = createMessageDto(selectedFile.getAbsolutePath());
                     newMessage.setContainsFile(true);
                     FileSentController msc = fxmlLoader.getController();
                     Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
@@ -923,6 +923,7 @@ public class ChatScreenController implements Initializable {
                     msc.setSendingStatus("Sending . . .");
                     chatLayout.setAlignment(Pos.TOP_RIGHT);
                     chatLayout.getChildren().add(hbox);
+                    newMessage.setMessageContent(selectedFile.getName());
                     sendFile(selectedFile.getAbsolutePath(), newMessage , msc);
 
                 }catch (IOException e){
@@ -1238,6 +1239,45 @@ public class ChatScreenController implements Initializable {
             groubChatStarImage.setVisible(true);
         }else {
             invitaionStarImage.setVisible(true);
+        }
+
+    }
+
+     void getStoredMessage(ArrayList<MessageDto> messages ) throws IOException {
+        for(MessageDto message : messages ){
+            if(message.getSenderId().equals(loginResultDto.getUserDto().getId())){
+                if(message.isContainsFile()){
+                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
+                    HBox hbox = fxmlLoader.load();
+                    FileSentController msc = fxmlLoader.getController();
+                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                    msc.setData(message, userImg, new File(message.getMessageContent()));
+                    chatLayout.setAlignment(Pos.TOP_RIGHT);
+                    chatLayout.getChildren().add(hbox);
+                }else{
+                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageSentLoader();
+                    HBox hbox = fxmlLoader.load();
+                    MessageSentController msc = fxmlLoader.getController();
+                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                    msc.setData(message, userImg);
+                    chatLayout.setAlignment(Pos.TOP_RIGHT);
+                    chatLayout.getChildren().add(hbox);
+                }
+
+            }else{
+                if(message.isContainsFile()){
+                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileRecieveController();
+                    HBox hbox = fxmlLoader.load();
+                    FileReceiveController msc = fxmlLoader.getController();
+                    createRecievedFile(message, msc, hbox);
+                }else{
+                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
+                    HBox hbox = fxmlLoader.load();
+                    MessageReceiveController msc = fxmlLoader.getController();
+                    createRecievedMessage(message, msc, hbox);
+                }
+
+            }
         }
 
     }
