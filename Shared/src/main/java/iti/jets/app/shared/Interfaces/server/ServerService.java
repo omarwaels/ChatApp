@@ -43,4 +43,6 @@ public interface ServerService extends Remote {
     boolean isAlreadyLoggedIn(int userId) throws RemoteException;
 
     CompletableFuture<Void> closeServer() throws RemoteException;
+
+    void deleteFriend(int chatId, int friendId, int userId) throws RemoteException;
 }

@@ -15,6 +15,8 @@ import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
@@ -33,7 +35,6 @@ public class ConnectionItemController implements Initializable {
     public Label counter;
     @FXML
     public Label lastMessageTimestamp;
-
     @FXML
     public Label userModeLabel;
     private int UserID;
@@ -98,7 +99,8 @@ public class ConnectionItemController implements Initializable {
         chatScreenController.setCurrentScreenImage(userImage);
         chatScreenController.currentConnection = this;
         chatScreenController.isSingleChat = true;
-
+        chatScreenController.leaveGroupBtn.setVisible(false);
+        chatScreenController.deleteBtn.setVisible(true);
     }
 
     public void hoverEnterEffect() {
@@ -112,6 +114,12 @@ public class ConnectionItemController implements Initializable {
     public void setLastTimeStamp(Timestamp timeStamp) {
         this.lastMessageTime = timeStamp;
         lastMessageTimestamp.setText(timeStamp.toString());
+    }
+
+    public void onDeleteFriend() throws NotBoundException, RemoteException {
+        chatScreenController.chatArea.setVisible(false);
+        chatScreenController.temporaryScreen.setVisible(true);
+        chatScreenController.deleteFriend(user.getUserFriendID(), chatDto.getChatId());
     }
 
     @Override

@@ -8,7 +8,7 @@ public interface ServiceFactory extends Remote {
 
     public RegisterService getRegisterService() throws RemoteException;
 
-    public ServerService  getServerService() throws RemoteException;
+    public ServerService getServerService() throws RemoteException;
 
     public InvitationService getInvitationService() throws RemoteException;
 
@@ -17,4 +17,6 @@ public interface ServiceFactory extends Remote {
     public CreateGroupService getCreateGroupService() throws RemoteException;
 
     public MailingService getMailingService() throws RemoteException;
+
+    public DeleteChatsService getDeleteChatsService() throws RemoteException;
 }

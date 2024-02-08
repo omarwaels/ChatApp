@@ -48,8 +48,8 @@ public class ConnectionDao implements Dao<Connection, Integer> {
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setInt(1, connection.getFirstUserId());
             preparedStatement.setInt(2, connection.getSecondUserId());
-            preparedStatement.setInt(3, connection.getSecondUserId());
-            preparedStatement.setInt(4, connection.getFirstUserId());
+            preparedStatement.setInt(3, connection.getFirstUserId());
+            preparedStatement.setInt(4, connection.getSecondUserId());
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

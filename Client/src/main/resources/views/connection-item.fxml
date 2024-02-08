@@ -41,7 +41,7 @@
             </Label>
             <HBox prefHeight="22.0" prefWidth="147.0">
                <children>
-                  <Label fx:id="userModeLabel" prefHeight="18.0" prefWidth="84.0" text="UserMode" textFill="#8e8e8e">
+                  <Label fx:id="userModeLabel" prefHeight="18.0" prefWidth="178.0" text="UserMode" textFill="#8e8e8e">
                      <font>
                         <Font name="System Italic" size="12.0" />
                      </font>

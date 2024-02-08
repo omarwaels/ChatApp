@@ -35,4 +35,6 @@ public interface Client extends Remote {
 
     void closeClient() throws RemoteException;
 
+    void deleteFriend(int chatId, int friendId) throws RemoteException;
+
 }

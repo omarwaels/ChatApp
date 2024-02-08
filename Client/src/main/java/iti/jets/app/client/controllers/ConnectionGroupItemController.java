@@ -15,6 +15,8 @@ import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
@@ -34,6 +36,9 @@ public class ConnectionGroupItemController implements Initializable {
     public StackPane counterContainer;
     @FXML
     public Label counter;
+
+    @FXML
+    public ImageView leaveGroupBtn;
 
     private ChatDto chatDto;
     private ChatScreenController chatScreenController;
@@ -65,12 +70,15 @@ public class ConnectionGroupItemController implements Initializable {
     public void friendClicked() {
         counterContainer.setVisible(false);
         counterNumber = 0;
+        chatScreenController.currentGroup = this;
         chatScreenController.temporaryScreen.setVisible(false);
         chatScreenController.updateChatLayout(null, chatDto.getChatId());
         chatScreenController.updateConnectionName(chatDto.getChatName());
         chatScreenController.updateCurrentScreenStatusWordForGroups("");
         chatScreenController.chatArea.setVisible(true);
         chatScreenController.isSingleChat = false;
+        chatScreenController.leaveGroupBtn.setVisible(true);
+        chatScreenController.deleteBtn.setVisible(false);
 
     }
 
@@ -89,5 +97,11 @@ public class ConnectionGroupItemController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+    }
+
+    @FXML
+    public void onClickLeaveGroup() throws RemoteException, NotBoundException {
+        chatScreenController.chatArea.setVisible(true);
+        chatScreenController.leaveGroup(chatDto.getChatId());
     }
 }

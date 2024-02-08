@@ -5,6 +5,7 @@ import iti.jets.app.client.utils.ChatBot;
 import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.client.utils.ViewsFactory;
 import iti.jets.app.shared.DTOs.*;
+import iti.jets.app.shared.Interfaces.server.DeleteChatsService;
 import iti.jets.app.shared.Interfaces.server.ServerService;
 import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import iti.jets.app.shared.Interfaces.server.UpdateInfoService;
@@ -127,6 +128,7 @@ public class ChatScreenController implements Initializable {
     @FXML
     public ComboBox<String> fontSizeComboBox;
     public ConnectionItemController currentConnection = null;
+    public ConnectionGroupItemController currentGroup = null;
     @FXML
     public ComboBox<String> comboBoxStatus;
     @FXML
@@ -139,6 +141,15 @@ public class ChatScreenController implements Initializable {
     public ImageView singleChatStarImage;
     @FXML
     public ImageView groubChatStarImage;
+    @FXML
+    public Label emptyGroups;
+    @FXML
+    public Label emptyFriends;
+    @FXML
+    public ImageView deleteBtn;
+
+    @FXML
+    public ImageView leaveGroupBtn;
 
     private final String appDirectory = "AppDirectory\\userObj";
 
@@ -154,7 +165,9 @@ public class ChatScreenController implements Initializable {
     public ConcurrentHashMap<Integer, ConnectionItemController> onlineUsers = new ConcurrentHashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
-    private String currentTypeOfActiveScreen = "SINGLECHAT"  ;
+    public HashMap<Integer, HBox> privateChatHBoxes = new HashMap<>();
+    public HashMap<Integer, HBox> groupHBoxes = new HashMap<>();
+    private String currentTypeOfActiveScreen = "SINGLECHAT";
 
     @FXML
     public StackPane invitationsBtn;
@@ -201,6 +214,15 @@ public class ChatScreenController implements Initializable {
     public void setChatScreenDto(LoginResultDto loginResultDto) throws IOException, NotBoundException {
         this.loginResultDto = loginResultDto;
         customInit();
+        chatBorderPane.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ESCAPE) {
+                    temporaryScreen.setVisible(true);
+                    chatArea.setVisible(false);
+                }
+            }
+        });
         new Thread(() -> {
             try {
                 client = new ClientImpl(this, loginResultDto.getUserDto().getId());
@@ -290,7 +312,6 @@ public class ChatScreenController implements Initializable {
 
     ServerService getServerService() throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
-
         return ((ServiceFactory) registry.lookup("ServiceFactory")).getServerService();
     }
 
@@ -299,7 +320,7 @@ public class ChatScreenController implements Initializable {
         List<FriendInfoDto> contactListArray = getContactListArray();
         List<ChatDto> groubsListArray = getGroupListArray();
         showGroupList(groubsListArray);
-        this.showContactList(contactListArray);
+        showContactList(contactListArray);
 
         Collection<Node> nodesToScaleTransition = new ArrayList<>();
         nodesToScaleTransition.add(singleChat);
@@ -353,15 +374,26 @@ public class ChatScreenController implements Initializable {
     public void showGroupChat() {
         singleChatContainer.setVisible(false);
         groubChatContainer.setVisible(true);
-        this.currentTypeOfActiveScreen="GROUPCHAT";
+        emptyFriends.setVisible(false);
+        this.currentTypeOfActiveScreen = "GROUBCHAT";
         groubChatStarImage.setVisible(false);
+        if (connectionGroupsLayout.getChildren().isEmpty())
+            emptyGroups.setVisible(true);
+        else
+            emptyGroups.setVisible(false);
     }
 
     public void showSingleChat() {
         groubChatContainer.setVisible(false);
         singleChatContainer.setVisible(true);
-        this.currentTypeOfActiveScreen="SINGLECHAT";
+        emptyGroups.setVisible(false);
+        this.currentTypeOfActiveScreen = "SINGLECHAT";
         singleChatStarImage.setVisible(false);
+        if (connectionLayout.getChildren().isEmpty())
+            emptyFriends.setVisible(true);
+        else
+            emptyFriends.setVisible(false);
+
     }
 
     public void updateConnectionName(String name) {
@@ -575,7 +607,6 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-
     private void updateCounters(MessageDto message) {
         if (!message.getChatId().equals(currentScreenChatId)) {
             if (message.isSingleChat()) {
@@ -617,9 +648,13 @@ public class ChatScreenController implements Initializable {
     }
 
     private void showContactList(List<FriendInfoDto> connections) throws IOException {
+        if (connections.isEmpty())
+            emptyFriends.setVisible(true);
         for (FriendInfoDto connection : connections) {
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getConnectionLoader();
             HBox hbox = fxmlLoader.load();
+            int chatId = loginResultDto.getUserFriendsAndChatDto().get(connection).getChatId();
+            privateChatHBoxes.put(chatId, hbox);
             ConnectionItemController connectionItemController = fxmlLoader.getController();
             ChatDto associateChatDto = loginResultDto.getUserFriendsAndChatDto().get(connection);
             connectionItemController.setData(connection, this, associateChatDto);
@@ -641,8 +676,9 @@ public class ChatScreenController implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            privateChatHBoxes.put(friendChat.getChatId(), hbox);
             ConnectionItemController connectionItemController = fxmlLoader.getController();
-
+            emptyFriends.setVisible(false);
             connectionItemController.setData(friend, this, friendChat);
             connectionItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
             if (friend.getUserFriendStatus() == StatusEnum.ONLINE) {
@@ -667,6 +703,7 @@ public class ChatScreenController implements Initializable {
             FXMLLoader fxmlLoaders = ViewsFactory.getViewsFactory().getConnectionGroupItemController();
             HBox hbox = fxmlLoaders.load();
             ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
+            groupHBoxes.put(connection.getChatId(), hbox);
             //Update groupchat Hashmap
             groupChats.put(connection.getChatId(), connectionGroupItemController);
             connectionGroupItemController.setData(connection, this);
@@ -684,6 +721,8 @@ public class ChatScreenController implements Initializable {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            groupHBoxes.put(groupChat.getChatId(), hbox);
+            emptyGroups.setVisible(false);
             ConnectionGroupItemController connectionGroupItemController = fxmlLoaders.getController();
             //Update groupchat Hashmap
             connectionGroupItemController.setLastTimeStamp(new Timestamp(System.currentTimeMillis()));
@@ -912,25 +951,25 @@ public class ChatScreenController implements Initializable {
         if (selectedFile != null && showConfirmationDialog(selectedFile.toPath())) {
             // User confirmed, proceed with sending the file
 
-                try{
-                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
-                    HBox hbox = fxmlLoader.load();
-                    MessageDto newMessage = createMessageDto(selectedFile.getName());
-                    newMessage.setContainsFile(true);
-                    FileSentController msc = fxmlLoader.getController();
-                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
-                    msc.setData(newMessage, userImg, selectedFile);
-                    msc.setSendingStatus("Sending . . .");
-                    chatLayout.setAlignment(Pos.TOP_RIGHT);
-                    chatLayout.getChildren().add(hbox);
-                    sendFile(selectedFile.getAbsolutePath(), newMessage , msc);
+            try {
+                FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
+                HBox hbox = fxmlLoader.load();
+                MessageDto newMessage = createMessageDto(selectedFile.getName());
+                newMessage.setContainsFile(true);
+                FileSentController msc = fxmlLoader.getController();
+                Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                msc.setData(newMessage, userImg, selectedFile);
+                msc.setSendingStatus("Sending . . .");
+                chatLayout.setAlignment(Pos.TOP_RIGHT);
+                chatLayout.getChildren().add(hbox);
+                sendFile(selectedFile.getAbsolutePath(), newMessage, msc);
 
-                }catch (IOException e){
-                }
+            } catch (IOException e) {
+            }
         }
     }
 
-    private void sendFile(String filePath, MessageDto messageDto,FileSentController msc ) throws IOException {
+    private void sendFile(String filePath, MessageDto messageDto, FileSentController msc) throws IOException {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(filePath))) {
             int bufferSize = 1_000_000_000;
             ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
@@ -946,13 +985,13 @@ public class ChatScreenController implements Initializable {
                     new Thread(() -> {
                         try {
                             serverService.sendFile(messageDto, sendBuffer.array());
-                            Platform.runLater(()->{
+                            Platform.runLater(() -> {
                                 msc.setSendingStatus("Done");
                             });
 
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Platform.runLater(()->{
+                            Platform.runLater(() -> {
                                 msc.setSendingStatus("Failure");
                             });
                         }
@@ -1188,6 +1227,7 @@ public class ChatScreenController implements Initializable {
                 SignInController signInController = loader.getController();
                 signInController.setUserNameInScreen(UserPhoneNumber);
                 currentStage.setScene(new Scene(root));
+
             } catch (IOException | NotBoundException e) {
                 e.printStackTrace();
             }
@@ -1227,19 +1267,112 @@ public class ChatScreenController implements Initializable {
             alert.showAndWait();
         });
     }
-     void showStar(String screenToStar){
 
-        if(this.currentTypeOfActiveScreen.equals(screenToStar)){
+    void showStar(String screenToStar) {
+
+        if (this.currentTypeOfActiveScreen.equals(screenToStar)) {
             return;
         }
-        if(screenToStar.equals("SINGLECHAT")){
+        if (screenToStar.equals("SINGLECHAT")) {
             singleChatStarImage.setVisible(true);
-        }else if(screenToStar.equals("GROUPCHAT")){
+        } else if (screenToStar.equals("GROUPCHAT")) {
             groubChatStarImage.setVisible(true);
-        }else {
+        } else {
             invitaionStarImage.setVisible(true);
         }
 
+    }
+
+    public void leaveGroup(int chatId) throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
+        DeleteChatsService deleteChatsService = ((ServiceFactory) registry.lookup("ServiceFactory")).getDeleteChatsService();
+        int ret = deleteChatsService.leaveGroupChat(loginResultDto.getUserDto().getId(), chatId);
+        if (ret != 0) {
+            connectionGroupsLayout.getChildren().remove(groupHBoxes.get(chatId));
+            groupHBoxes.remove(chatId);
+            HashMap<ChatDto, ArrayList<FriendInfoDto>> groups = loginResultDto.getGroupParticipants();
+            for (ChatDto chat : groups.keySet()) {
+                if (chat.getChatId() == chatId) {
+                    groups.remove(chat);
+                    break;
+                }
+            }
+            if (connectionGroupsLayout.getChildren().isEmpty())
+                emptyGroups.setVisible(true);
+            temporaryScreen.setVisible(true);
+            chatArea.setVisible(false);
+        } else {
+            showServerDownAlert();
+        }
+    }
+
+    public void deleteFriend(int friendId, int chatId) throws RemoteException, NotBoundException {
+        Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
+        ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
+        DeleteChatsService deleteChatsService = serviceFactory.getDeleteChatsService();
+        int ret = deleteChatsService.deletePrivateChat(loginResultDto.getUserDto().getId(), friendId, chatId);
+        System.out.println(ret);
+        if (ret != 0) {
+            onlineUsers.remove(friendId);
+            offlineUsers.remove(friendId);
+            HashMap<FriendInfoDto, ChatDto> map = loginResultDto.getUserFriendsAndChatDto();
+            for (FriendInfoDto friend : map.keySet()) {
+                if (friendId == friend.getUserFriendID()) {
+                    map.remove(friend);
+                    break;
+                }
+            }
+            Platform.runLater(() -> {
+                try {
+                    ServerService serverService = serviceFactory.getServerService();
+                    serverService.deleteFriend(chatId, friendId, loginResultDto.getUserDto().getId());
+                } catch (RemoteException e) {
+                    throw new RuntimeException(e);
+                }
+                connectionLayout.getChildren().remove(privateChatHBoxes.get(chatId));
+                privateChatHBoxes.remove(chatId);
+                if (connectionLayout.getChildren().isEmpty())
+                    emptyFriends.setVisible(true);
+                chatArea.setVisible(false);
+                temporaryScreen.setVisible(true);
+            });
+        } else {
+            showServerDownAlert();
+        }
+    }
+
+    public void getDeleted(int chatId, int friendId) {
+        Platform.runLater(() -> {
+            onlineUsers.remove(friendId);
+            offlineUsers.remove(friendId);
+            connectionLayout.getChildren().remove(privateChatHBoxes.get(chatId));
+            if (connectionLayout.getChildren().isEmpty())
+                emptyFriends.setVisible(true);
+            privateChatHBoxes.remove(chatId);
+            if (currentScreenChatId != null && currentScreenChatId.equals(chatId)) {
+                chatArea.setVisible(false);
+                temporaryScreen.setVisible(true);
+            }
+            HashMap<FriendInfoDto, ChatDto> map = loginResultDto.getUserFriendsAndChatDto();
+            for (FriendInfoDto friend : map.keySet()) {
+                if (friendId == friend.getUserFriendID()) {
+                    map.remove(friend);
+                    break;
+                }
+            }
+        });
+    }
+
+    @FXML
+    public void onClickDeleteFriend() throws NotBoundException, RemoteException {
+        if (currentConnection != null)
+            currentConnection.onDeleteFriend();
+    }
+
+    @FXML
+    public void onClickLeaveGroup() throws NotBoundException, RemoteException {
+        if (currentGroup != null)
+            currentGroup.onClickLeaveGroup();
     }
 
     @FXML
