@@ -248,11 +248,17 @@
                                           <image>
                                               <Image url="@../img/delete_friend.png" />
                                           </image>
+                                 <cursor>
+                                    <Cursor fx:constant="OPEN_HAND" />
+                                 </cursor>
                                       </ImageView>
                               <ImageView fx:id="leaveGroupBtn" fitHeight="33.0" fitWidth="33.0" onMouseClicked="#onClickLeaveGroup" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../img/arrow.png" />
                                  </image>
+                                 <cursor>
+                                    <Cursor fx:constant="OPEN_HAND" />
+                                 </cursor>
                               </ImageView>
                            </children>
                         </StackPane>

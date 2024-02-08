@@ -1364,15 +1364,51 @@ public class ChatScreenController implements Initializable {
     }
 
     @FXML
-    public void onClickDeleteFriend() throws NotBoundException, RemoteException {
-        if (currentConnection != null)
-            currentConnection.onDeleteFriend();
+    public void onClickDeleteFriend() {
+        if (currentConnection != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to remove this friend?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == buttonTypeYes) {
+                    try {
+                        currentConnection.onDeleteFriend();
+                    } catch (NotBoundException e) {
+                        throw new RuntimeException(e);
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
     }
 
     @FXML
-    public void onClickLeaveGroup() throws NotBoundException, RemoteException {
-        if (currentGroup != null)
-            currentGroup.onClickLeaveGroup();
+    public void onClickLeaveGroup() {
+        if (currentGroup != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Are you sure you want to leave this group?");
+            ButtonType buttonTypeYes = new ButtonType("Yes");
+            ButtonType buttonTypeNo = new ButtonType("No");
+            alert.getButtonTypes().setAll(buttonTypeYes, buttonTypeNo);
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == buttonTypeYes) {
+                    try {
+                        currentGroup.onClickLeaveGroup();
+                    } catch (RemoteException e) {
+                        throw new RuntimeException(e);
+                    } catch (NotBoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
     }
 
     @FXML
