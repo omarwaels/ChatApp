@@ -62,3 +62,8 @@
     -fx-background-insets: 5px;
 
 }
+ .logoutBtn:hover {
+     -fx-effect: innershadow(gaussian, #ff0000, 10, 1, 0, 0);
+     -fx-opacity: 1;
+
+ }
