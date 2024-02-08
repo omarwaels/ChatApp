@@ -6,9 +6,11 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -39,8 +41,12 @@ public class FileSentController implements Initializable {
     public Text txt;
     @FXML
     public TextFlow txtFlow;
+
     @FXML
     public StackPane fileExploreContainer;
+    @FXML
+    public Label sendStatusLabel;
+
 
     private File fileInfo;
 
@@ -57,6 +63,16 @@ public class FileSentController implements Initializable {
         }
 
 
+    }
+
+    public void  setSendingStatus (String status){
+        sendStatusLabel.setTextFill(Color.GRAY);
+        if(status.equals("Done")){
+            sendStatusLabel.setTextFill(Color.GREEN);
+        }else if(status.equals("Failure")){
+            sendStatusLabel.setTextFill(Color.RED);
+        }
+        sendStatusLabel.setText(status);
     }
 
     @Override

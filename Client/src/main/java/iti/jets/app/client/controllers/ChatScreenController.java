@@ -353,7 +353,7 @@ public class ChatScreenController implements Initializable {
     public void showGroupChat() {
         singleChatContainer.setVisible(false);
         groubChatContainer.setVisible(true);
-        this.currentTypeOfActiveScreen="GROUBCHAT";
+        this.currentTypeOfActiveScreen="GROUPCHAT";
         groubChatStarImage.setVisible(false);
     }
 
@@ -906,25 +906,31 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-    public void chooseFile() throws IOException {
+    public void chooseFile() throws IOException, InterruptedException {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null && showConfirmationDialog(selectedFile.toPath())) {
             // User confirmed, proceed with sending the file
-            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
-            HBox hbox = fxmlLoader.load();
-            MessageDto newMessage = createMessageDto(selectedFile.getName());
-            newMessage.setContainsFile(true);
-            FileSentController msc = fxmlLoader.getController();
-            Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
-            msc.setData(newMessage, userImg, selectedFile);
-            chatLayout.setAlignment(Pos.TOP_RIGHT);
-            chatLayout.getChildren().add(hbox);
-            sendFile(selectedFile.getAbsolutePath(), newMessage);
+
+                try{
+                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
+                    HBox hbox = fxmlLoader.load();
+                    MessageDto newMessage = createMessageDto(selectedFile.getName());
+                    newMessage.setContainsFile(true);
+                    FileSentController msc = fxmlLoader.getController();
+                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                    msc.setData(newMessage, userImg, selectedFile);
+                    msc.setSendingStatus("Sending . . .");
+                    chatLayout.setAlignment(Pos.TOP_RIGHT);
+                    chatLayout.getChildren().add(hbox);
+                    sendFile(selectedFile.getAbsolutePath(), newMessage , msc);
+
+                }catch (IOException e){
+                }
         }
     }
 
-    private void sendFile(String filePath, MessageDto messageDto) throws IOException {
+    private void sendFile(String filePath, MessageDto messageDto,FileSentController msc ) throws IOException {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(filePath))) {
             int bufferSize = 1_000_000_000;
             ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
@@ -940,8 +946,15 @@ public class ChatScreenController implements Initializable {
                     new Thread(() -> {
                         try {
                             serverService.sendFile(messageDto, sendBuffer.array());
+                            Platform.runLater(()->{
+                                msc.setSendingStatus("Done");
+                            });
+
                         } catch (IOException e) {
                             e.printStackTrace();
+                            Platform.runLater(()->{
+                                msc.setSendingStatus("Failure");
+                            });
                         }
                     }).start();
                     byteBuffer.clear();
