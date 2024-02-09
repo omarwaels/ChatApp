@@ -23,7 +23,7 @@
                   <Image url="@../img/loginlogo.gif" />
                </image>
             </ImageView>
-            <Label text="Welcom to ChatUp" textFill="#50abff">
+            <Label text="Welcom to VoidChat" textFill="#50abff">
                <font>
                   <Font name="Roboto" size="25.0" />
                </font>

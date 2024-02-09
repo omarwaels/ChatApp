@@ -29,7 +29,7 @@
                     <children>
                         <Pane layoutX="10.0" layoutY="185.0" prefHeight="330.0" prefWidth="42.0" styleClass="navigation-bar" stylesheets="@../style/style.css">
                             <children>
-                                <ImageView fx:id="createGroupBtn" fitHeight="43.0" fitWidth="41.0" layoutX="1.0" layoutY="224.0" onMouseClicked="#onCreateGroup" opacity="0.85" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="createGroupBtn" fitHeight="35.0" fitWidth="35.0" layoutX="4.0" layoutY="228.0" onMouseClicked="#onCreateGroup" opacity="0.85" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/add_3820117.png" />
                                     </image>
@@ -63,7 +63,7 @@
                                         </ImageView>
                                     </children>
                                 </StackPane>
-                                <ImageView fx:id="addFriendBtn" fitHeight="40.0" fitWidth="37.0" layoutX="2.0" layoutY="116.0" onMouseClicked="#onClickInviteFriends" opacity="0.8" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="addFriendBtn" fitHeight="35.0" fitWidth="35.0" layoutX="3.0" layoutY="116.0" onMouseClicked="#onClickInviteFriends" opacity="0.8" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/add-friend.png" />
                                     </image>
@@ -73,7 +73,7 @@
                                 </ImageView>
                                 <StackPane fx:id="singleChat" layoutX="2.0" layoutY="285.0" onMouseClicked="#showSingleChat">
                                     <children>
-                                        <ImageView fitHeight="48.0" fitWidth="38.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fitHeight="35.0" fitWidth="35.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../img/chat.png" />
                                             </image>
@@ -97,13 +97,13 @@
                                         </ImageView>
                                     </children>
                                 </StackPane>
-                                <Circle fx:id="profilePic" fill="#9e9e9e" layoutX="21.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                                <Circle fx:id="profilePic" fill="#e9ecee" layoutX="21.0" layoutY="35.0" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
                                 <Separator layoutY="69.0" opacity="0.2" prefHeight="9.0" prefWidth="43.0" />
                             </children>
                         </Pane>
                         <Pane prefHeight="212.0" prefWidth="42.0" VBox.vgrow="ALWAYS">
                             <children>
-                                <ImageView fx:id="chatSettingImg" fitHeight="48.0" fitWidth="38.0" layoutX="3.0" layoutY="89.0" onMouseClicked="#onSettingClicked" opacity="0.75" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="chatSettingImg" fitHeight="35.0" fitWidth="35.0" layoutX="5.0" layoutY="89.0" onMouseClicked="#onSettingClicked" opacity="0.75" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/profilesettings.png" />
                                     </image>
@@ -113,7 +113,7 @@
                                 </ImageView>
                                 <StackPane fx:id="groupChat" layoutY="24.0" onMouseClicked="#showGroupChat">
                                     <children>
-                                        <ImageView fitHeight="41.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                        <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                             <image>
                                                 <Image url="@../img/discussion.png" />
                                             </image>
@@ -139,7 +139,7 @@
                                 </StackPane>
                             </children>
                         </Pane>
-                        <ImageView fx:id="exitBtn" fitHeight="48.0" fitWidth="38.0" onMouseClicked="#onSignOutClicked" opacity="0.85" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="exitBtn" fitHeight="35.0" fitWidth="30.0" onMouseClicked="#onSignOutClicked" opacity="0.85" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../img/logout.png" />
                             </image>
@@ -156,7 +156,7 @@
                     <children>
                         <VBox alignment="CENTER" prefHeight="74.0" prefWidth="235.0">
                             <children>
-                                <RadioButton mnemonicParsing="false" onMouseClicked="#toggleBotAction" text="ChitChat AI Bot">
+                                <RadioButton mnemonicParsing="false" onMouseClicked="#toggleBotAction" text="AI Bot" textFill="WHITE">
                                     <VBox.margin>
                                         <Insets bottom="5.0" />
                                     </VBox.margin>
@@ -209,9 +209,9 @@
             <children>
                 <VBox fx:id="chatArea" prefHeight="200.0" prefWidth="100.0" visible="false">
                     <children>
-                        <HBox fx:id="chatHeader" alignment="CENTER_LEFT" prefHeight="82.0" prefWidth="200.0">
+                        <HBox fx:id="chatHeader" alignment="CENTER_LEFT" prefHeight="109.0" prefWidth="523.0" style="-fx-background-color: #D9D9D9;">
                             <children>
-                                <Label fx:id="connectionName" prefHeight="28.0" prefWidth="182.0" text="Omar El-Sherif" textFill="#9da7a7">
+                                <Label fx:id="connectionName" prefHeight="28.0" prefWidth="182.0" text="Omar El-Sherif" textFill="#393939">
                                     <font>
                                         <Font name="Ebrima Bold" size="22.0" />
                                     </font>
@@ -228,19 +228,14 @@
                                         <Insets left="10.0" />
                                     </HBox.margin>
                                 </Label>
-                                <Pane prefHeight="82.0" prefWidth="105.0" HBox.hgrow="ALWAYS" />
-                                <ImageView fx:id="voiceCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                                <Pane prefHeight="74.0" prefWidth="164.0" HBox.hgrow="ALWAYS" />
+                                <ImageView fx:id="voiceCallBtn" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/phone.png" />
                                     </image>
-                                </ImageView>
-                                <ImageView fx:id="videoCallBtn" fitHeight="29.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../img/zoom.png" />
-                                    </image>
-                                    <HBox.margin>
-                                        <Insets left="15.0" />
-                                    </HBox.margin>
+                           <HBox.margin>
+                              <Insets right="5.0" />
+                           </HBox.margin>
                                 </ImageView>
                         <StackPane prefHeight="37.0" prefWidth="49.0">
                            <children>
@@ -269,24 +264,24 @@
                                 <VBox fx:id="chatLayout" alignment="TOP_RIGHT" spacing="15.0" />
                             </content>
                         </ScrollPane>
-                        <FlowPane fx:id="editPane" alignment="CENTER" prefHeight="37.0" prefWidth="386.0" style="-fx-background-color: #e4e4e4;">
+                        <FlowPane fx:id="editPane" alignment="CENTER" prefHeight="37.0" prefWidth="386.0" style="-fx-background-color: #D9D9D9;">
                             <children>
-                                <ComboBox fx:id="fontComboBox" prefHeight="27.0" prefWidth="136.0">
+                                <ComboBox fx:id="fontComboBox" prefHeight="27.0" prefWidth="136.0" stylesheets="@../style/style.css">
                                     <FlowPane.margin>
                                         <Insets right="7.0" />
                                     </FlowPane.margin>
                                 </ComboBox>
-                                <ComboBox fx:id="fontSizeComboBox" prefHeight="27.0" prefWidth="84.0">
+                                <ComboBox fx:id="fontSizeComboBox" prefHeight="27.0" prefWidth="84.0" stylesheets="@../style/style.css">
                                     <FlowPane.margin>
                                         <Insets right="8.0" />
                                     </FlowPane.margin>
                                 </ComboBox>
-                                <ColorPicker fx:id="colorPicker" prefHeight="27.0" prefWidth="100.0">
+                                <ColorPicker fx:id="colorPicker" prefHeight="27.0" prefWidth="100.0" styleClass="combo-box" stylesheets="@../style/style.css">
                                     <FlowPane.margin>
                                         <Insets right="5.0" />
                                     </FlowPane.margin>
                                 </ColorPicker>
-                                <ToggleButton fx:id="boldToggleBtn" mnemonicParsing="false" prefHeight="27.0" prefWidth="34.0" text="B">
+                                <ToggleButton fx:id="boldToggleBtn" mnemonicParsing="false" prefHeight="27.0" prefWidth="34.0" stylesheets="@../style/style.css" text="B">
                                     <font>
                                         <Font name="System Bold" size="13.0" />
                                     </font>
@@ -294,7 +289,7 @@
                                         <Insets right="5.0" />
                                     </FlowPane.margin>
                                 </ToggleButton>
-                                <ToggleButton fx:id="italicTogglebtn" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" text="I">
+                                <ToggleButton fx:id="italicTogglebtn" mnemonicParsing="false" prefHeight="27.0" prefWidth="32.0" stylesheets="@../style/style.css" text="I">
                                     <font>
                                         <Font name="Times Italic" size="13.0" />
                                     </font>
@@ -302,7 +297,7 @@
                                         <Insets right="5.0" />
                                     </FlowPane.margin>
                                 </ToggleButton>
-                                <ToggleButton fx:id="lineToggleBtn" mnemonicParsing="false" prefHeight="27.0" prefWidth="33.0" text="U" textAlignment="CENTER" underline="true">
+                                <ToggleButton fx:id="lineToggleBtn" mnemonicParsing="false" prefHeight="27.0" prefWidth="33.0" stylesheets="@../style/style.css" text="U" textAlignment="CENTER" underline="true">
                                     <FlowPane.margin>
                                         <Insets right="6.0" />
                                     </FlowPane.margin>
@@ -317,15 +312,7 @@
                         </FlowPane>
                         <HBox fx:id="chatFooter" alignment="CENTER" prefHeight="67.0" prefWidth="498.0" HBox.hgrow="ALWAYS">
                             <children>
-                                <ImageView fx:id="emojiBtn" fitHeight="34.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../img/happy.png" />
-                                    </image>
-                                    <HBox.margin>
-                                        <Insets left="5.0" />
-                                    </HBox.margin>
-                                </ImageView>
-                                <ImageView fx:id="attachementBtn" fitHeight="34.0" fitWidth="37.0" onMouseClicked="#chooseFile" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="attachementBtn" fitHeight="25.0" fitWidth="27.0" onMouseClicked="#chooseFile" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/attach-paperclip-symbol.png" />
                                     </image>
@@ -333,12 +320,12 @@
                                         <Insets left="15.0" />
                                     </HBox.margin>
                                 </ImageView>
-                                <TextArea fx:id="messageTextField" onKeyPressed="#sendMessageByKeyboard" prefHeight="46.0" prefWidth="349.0" promptText="Type something to send..." stylesheets="@../style/style.css" wrapText="true" HBox.hgrow="ALWAYS">
+                                <TextArea fx:id="messageTextField" onKeyPressed="#sendMessageByKeyboard" prefHeight="55.0" prefWidth="400.0" promptText="Type something to send..." stylesheets="@../style/style.css" wrapText="true" HBox.hgrow="ALWAYS">
                                     <HBox.margin>
                                         <Insets left="10.0" right="8.0" />
                                     </HBox.margin>
                                 </TextArea>
-                                <ImageView fx:id="sendBtn" fitHeight="34.0" fitWidth="37.0" onMouseClicked="#sendMessageByIcon" pickOnBounds="true" preserveRatio="true">
+                                <ImageView fx:id="sendBtn" fitHeight="25.0" fitWidth="27.0" onMouseClicked="#sendMessageByIcon" pickOnBounds="true" preserveRatio="true">
                                     <image>
                                         <Image url="@../img/paper.png" />
                                     </image>
@@ -350,18 +337,25 @@
                         </HBox>
                     </children>
                 </VBox>
-                <VBox fx:id="temporaryScreen" alignment="CENTER" StackPane.alignment="CENTER">
+                <VBox fx:id="temporaryScreen" alignment="CENTER" style="-fx-background-color: #DFF2FF;" StackPane.alignment="CENTER">
                     <children>
-                        <Label alignment="CENTER" prefHeight="70.0" prefWidth="316.0" stylesheets="@../style/status.css" text="Select a chat to start Messaging ">
-                            <font>
-                                <Font size="22.0" />
-                            </font>
+                  <HBox alignment="CENTER">
+                     <children>
+                        <Label text="WELCOME" textFill="#395a7f">
+                           <font>
+                              <Font name="Corbel Bold" size="36.0" />
+                           </font>
                         </Label>
-                        <Label alignment="CENTER" prefHeight="46.0" prefWidth="266.0" text="(づ｡ ◕‿‿◕｡ )づ">
-                            <font>
-                                <Font size="31.0" />
-                            </font>
+                        <Label text="in VoidChat" textFill="#acacac">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets left="15.0" top="4.0" />
+                           </HBox.margin>
                         </Label>
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
             </children>

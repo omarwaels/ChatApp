@@ -1,0 +1,36 @@
+.radio-button {
+    -fx-opacity: 1;
+}
+
+/* Container for the slider */
+.slider-container {
+    -fx-cursor: pointer;
+    -fx-background-color: #ccc;
+    -fx-background-radius: 20px; /* Adjust the radius to control the roundness */
+    -fx-padding: 2px;
+    -fx-spacing: 2px;
+}
+
+/* Slider knob */
+.slider-knob {
+    -fx-background-color: white;
+    -fx-background-radius: 50%;
+    -fx-min-width: 20px; /* Adjust the size of the knob */
+    -fx-min-height: 20px; /* Adjust the size of the knob */
+    -fx-max-width: 20px; /* Adjust the size of the knob */
+    -fx-max-height: 20px; /* Adjust the size of the knob */
+    -fx-translate-x: 0;
+    -fx-translate-y: 0;
+    -fx-translate-z: 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 10, 0, 0, 2);
+}
+
+/* Styling for selected state */
+.radio-button:selected + .slider-container .slider-knob {
+    -fx-translate-x: 100%;
+}
+
+/* Styling for unselected state */
+.radio-button:not(:selected) + .slider-container .slider-knob {
+    -fx-translate-x: 0%;
+}
