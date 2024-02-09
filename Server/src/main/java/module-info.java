@@ -10,6 +10,7 @@ module server {
     requires mysql.connector.j;
     requires com.jfoenix;
     requires com.zaxxer.hikari;
+    requires org.apache.commons.dbcp2;
     opens iti.jets.app.server.fxcontrollers to javafx.fxml;
     exports iti.jets.app.server.fxcontrollers to javafx.fxml;
     exports iti.jets.app.server.Services;
