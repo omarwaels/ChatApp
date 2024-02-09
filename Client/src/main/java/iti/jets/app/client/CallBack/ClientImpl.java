@@ -36,7 +36,8 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
         try {
             ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
             Path downloadsFilePath = getPathOfDownloadsFileOnSys();
-            FileChannel channel = FileChannel.open(Paths.get(downloadsFilePath.toString() + "\\" + messageDto.getMessageContent()),
+            Path fileAbsolutename = Paths.get(messageDto.getMessageContent());
+            FileChannel channel = FileChannel.open(Paths.get(downloadsFilePath.toString() + "\\" + fileAbsolutename.getFileName()),
                     StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             channel.write(byteBuffer);
             chatScreenController.receiveMessage(messageDto);

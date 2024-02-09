@@ -165,6 +165,9 @@ public class ChatScreenController implements Initializable {
 
     public boolean registered = true;
 
+    void deleteChatsOfChatID(int chatID){
+        chatsArr.remove(chatID);
+    }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customizeStatusBox();
@@ -391,14 +394,9 @@ public class ChatScreenController implements Initializable {
             chatLayout.getChildren().add(hbox);
             new Thread(() -> {
                 try {
-                    Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
-                    ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
-                    serviceFactory.getChatMessagesService().sendChatMessage(newMessage);
                     serverService.sendMessage(newMessage);
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (NotBoundException e) {
-                    throw new RuntimeException(e);
                 }
             }).start();
         }
@@ -477,6 +475,8 @@ public class ChatScreenController implements Initializable {
             }
             if (message.isContainsFile()) {
                 FileReceiveController msc = fxmlLoader.getController();
+                Path path = Paths.get(message.getMessageContent());
+                message.setMessageContent(path.getFileName().toString());
                 createRecievedFile(message, msc, hbox);
             } else {
                 MessageReceiveController msc = fxmlLoader.getController();
@@ -930,7 +930,7 @@ public class ChatScreenController implements Initializable {
                 msc.setSendingStatus("Sending . . .");
                 chatLayout.setAlignment(Pos.TOP_RIGHT);
                 chatLayout.getChildren().add(hbox);
-                newMessage.setMessageContent(selectedFile.getName());
+                //newMessage.setMessageContent(selectedFile.getName());
                 sendFile(selectedFile.getAbsolutePath(), newMessage, msc);
 
             } catch (IOException e) {
@@ -1251,41 +1251,61 @@ public class ChatScreenController implements Initializable {
     }
 
     void getStoredMessage(ArrayList<MessageDto> messages) throws IOException {
-        for (MessageDto message : messages) {
-            if (message.getSenderId().equals(loginResultDto.getUserDto().getId())) {
-                if (message.isContainsFile()) {
-                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
-                    HBox hbox = fxmlLoader.load();
-                    FileSentController msc = fxmlLoader.getController();
-                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
-                    msc.setData(message, userImg, new File(message.getMessageContent()));
-                    chatLayout.setAlignment(Pos.TOP_RIGHT);
-                    chatLayout.getChildren().add(hbox);
-                } else {
-                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageSentLoader();
-                    HBox hbox = fxmlLoader.load();
-                    MessageSentController msc = fxmlLoader.getController();
-                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
-                    msc.setData(message, userImg);
-                    chatLayout.setAlignment(Pos.TOP_RIGHT);
-                    chatLayout.getChildren().add(hbox);
-                }
+        chatLayout.getChildren().clear();
+        System.out.println("Before Enter" + chatLayout.getChildren().size());
+        Platform.runLater(()->{
+            try{
+                // Delete message
 
-            } else {
-                if (message.isContainsFile()) {
-                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileRecieveController();
-                    HBox hbox = fxmlLoader.load();
-                    FileReceiveController msc = fxmlLoader.getController();
-                    createRecievedFile(message, msc, hbox);
-                } else {
-                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
-                    HBox hbox = fxmlLoader.load();
-                    MessageReceiveController msc = fxmlLoader.getController();
-                    createRecievedMessage(message, msc, hbox);
+                for (MessageDto message : messages) {
+                    if (message.getSenderId().equals(loginResultDto.getUserDto().getId())) {
+                        if (message.isContainsFile()) {
+                            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
+                            HBox hbox = fxmlLoader.load();
+                            FileSentController msc = fxmlLoader.getController();
+                            Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                            File file = new File(message.getMessageContent());
+                            message.setMessageContent(file.getName());
+                            msc.setData(message, userImg, file);
+                            msc.setSendingStatus("");
+                            chatLayout.setAlignment(Pos.TOP_RIGHT);
+                            chatLayout.getChildren().add(hbox);
+                        } else {
+                            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageSentLoader();
+                            HBox hbox = fxmlLoader.load();
+                            MessageSentController msc = fxmlLoader.getController();
+                            Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                            msc.setData(message, userImg);
+                            chatLayout.setAlignment(Pos.TOP_RIGHT);
+                            chatLayout.getChildren().add(hbox);
+                        }
+
+                    } else {
+                        if (message.isContainsFile()) {
+                            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileRecieveController();
+                            HBox hbox = fxmlLoader.load();
+                            FileReceiveController msc = fxmlLoader.getController();
+                            Path path = Paths.get(message.getMessageContent());
+                            message.setMessageContent(path.getFileName().toString());
+
+                            createRecievedFile(message, msc, hbox);
+                        } else {
+                            FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
+                            HBox hbox = fxmlLoader.load();
+                            MessageReceiveController msc = fxmlLoader.getController();
+                            System.out.println("before " + chatLayout.getChildren().size());
+                            createRecievedMessage(message, msc, hbox);
+                            System.out.println("After " + chatLayout.getChildren().size());
+                        }
+
+                    }
                 }
+            }catch (IOException exception){
 
             }
-        }
+
+        });
+
 
     }
 

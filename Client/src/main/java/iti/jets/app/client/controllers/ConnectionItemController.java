@@ -113,6 +113,7 @@ public class ConnectionItemController implements Initializable {
 
         if (!messageRestoredFlag) {
             messageRestoredFlag = true;
+            chatScreenController.deleteChatsOfChatID(chatDto.getChatId());
             Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
             ChatMessagesService chatMessagesService = ((ServiceFactory) registry.lookup("ServiceFactory")).getChatMessagesService();
             ArrayList<MessageDto> messages = chatMessagesService.getChatMessages(chatDto.getChatId());
