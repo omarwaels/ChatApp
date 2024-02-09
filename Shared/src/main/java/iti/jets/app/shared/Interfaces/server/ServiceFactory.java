@@ -18,5 +18,9 @@ public interface ServiceFactory extends Remote {
 
     public MailingService getMailingService() throws RemoteException;
 
+
     public DeleteChatsService getDeleteChatsService() throws RemoteException;
+
+    public ChatMessagesService getChatMessagesService() throws RemoteException;
+
 }

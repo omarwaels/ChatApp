@@ -1,7 +1,11 @@
 package iti.jets.app.client.controllers;
 
+import iti.jets.app.client.utils.ServerIPAddress;
 import iti.jets.app.shared.DTOs.ChatDto;
 import iti.jets.app.shared.DTOs.FriendInfoDto;
+import iti.jets.app.shared.DTOs.MessageDto;
+import iti.jets.app.shared.Interfaces.server.ChatMessagesService;
+import iti.jets.app.shared.Interfaces.server.ServiceFactory;
 import iti.jets.app.shared.enums.StatusEnum;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,10 +18,16 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URL;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ConnectionGroupItemController implements Initializable {
@@ -45,6 +55,8 @@ public class ConnectionGroupItemController implements Initializable {
     private Integer counterNumber = 0;
     private Timestamp lastMessageTime = new Timestamp(System.currentTimeMillis());
 
+    private boolean messageRestoredFlag = false;
+
     public void updateCounter() {
 
         counterContainer.setVisible(false);
@@ -67,7 +79,7 @@ public class ConnectionGroupItemController implements Initializable {
 
 
     @FXML
-    public void friendClicked() {
+    public void friendClicked() throws RemoteException, NotBoundException {
         counterContainer.setVisible(false);
         counterNumber = 0;
         chatScreenController.currentGroup = this;
@@ -79,6 +91,19 @@ public class ConnectionGroupItemController implements Initializable {
         chatScreenController.isSingleChat = false;
         chatScreenController.leaveGroupBtn.setVisible(true);
         chatScreenController.deleteBtn.setVisible(false);
+
+        if (!messageRestoredFlag) {
+            messageRestoredFlag = true;
+            chatScreenController.deleteChatsOfChatID(chatDto.getChatId());
+            Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
+            ChatMessagesService chatMessagesService = ((ServiceFactory) registry.lookup("ServiceFactory")).getChatMessagesService();
+            ArrayList<MessageDto> messages = chatMessagesService.getChatMessages(chatDto.getChatId());
+            try {
+                chatScreenController.getStoredMessage(messages);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 

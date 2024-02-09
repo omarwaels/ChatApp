@@ -19,6 +19,8 @@ import java.util.concurrent.Future;
 public class ServerServiceImpl extends UnicastRemoteObject implements ServerService {
     private static CopyOnWriteArraySet<Client> clients = new CopyOnWriteArraySet<>();
 
+    private ChatMessagesServiceImpl chatMessagesService = new ChatMessagesServiceImpl();
+
     private static ConcurrentHashMap<Integer, List<MessageDto>> offlineMessages = new ConcurrentHashMap<>();
 
     public ServerServiceImpl() throws RemoteException {
@@ -26,6 +28,7 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
 
     @Override
     public void sendMessage(MessageDto messageDto) throws RemoteException {
+        chatMessagesService.sendChatMessage(messageDto);
         boolean online;
         for (Integer userID : messageDto.getReceiverId()) {
             online = false;
@@ -50,6 +53,7 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
 
     @Override
     public void sendFile(MessageDto messageDto, byte[] fileData) throws RemoteException {
+        chatMessagesService.sendChatMessage(messageDto);
         for (Client c : clients) {
             for (Integer userID : messageDto.getReceiverId()) {
                 if (c.getID() == userID) {
