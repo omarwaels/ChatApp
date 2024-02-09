@@ -1,8 +1,6 @@
 package iti.jets.app.server.db;
 
-
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
+import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -15,10 +13,10 @@ public enum DataSourceFactory {
     private DataSource dataSource;
 
     DataSourceFactory() {
-        initializeDataSource();
+        initDataSource();
     }
 
-    private void initializeDataSource() {
+    private void initDataSource() {
         Properties properties = new Properties();
 
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("db.properties")) {
@@ -30,16 +28,16 @@ public enum DataSourceFactory {
             throw new RuntimeException("Error loading database properties", e);
         }
 
-        HikariConfig config = new HikariConfig();
+        BasicDataSource bDataSource = new BasicDataSource();
+        bDataSource.setUrl(properties.getProperty("jdbc.url"));
+        bDataSource.setUsername(properties.getProperty("jdbc.username"));
+        bDataSource.setPassword(properties.getProperty("jdbc.password"));
 
-        config.setJdbcUrl(properties.getProperty("jdbc.url"));
-        config.setUsername(properties.getProperty("jdbc.username"));
-        config.setPassword(properties.getProperty("jdbc.password"));
-        config.setIdleTimeout(60000);
+        bDataSource.setMaxTotal(500);
+        bDataSource.setMaxIdle(10);
+        bDataSource.setMaxWaitMillis(60000);
 
-        config.setMaximumPoolSize(500);
-
-        dataSource = new HikariDataSource(config);
+        dataSource = bDataSource;
     }
 
     public static DataSource getMySQLDataSource() {
