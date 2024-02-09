@@ -46,5 +46,10 @@ public class ServiceFactoryImpl extends UnicastRemoteObject implements ServiceFa
         return new MailingServiceImpl();
     }
 
+    @Override
+    public ChatMessagesService getChatMessagesService() throws RemoteException {
+        return new ChatMessagesServiceImpl();
+    }
+
 
 }

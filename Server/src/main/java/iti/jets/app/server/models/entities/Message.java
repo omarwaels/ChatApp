@@ -14,6 +14,13 @@ public class Message {
     private String messageContent;
     private Timestamp sentAt;
 
+    private int FontSize;
+    private String FontColor;
+    private String FontWeight;
+    private String FontFamily;
+    private String FontStyle;
+    private Boolean Underline;
+
 
     public Message(int messageId) {
         this.messageId = messageId;
@@ -72,6 +79,55 @@ public class Message {
         this.sentAt = sentAt;
     }
 
+
+    public int getFontSize() {
+        return FontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        FontSize = fontSize;
+    }
+
+    public String getFontColor() {
+        return FontColor;
+    }
+
+    public void setFontColor(String fontColor) {
+        FontColor = fontColor;
+    }
+
+    public String getFontWeight() {
+        return FontWeight;
+    }
+
+    public void setFontWeight(String fontWeight) {
+        FontWeight = fontWeight;
+    }
+
+    public String getFontFamily() {
+        return FontFamily;
+    }
+
+    public void setFontFamily(String fontFamily) {
+        FontFamily = fontFamily;
+    }
+
+    public String getFontStyle() {
+        return FontStyle;
+    }
+
+    public void setFontStyle(String fontStyle) {
+        FontStyle = fontStyle;
+    }
+
+    public Boolean getUnderline() {
+        return Underline;
+    }
+
+    public void setUnderline(Boolean underline) {
+        Underline = underline;
+    }
+
     @Override
     public String toString() {
         return "Message{" +
@@ -81,6 +137,12 @@ public class Message {
                 ", containsFile=" + containsFile +
                 ", messageContent='" + messageContent + '\'' +
                 ", sentAt=" + sentAt +
+                ", FontSize=" + FontSize +
+                ", FontColor='" + FontColor + '\'' +
+                ", FontWeight='" + FontWeight + '\'' +
+                ", FontFamily='" + FontFamily + '\'' +
+                ", FontStyle='" + FontStyle + '\'' +
+                ", Underline=" + Underline +
                 '}';
 
     }

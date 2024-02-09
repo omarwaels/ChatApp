@@ -108,6 +108,21 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
         return participants;
     }
 
+    public ArrayList<Integer> getChatParticipants(int chat_id) {
+        ArrayList<Integer> participants = new ArrayList<>();
+        String query = "SELECT u.user_id FROM users u JOIN chatparticipants cp WHERE u.user_id = cp.participant_id AND chat_id = ?;";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, chat_id);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next())
+                    participants.add(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return participants;
+    }
+
     public int addGroupParticipants(int groupId, List<Integer> usersIds) {
         String query = "INSERT INTO chatparticipants (chat_id, participant_id, member_since) VALUES (?, ?, ?)";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {

@@ -154,7 +154,7 @@ public class ChatScreenController implements Initializable {
     public ConcurrentHashMap<Integer, ConnectionItemController> onlineUsers = new ConcurrentHashMap<>();
     public HashMap<Integer, ConnectionItemController> offlineUsers = new HashMap<>();
     public HashMap<Integer, ConnectionGroupItemController> groupChats = new HashMap<>();
-    private String currentTypeOfActiveScreen = "SINGLECHAT"  ;
+    private String currentTypeOfActiveScreen = "SINGLECHAT";
 
     @FXML
     public StackPane invitationsBtn;
@@ -353,14 +353,14 @@ public class ChatScreenController implements Initializable {
     public void showGroupChat() {
         singleChatContainer.setVisible(false);
         groubChatContainer.setVisible(true);
-        this.currentTypeOfActiveScreen="GROUPCHAT";
+        this.currentTypeOfActiveScreen = "GROUPCHAT";
         groubChatStarImage.setVisible(false);
     }
 
     public void showSingleChat() {
         groubChatContainer.setVisible(false);
         singleChatContainer.setVisible(true);
-        this.currentTypeOfActiveScreen="SINGLECHAT";
+        this.currentTypeOfActiveScreen = "SINGLECHAT";
         singleChatStarImage.setVisible(false);
     }
 
@@ -379,7 +379,6 @@ public class ChatScreenController implements Initializable {
 
     public void sendMessage() throws IOException {
         String text = messageTextField.getText().trim();
-
         messageTextField.setText("");
         if (!text.isEmpty()) {
             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageSentLoader();
@@ -392,16 +391,20 @@ public class ChatScreenController implements Initializable {
             chatLayout.getChildren().add(hbox);
             new Thread(() -> {
                 try {
+                    Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(), ServerIPAddress.getPort());
+                    ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
+                    serviceFactory.getChatMessagesService().sendChatMessage(newMessage);
                     serverService.sendMessage(newMessage);
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (NotBoundException e) {
+                    throw new RuntimeException(e);
                 }
             }).start();
         }
     }
 
     private MessageDto createMessageDto(String text) {
-
         String color = toRGBCode(colorPicker.getValue());
         String weight = (boldToggleBtn.isSelected()) ? "Bold" : "normal";
         String size = fontSizeComboBox.getSelectionModel().getSelectedItem();
@@ -778,7 +781,11 @@ public class ChatScreenController implements Initializable {
                 }
             }
             if (connectionItemController == currentConnection && isSingleChat) {
-                currentConnection.friendClicked();
+                try {
+                    currentConnection.friendClicked();
+                } catch (RemoteException | NotBoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
             sortSingleChatContactListOnstatus();
         });
@@ -912,26 +919,26 @@ public class ChatScreenController implements Initializable {
         if (selectedFile != null && showConfirmationDialog(selectedFile.toPath())) {
             // User confirmed, proceed with sending the file
 
-                try{
-                    FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
-                    HBox hbox = fxmlLoader.load();
-                    MessageDto newMessage = createMessageDto(selectedFile.getAbsolutePath());
-                    newMessage.setContainsFile(true);
-                    FileSentController msc = fxmlLoader.getController();
-                    Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
-                    msc.setData(newMessage, userImg, selectedFile);
-                    msc.setSendingStatus("Sending . . .");
-                    chatLayout.setAlignment(Pos.TOP_RIGHT);
-                    chatLayout.getChildren().add(hbox);
-                    newMessage.setMessageContent(selectedFile.getName());
-                    sendFile(selectedFile.getAbsolutePath(), newMessage , msc);
+            try {
+                FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
+                HBox hbox = fxmlLoader.load();
+                MessageDto newMessage = createMessageDto(selectedFile.getAbsolutePath());
+                newMessage.setContainsFile(true);
+                FileSentController msc = fxmlLoader.getController();
+                Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
+                msc.setData(newMessage, userImg, selectedFile);
+                msc.setSendingStatus("Sending . . .");
+                chatLayout.setAlignment(Pos.TOP_RIGHT);
+                chatLayout.getChildren().add(hbox);
+                newMessage.setMessageContent(selectedFile.getName());
+                sendFile(selectedFile.getAbsolutePath(), newMessage, msc);
 
-                }catch (IOException e){
-                }
+            } catch (IOException e) {
+            }
         }
     }
 
-    private void sendFile(String filePath, MessageDto messageDto,FileSentController msc ) throws IOException {
+    private void sendFile(String filePath, MessageDto messageDto, FileSentController msc) throws IOException {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(filePath))) {
             int bufferSize = 1_000_000_000;
             ByteBuffer byteBuffer = ByteBuffer.allocate(bufferSize);
@@ -947,13 +954,13 @@ public class ChatScreenController implements Initializable {
                     new Thread(() -> {
                         try {
                             serverService.sendFile(messageDto, sendBuffer.array());
-                            Platform.runLater(()->{
+                            Platform.runLater(() -> {
                                 msc.setSendingStatus("Done");
                             });
 
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Platform.runLater(()->{
+                            Platform.runLater(() -> {
                                 msc.setSendingStatus("Failure");
                             });
                         }
@@ -1228,25 +1235,25 @@ public class ChatScreenController implements Initializable {
             alert.showAndWait();
         });
     }
-     void showStar(String screenToStar){
 
-        if(this.currentTypeOfActiveScreen.equals(screenToStar)){
+    void showStar(String screenToStar) {
+        if (this.currentTypeOfActiveScreen.equals(screenToStar)) {
             return;
         }
-        if(screenToStar.equals("SINGLECHAT")){
+        if (screenToStar.equals("SINGLECHAT")) {
             singleChatStarImage.setVisible(true);
-        }else if(screenToStar.equals("GROUPCHAT")){
+        } else if (screenToStar.equals("GROUPCHAT")) {
             groubChatStarImage.setVisible(true);
-        }else {
+        } else {
             invitaionStarImage.setVisible(true);
         }
 
     }
 
-     void getStoredMessage(ArrayList<MessageDto> messages ) throws IOException {
-        for(MessageDto message : messages ){
-            if(message.getSenderId().equals(loginResultDto.getUserDto().getId())){
-                if(message.isContainsFile()){
+    void getStoredMessage(ArrayList<MessageDto> messages) throws IOException {
+        for (MessageDto message : messages) {
+            if (message.getSenderId().equals(loginResultDto.getUserDto().getId())) {
+                if (message.isContainsFile()) {
                     FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileSentController();
                     HBox hbox = fxmlLoader.load();
                     FileSentController msc = fxmlLoader.getController();
@@ -1254,7 +1261,7 @@ public class ChatScreenController implements Initializable {
                     msc.setData(message, userImg, new File(message.getMessageContent()));
                     chatLayout.setAlignment(Pos.TOP_RIGHT);
                     chatLayout.getChildren().add(hbox);
-                }else{
+                } else {
                     FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageSentLoader();
                     HBox hbox = fxmlLoader.load();
                     MessageSentController msc = fxmlLoader.getController();
@@ -1264,13 +1271,13 @@ public class ChatScreenController implements Initializable {
                     chatLayout.getChildren().add(hbox);
                 }
 
-            }else{
-                if(message.isContainsFile()){
+            } else {
+                if (message.isContainsFile()) {
                     FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getFileRecieveController();
                     HBox hbox = fxmlLoader.load();
                     FileReceiveController msc = fxmlLoader.getController();
                     createRecievedFile(message, msc, hbox);
-                }else{
+                } else {
                     FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
                     HBox hbox = fxmlLoader.load();
                     MessageReceiveController msc = fxmlLoader.getController();
