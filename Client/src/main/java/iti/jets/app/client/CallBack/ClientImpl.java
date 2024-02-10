@@ -98,7 +98,7 @@ public class ClientImpl extends UnicastRemoteObject implements Client {
     }
 
     @Override
-    public void closeClient() throws RemoteException {
+    public void closeClient() throws IOException {
         chatScreenController.closeClient();
     }
 

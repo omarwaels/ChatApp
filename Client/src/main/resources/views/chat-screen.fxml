@@ -229,14 +229,6 @@
                                     </HBox.margin>
                                 </Label>
                                 <Pane prefHeight="74.0" prefWidth="164.0" HBox.hgrow="ALWAYS" />
-                                <ImageView fx:id="voiceCallBtn" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                    <image>
-                                        <Image url="@../img/phone.png" />
-                                    </image>
-                           <HBox.margin>
-                              <Insets right="5.0" />
-                           </HBox.margin>
-                                </ImageView>
                         <StackPane prefHeight="37.0" prefWidth="49.0">
                            <children>
                                       <ImageView fx:id="deleteBtn" fitHeight="34.0" fitWidth="48.0" onMouseClicked="#onClickDeleteFriend" pickOnBounds="true" preserveRatio="true" visible="false">

@@ -1216,25 +1216,24 @@ public class ChatScreenController implements Initializable {
         );
     }
 
-    private void signOutActions() {
-        Platform.runLater(() -> {
+    private void signOutActions() throws IOException {
+        new Thread(() -> {
             try {
-                String UserPhoneNumber = loginResultDto.getUserDto().getPhoneNumber();
                 performActionsBeforeClosing();
-                FXMLLoader loader = ViewsFactory.getViewsFactory().getLoginLoader();
-                Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
-                Parent root = loader.load();
-                SignInController signInController = loader.getController();
-                signInController.setUserNameInScreen(UserPhoneNumber);
-                currentStage.setScene(new Scene(root));
-
             } catch (IOException | NotBoundException e) {
                 e.printStackTrace();
             }
-        });
+        }).start();
+        String UserPhoneNumber = loginResultDto.getUserDto().getPhoneNumber();
+        FXMLLoader loader = ViewsFactory.getViewsFactory().getLoginLoader();
+        Stage currentStage = (Stage) chatSettingImg.getScene().getWindow();
+        Parent root = loader.load();
+        SignInController signInController = loader.getController();
+        signInController.setUserNameInScreen(UserPhoneNumber);
+        currentStage.setScene(new Scene(root));
     }
 
-    public void onSignOutClicked() {
+    public void onSignOutClicked() throws IOException {
         deleteFileIfExists(appDirectory);
         signOutActions();
     }
@@ -1250,7 +1249,7 @@ public class ChatScreenController implements Initializable {
         }
     }
 
-    public void closeClient() {
+    public void closeClient() throws IOException {
         onSignOutClicked();
         registered = false;
         showServerDownAlert();

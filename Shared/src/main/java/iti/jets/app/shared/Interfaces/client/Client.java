@@ -33,7 +33,7 @@ public interface Client extends Remote {
 
     void receiveInvitationRequest(String name, String phoneNumber) throws RemoteException;
 
-    void closeClient() throws RemoteException;
+    void closeClient() throws IOException;
 
     void deleteFriend(int chatId, int friendId) throws RemoteException;
 
