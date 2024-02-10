@@ -180,9 +180,10 @@ public class ChatScreenController implements Initializable {
 
     public boolean registered = true;
 
-    void deleteChatsOfChatID(int chatID){
+    void deleteChatsOfChatID(int chatID) {
         chatsArr.remove(chatID);
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         customizeStatusBox();
@@ -1209,8 +1210,7 @@ public class ChatScreenController implements Initializable {
                             .text("     " + message)
                             .graphic(new ImageView(image))
                             .hideAfter(Duration.seconds(7))
-                            .position(Pos.BOTTOM_RIGHT)
-                            .owner(chatBorderPane.getScene().getWindow());
+                            .position(Pos.BOTTOM_RIGHT);
                     notifications.show();
                 }
         );
@@ -1409,10 +1409,11 @@ public class ChatScreenController implements Initializable {
             });
         }
     }
+
     void getStoredMessage(ArrayList<MessageDto> messages) throws IOException {
         chatLayout.getChildren().clear();
-        Platform.runLater(()->{
-            try{
+        Platform.runLater(() -> {
+            try {
                 // Delete message
 
                 for (MessageDto message : messages) {
@@ -1456,12 +1457,11 @@ public class ChatScreenController implements Initializable {
 
                     }
                 }
-            }catch (IOException exception){
+            } catch (IOException exception) {
 
             }
 
         });
-
 
 
     }
