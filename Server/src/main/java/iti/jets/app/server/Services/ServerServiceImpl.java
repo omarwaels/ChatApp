@@ -182,6 +182,8 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
                 future.complete(null); // Complete the future when all clients have been closed
             } catch (RemoteException e) {
                 future.completeExceptionally(e); // Complete the future exceptionally if an error occurs
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }).start();
 

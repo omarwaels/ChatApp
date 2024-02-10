@@ -18,7 +18,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage stage) throws IOException, InterruptedException {
 
-        System.setProperty("sun.rmi.transport.tcp.responseTimeout", "1000000");
+        System.setProperty("sun.rmi.transport.tcp.responseTimeout", "10000000");
 
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("/views/server-dashboard.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
