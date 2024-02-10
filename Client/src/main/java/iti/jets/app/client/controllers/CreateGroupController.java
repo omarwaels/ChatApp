@@ -81,12 +81,10 @@ public class CreateGroupController implements Initializable {
                     }
                 }
             }
-            System.out.println(membersIds);
             ChatDto chatDto = createChatDto(groupName);
             Registry registry = LocateRegistry.getRegistry(ServerIPAddress.getIp(),ServerIPAddress.getPort());
             CreateGroupService createGroupService = ((ServiceFactory) registry.lookup("ServiceFactory")).getCreateGroupService();
             int ret = createGroupService.createGroup(chatDto, membersIds);
-            System.out.println(ret);
             txtFieldGroupName.setText("");
             if (ret != -1) {
                 chatDto.setChatId(ret);

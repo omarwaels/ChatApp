@@ -282,32 +282,23 @@ public class ChatScreenController implements Initializable {
 
     private void sortSingleChatContactListOnstatus() {
         connectionLayout.setVisible(false);
-        // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
         sortedChildren.sort(Comparator.comparingInt(ChatScreenController::getOrderOfNodeByStatus));
-        // Replace the unsorted children with the sorted ones
         connectionLayout.getChildren().setAll(sortedChildren);
-        // Set the visibility to true after sorting
         connectionLayout.setVisible(true);
     }
 
     private void sortSingleContactListOnTimeStamp() {
         connectionLayout.setVisible(false);
-        // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionLayout.getChildren());
-        // Sorting based on Timestamp in descending order
         sortedChildren.sort(Comparator.comparing(ChatScreenController::getOrderOfNodeByTimeStamp, Comparator.nullsLast(Comparator.reverseOrder())));
-        // Replace the unsorted children with the sorted ones
         connectionLayout.getChildren().setAll(sortedChildren);
-        // Set the visibility to true after sorting
         connectionLayout.setVisible(true);
     }
 
     private void sortGroupContactListOnTimeStamp() {
         connectionGroupsLayout.setVisible(false);
-        // Create a new sorted list of children
         ObservableList<Node> sortedChildren = FXCollections.observableArrayList(connectionGroupsLayout.getChildren());
-        // Sorting based on Timestamp in descending order
         sortedChildren.sort(Comparator.comparing(ChatScreenController::getOrderOfNodeByTimeStamp, Comparator.nullsLast(Comparator.reverseOrder())));
         // Replace the unsorted children with the sorted ones
         connectionGroupsLayout.getChildren().setAll(sortedChildren);
@@ -525,7 +516,6 @@ public class ChatScreenController implements Initializable {
                     newMessage.setReceiverId(new ArrayList<>(Arrays.asList(message.getSenderId())));
                     newMessage.setChatId(message.getChatId());
                     newMessage.setSingleChat(true);
-                    System.out.println(newMessage);
                     MessageSentController mscBot = fxmlLoaderBot.getController();
                     Image userImg = new Image(new ByteArrayInputStream(loginResultDto.getUserDto().getPicture()));
                     mscBot.setData(newMessage, userImg);
@@ -771,7 +761,7 @@ public class ChatScreenController implements Initializable {
             // Set the initial and final scales
             double initialScaleX = node.getScaleX();
             double initialScaleY = node.getScaleY();
-            double finalScaleX = 1.2; // You can adjust the scale factor as needed
+            double finalScaleX = 1.2;
             double finalScaleY = 1.2;
 
             // Set the scales for the transition
@@ -794,7 +784,6 @@ public class ChatScreenController implements Initializable {
     }
 
     public void updateFriendStatus(int friendId, boolean online) {
-        System.out.println("Before " + currentConnection);
         Platform.runLater(() -> {
             ConnectionItemController connectionItemController = null;
             if (online) {
@@ -1036,8 +1025,8 @@ public class ChatScreenController implements Initializable {
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if (item != null) {
-                            HBox hBox = new HBox(5); // 5 is the spacing between circle and label
-                            Circle circle = new Circle(5); // 5 is the radius of the circle
+                            HBox hBox = new HBox(5);
+                            Circle circle = new Circle(5);
                             Label label = new Label(item);
                             hBox.getChildren().addAll(circle, label);
                             setGraphic(hBox);
@@ -1322,7 +1311,6 @@ public class ChatScreenController implements Initializable {
         ServiceFactory serviceFactory = (ServiceFactory) registry.lookup("ServiceFactory");
         DeleteChatsService deleteChatsService = serviceFactory.getDeleteChatsService();
         int ret = deleteChatsService.deletePrivateChat(loginResultDto.getUserDto().getId(), friendId, chatId);
-        System.out.println(ret);
         if (ret != 0) {
             onlineUsers.remove(friendId);
             offlineUsers.remove(friendId);
@@ -1423,7 +1411,6 @@ public class ChatScreenController implements Initializable {
     }
     void getStoredMessage(ArrayList<MessageDto> messages) throws IOException {
         chatLayout.getChildren().clear();
-        System.out.println("Before Enter" + chatLayout.getChildren().size());
         Platform.runLater(()->{
             try{
                 // Delete message
@@ -1464,9 +1451,7 @@ public class ChatScreenController implements Initializable {
                             FXMLLoader fxmlLoader = ViewsFactory.getViewsFactory().getMessageReceivedLoader();
                             HBox hbox = fxmlLoader.load();
                             MessageReceiveController msc = fxmlLoader.getController();
-                            System.out.println("before " + chatLayout.getChildren().size());
                             createRecievedMessage(message, msc, hbox);
-                            System.out.println("After " + chatLayout.getChildren().size());
                         }
 
                     }

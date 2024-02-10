@@ -53,7 +53,6 @@ public class FileSentController implements Initializable {
     private int fileChatId;
 
     public void setData(MessageDto msg, Image userImg, File fileInfo) throws IOException {
-        //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
         this.fileInfo = fileInfo;
         this.fileChatId = msg.getChatId();
         Path path = Paths.get(msg.getMessageContent());

@@ -24,7 +24,6 @@ public class CreateGroupServiceImpl extends UnicastRemoteObject implements Creat
         int ret = chatDao.createGroupChat(chat);
         if (ret == 1) {
             int chatId = chatDao.getGroupChatId(chat);
-            System.out.println(chatId);
             ChatParticipantDao chatParticipantDao = new ChatParticipantDao();
             ret = chatParticipantDao.addGroupParticipants(chatId, membersIds);
             if (ret > 0)

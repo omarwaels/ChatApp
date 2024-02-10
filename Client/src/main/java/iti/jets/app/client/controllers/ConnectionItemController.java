@@ -67,7 +67,7 @@ public class ConnectionItemController implements Initializable {
             this.userImage = userImg;
         }
 
-        System.out.println("User Mode: " + user.getUserFriendStatus().getStatus());
+
         if (user.getUserFriendStatus().getStatus().equalsIgnoreCase("Online")) {
             userModeLabel.setText(user.getUserFriendMode().getMode());
             switch (user.getUserFriendMode().getMode()) {

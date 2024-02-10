@@ -70,9 +70,7 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
 
     @Override
     public void unregister(Client c) throws RemoteException {
-        System.out.println(clients.size());
         clients.remove(c);
-        System.out.println(clients.size());
     }
 
     @Override
@@ -131,7 +129,7 @@ public class ServerServiceImpl extends UnicastRemoteObject implements ServerServ
 
     @Override
     public void sendAnnouncement(String subject, String body) throws RemoteException {
-        System.out.println("Sending notification to all clients");
+
         for (Client client : clients) {
             client.receiveAnnouncement(subject, body);
         }

@@ -321,7 +321,7 @@ public class UserSettingsController implements Initializable {
         bio.setText(user.getBio());
 
         profilePic.setFill(new ImagePattern(new Image(new ByteArrayInputStream(user.getPicture()))));
-        //profilePic.setImage(new Image(new ByteArrayInputStream(user.getPicture())));
+
     }
 
     public void setChatScreenController(ChatScreenController chatScreenController) {

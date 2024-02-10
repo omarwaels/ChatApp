@@ -33,7 +33,7 @@ public class MessageSentController implements Initializable {
     public Label timeStamp;
 
     public void setData(MessageDto msg , Image userImg) {
-        //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
+
 
         txt.setStyle(
                 "-fx-fill:"        + msg.getFontColor()
@@ -47,17 +47,16 @@ public class MessageSentController implements Initializable {
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
         String formattedTime = timeFormat.format(msg.getSentAt());
         timeStamp.setText(formattedTime);
-        //txtFlow.setTextAlignment(TextAlignment.LEFT);
+
         if(userImg != null){
             img.setFill(new ImagePattern(userImg));
-            //img.setImage(userImg);
+
         }
 
-        //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
+
         }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //scrlPane.prefWidthProperty().bind(txtFlow.widthProperty());
-        //scrlPane.prefHeightProperty().bind(txtFlow.heightProperty());
+
     }
 }

@@ -67,7 +67,6 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
             Integer userId = entry.getKey();
             Integer chatId = entry.getValue();
             FriendInfoDto user = FriendInfoDtoMapper.userToFriend(userDao.getByIntegerId(userId));
-            System.out.println(user.getUserFriendMode().getMode());
             ChatDto chat = ChatDtoMapper.chatToChatDto(chatDao.getById(chatId));
             userFriendsAndChatDto.put(user, chat);
         }

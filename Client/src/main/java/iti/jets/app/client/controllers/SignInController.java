@@ -95,9 +95,9 @@ public class SignInController implements Initializable {
             try {
                 login(userLoginDto);
             } catch (NotBoundException e) {
-                System.out.println("Cant automatic Login");
+
             } catch (RemoteException e) {
-                System.out.println("Cant automatic Login");
+
             }
         }
         String phoneNumber = loadPhoneNumObjectFromFile(appDirectoryForNumber);

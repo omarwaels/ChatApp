@@ -11,10 +11,7 @@ public class EmailHandler {
 
     private static final String password = "rejg ziif donj vmul";
     private static final String email = "itijets@gmail.com";
-    //    public static void main(String[] args) {
-//        EmailHandler emailHandler = new EmailHandler();
-//       emailHandler.sendEmail("mohamedadelfarah@gmail.com", "Testing Jakarta Mail Api Lib", "Dola");
-//    }
+
     private Session session = null;
 
     public EmailHandler() {
@@ -60,8 +57,6 @@ public class EmailHandler {
         try (InputStream input = getClass().getClassLoader().getResourceAsStream("smtp.properties")) {
 
             if (input == null) {
-                System.out.println("current: " + System.getProperty("user.dir"));
-                System.out.println("cp: " + System.getProperty("java.class.path"));
                 throw new RuntimeException("Unable to find smtp.properties");
             }
             properties.load(input);

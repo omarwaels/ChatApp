@@ -21,7 +21,7 @@ public class ServerConnection {
             registry = LocateRegistry.createRegistry(8189);
             ServiceFactory serviceFactory = new ServiceFactoryImpl();
             registry.rebind("ServiceFactory", serviceFactory);
-            System.out.println("Server is open now ....");
+
 
         } catch (RemoteException e) {
             throw new RuntimeException(e);
@@ -33,18 +33,18 @@ public class ServerConnection {
             try {
                 UnicastRemoteObject.unexportObject(registry, true);
             } catch (NoSuchObjectException e) {
-                // Ignore because the object is already unexported
+
             }
             try {
                 UnicastRemoteObject.unexportObject(registry, false);
             } catch (NoSuchObjectException e) {
-                // Ignore because the object is already unexported
+
             }
             registry.unbind("ServiceFactory");
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("Server Closed Successfully ..");
+
     }
 }
 

@@ -32,13 +32,11 @@ public class VoiceCallController implements Initializable {
     }
 
     public void accept(javafx.event.ActionEvent actionEvent) {
-        System.out.println("Inside accept");
         callingLayout.setVisible(false);
         callResponseLayout.setVisible(true);
     }
 
     public void decline(javafx.event.ActionEvent actionEvent) {
-        System.out.println("Inside decline");
         System.exit(0);
     }
 }

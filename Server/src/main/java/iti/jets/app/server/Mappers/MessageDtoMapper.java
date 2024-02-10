@@ -25,7 +25,6 @@ public class MessageDtoMapper {
         message.setFontFamily(messageDto.getFontFamily());
         message.setFontStyle(messageDto.getFontStyle());
         message.setUnderline(messageDto.getUnderline());
-        System.out.println(message);
         return message;
     }
 }

@@ -79,7 +79,7 @@ public class FileReceiveController implements Initializable {
                 showFileNotAvailableAlert();
             }
         } catch (IOException e) {
-            e.printStackTrace(); // Handle or log the exception
+            e.printStackTrace();
         }
 
     }

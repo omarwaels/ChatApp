@@ -27,7 +27,6 @@ public class MessageReceiveController implements Initializable {
     public TextFlow txtFlow;
 
     public void setData(MessageDto msg , Image userImage) {
-        //Image image = new Image(getClass().getResourceAsStream(user.getImgSrc()));
         txt.setStyle(
                         "-fx-fill:"             + msg.getFontColor()
                         + ";-fx-font-weight:"   + msg.getFontWeight()
@@ -43,10 +42,10 @@ public class MessageReceiveController implements Initializable {
         txt.setText(msg.getMessageContent());
         if(userImage != null){
             img.setFill(new ImagePattern(userImage));
-            //img.setImage(userImage);
+
         }
 
-        //connectionStatus.setFill(user.getStatus() == StatusEnum.ONLINE ? javafx.scene.paint.Color.GREEN : javafx.scene.paint.Color.RED);
+
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

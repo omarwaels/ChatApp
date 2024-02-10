@@ -98,6 +98,16 @@ public class MessageDao implements Dao<Message, Integer> {
         }
     }
 
+    public int deleteMessagesByChatId(Integer chatId) {
+        String query = "DELETE FROM messages WHERE chat_id = ?";
+        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+            preparedStatement.setInt(1, chatId);
+            return preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Message> getChatMessages(int chatId) {
         String query = "SELECT * FROM messages WHERE chat_id = ? ORDER BY sent_at ASC";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {

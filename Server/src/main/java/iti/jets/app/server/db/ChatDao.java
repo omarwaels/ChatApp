@@ -81,7 +81,6 @@ public class ChatDao implements Dao<Chat, Integer> {
             preparedStatement.setBytes(1, chat.getChatImage());
             preparedStatement.setString(2, chat.getChatName());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
-            System.out.println("Create Group At: " + chat.getCreatedAt());
             preparedStatement.setInt(4, chat.getAdminId());
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -93,11 +92,8 @@ public class ChatDao implements Dao<Chat, Integer> {
         String query = "SELECT chat_id FROM chats WHERE chat_name = ? AND admin_id = ? AND created_at = ?";
         try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
             preparedStatement.setString(1, chat.getChatName());
-            System.out.println(chat.getChatName());
             preparedStatement.setInt(2, chat.getAdminId());
-            System.out.println(chat.getAdminId());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
-            System.out.println(chat.getCreatedAt());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
                     return resultSet.getInt(1);

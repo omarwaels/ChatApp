@@ -68,7 +68,6 @@ public class DashboardController implements Initializable {
     private void loadPage(String page) {
         Parent root = null;
         try {
-            System.out.println("Page: " + page);
             if (page == null) {
                 System.err.println("Page is null.");
                 return;
