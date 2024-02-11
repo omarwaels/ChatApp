@@ -33,7 +33,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
     public int insert(ChatParticipant chatParticipant) {
         String query = "INSERT INTO chatparticipants (chat_id , participant_id , member_since) " +
                 "VALUES ( ?, ?, ?)";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, chatParticipant.getChatId());
             preparedStatement.setInt(2, chatParticipant.getParticipantId());
             preparedStatement.setTimestamp(3, chatParticipant.getMemberSince());
@@ -55,7 +55,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
 
     public int deleteChatParticipant(int userId, int chatId) {
         String query = "DELETE FROM chatparticipants WHERE participant_id = ? AND chat_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, chatId);
             return preparedStatement.executeUpdate();
@@ -67,7 +67,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
     public HashMap<Integer, Integer> getUserFriendsAndChatIDs(int userId, ArrayList<Integer> Friends) {
         String query = "SELECT * FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.chat_id In (SELECT chats.chat_id FROM chatparticipants INNER JOIN chats ON chatparticipants.chat_id = chats.chat_id WHERE chats.admin_id is NULL and participant_id = ?) and chatparticipants.participant_id <> ?;";
         HashMap<Integer, Integer> userContacts = new HashMap<>();
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -86,7 +86,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
     public HashMap<Chat, ArrayList<User>> getUserGroups(int userId) {
         String query = "SELECT cp.chat_id FROM chatparticipants cp JOIN chats c WHERE cp.chat_id = c.chat_id AND participant_id = ? AND admin_id IS NOT NULL;";
         HashMap<Chat, ArrayList<User>> groupParticipants = new HashMap<>();
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
@@ -106,7 +106,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
     public ArrayList<User> getChatParticipants(int chat_id, int userId) {
         ArrayList<User> participants = new ArrayList<>();
         String query = "SELECT u.* FROM users u JOIN chatparticipants cp WHERE u.user_id = cp.participant_id AND chat_id = ? AND u.user_id <> ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, chat_id);
             preparedStatement.setInt(2, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -122,7 +122,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
     public ArrayList<Integer> getChatParticipants(int chat_id) {
         ArrayList<Integer> participants = new ArrayList<>();
         String query = "SELECT u.user_id FROM users u JOIN chatparticipants cp WHERE u.user_id = cp.participant_id AND chat_id = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, chat_id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next())
@@ -136,7 +136,7 @@ public class ChatParticipantDao implements Dao<ChatParticipant, Integer> {
 
     public int addGroupParticipants(int groupId, List<Integer> usersIds) {
         String query = "INSERT INTO chatparticipants (chat_id, participant_id, member_since) VALUES (?, ?, ?)";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             for (int userId : usersIds) {
                 preparedStatement.setInt(1, groupId);
                 preparedStatement.setInt(2, userId);

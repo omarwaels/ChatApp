@@ -24,7 +24,7 @@ public class DashboardDao {
         List<User> userList = new ArrayList<>();
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT * FROM users";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         User user = new User.UserBuilder()
@@ -57,7 +57,7 @@ public class DashboardDao {
         try {
             Connection connection = dataSource.getConnection();
             String query = "SELECT gender, COUNT(*) as count FROM users GROUP BY gender";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         String gender = resultSet.getString("gender");
@@ -77,7 +77,7 @@ public class DashboardDao {
         try {
             Connection connection = dataSource.getConnection();
             String query = "SELECT country, COUNT(*) as count FROM users GROUP BY country";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         String country = resultSet.getString("country");
@@ -98,7 +98,7 @@ public class DashboardDao {
         countMap.put("Offline", 0);
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT status, COUNT(*) as count FROM users GROUP BY status";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
                         String status = resultSet.getString("status");

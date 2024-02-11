@@ -45,7 +45,7 @@ public class ConnectionDao implements Dao<Connection, Integer> {
     public int delete(Connection connection) {
         String query = "DELETE FROM connections \n" +
                 "WHERE (first_user_id = ? AND second_user_id = ?) OR (second_user_id = ? AND first_user_id = ?);";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, connection.getFirstUserId());
             preparedStatement.setInt(2, connection.getSecondUserId());
             preparedStatement.setInt(3, connection.getFirstUserId());
@@ -61,7 +61,7 @@ public class ConnectionDao implements Dao<Connection, Integer> {
         String query = "SELECT second_user_id FROM connections WHERE first_user_id = ? \n" +
                 "UNION\n" +
                 "SELECT first_user_id FROM connections WHERE second_user_id = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, userId);
             preparedStatement.setInt(2, userId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -79,7 +79,7 @@ public class ConnectionDao implements Dao<Connection, Integer> {
 
     public Connection getConnection(int firstUserId, int secondUserId) {
         String query = "SELECT * FROM connections WHERE (first_user_id = ? AND second_user_id = ?) OR (second_user_id = ? AND first_user_id = ?);";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, firstUserId);
             preparedStatement.setInt(2, secondUserId);
             preparedStatement.setInt(3, firstUserId);

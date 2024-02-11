@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import iti.jets.app.server.models.entities.Chat;
+import iti.jets.app.server.models.entities.Connection;
 
 public class ChatDao implements Dao<Chat, Integer> {
     private DataSource dataSource;
@@ -18,7 +19,7 @@ public class ChatDao implements Dao<Chat, Integer> {
     @Override
     public Chat getById(Integer chat_id) {
         String query = "SELECT * FROM chats WHERE chat_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, chat_id);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -36,7 +37,7 @@ public class ChatDao implements Dao<Chat, Integer> {
     public int insert(Chat chat) {
         String query = "INSERT INTO chats (chat_image, chat_name, created_at, admin_id) " +
                 "VALUES ( ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setBytes(1, chat.getChatImage());
             preparedStatement.setString(2, chat.getChatName());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
@@ -51,7 +52,7 @@ public class ChatDao implements Dao<Chat, Integer> {
     public int update(Chat chat) {
         String query = "UPDATE messages SET `chat_image`=?,`chat_name`=?,`created_at`=?, " +
                 "`admin_id `=? WHERE chat_id  = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setBytes(1, chat.getChatImage());
             preparedStatement.setString(2, chat.getChatName());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
@@ -66,7 +67,7 @@ public class ChatDao implements Dao<Chat, Integer> {
     @Override
     public int delete(Integer chat_id) {
         String query = "DELETE FROM chats WHERE chat_id  = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, chat_id);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -77,7 +78,7 @@ public class ChatDao implements Dao<Chat, Integer> {
     public int createGroupChat(Chat chat) {
         String query = "INSERT INTO chats (chat_image, chat_name, created_at, admin_id) " +
                 "VALUES ( ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setBytes(1, chat.getChatImage());
             preparedStatement.setString(2, chat.getChatName());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
@@ -90,7 +91,7 @@ public class ChatDao implements Dao<Chat, Integer> {
 
     public int getGroupChatId(Chat chat) {
         String query = "SELECT chat_id FROM chats WHERE chat_name = ? AND admin_id = ? AND created_at = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, chat.getChatName());
             preparedStatement.setInt(2, chat.getAdminId());
             preparedStatement.setTimestamp(3, chat.getCreatedAt());
@@ -109,7 +110,7 @@ public class ChatDao implements Dao<Chat, Integer> {
     public int createPrivateChat(Chat chat) throws SQLException {
         String query = "INSERT INTO chats (chat_name, created_at) " +
                 "VALUES (?, ?)";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, chat.getChatName());
             preparedStatement.setTimestamp(2, chat.getCreatedAt());
             return preparedStatement.executeUpdate();
@@ -118,9 +119,9 @@ public class ChatDao implements Dao<Chat, Integer> {
         }
     }
 
-    public int getPrivateChatId(Chat chat){
+    public int getPrivateChatId(Chat chat) {
         String query = "SELECT chat_id FROM chats WHERE chat_name = ? AND created_at = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, chat.getChatName());
             preparedStatement.setTimestamp(2, chat.getCreatedAt());
             try (ResultSet resultSet = preparedStatement.executeQuery()) {

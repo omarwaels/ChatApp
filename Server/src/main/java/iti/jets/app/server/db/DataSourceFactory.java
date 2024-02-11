@@ -1,5 +1,6 @@
 package iti.jets.app.server.db;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
@@ -28,16 +29,11 @@ public enum DataSourceFactory {
             throw new RuntimeException("Error loading database properties", e);
         }
 
-        BasicDataSource bDataSource = new BasicDataSource();
-        bDataSource.setUrl(properties.getProperty("jdbc.url"));
-        bDataSource.setUsername(properties.getProperty("jdbc.username"));
-        bDataSource.setPassword(properties.getProperty("jdbc.password"));
-
-        bDataSource.setMaxTotal(500);
-        bDataSource.setMaxIdle(10);
-        bDataSource.setMaxWaitMillis(60000);
-
-        dataSource = bDataSource;
+        MysqlDataSource mysqlDataSource = new MysqlDataSource();
+        mysqlDataSource.setUrl(properties.getProperty("jdbc.url"));
+        mysqlDataSource.setUser(properties.getProperty("jdbc.username"));
+        mysqlDataSource.setPassword(properties.getProperty("jdbc.password"));
+        dataSource = mysqlDataSource;
     }
 
     public static DataSource getMySQLDataSource() {

@@ -37,7 +37,7 @@ public class UserDao implements Dao<User, String> {
     @Override
     public User getById(String phoneNumber) {
         ResultSet resultSet = null;
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE phone_number = ?")) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE phone_number = ?")) {
             preparedStatement.setString(1, phoneNumber);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
@@ -57,7 +57,7 @@ public class UserDao implements Dao<User, String> {
     public User getByEmail(String email) {
         ResultSet resultSet = null;
 
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE email = ?")) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE email = ?")) {
             preparedStatement.setString(1, email);
 
             resultSet = preparedStatement.executeQuery();
@@ -79,7 +79,7 @@ public class UserDao implements Dao<User, String> {
     public User getByUserName(String userName) {
         ResultSet resultSet = null;
 
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE display_name = ?")) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE display_name = ?")) {
             preparedStatement.setString(1, userName);
 
             resultSet = preparedStatement.executeQuery();
@@ -101,7 +101,7 @@ public class UserDao implements Dao<User, String> {
     public User getByIntegerId(int Id) {
         ResultSet resultSet = null;
 
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement("SELECT * FROM users WHERE user_id = ?")) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM users WHERE user_id = ?")) {
             preparedStatement.setInt(1, Id);
 
             resultSet = preparedStatement.executeQuery();
@@ -124,10 +124,13 @@ public class UserDao implements Dao<User, String> {
     @Override
     public int insert(User user) {
         PreparedStatement preparedStatement = null;
+        java.sql.Connection conn = null;
         int result = 0;
         String query = "INSERT INTO Users (phone_number, display_name, email, picture, password, gender, country, date_of_birth, bio) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try {
+            conn = dataSource.getConnection();
+            preparedStatement = conn.prepareStatement(query);
             preparedStatement = dataSource.getConnection().prepareStatement(query);
             preparedStatement.setString(1, user.getPhoneNumber());
             preparedStatement.setString(2, user.getDisplayName());
@@ -145,6 +148,7 @@ public class UserDao implements Dao<User, String> {
         } finally {
             try {
                 preparedStatement.close();
+                conn.close();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -165,7 +169,7 @@ public class UserDao implements Dao<User, String> {
                 ", date_of_birth = ?" +
                 ", bio = ?" +
                 "WHERE phone_number = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, user.getDisplayName());
             preparedStatement.setString(2, user.getEmail());
             preparedStatement.setBytes(3, user.getPicture());
@@ -184,7 +188,7 @@ public class UserDao implements Dao<User, String> {
     @Override
     public int delete(String phoneNumber) {
         String query = "DELETE FROM users WHERE phone_number = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, phoneNumber);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -196,7 +200,7 @@ public class UserDao implements Dao<User, String> {
         String query = "UPDATE users " +
                 "SET status = ?" +
                 "WHERE phone_number = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, status);
             preparedStatement.setString(2, phoneNumber);
             return preparedStatement.executeUpdate();
@@ -209,7 +213,7 @@ public class UserDao implements Dao<User, String> {
         String query = "UPDATE users " +
                 "SET mode = ?" +
                 "WHERE phone_number = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, mode);
             preparedStatement.setString(2, phoneNumber);
             return preparedStatement.executeUpdate();
@@ -222,7 +226,7 @@ public class UserDao implements Dao<User, String> {
         String query = "UPDATE users " +
                 "SET date_of_birth = ?" +
                 "WHERE user_id = ?;";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setDate(1, Utils.getSqlDate(date));
             preparedStatement.setInt(2, userID);
             return preparedStatement.executeUpdate();
@@ -233,7 +237,7 @@ public class UserDao implements Dao<User, String> {
 
     public int updateImage(int userId, byte[] newImage) {
         String query = "UPDATE users SET picture = ? WHERE user_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setBytes(1, newImage);
             preparedStatement.setInt(2, userId);
             return preparedStatement.executeUpdate();
@@ -244,7 +248,7 @@ public class UserDao implements Dao<User, String> {
 
     public int updateField(String fieldName, String value, int userId) throws SQLException {
         String query = "UPDATE users SET " + fieldName + " = ? WHERE user_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setString(1, value);
             preparedStatement.setInt(2, userId);
             return preparedStatement.executeUpdate();
