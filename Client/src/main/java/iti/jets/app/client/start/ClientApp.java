@@ -18,7 +18,7 @@ public class ClientApp extends Application {
     public void start(Stage stage) throws IOException {
         Platform.setImplicitExit(true);
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/views/sign-in.fxml")));
-        stage.setTitle("Chatting App");
+        stage.setTitle("VoidChat");
         stage.setScene(new Scene(root));
         stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/img/applogo.png")));
         GuiUtils.setStageDraggable(stage, root);

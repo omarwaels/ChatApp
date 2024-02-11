@@ -35,7 +35,7 @@ public class MessageDao implements Dao<Message, Integer> {
     @Override
     public Message getById(Integer messageId) {
         String query = "SELECT * FROM messages WHERE message_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, messageId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -52,7 +52,7 @@ public class MessageDao implements Dao<Message, Integer> {
     @Override
     public int insert(Message message) {
         String query = "INSERT INTO messages (`sender_id`, `chat_id`, `contains_file`, `message_content`, `sent_at`, `font_weight`, `font_size`, `font_color`, `font_family`, `font_style`, `underline`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, message.getSenderId());
             preparedStatement.setInt(2, message.getChatId());
             preparedStatement.setBoolean(3, message.isContainsFile());
@@ -74,7 +74,7 @@ public class MessageDao implements Dao<Message, Integer> {
     public int update(Message message) {
         String query = "UPDATE messages SET `sender_id`=?,`chat_id`=?,`contains_file`=?, " +
                 "`message_content`=?,`sent_at`=? WHERE message_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, message.getSenderId());
             preparedStatement.setInt(2, message.getChatId());
             preparedStatement.setBoolean(3, message.isContainsFile());
@@ -90,7 +90,7 @@ public class MessageDao implements Dao<Message, Integer> {
     @Override
     public int delete(Integer messageId) {
         String query = "DELETE FROM messages WHERE message_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, messageId);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -100,7 +100,7 @@ public class MessageDao implements Dao<Message, Integer> {
 
     public int deleteMessagesByChatId(Integer chatId) {
         String query = "DELETE FROM messages WHERE chat_id = ?";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, chatId);
             return preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -110,7 +110,7 @@ public class MessageDao implements Dao<Message, Integer> {
 
     public List<Message> getChatMessages(int chatId) {
         String query = "SELECT * FROM messages WHERE chat_id = ? ORDER BY sent_at ASC";
-        try (PreparedStatement preparedStatement = dataSource.getConnection().prepareStatement(query)) {
+        try (java.sql.Connection conn = dataSource.getConnection(); PreparedStatement preparedStatement = conn.prepareStatement(query)) {
             preparedStatement.setInt(1, chatId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 ArrayList<Message> messages = new ArrayList<>();
