@@ -1250,9 +1250,15 @@ public class ChatScreenController implements Initializable {
     }
 
     public void closeClient() throws IOException {
-        onSignOutClicked();
-        registered = false;
-        showServerDownAlert();
+        Platform.runLater(() -> {
+            try {
+                onSignOutClicked();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            registered = false;
+            showServerDownAlert();
+        });
     }
 
     public void showServerDownAlert() {
