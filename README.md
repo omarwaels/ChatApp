@@ -50,7 +50,7 @@ Welcome to Void Chat App, a Java-based chat application that allows users to reg
 - [Mohamed Adel](https://github.com/Mohamed-Adel2)
 - [Omar Wael](https://github.com/omarwaels)
 - [Omar Ashraf](https://github.com/Omar-Ashraf9)
-- [Maher Nasser](https://github.com/mahernasser)
+
 
 ## Contributing
 
